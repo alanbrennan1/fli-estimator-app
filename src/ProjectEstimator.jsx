@@ -254,19 +254,22 @@ export default function ProjectEstimator() {
         const mapped = {};
         headers.forEach((h, idx) => mapped[h] = data[idx]);
 
-        setPendingImport({
-          productType: mapped.product || '',
-          sector: mapped.sector || '',
-          length: mapped.length || '',
-          width: mapped.width || '',
-          height: mapped.height || '',
-          baseThickness: mapped.basethickness || '',
-          wallThickness: mapped.wallthickness || '',
-          lidUnits: mapped.lidunits || 0,
-          pipeOpeningsUnits: mapped.pipeopenings || 0,
-          ladderRungsUnits: mapped.ladderrungs || 0,
-        });
-      };
+ setPendingImport({
+  projectName: mapped.projectname || '',
+  projectNumber: mapped.projectnumber || '',
+  client: mapped.client || '',
+  sector: mapped.sector || '',
+  productType: mapped.product || '',
+  length: mapped.length || '',
+  width: mapped.width || '',
+  height: mapped.height || '',
+  baseThickness: mapped.basethickness || '',
+  wallThickness: mapped.wallthickness || '',
+  lidUnits: mapped.lidunits || 0,
+  pipeOpeningsUnits: mapped.pipeopenings || 0,
+  ladderRungsUnits: mapped.ladderrungs || 0,
+  ductType: mapped.ducttype || ''
+});
 
       reader.readAsText(file);
     }}
