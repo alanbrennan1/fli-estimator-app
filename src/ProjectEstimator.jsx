@@ -44,6 +44,7 @@ export default function ProjectEstimator() {
 
   const [estimate, setEstimate] = useState(null);
   const [breakdown, setBreakdown] = useState({});
+  const [pendingImport, setPendingImport] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -173,12 +174,7 @@ export default function ProjectEstimator() {
     );
   })}
 </div>
-
-
-
-
-
-        
+      
 
         <div className="grid grid-cols-3 gap-4">
           <div className="flex flex-col">
@@ -225,9 +221,96 @@ export default function ProjectEstimator() {
           <input type="range" min="0" max="100" name="margin" value={formData.margin} onChange={handleChange} className="w-full" />
         </div>
 
+
+
+
+
+
+        
+<div className="border-dashed border-2 border-gray-400 rounded p-4 my-6">
+  <label className="block mb-2 font-medium">Import from SketchUp Export (.csv)</label>
+  <input
+    type="file"
+    accept=".csv"
+    onChange={(e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const text = event.target.result;
+        const rows = text.split('\n').map(row => row.split(','));
+        const headers = rows[0].map(h => h.trim().toLowerCase());
+
+        const required = ['product', 'sector', 'length', 'width', 'height', 'basethickness', 'wallthickness', 'lidunits', 'pipeopenings', 'ladderrungs'];
+        const missing = required.filter(r => !headers.includes(r));
+
+        if (missing.length > 0) {
+          alert('Missing required columns: ' + missing.join(', '));
+          return;
+        }
+
+        const data = rows[1];
+        const mapped = {};
+        headers.forEach((h, idx) => mapped[h] = data[idx]);
+
+        setPendingImport({
+          productType: mapped.product || '',
+          sector: mapped.sector || '',
+          length: mapped.length || '',
+          width: mapped.width || '',
+          height: mapped.height || '',
+          baseThickness: mapped.basethickness || '',
+          wallThickness: mapped.wallthickness || '',
+          lidUnits: mapped.lidunits || 0,
+          pipeOpeningsUnits: mapped.pipeopenings || 0,
+          ladderRungsUnits: mapped.ladderrungs || 0,
+        });
+      };
+
+      reader.readAsText(file);
+    }}
+    className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+  />
+</div>
+
+{pendingImport && (
+  <div className="bg-white border border-gray-300 rounded p-4 mt-4 space-y-2">
+    <h4 className="font-semibold mb-2">Preview Imported Values</h4>
+    {Object.entries(pendingImport).map(([key, value]) => (
+      <div key={key} className="flex justify-between text-sm">
+        <span className="capitalize">{key}</span>
+        <span>{value}</span>
+      </div>
+    ))}
+    <div className="flex gap-4 mt-4">
+      <button
+        onClick={() => {
+          setFormData(prev => ({
+            ...prev,
+            ...pendingImport
+          }));
+          setPendingImport(null);
+        }}
+        className="bg-green-600 text-white px-4 py-1 rounded"
+      >
+        Use These Values
+      </button>
+      <button
+        onClick={() => setPendingImport(null)}
+        className="bg-gray-400 text-white px-4 py-1 rounded"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+)}
+
+
+
+
+        
         <button onClick={handleEstimate} className="bg-blue-600 text-white px-4 py-2 rounded">Generate Estimate</button>
-
-
 
         {estimate && (
   <div id="quote-preview" className="pt-6 space-y-4">
