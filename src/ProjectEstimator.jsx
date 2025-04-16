@@ -227,14 +227,8 @@ export default function ProjectEstimator() {
                 );
               })}
               <div className="text-right text-lg font-bold pt-2 border-t">Grand Total: €{estimate}</div>
-            </div>
-          </div>
-        )}
-      </main>
-    </div>
-  );
-}
 
+              
 <div className="flex gap-4 pt-6">
   <button
     onClick={() => {
@@ -271,3 +265,14 @@ export default function ProjectEstimator() {
     Export PDF
   </button>
 </div>
+
+
+              
+            </div>
+          </div>
+        )}
+      </main>
+    </div>
+  );
+}
+
