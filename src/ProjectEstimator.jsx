@@ -168,7 +168,12 @@ export default function ProjectEstimator() {
               <div key={section} className="bg-gray-50 border rounded p-4">
                 <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700">{section}</h3>
                 <ul className="space-y-1 text-sm">
-$1
+                  {items.map((item, idx) => (
+                    <li key={idx} className="flex justify-between">
+                      <span>{item.label}</span>
+                      <span>{item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit}`}</span>
+                    </li>
+                  ))}
   <li className="flex justify-between font-semibold border-t pt-1 mt-2">
     <span>Subtotal</span>
     <span>{items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0).toFixed(2) ? `€${items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0).toFixed(2)}` : ''}</span>
