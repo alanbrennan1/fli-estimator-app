@@ -146,14 +146,39 @@ export default function ProjectEstimator() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
-          {['length','width','height','baseThickness','wallThickness'].map((field) => (
-            <div key={field} className="flex flex-col">
-              <label className="text-sm font-medium mb-1 capitalize">{field.replace(/([A-Z])/g, ' $1')}</label>
-              <input name={field} type="number" value={formData[field]} onChange={handleChange} className="border p-2 rounded" />
-            </div>
-          ))}
-        </div>
+
+
+        
+<div className="grid grid-cols-3 gap-4">
+  {['length', 'width', 'height', 'baseThickness', 'wallThickness'].map((field) => {
+    const unitLabelMap = {
+      length: 'Length (m)',
+      width: 'Width (m)',
+      height: 'Height (m)',
+      baseThickness: 'Base Thickness (m)',
+      wallThickness: 'Wall Thickness (m)'
+    };
+
+    return (
+      <div key={field} className="flex flex-col">
+        <label className="text-sm font-medium mb-1">{unitLabelMap[field]}</label>
+        <input
+          name={field}
+          type="number"
+          value={formData[field]}
+          onChange={handleChange}
+          className="border p-2 rounded"
+        />
+      </div>
+    );
+  })}
+</div>
+
+
+
+
+
+        
 
         <div className="grid grid-cols-3 gap-4">
           <div className="flex flex-col">
