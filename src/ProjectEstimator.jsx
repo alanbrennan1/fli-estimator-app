@@ -202,8 +202,8 @@ export default function ProjectEstimator() {
 
         <button onClick={handleEstimate} className="bg-blue-600 text-white px-4 py-2 rounded">Generate Estimate</button>
 
-        {estimate && (
-          <div className="pt-6">
+{estimate && (
+  <div id="quote-preview" className="pt-6">
             <div className="text-xl font-semibold">Estimated Price: €{estimate}</div>
             <div className="pt-4 space-y-4">
               {Object.entries(breakdown).map(([section, items]) => {
