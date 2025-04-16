@@ -70,15 +70,15 @@ export default function ProjectEstimator() {
     setEstimate(total.toFixed(2));
 
     setBreakdown({
-      concrete: [
+      Concrete: [
         { label: 'Concrete Volume', value: concreteVolume.toFixed(2), unit: 'm³', isCurrency: false },
         { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
       ],
-      steel: [
+      Steel: [
         { label: 'Steel Required', value: steelKg.toFixed(2), unit: 'kg', isCurrency: false },
         { label: 'Steel Cost', value: steelCost.toFixed(2), isCurrency: true }
       ],
-      labour: [
+      Labour: [
         { label: 'Labour Hours', value: labourHrs.toFixed(2), unit: 'hrs', isCurrency: false },
         { label: 'Labour Cost', value: labourCost.toFixed(2), isCurrency: true }
       ],
@@ -91,7 +91,7 @@ export default function ProjectEstimator() {
 
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold">Project Estimator Tool</h1>
+      <h1 className="text-2xl font-bold">FLI Project Estimator Tool</h1>
       <div className="space-y-4">
         <div className="grid grid-cols-3 gap-4">
           <div><label>Project Name</label><input className="border p-2 w-full" name="projectName" value={formData.projectName} onChange={handleChange} /></div>
