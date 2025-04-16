@@ -51,35 +51,39 @@ export default function ProjectEstimator() {
   };
 
   const handleEstimate = () => {
-    const m3 = parseFloat(formData.length) * parseFloat(formData.width) * parseFloat(formData.height);
-    const concreteVolume = m3 + parseFloat(formData.baseThickness) + parseFloat(formData.wallThickness);
+    const safe = (val) => parseFloat(val || 0);
+    const safeInt = (val) => parseInt(val || '0', 10);
+
+    const m3 = safe(formData.length) * safe(formData.width) * safe(formData.height);
+    const concreteVolume = m3 + safe(formData.baseThickness) + safe(formData.wallThickness);
     const steelKg = 120 * concreteVolume;
     const weightTn = concreteVolume * 2.6;
     const labourHrs = weightTn * 4.2;
     const concreteCost = 137.21 * concreteVolume;
     const steelCost = 0.8 * steelKg;
     const labourCost = 70.11 * labourHrs;
-    const additionalCost = additionalItems.lid * parseInt(formData.lidUnits) +
-      additionalItems.pipeOpenings * parseInt(formData.pipeOpeningsUnits) +
-      additionalItems.ladderRungs * parseInt(formData.ladderRungsUnits);
+    const additionalCost =
+      additionalItems.lid * safeInt(formData.lidUnits) +
+      additionalItems.pipeOpenings * safeInt(formData.pipeOpeningsUnits) +
+      additionalItems.ladderRungs * safeInt(formData.ladderRungsUnits);
     const transportCost = transportCosts[formData.transport] || 0;
-    const installationCost = parseFloat(formData.installationDays || 0) * 500;
+    const installationCost = safe(formData.installationDays) * 500;
 
     let total = concreteCost + steelCost + labourCost + additionalCost + transportCost + installationCost;
-    total *= 1 + parseFloat(formData.margin) / 100;
+    total *= 1 + safe(formData.margin) / 100;
 
     setEstimate(total.toFixed(2));
 
     setBreakdown({
-      Concrete: [
+      concrete: [
         { label: 'Concrete Volume', value: concreteVolume.toFixed(2), unit: 'm³', isCurrency: false },
         { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
       ],
-      Steel: [
+      steel: [
         { label: 'Steel Required', value: steelKg.toFixed(2), unit: 'kg', isCurrency: false },
         { label: 'Steel Cost', value: steelCost.toFixed(2), isCurrency: true }
       ],
-      Labour: [
+      labour: [
         { label: 'Labour Hours', value: labourHrs.toFixed(2), unit: 'hrs', isCurrency: false },
         { label: 'Labour Cost', value: labourCost.toFixed(2), isCurrency: true }
       ],
@@ -93,7 +97,7 @@ export default function ProjectEstimator() {
   return (
     <div className="bg-gray-100 min-h-screen py-8 px-4">
       <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-md p-8">
-        <h1 className="text-3xl font-bold text-blue-700 mb-6">FLI Project Estimator Tool</h1>
+        <h1 className="text-3xl font-bold text-blue-700 mb-6">Project Estimator Tool</h1>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div><label className="block text-sm font-medium mb-1">Project Name</label><input className="border p-2 w-full rounded" name="projectName" value={formData.projectName} onChange={handleChange} /></div>
@@ -123,7 +127,7 @@ export default function ProjectEstimator() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-          {["Length", "Width", "Height", "BaseThickness", "WallThickness"].map(field => (
+          {["length", "width", "height", "baseThickness", "wallThickness"].map(field => (
             <div key={field}>
               <label className="block text-sm font-medium mb-1">{field.replace(/([A-Z])/g, ' $1')} (m)</label>
               <input name={field} type="number" className="border p-2 w-full rounded" value={formData[field]} onChange={handleChange} />
