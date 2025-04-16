@@ -108,58 +108,95 @@ export default function ProjectEstimator() {
         <img src="/fli logo.png" alt="FLI Precast Solutions" className="h-10 mr-4" />
         <h1 className="text-2xl font-bold text-blue-800">FLI Project Estimator Tool</h1>
       </header>
+
       <main className="p-6 max-w-5xl mx-auto space-y-6">
         <div className="grid grid-cols-3 gap-4">
-          <input name="projectName" value={formData.projectName} onChange={handleChange} placeholder="Project Name" className="border p-2 rounded" />
-          <input name="projectNumber" value={formData.projectNumber} onChange={handleChange} placeholder="Project Number" className="border p-2 rounded" />
-          <input name="client" value={formData.client} onChange={handleChange} placeholder="Client" className="border p-2 rounded" />
+          <div className="flex flex-col">
+            <label className="text-sm font-medium mb-1">Project Name</label>
+            <input name="projectName" value={formData.projectName} onChange={handleChange} className="border p-2 rounded" />
+          </div>
+          <div className="flex flex-col">
+            <label className="text-sm font-medium mb-1">Project Number</label>
+            <input name="projectNumber" value={formData.projectNumber} onChange={handleChange} className="border p-2 rounded" />
+          </div>
+          <div className="flex flex-col">
+            <label className="text-sm font-medium mb-1">Client</label>
+            <input name="client" value={formData.client} onChange={handleChange} className="border p-2 rounded" />
+          </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <select name="sector" value={formData.sector} onChange={handleChange} className="border p-2 rounded">
-            <option value="">Select Sector</option>
-            {Object.keys(sectorProductMap).map((sector, idx) => (
-              <option key={idx} value={sector}>{sector}</option>
-            ))}
-          </select>
-          <select name="productType" value={formData.productType} onChange={handleChange} className="border p-2 rounded">
-            <option value="">Select Product Type</option>
-            {(sectorProductMap[formData.sector] || []).map((type, idx) => (
-              <option key={idx} value={type}>{type}</option>
-            ))}
-          </select>
+          <div className="flex flex-col">
+            <label className="text-sm font-medium mb-1">Sector</label>
+            <select name="sector" value={formData.sector} onChange={handleChange} className="border p-2 rounded">
+              <option value="">Select Sector</option>
+              {Object.keys(sectorProductMap).map((sector, idx) => (
+                <option key={idx} value={sector}>{sector}</option>
+              ))}
+            </select>
+          </div>
+          <div className="flex flex-col">
+            <label className="text-sm font-medium mb-1">Product Type</label>
+            <select name="productType" value={formData.productType} onChange={handleChange} className="border p-2 rounded">
+              <option value="">Select Product Type</option>
+              {(sectorProductMap[formData.sector] || []).map((type, idx) => (
+                <option key={idx} value={type}>{type}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="grid grid-cols-3 gap-4">
-          {['length', 'width', 'height', 'baseThickness', 'wallThickness'].map((field) => (
-            <input key={field} name={field} type="number" value={formData[field]} onChange={handleChange} placeholder={field} className="border p-2 rounded" />
+          {['length','width','height','baseThickness','wallThickness'].map((field) => (
+            <div key={field} className="flex flex-col">
+              <label className="text-sm font-medium mb-1 capitalize">{field.replace(/([A-Z])/g, ' $1')}</label>
+              <input name={field} type="number" value={formData[field]} onChange={handleChange} className="border p-2 rounded" />
+            </div>
           ))}
         </div>
 
         <div className="grid grid-cols-3 gap-4">
-          <input name="lidUnits" type="number" value={formData.lidUnits} onChange={handleChange} placeholder="Lid Units" className="border p-2 rounded" />
-          <input name="pipeOpeningsUnits" type="number" value={formData.pipeOpeningsUnits} onChange={handleChange} placeholder="Pipe Openings" className="border p-2 rounded" />
-          <input name="ladderRungsUnits" type="number" value={formData.ladderRungsUnits} onChange={handleChange} placeholder="Ladder Rungs" className="border p-2 rounded" />
+          <div className="flex flex-col">
+            <label className="text-sm font-medium mb-1">Lid Units</label>
+            <input name="lidUnits" type="number" value={formData.lidUnits} onChange={handleChange} className="border p-2 rounded" />
+          </div>
+          <div className="flex flex-col">
+            <label className="text-sm font-medium mb-1">Pipe Openings</label>
+            <input name="pipeOpeningsUnits" type="number" value={formData.pipeOpeningsUnits} onChange={handleChange} className="border p-2 rounded" />
+          </div>
+          <div className="flex flex-col">
+            <label className="text-sm font-medium mb-1">Ladder Rungs</label>
+            <input name="ladderRungsUnits" type="number" value={formData.ladderRungsUnits} onChange={handleChange} className="border p-2 rounded" />
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <select name="ductType" value={formData.ductType} onChange={handleChange} className="border p-2 rounded">
-            <option value="">Select Duct Type</option>
-            {["Duct type 1", "Duct type 2", "Duct type 3", "Duct type 4"].map((type, idx) => (
-              <option key={idx} value={type}>{type}</option>
-            ))}
-          </select>
-          <select name="transport" value={formData.transport} onChange={handleChange} className="border p-2 rounded">
-            <option value="">Select Transport</option>
-            {Object.keys(transportCosts).map((place, idx) => (
-              <option key={idx} value={place}>{place} (€{transportCosts[place]})</option>
-            ))}
-          </select>
-          <input name="installationDays" type="number" value={formData.installationDays} onChange={handleChange} placeholder="Installation Days" className="border p-2 rounded" />
+        <div className="grid grid-cols-3 gap-4">
+          <div className="flex flex-col">
+            <label className="text-sm font-medium mb-1">Duct Type</label>
+            <select name="ductType" value={formData.ductType} onChange={handleChange} className="border p-2 rounded">
+              <option value="">Select Duct Type</option>
+              {["Duct type 1", "Duct type 2", "Duct type 3", "Duct type 4"].map((type, idx) => (
+                <option key={idx} value={type}>{type}</option>
+              ))}
+            </select>
+          </div>
+          <div className="flex flex-col">
+            <label className="text-sm font-medium mb-1">Transport</label>
+            <select name="transport" value={formData.transport} onChange={handleChange} className="border p-2 rounded">
+              <option value="">Select Transport</option>
+              {Object.keys(transportCosts).map((place, idx) => (
+                <option key={idx} value={place}>{place} (€{transportCosts[place]})</option>
+              ))}
+            </select>
+          </div>
+          <div className="flex flex-col">
+            <label className="text-sm font-medium mb-1">Installation Days</label>
+            <input name="installationDays" type="number" value={formData.installationDays} onChange={handleChange} className="border p-2 rounded" />
+          </div>
         </div>
 
         <div>
-          <label>Profitability Margin: {formData.margin}%</label>
+          <label className="block text-sm font-medium mb-1">Profitability Margin: {formData.margin}%</label>
           <input type="range" min="0" max="100" name="margin" value={formData.margin} onChange={handleChange} className="w-full" />
         </div>
 
