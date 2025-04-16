@@ -108,91 +108,92 @@ export default function ProjectEstimator() {
         <img src="/fli logo.png" alt="FLI Precast Solutions" className="h-10 mr-4" />
         <h1 className="text-2xl font-bold text-blue-800">FLI Project Estimator Tool</h1>
       </header>
-    <div className="p-6 max-w-5xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold">Project Estimator Tool</h1>
-      <div className="grid grid-cols-3 gap-4">
-        <input name="projectName" value={formData.projectName} onChange={handleChange} placeholder="Project Name" className="border p-2 rounded" />
-        <input name="projectNumber" value={formData.projectNumber} onChange={handleChange} placeholder="Project Number" className="border p-2 rounded" />
-        <input name="client" value={formData.client} onChange={handleChange} placeholder="Client" className="border p-2 rounded" />
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <select name="sector" value={formData.sector} onChange={handleChange} className="border p-2 rounded">
-          <option value="">Select Sector</option>
-          {Object.keys(sectorProductMap).map((sector, idx) => (
-            <option key={idx} value={sector}>{sector}</option>
-          ))}
-        </select>
-        <select name="productType" value={formData.productType} onChange={handleChange} className="border p-2 rounded">
-          <option value="">Select Product Type</option>
-          {(sectorProductMap[formData.sector] || []).map((type, idx) => (
-            <option key={idx} value={type}>{type}</option>
-          ))}
-        </select>
-      </div>
-      <div className="grid grid-cols-3 gap-4">
-        {['length','width','height','baseThickness','wallThickness'].map((field) => (
-          <input key={field} name={field} type="number" value={formData[field]} onChange={handleChange} placeholder={field} className="border p-2 rounded" />
-        ))}
-      </div>
-      <div className="grid grid-cols-3 gap-4">
-        <input name="lidUnits" type="number" value={formData.lidUnits} onChange={handleChange} placeholder="Lid Units" className="border p-2 rounded" />
-        <input name="pipeOpeningsUnits" type="number" value={formData.pipeOpeningsUnits} onChange={handleChange} placeholder="Pipe Openings" className="border p-2 rounded" />
-        <input name="ladderRungsUnits" type="number" value={formData.ladderRungsUnits} onChange={handleChange} placeholder="Ladder Rungs" className="border p-2 rounded" />
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <select name="ductType" value={formData.ductType} onChange={handleChange} className="border p-2 rounded">
-          <option value="">Select Duct Type</option>
-          {["Duct type 1", "Duct type 2", "Duct type 3", "Duct type 4"].map((type, idx) => (
-            <option key={idx} value={type}>{type}</option>
-          ))}
-        </select>
-        <select name="transport" value={formData.transport} onChange={handleChange} className="border p-2 rounded">
-          <option value="">Select Transport</option>
-          {Object.keys(transportCosts).map((place, idx) => (
-            <option key={idx} value={place}>{place} (€{transportCosts[place]})</option>
-          ))}
-        </select>
-        <input name="installationDays" type="number" value={formData.installationDays} onChange={handleChange} placeholder="Installation Days" className="border p-2 rounded" />
-      </div>
-      <div>
-        <label>Profitability Margin: {formData.margin}%</label>
-        <input type="range" min="0" max="100" name="margin" value={formData.margin} onChange={handleChange} className="w-full" />
-      </div>
-      <button onClick={handleEstimate} className="bg-blue-600 text-white px-4 py-2 rounded">Generate Estimate</button>
+      <main className="p-6 max-w-5xl mx-auto space-y-6">
+        <div className="grid grid-cols-3 gap-4">
+          <input name="projectName" value={formData.projectName} onChange={handleChange} placeholder="Project Name" className="border p-2 rounded" />
+          <input name="projectNumber" value={formData.projectNumber} onChange={handleChange} placeholder="Project Number" className="border p-2 rounded" />
+          <input name="client" value={formData.client} onChange={handleChange} placeholder="Client" className="border p-2 rounded" />
+        </div>
 
-      {estimate && (
-        <div className="pt-6">
-          <div className="text-xl font-semibold">Estimated Price: €{estimate}</div>
-          <div className="pt-4 space-y-4">
-            {Object.entries(breakdown).map(([section, items]) => (
-              <div key={section} className="bg-gray-50 border rounded p-4">
-                <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700">{section}</h3>
-                <ul className="space-y-1 text-sm">
-                  {items.map((item, idx) => (
-                    <li key={idx} className="flex justify-between">
-                      <span>{item.label}</span>
-                      <span>{item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit}`}</span>
-                    </li>
-                  ))}
-{(() => {
-                    const subtotal = items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
-                    const subtotalText = `€${subtotal.toFixed(2)}`;
-                    return (
+        <div className="grid grid-cols-2 gap-4">
+          <select name="sector" value={formData.sector} onChange={handleChange} className="border p-2 rounded">
+            <option value="">Select Sector</option>
+            {Object.keys(sectorProductMap).map((sector, idx) => (
+              <option key={idx} value={sector}>{sector}</option>
+            ))}
+          </select>
+          <select name="productType" value={formData.productType} onChange={handleChange} className="border p-2 rounded">
+            <option value="">Select Product Type</option>
+            {(sectorProductMap[formData.sector] || []).map((type, idx) => (
+              <option key={idx} value={type}>{type}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="grid grid-cols-3 gap-4">
+          {['length', 'width', 'height', 'baseThickness', 'wallThickness'].map((field) => (
+            <input key={field} name={field} type="number" value={formData[field]} onChange={handleChange} placeholder={field} className="border p-2 rounded" />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-3 gap-4">
+          <input name="lidUnits" type="number" value={formData.lidUnits} onChange={handleChange} placeholder="Lid Units" className="border p-2 rounded" />
+          <input name="pipeOpeningsUnits" type="number" value={formData.pipeOpeningsUnits} onChange={handleChange} placeholder="Pipe Openings" className="border p-2 rounded" />
+          <input name="ladderRungsUnits" type="number" value={formData.ladderRungsUnits} onChange={handleChange} placeholder="Ladder Rungs" className="border p-2 rounded" />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <select name="ductType" value={formData.ductType} onChange={handleChange} className="border p-2 rounded">
+            <option value="">Select Duct Type</option>
+            {["Duct type 1", "Duct type 2", "Duct type 3", "Duct type 4"].map((type, idx) => (
+              <option key={idx} value={type}>{type}</option>
+            ))}
+          </select>
+          <select name="transport" value={formData.transport} onChange={handleChange} className="border p-2 rounded">
+            <option value="">Select Transport</option>
+            {Object.keys(transportCosts).map((place, idx) => (
+              <option key={idx} value={place}>{place} (€{transportCosts[place]})</option>
+            ))}
+          </select>
+          <input name="installationDays" type="number" value={formData.installationDays} onChange={handleChange} placeholder="Installation Days" className="border p-2 rounded" />
+        </div>
+
+        <div>
+          <label>Profitability Margin: {formData.margin}%</label>
+          <input type="range" min="0" max="100" name="margin" value={formData.margin} onChange={handleChange} className="w-full" />
+        </div>
+
+        <button onClick={handleEstimate} className="bg-blue-600 text-white px-4 py-2 rounded">Generate Estimate</button>
+
+        {estimate && (
+          <div className="pt-6">
+            <div className="text-xl font-semibold">Estimated Price: €{estimate}</div>
+            <div className="pt-4 space-y-4">
+              {Object.entries(breakdown).map(([section, items]) => {
+                const subtotal = items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
+                return (
+                  <div key={section} className="bg-gray-50 border rounded p-4">
+                    <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700">{section}</h3>
+                    <ul className="space-y-1 text-sm">
+                      {items.map((item, idx) => (
+                        <li key={idx} className="flex justify-between">
+                          <span>{item.label}</span>
+                          <span>{item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit}`}</span>
+                        </li>
+                      ))}
                       <li className="flex justify-between font-semibold border-t pt-1 mt-2">
                         <span>Subtotal</span>
-                        <span>{subtotalText}</span>
+                        <span>€{subtotal.toFixed(2)}</span>
                       </li>
-                    );
-                  })()}
-</ul>
-              </div>
-            ))}
-            <div className="text-right text-lg font-bold pt-2 border-t">Grand Total: €{estimate}</div>
-          </div>
-        </div>
-      )}
+                    </ul>
+                  </div>
+                );
+              })}
+              <div className="text-right text-lg font-bold pt-2 border-t">Grand Total: €{estimate}</div>
             </div>
-      </div>
+          </div>
+        )}
+      </main>
     </div>
   );
 }
