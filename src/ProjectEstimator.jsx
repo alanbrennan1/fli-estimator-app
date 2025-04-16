@@ -174,7 +174,7 @@ export default function ProjectEstimator() {
                       <span>{item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit}`}</span>
                     </li>
                   ))}
-  {
+{(() => {
                     const subtotal = items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
                     const subtotalText = `€${subtotal.toFixed(2)}`;
                     return (
@@ -183,7 +183,7 @@ export default function ProjectEstimator() {
                         <span>{subtotalText}</span>
                       </li>
                     );
-                  }
+                  })()}
 </ul>
               </div>
             ))}
