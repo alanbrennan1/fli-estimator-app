@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './index.css';
 
 export default function ProjectEstimator() {
   const sectorProductMap = {
@@ -70,15 +71,15 @@ export default function ProjectEstimator() {
     setEstimate(total.toFixed(2));
 
     setBreakdown({
-      Concrete: [
+      concrete: [
         { label: 'Concrete Volume', value: concreteVolume.toFixed(2), unit: 'm³', isCurrency: false },
         { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
       ],
-      Steel: [
+      steel: [
         { label: 'Steel Required', value: steelKg.toFixed(2), unit: 'kg', isCurrency: false },
         { label: 'Steel Cost', value: steelCost.toFixed(2), isCurrency: true }
       ],
-      Labour: [
+      labour: [
         { label: 'Labour Hours', value: labourHrs.toFixed(2), unit: 'hrs', isCurrency: false },
         { label: 'Labour Cost', value: labourCost.toFixed(2), isCurrency: true }
       ],
@@ -90,19 +91,20 @@ export default function ProjectEstimator() {
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold">FLI Project Estimator Tool</h1>
-      <div className="space-y-4">
-        <div className="grid grid-cols-3 gap-4">
-          <div><label>Project Name</label><input className="border p-2 w-full" name="projectName" value={formData.projectName} onChange={handleChange} /></div>
-          <div><label>Project Number</label><input className="border p-2 w-full" name="projectNumber" value={formData.projectNumber} onChange={handleChange} /></div>
-          <div><label>Client</label><input className="border p-2 w-full" name="client" value={formData.client} onChange={handleChange} /></div>
+    <div className="bg-gray-100 min-h-screen py-8 px-4">
+      <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-md p-8">
+        <h1 className="text-3xl font-bold text-blue-700 mb-6">Project Estimator Tool</h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div><label className="block text-sm font-medium mb-1">Project Name</label><input className="border p-2 w-full rounded" name="projectName" value={formData.projectName} onChange={handleChange} /></div>
+          <div><label className="block text-sm font-medium mb-1">Project Number</label><input className="border p-2 w-full rounded" name="projectNumber" value={formData.projectNumber} onChange={handleChange} /></div>
+          <div><label className="block text-sm font-medium mb-1">Client</label><input className="border p-2 w-full rounded" name="client" value={formData.client} onChange={handleChange} /></div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
-            <label>Sector</label>
-            <select name="sector" value={formData.sector} onChange={handleChange} className="w-full border p-2">
+            <label className="block text-sm font-medium mb-1">Sector</label>
+            <select name="sector" value={formData.sector} onChange={handleChange} className="w-full border p-2 rounded">
               <option value="">Select</option>
               {Object.keys(sectorProductMap).map((sector, idx) => (
                 <option key={idx} value={sector}>{sector}</option>
@@ -110,8 +112,8 @@ export default function ProjectEstimator() {
             </select>
           </div>
           <div>
-            <label>Product Type</label>
-            <select name="productType" value={formData.productType} onChange={handleChange} className="w-full border p-2">
+            <label className="block text-sm font-medium mb-1">Product Type</label>
+            <select name="productType" value={formData.productType} onChange={handleChange} className="w-full border p-2 rounded">
               <option value="">Select</option>
               {(sectorProductMap[formData.sector] || []).map((type, idx) => (
                 <option key={idx} value={type}>{type}</option>
@@ -120,37 +122,37 @@ export default function ProjectEstimator() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
-          {['length','width','height','baseThickness','wallThickness'].map(field => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          {["length", "width", "height", "baseThickness", "wallThickness"].map(field => (
             <div key={field}>
-              <label>{field.replace(/([A-Z])/g, ' $1')} (m)</label>
-              <input name={field} type="number" className="border p-2 w-full" value={formData[field]} onChange={handleChange} />
+              <label className="block text-sm font-medium mb-1">{field.replace(/([A-Z])/g, ' $1')} (m)</label>
+              <input name={field} type="number" className="border p-2 w-full rounded" value={formData[field]} onChange={handleChange} />
             </div>
           ))}
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
-          {['lidUnits','pipeOpeningsUnits','ladderRungsUnits'].map(field => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          {["lidUnits", "pipeOpeningsUnits", "ladderRungsUnits"].map(field => (
             <div key={field}>
-              <label>{field.replace(/([A-Z])/g, ' $1')}</label>
-              <input name={field} type="number" className="border p-2 w-full" value={formData[field]} onChange={handleChange} />
+              <label className="block text-sm font-medium mb-1">{field.replace(/([A-Z])/g, ' $1')}</label>
+              <input name={field} type="number" className="border p-2 w-full rounded" value={formData[field]} onChange={handleChange} />
             </div>
           ))}
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
-            <label>Duct Type</label>
-            <select name="ductType" value={formData.ductType} onChange={handleChange} className="w-full border p-2">
+            <label className="block text-sm font-medium mb-1">Duct Type</label>
+            <select name="ductType" value={formData.ductType} onChange={handleChange} className="w-full border p-2 rounded">
               <option value="">Select</option>
-              {['Duct type 1', 'Duct type 2', 'Duct type 3', 'Duct type 4'].map((type, idx) => (
+              {["Duct type 1", "Duct type 2", "Duct type 3", "Duct type 4"].map((type, idx) => (
                 <option key={idx} value={type}>{type}</option>
               ))}
             </select>
           </div>
           <div>
-            <label>Transport</label>
-            <select name="transport" value={formData.transport} onChange={handleChange} className="w-full border p-2">
+            <label className="block text-sm font-medium mb-1">Transport</label>
+            <select name="transport" value={formData.transport} onChange={handleChange} className="w-full border p-2 rounded">
               <option value="">Select</option>
               {Object.keys(transportCosts).map((location, idx) => (
                 <option key={idx} value={location}>{location} (€{transportCosts[location]})</option>
@@ -158,25 +160,25 @@ export default function ProjectEstimator() {
             </select>
           </div>
           <div>
-            <label>Installation Duration (days)</label>
-            <input name="installationDays" type="number" className="border p-2 w-full" value={formData.installationDays} onChange={handleChange} />
+            <label className="block text-sm font-medium mb-1">Installation Duration (days)</label>
+            <input name="installationDays" type="number" className="border p-2 w-full rounded" value={formData.installationDays} onChange={handleChange} />
           </div>
         </div>
 
-        <div>
-          <label>Profitability Margin: {formData.margin}%</label>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Profitability Margin: {formData.margin}%</label>
           <input type="range" min="0" max="100" name="margin" value={formData.margin} onChange={handleChange} className="w-full" />
         </div>
 
-        <button onClick={handleEstimate} className="bg-blue-600 text-white px-4 py-2 rounded">Generate Estimate</button>
+        <button onClick={handleEstimate} className="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700 transition">Generate Estimate</button>
 
         {estimate && (
           <>
-            <div className="text-xl font-semibold pt-4">Estimated Price: €{estimate}</div>
-            <div className="pt-4 space-y-2">
+            <div className="text-xl font-semibold pt-6">Estimated Price: €{estimate}</div>
+            <div className="pt-4 space-y-4">
               {Object.entries(breakdown).map(([section, items]) => (
-                <div key={section} className="border rounded p-3">
-                  <h3 className="font-semibold border-b mb-2 capitalize">{section}</h3>
+                <div key={section} className="bg-gray-50 border rounded p-4">
+                  <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700">{section}</h3>
                   <ul className="space-y-1 text-sm">
                     {items.map((item, idx) => (
                       <li key={idx} className="flex justify-between">
@@ -187,7 +189,7 @@ export default function ProjectEstimator() {
                   </ul>
                 </div>
               ))}
-              <div className="text-right text-lg font-bold pt-4">Grand Total: €{estimate}</div>
+              <div className="text-right text-lg font-bold pt-2 border-t">Grand Total: €{estimate}</div>
             </div>
           </>
         )}
