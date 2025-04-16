@@ -175,14 +175,15 @@ export default function ProjectEstimator() {
                     </li>
                   ))}
   {
-  const subtotal = items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
-  return (
-    <li className="flex justify-between font-semibold border-t pt-1 mt-2">
-      <span>Subtotal</span>
-      <span>€{subtotal.toFixed(2)}</span>
-    </li>
-  );
-}
+                    const subtotal = items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
+                    const subtotalText = `€${subtotal.toFixed(2)}`;
+                    return (
+                      <li className="flex justify-between font-semibold border-t pt-1 mt-2">
+                        <span>Subtotal</span>
+                        <span>{subtotalText}</span>
+                      </li>
+                    );
+                  }
 </ul>
               </div>
             ))}
