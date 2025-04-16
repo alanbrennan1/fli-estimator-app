@@ -202,103 +202,102 @@ export default function ProjectEstimator() {
 
         <button onClick={handleEstimate} className="bg-blue-600 text-white px-4 py-2 rounded">Generate Estimate</button>
 
-{estimate && (
+
+
+        {estimate && (
   <div id="quote-preview" className="pt-6 space-y-4">
     <img src="/fli-logo.png" alt="FLI Logo" className="h-12 mb-4" />
 
-            <div className="text-xl font-semibold">Estimated Price: €{estimate}</div>
-            <div className="pt-4 space-y-4">
-              {Object.entries(breakdown).map(([section, items]) => {
-                const subtotal = items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
-                return (
-                  <div key={section} className="bg-gray-50 border rounded p-4">
-                    <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700">{section}</h3>
-                    <ul className="space-y-1 text-sm">
-                      {items.map((item, idx) => (
-                        <li key={idx} className="flex justify-between">
-                          <span>{item.label}</span>
-                          <span>{item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit}`}</span>
-                        </li>
-                      ))}
-                      <li className="flex justify-between font-semibold border-t pt-1 mt-2">
-                        <span>Subtotal</span>
-                        <span>€{subtotal.toFixed(2)}</span>
-                      </li>
-                    </ul>
-                  </div>
-                );
-              })}
-              <div className="text-right text-lg font-bold pt-2 border-t">Grand Total: €{estimate}</div>
+    <div className="text-xl font-semibold">Estimated Price: €{estimate}</div>
 
-              
-<div className="flex gap-4 pt-6">
-  <button
-    onClick={() => {
-      const now = new Date().toLocaleString();
-      const rows = [
-        ['FLI Precast Solutions'],
-        [`Quote for: ${formData.projectName || 'Unnamed Project'}`],
-        [`Client: ${formData.client || 'N/A'}`],
-        [`Generated: ${now}`],
-        [],
-      ];
-
-      Object.entries(breakdown).forEach(([section, items]) => {
-        rows.push([`${section.toUpperCase()} BREAKDOWN`]);
-        rows.push(['Label', 'Value']);
-
-        items.forEach(item => {
-          rows.push([
-            item.label,
-            item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit || ''}`
-          ]);
-        });
-
-        rows.push([]);
-      });
-
-      rows.push(['Grand Total', `€${estimate}`]);
-
-      const csvContent = 'data:text/csv;charset=utf-8,' + rows.map(e => e.join(',')).join('\n');
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement('a');
-      link.setAttribute('href', encodedUri);
-      link.setAttribute('download', `${formData.projectName || 'quote'}_BoQ.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }}
-    className="bg-green-600 text-white px-4 py-2 rounded"
-  >
-    Export CSV
-  </button>
-</div>
-
-
-
-
-              
-
-  <button
-    onClick={() => {
-      const content = document.getElementById('quote-preview');
-      if (!content) return;
-      import('html2pdf.js').then(html2pdf => {
-        html2pdf.default().from(content).save(`${formData.projectName || 'quote'}_BoQ.pdf`);
-      });
-    }}
-    className="bg-red-600 text-white px-4 py-2 rounded"
-  >
-    Export PDF
-  </button>
-</div>
-
-
-
-              
-            </div>
+    <div className="pt-4 space-y-4">
+      {Object.entries(breakdown).map(([section, items]) => {
+        const subtotal = items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
+        return (
+          <div key={section} className="bg-gray-50 border rounded p-4">
+            <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700">{section}</h3>
+            <ul className="space-y-1 text-sm">
+              {items.map((item, idx) => (
+                <li key={idx} className="flex justify-between">
+                  <span>{item.label}</span>
+                  <span>{item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit}`}</span>
+                </li>
+              ))}
+              <li className="flex justify-between font-semibold border-t pt-1 mt-2">
+                <span>Subtotal</span>
+                <span>€{subtotal.toFixed(2)}</span>
+              </li>
+            </ul>
           </div>
-        )}
+        );
+      })}
+
+      <div className="text-right text-lg font-bold pt-2 border-t">Grand Total: €{estimate}</div>
+
+      {/* ✅ Export Buttons: CSV + PDF */}
+      <div className="flex gap-4 pt-6">
+        <button
+          onClick={() => {
+            const now = new Date().toLocaleString();
+            const rows = [
+              ['FLI Precast Solutions'],
+              [`Quote for: ${formData.projectName || 'Unnamed Project'}`],
+              [`Client: ${formData.client || 'N/A'}`],
+              [`Generated: ${now}`],
+              [],
+            ];
+
+            Object.entries(breakdown).forEach(([section, items]) => {
+              rows.push([`${section.toUpperCase()} BREAKDOWN`]);
+              rows.push(['Label', 'Value']);
+              items.forEach(item => {
+                rows.push([
+                  item.label,
+                  item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit || ''}`
+                ]);
+              });
+              rows.push([]);
+            });
+
+            rows.push(['Grand Total', `€${estimate}`]);
+
+            const csvContent = 'data:text/csv;charset=utf-8,' + rows.map(e => e.join(',')).join('\n');
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', `${formData.projectName || 'quote'}_BoQ.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }}
+          className="bg-green-600 text-white px-4 py-2 rounded"
+        >
+          Export CSV
+        </button>
+
+        <button
+          onClick={() => {
+            const content = document.getElementById('quote-preview');
+            if (!content) return;
+            import('html2pdf.js').then(html2pdf => {
+              html2pdf.default().from(content).save(`${formData.projectName || 'quote'}_BoQ.pdf`);
+            });
+          }}
+          className="bg-red-600 text-white px-4 py-2 rounded"
+        >
+          Export PDF
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
+
+
+
+
+        
       </main>
     </div>
   );
