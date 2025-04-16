@@ -206,7 +206,6 @@ export default function ProjectEstimator() {
 
         {estimate && (
   <div id="quote-preview" className="pt-6 space-y-4">
-    <img src="/fli-logo.png" alt="FLI Logo" className="h-12 mb-4" />
 
     <div className="text-xl font-semibold">Estimated Price: €{estimate}</div>
 
