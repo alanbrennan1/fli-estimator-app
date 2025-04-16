@@ -103,6 +103,11 @@ export default function ProjectEstimator() {
   };
 
   return (
+    <div className="min-h-screen bg-gray-100">
+      <header className="bg-white shadow p-4 flex items-center">
+        <img src="/fli logo.png" alt="FLI Precast Solutions" className="h-10 mr-4" />
+        <h1 className="text-2xl font-bold text-blue-800">FLI Project Estimator Tool</h1>
+      </header>
     <div className="p-6 max-w-5xl mx-auto space-y-6">
       <h1 className="text-2xl font-bold">Project Estimator Tool</h1>
       <div className="grid grid-cols-3 gap-4">
@@ -175,6 +180,8 @@ $1
           </div>
         </div>
       )}
+            </div>
+      </div>
     </div>
   );
 }
