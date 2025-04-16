@@ -254,7 +254,7 @@ export default function ProjectEstimator() {
         const mapped = {};
         headers.forEach((h, idx) => mapped[h] = data[idx]);
 
- setPendingImport({
+setPendingImport({
   projectName: mapped.projectname || '',
   projectNumber: mapped.projectnumber || '',
   client: mapped.client || '',
