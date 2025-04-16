@@ -234,3 +234,40 @@ export default function ProjectEstimator() {
     </div>
   );
 }
+
+<div className="flex gap-4 pt-6">
+  <button
+    onClick={() => {
+      const rows = [['Section', 'Label', 'Value']];
+      Object.entries(breakdown).forEach(([section, items]) => {
+        items.forEach(item => {
+          rows.push([section, item.label, item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit || ''}`]);
+        });
+      });
+      const csvContent = 'data:text/csv;charset=utf-8,' + rows.map(e => e.join(',')).join('\n');
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', `${formData.projectName || 'quote'}_BoQ.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }}
+    className="bg-green-600 text-white px-4 py-2 rounded"
+  >
+    Export CSV
+  </button>
+
+  <button
+    onClick={() => {
+      const content = document.getElementById('quote-preview');
+      if (!content) return;
+      import('html2pdf.js').then(html2pdf => {
+        html2pdf.default().from(content).save(`${formData.projectName || 'quote'}_BoQ.pdf`);
+      });
+    }}
+    className="bg-red-600 text-white px-4 py-2 rounded"
+  >
+    Export PDF
+  </button>
+</div>
