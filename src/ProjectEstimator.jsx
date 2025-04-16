@@ -237,6 +237,8 @@ export default function ProjectEstimator() {
       if (!file) return;
 
       const reader = new FileReader();
+
+      
       reader.onload = (event) => {
         const text = event.target.result;
         const rows = text.split('\n').map(row => row.split(','));
@@ -270,9 +272,15 @@ setPendingImport({
   ladderRungsUnits: mapped.ladderrungs || 0,
   ductType: mapped.ducttype || ''
 });
+});
+}; // ✅ CLOSE reader.onload function here
 
-      reader.readAsText(file);
-    }}
+reader.readAsText(file); // ✅ This was previously inside the onload by mistake
+
+
+
+
+      
     className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
   />
 </div>
