@@ -239,43 +239,46 @@ export default function ProjectEstimator() {
       const reader = new FileReader();
 
       
-      reader.onload = (event) => {
-        const text = event.target.result;
-        const rows = text.split('\n').map(row => row.split(','));
-        const headers = rows[0].map(h => h.trim().toLowerCase());
+reader.onload = (event) => {
+  const text = event.target.result;
+  const rows = text.split('\n').map(row => row.split(','));
+  const headers = rows[0].map(h => h.trim().toLowerCase());
 
-        const required = ['product', 'sector', 'length', 'width', 'height', 'basethickness', 'wallthickness', 'lidunits', 'pipeopenings', 'ladderrungs'];
-        const missing = required.filter(r => !headers.includes(r));
+  const required = ['product', 'sector', 'length', 'width', 'height', 'basethickness', 'wallthickness', 'lidunits', 'pipeopenings', 'ladderrungs'];
+  const missing = required.filter(r => !headers.includes(r));
 
-        if (missing.length > 0) {
-          alert('Missing required columns: ' + missing.join(', '));
-          return;
-        }
+  if (missing.length > 0) {
+    alert('Missing required columns: ' + missing.join(', '));
+    return;
+  }
 
-        const data = rows[1];
-        const mapped = {};
-        headers.forEach((h, idx) => mapped[h] = data[idx]);
+  const data = rows[1];
+  const mapped = {};
+  headers.forEach((h, idx) => mapped[h] = data[idx]);
 
-setPendingImport({
-  projectName: mapped.projectname || '',
-  projectNumber: mapped.projectnumber || '',
-  client: mapped.client || '',
-  sector: mapped.sector || '',
-  productType: mapped.product || '',
-  length: mapped.length || '',
-  width: mapped.width || '',
-  height: mapped.height || '',
-  baseThickness: mapped.basethickness || '',
-  wallThickness: mapped.wallthickness || '',
-  lidUnits: mapped.lidunits || 0,
-  pipeOpeningsUnits: mapped.pipeopenings || 0,
-  ladderRungsUnits: mapped.ladderrungs || 0,
-  ductType: mapped.ducttype || ''
-});
-});
+  setPendingImport({
+    projectName: mapped.projectname || '',
+    projectNumber: mapped.projectnumber || '',
+    client: mapped.client || '',
+    sector: mapped.sector || '',
+    productType: mapped.product || '',
+    length: mapped.length || '',
+    width: mapped.width || '',
+    height: mapped.height || '',
+    baseThickness: mapped.basethickness || '',
+    wallThickness: mapped.wallthickness || '',
+    lidUnits: mapped.lidunits || 0,
+    pipeOpeningsUnits: mapped.pipeopenings || 0,
+    ladderRungsUnits: mapped.ladderrungs || 0,
+    ductType: mapped.ducttype || ''
+  });
 }; // ✅ CLOSE reader.onload function here
 
 reader.readAsText(file); // ✅ This was previously inside the onload by mistake
+
+
+
+      
 
 
 
