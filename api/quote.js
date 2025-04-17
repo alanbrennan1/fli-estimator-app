@@ -36,11 +36,12 @@ export default function handler(req, res) {
     UK: 2000
   };
 
-  const additionalItems = {
-    lid: 100, // average estimate
-    pipeOpenings: 75,
-    ladderRungs: 50
-  };
+const additionalItems = {
+  lid: 30,           // Fixed price for lid
+  pipeOpenings: 50,  // Fixed price for pipe opening
+  ladderRungs: 100   // Fixed price for ladder rung
+};
+
 
   const m3 = safe(length) * safe(width) * safe(height);
   const concreteVolume = m3 + safe(baseThickness) + safe(wallThickness);
