@@ -8,11 +8,11 @@ export default function ProjectEstimator() {
     'Bespoke Precast': ['Foundation Bases', 'Cover Slabs'],
   };
 
-  const [additionalItems] = useState({
-    lid: Math.floor(Math.random() * 150),
-    pipeOpenings: Math.floor(Math.random() * 150),
-    ladderRungs: Math.floor(Math.random() * 150),
-  });
+const [additionalItems] = useState({
+  lid: 30,             // Fixed price for lid
+  pipeOpenings: 50,    // Fixed price for pipe opening
+  ladderRungs: 100     // Fixed price for ladder rung
+});
 
   const transportCosts = {
     Cork: 850,
