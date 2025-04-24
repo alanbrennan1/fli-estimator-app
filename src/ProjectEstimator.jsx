@@ -257,9 +257,7 @@ total *= 1 + safe(formData.margin) / 100;
 
 
         
-{/* 🏗 Manufacturing */}
-<section className="space-y-4">
-  <h2 className="text-xl font-semibold text-teal-700 mb-2">Manufacturing</h2>
+<AccordionSection title="🏗 Manufacturing">
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
     {['length', 'width', 'height', 'baseThickness', 'wallThickness'].map((field) => {
       const labelMap = {
@@ -284,55 +282,50 @@ total *= 1 + safe(formData.margin) / 100;
     })}
   </div>
 
-
-  
-  {/* Calculated Fields */}
-
-{/* Editable Manufacturing Totals */}
-
+  {/* Manufacturing Totals */}
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-  <div className="flex flex-col">
-    <label className="text-sm font-medium mb-1">Concrete Volume (m³)</label>
-    <input
-      name="concreteVolume"
-      type="number"
-      value={formData.concreteVolume || ''}
-      onChange={handleChange}
-      className="border p-2 rounded"
-    />
-  </div>
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1">Concrete Volume (m³)</label>
+      <input
+        name="concreteVolume"
+        type="number"
+        value={formData.concreteVolume || ''}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      />
+    </div>
 
-  <div className="flex flex-col">
-    <label className="text-sm font-medium mb-1">Steel Grade (kg/m³)</label>
-    <select
-      name="steelGrade"
-      value={formData.steelGrade}
-      onChange={handleChange}
-      className="border p-2 rounded"
-    >
-      <option value="">Select Steel Grade</option>
-      <option value="B125">B125</option>
-      <option value="C250">C250</option>
-      <option value="D400">D400</option>
-      <option value="E600">E600</option>
-      <option value="Other">Other</option>
-    </select>
-  </div>
-    
-  <div className="flex flex-col">
-    <label className="text-sm font-medium mb-1">Labour Hours</label>
-    <input
-      name="labourHours"
-      type="number"
-      value={formData.labourHours || ''}
-      onChange={handleChange}
-      className="border p-2 rounded"
-    />
-  </div>
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1">Steel Grade (kg/m³)</label>
+      <select
+        name="steelGrade"
+        value={formData.steelGrade}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      >
+        <option value="">Select Steel Grade</option>
+        <option value="B125">B125</option>
+        <option value="C250">C250</option>
+        <option value="D400">D400</option>
+        <option value="E600">E600</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
 
-</div>
- 
-</section>
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1">Labour Hours</label>
+      <input
+        name="labourHours"
+        type="number"
+        value={formData.labourHours || ''}
+        onChange={handleChange}
+        placeholder="Hours"
+        className="border p-2 rounded"
+      />
+    </div>
+  </div>
+</AccordionSection>
+
 
 
 {/* ➕ Additional Items */}
