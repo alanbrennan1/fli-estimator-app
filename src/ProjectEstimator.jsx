@@ -443,14 +443,7 @@ total *= 1 + safe(formData.margin) / 100;
 </AccordionSection>
 
         
-
-
-
-
-      
-{/* 🚚 Transport */}
-<section className="space-y-4">
-  <h2 className="text-xl font-semibold text-teal-700 mb-2">Transport</h2>
+<AccordionSection title="🚚 Transport">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div className="flex flex-col">
       <label className="text-sm font-medium mb-1">Transport Location</label>
@@ -475,11 +468,14 @@ total *= 1 + safe(formData.margin) / 100;
         name="transportQuantity"
         value={formData.transportQuantity || ''}
         onChange={handleChange}
+        placeholder="Qty"
         className="border p-2 rounded"
       />
     </div>
   </div>
-</section>
+</AccordionSection>
+      
+
 
 
         {/* 🛠 Installation Days */}
