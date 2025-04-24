@@ -410,13 +410,7 @@ total *= 1 + safe(formData.margin) / 100;
 </AccordionSection>
 
 
-
-        
-
-
-{/* 🎨 Design Section */}
-<section className="space-y-4">
-  <h2 className="text-xl font-semibold text-teal-700 mb-2">Design</h2>
+<AccordionSection title="🎨 Design">
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
     {[
       { name: 'proposalHours', label: 'Proposal' },
@@ -434,7 +428,7 @@ total *= 1 + safe(formData.margin) / 100;
       { name: 'asBuiltsHours', label: 'As Builts' }
     ].map((item) => (
       <div key={item.name} className="flex flex-col">
-        <label className="text-sm font-medium mb-1">{item.label} </label>
+        <label className="text-sm font-medium mb-1">{item.label}</label>
         <input
           type="number"
           name={item.name}
@@ -446,7 +440,12 @@ total *= 1 + safe(formData.margin) / 100;
       </div>
     ))}
   </div>
-</section>
+</AccordionSection>
+
+        
+
+
+
 
       
 {/* 🚚 Transport */}
