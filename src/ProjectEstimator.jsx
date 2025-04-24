@@ -305,14 +305,7 @@ const handleEstimate = () => {
         liftersCapstans: "Pieces",
         unistrut: "Metres",
         sikaPowder: "m³",
-        polyfleece: "m",
-        ladderRungsUnits: "Quantity",
-        lidUnits: "Quantity",
-        pipeOpeningsUnits: "Quantity",
-        mkkCones: "Quantity",
-        pullingIrons: "Quantity",
-        earthingPoints: "Quantity",
-        sumpGates: "Quantity"
+        polyfleece: "m"
       };
 
       return (
@@ -323,7 +316,7 @@ const handleEstimate = () => {
             name={field}
             value={formData[field] || ''}
             onChange={handleChange}
-            placeholder={placeholderMap[field] || 'Quantity'}
+            placeholder={placeholderMap[field] || 'Qty'}
             className="border p-2 rounded"
           />
         </div>
@@ -348,6 +341,7 @@ const handleEstimate = () => {
     </div>
   </div>
 </section>
+
 
         
 
