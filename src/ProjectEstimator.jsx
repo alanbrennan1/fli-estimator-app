@@ -179,69 +179,43 @@ const [additionalItems] = useState({
   </div>
 
   {/* Calculated Fields */}
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-    <div className="flex flex-col">
-      <label className="text-sm font-medium mb-1">Concrete Volume (m³)</label>
-      <input
-        type="text"
-        readOnly
-        value={
-          formData.length && formData.width && formData.height
-            ? (
-                parseFloat(formData.length || 0) *
-                parseFloat(formData.width || 0) *
-                parseFloat(formData.height || 0) +
-                parseFloat(formData.baseThickness || 0) +
-                parseFloat(formData.wallThickness || 0)
-              ).toFixed(2)
-            : ''
-        }
-        className="border p-2 rounded bg-gray-100"
-      />
-    </div>
-    <div className="flex flex-col">
-      <label className="text-sm font-medium mb-1">Steel Required (kg)</label>
-      <input
-        type="text"
-        readOnly
-        value={
-          formData.length && formData.width && formData.height
-            ? (
-                120 * (
-                  parseFloat(formData.length || 0) *
-                  parseFloat(formData.width || 0) *
-                  parseFloat(formData.height || 0) +
-                  parseFloat(formData.baseThickness || 0) +
-                  parseFloat(formData.wallThickness || 0)
-                )
-              ).toFixed(2)
-            : ''
-        }
-        className="border p-2 rounded bg-gray-100"
-      />
-    </div>
-    <div className="flex flex-col">
-      <label className="text-sm font-medium mb-1">Labour Hours</label>
-      <input
-        type="text"
-        readOnly
-        value={
-          formData.length && formData.width && formData.height
-            ? (
-                ((parseFloat(formData.length || 0) *
-                  parseFloat(formData.width || 0) *
-                  parseFloat(formData.height || 0) +
-                  parseFloat(formData.baseThickness || 0) +
-                  parseFloat(formData.wallThickness || 0)) *
-                  2.6 *
-                  4.2)
-              ).toFixed(2)
-            : ''
-        }
-        className="border p-2 rounded bg-gray-100"
-      />
-    </div>
+
+{/* Editable Manufacturing Totals */}
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+  <div className="flex flex-col">
+    <label className="text-sm font-medium mb-1">Concrete Volume (m³)</label>
+    <input
+      name="concreteVolume"
+      type="number"
+      value={formData.concreteVolume || ''}
+      onChange={handleChange}
+      className="border p-2 rounded"
+    />
   </div>
+  <div className="flex flex-col">
+    <label className="text-sm font-medium mb-1">Steel Required (kg)</label>
+    <input
+      name="steelRequired"
+      type="number"
+      value={formData.steelRequired || ''}
+      onChange={handleChange}
+      className="border p-2 rounded"
+    />
+  </div>
+  <div className="flex flex-col">
+    <label className="text-sm font-medium mb-1">Labour Hours</label>
+    <input
+      name="labourHours"
+      type="number"
+      value={formData.labourHours || ''}
+      onChange={handleChange}
+      className="border p-2 rounded"
+    />
+  </div>
+</div>
+
+
+  
 </section>
 
 
