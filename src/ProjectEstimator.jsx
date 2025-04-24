@@ -179,29 +179,13 @@ const [additionalItems] = useState({
     })}
   </div>
 
-<div className="flex flex-col mt-4 w-full md:w-1/3">
-  <label className="text-sm font-medium mb-1">Steel Grade (kg/m³)</label>
-  <select
-    name="steelGrade"
-    value={formData.steelGrade}
-    onChange={handleChange}
-    className="border p-2 rounded"
-  >
-    <option value="">Select Steel Grade</option>
-    <option value="B125">B125</option>
-    <option value="C250">C250</option>
-    <option value="D400">D400</option>
-    <option value="E600">E600</option>
-    <option value="Other">Other</option>
-  </select>
-</div>
-
 
   
   {/* Calculated Fields */}
 
 {/* Editable Manufacturing Totals */}
-<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
   <div className="flex flex-col">
     <label className="text-sm font-medium mb-1">Concrete Volume (m³)</label>
     <input
@@ -212,7 +196,6 @@ const [additionalItems] = useState({
       className="border p-2 rounded"
     />
   </div>
-  
   <div className="flex flex-col">
     <label className="text-sm font-medium mb-1">Labour Hours</label>
     <input
@@ -223,7 +206,24 @@ const [additionalItems] = useState({
       className="border p-2 rounded"
     />
   </div>
+  <div className="flex flex-col">
+    <label className="text-sm font-medium mb-1">Steel Grade (kg/m³)</label>
+    <select
+      name="steelGrade"
+      value={formData.steelGrade}
+      onChange={handleChange}
+      className="border p-2 rounded"
+    >
+      <option value="">Select Steel Grade</option>
+      <option value="B125">B125</option>
+      <option value="C250">C250</option>
+      <option value="D400">D400</option>
+      <option value="E600">E600</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
 </div>
+
 
 
   
