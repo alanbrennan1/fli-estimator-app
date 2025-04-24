@@ -55,7 +55,7 @@ const [additionalItems] = useState({
     pipeOpeningsUnits: 0,
     ladderRungsUnits: 0,
     ductType: '',
-    margin: 0,
+    margin: 20,
     wasteMargin: 5, // Default 5%
     groupCost: 2.5, // FLI Group cost 2.5%
     steelGrade: '',
@@ -124,6 +124,10 @@ const handleEstimate = () => {
 
   // Concrete Cost
   const concreteCost = manualConcreteVolume * 137.21;
+
+  // Steel Cost
+const steelKg = manualConcreteVolume * 120;
+const steelCost = steelKg * 0.8;
 
   // Labour fallback: if no CSV, calculate from manual inputs
   const labourCost = labourCostFromCSV || (safe(formData.labourHours) * 70.11);
