@@ -330,7 +330,7 @@ const [additionalItems] = useState({
       { name: 'asBuiltsHours', label: 'As Builts' }
     ].map((item) => (
       <div key={item.name} className="flex flex-col">
-        <label className="text-sm font-medium mb-1">{item.label}</label>
+        <label className="text-sm font-medium mb-1">{item.label} (Hours)</label>
         <input
           type="number"
           name={item.name}
