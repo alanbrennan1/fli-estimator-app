@@ -434,55 +434,70 @@ const [additionalItems] = useState({
     const reader = new FileReader();
 
     reader.onload = (event) => {
-      const text = event.target.result;
-      const rows = text
-        .split('\n')
-        .map(row => row.split(',').map(cell => cell.trim()))
-        .filter(row => row.length >= 2); // Filter out empty or malformed rows
+  const text = event.target.result;
+  const rows = text.split('\n').map(row => row.split(','));
+  const headers = rows[0].map(h => h.trim().toLowerCase());
 
-      const headers = rows[0];
-      const quantityIndex = headers.findIndex(h => h.toLowerCase().includes('quantity'));
-      const volumeIndex = headers.findIndex(h => h.toLowerCase().includes('entity volume'));
+  const quantityIndex = headers.indexOf("quantity");
+  const volumeIndex = headers.indexOf("entity volume");
 
-      if (quantityIndex === -1 || volumeIndex === -1) {
-        alert("CSV must include 'Quantity' and 'Entity Volume' columns");
-        return;
-      }
+  if (quantityIndex === -1 || volumeIndex === -1) {
+    alert("CSV must include 'Quantity' and 'Entity Volume' columns.");
+    return;
+  }
 
-      let totalVolume = 0;
-      for (let i = 1; i < rows.length; i++) {
-        const quantityRaw = rows[i][quantityIndex];
-        const volumeRaw = rows[i][volumeIndex];
+  let totalVolume = 0;
+  let totalLabourHours = 0;
+  let totalLabourCost = 0;
 
-        const quantity = parseFloat(quantityRaw);
-        const volume = parseFloat(
-          volumeRaw
-            .replace('cubic m', '')
-            .replace('m³', '')
-            .replace(/[^0-9.]/g, '') // remove non-numeric except dot
-            .trim()
-        );
+  for (let i = 1; i < rows.length; i++) {
+    const quantityRaw = rows[i][quantityIndex];
+    const volumeRaw = rows[i][volumeIndex];
 
-        if (!isNaN(quantity) && !isNaN(volume)) {
-          totalVolume += quantity * volume;
-        }
-      }
+    if (!quantityRaw || !volumeRaw) continue;
 
-      const concreteCost = totalVolume * 137.21;
+    const quantity = parseFloat(quantityRaw.trim());
+    const volume = parseFloat(volumeRaw.trim().replace(/[^\d.-]/g, '')); // Remove "cubic m", units, spaces
 
-      setFormData(prev => ({
-        ...prev,
-        concreteVolume: totalVolume.toFixed(2)
-      }));
+    if (!isNaN(quantity) && !isNaN(volume)) {
+      // Concrete
+      totalVolume += quantity * volume;
 
-      setBreakdown(prev => ({
-        ...prev,
-        concrete: [
-          { label: 'Total Concrete Volume', value: totalVolume.toFixed(2), unit: 'm³', isCurrency: false },
-          { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
-        ]
-      }));
-    };
+      // Labour logic
+      const unitWeight = volume * 2.6;                      // in Tonnes
+      const labourPerUnit = unitWeight * 4.5;               // hours
+      const totalRowHours = quantity * labourPerUnit;
+      const totalRowCost = totalRowHours * 70.11;
+
+      totalLabourHours += totalRowHours;
+      totalLabourCost += totalRowCost;
+    }
+  }
+
+  const concreteCost = totalVolume * 137.21;
+
+  // Update formData
+  setFormData(prev => ({
+    ...prev,
+    concreteVolume: totalVolume.toFixed(2),
+    labourHours: totalLabourHours.toFixed(2)
+  }));
+
+  // Update BoQ Breakdown
+  setBreakdown(prev => ({
+    ...prev,
+    concrete: [
+      { label: 'Total Concrete Volume', value: totalVolume.toFixed(2), unit: 'm³', isCurrency: false },
+      { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
+    ],
+    labour: [
+      { label: 'Labour Hours', value: totalLabourHours.toFixed(2), unit: 'hrs', isCurrency: false },
+      { label: 'Labour Cost', value: totalLabourCost.toFixed(2), isCurrency: true }
+    ],
+    ...prev // keep other breakdowns (steel, transport, etc.)
+  }));
+};
+
 
     reader.readAsText(file);
   }}
