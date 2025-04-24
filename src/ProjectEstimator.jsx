@@ -212,16 +212,7 @@ const [additionalItems] = useState({
       className="border p-2 rounded"
     />
   </div>
-  <div className="flex flex-col">
-    <label className="text-sm font-medium mb-1">Steel Required (kg)</label>
-    <input
-      name="steelRequired"
-      type="number"
-      value={formData.steelRequired || ''}
-      onChange={handleChange}
-      className="border p-2 rounded"
-    />
-  </div>
+  
   <div className="flex flex-col">
     <label className="text-sm font-medium mb-1">Labour Hours</label>
     <input
