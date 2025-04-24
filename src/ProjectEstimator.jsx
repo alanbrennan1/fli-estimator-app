@@ -196,16 +196,7 @@ const [additionalItems] = useState({
       className="border p-2 rounded"
     />
   </div>
-  <div className="flex flex-col">
-    <label className="text-sm font-medium mb-1">Labour Hours</label>
-    <input
-      name="labourHours"
-      type="number"
-      value={formData.labourHours || ''}
-      onChange={handleChange}
-      className="border p-2 rounded"
-    />
-  </div>
+
   <div className="flex flex-col">
     <label className="text-sm font-medium mb-1">Steel Grade (kg/m³)</label>
     <select
@@ -222,6 +213,18 @@ const [additionalItems] = useState({
       <option value="Other">Other</option>
     </select>
   </div>
+    
+  <div className="flex flex-col">
+    <label className="text-sm font-medium mb-1">Labour Hours</label>
+    <input
+      name="labourHours"
+      type="number"
+      value={formData.labourHours || ''}
+      onChange={handleChange}
+      className="border p-2 rounded"
+    />
+  </div>
+
 </div>
 
 
