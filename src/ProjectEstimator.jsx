@@ -53,6 +53,7 @@ const [additionalItems] = useState({
     productionCheckingHours: '',
     siteQueriesHours: '',
     asBuiltsHours: '',
+    concreteVolume: '',
     transport: ''
   });
 
@@ -71,18 +72,8 @@ const [additionalItems] = useState({
   const safe = (val) => parseFloat(val || 0);
   const safeInt = (val) => parseInt(val || '0', 10);
 
-  // ✅ Hybrid Concrete Volume Logic
-  let concreteVolume = 0;
-  if (formData.concreteVolume) {
-    // Use uploaded SketchUp volume
-    concreteVolume = safe(formData.concreteVolume);
-  } else {
-    // Use manual inputs
-    const baseVolume = safe(formData.length) * safe(formData.width) * safe(formData.height);
-    const additionalVolume = safe(formData.baseThickness) + safe(formData.wallThickness);
-    concreteVolume = baseVolume + additionalVolume;
-  }
-
+  // 👇 use concrete volume from form (manually or CSV-injected)
+  const concreteVolume = safe(formData.concreteVolume);
   const steelKg = 120 * concreteVolume;
   const weightTn = concreteVolume * 2.6;
   const labourHrs = weightTn * 4.2;
@@ -130,6 +121,7 @@ const [additionalItems] = useState({
     ]
   });
 };
+
 
 
 
@@ -456,23 +448,14 @@ reader.onload = (event) => {
     }
   }
 
-  const concreteCost = totalVolume * 137.21;
-
+  // 🟢 Set value into formData
   setFormData(prev => ({
     ...prev,
     concreteVolume: totalVolume.toFixed(2)
   }));
-
-  setBreakdown(prev => ({
-    ...prev,
-    concrete: [
-      { label: 'Total Concrete Volume', value: totalVolume.toFixed(2), unit: 'm³', isCurrency: false },
-      { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
-    ],
-    ...prev // preserve other sections like steel, labour, etc.
-  }));
 };
 reader.readAsText(file);
+
 
       
 }}
