@@ -127,7 +127,7 @@ const [additionalItems] = useState({
       <main className="p-6 max-w-5xl mx-auto space-y-6">
         {/* 🧾 Project Info */}
 <section className="space-y-4">
-  <h2 className="text-xl font-semibold text-gray-700 mb-2">Project Info</h2>
+<h2 className="text-xl font-semibold text-teal-700 mb-2">Project Info</h2>
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
     <div className="flex flex-col">
       <label className="text-sm font-medium mb-1">Project Name</label>
@@ -167,7 +167,7 @@ const [additionalItems] = useState({
         
 {/* 🏗 Manufacturing */}
 <section className="space-y-4">
-  <h2 className="text-xl font-semibold text-gray-700 mb-2">Manufacturing</h2>
+  <h2 className="text-xl font-semibold text-teal-700 mb-2">Manufacturing</h2>
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
     {['length', 'width', 'height', 'baseThickness', 'wallThickness'].map((field) => {
       const labelMap = {
@@ -245,7 +245,7 @@ const [additionalItems] = useState({
 
 {/* ➕ Additional Items */}
 <section className="space-y-4">
-  <h2 className="text-xl font-semibold text-gray-700 mb-2">Additional Items</h2>
+  <h2 className="text-xl font-semibold text-teal-700 mb-2">Additional Items</h2>
 
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
     {[
@@ -313,7 +313,7 @@ const [additionalItems] = useState({
 
 {/* 🎨 Design Section */}
 <section className="space-y-4">
-  <h2 className="text-xl font-semibold text-gray-700 mb-2">Design</h2>
+  <h2 className="text-xl font-semibold text-teal-700 mb-2">Design</h2>
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
     {[
       { name: 'proposalHours', label: 'Proposal' },
@@ -348,7 +348,7 @@ const [additionalItems] = useState({
       
 {/* 🚚 Transport */}
 <section className="space-y-4">
-  <h2 className="text-xl font-semibold text-gray-700 mb-2">Transport</h2>
+  <h2 className="text-xl font-semibold text-teal-700 mb-2">Transport</h2>
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div className="flex flex-col">
       <label className="text-sm font-medium mb-1">Transport Location</label>
@@ -382,7 +382,7 @@ const [additionalItems] = useState({
 
         {/* 🛠 Installation Days */}
 <section className="space-y-4">
-  <h2 className="text-xl font-semibold text-gray-700 mb-2">Installation</h2>
+  <h2 className="text-xl font-semibold text-teal-700 mb-2">Installation</h2>
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div className="flex flex-col">
       <label className="text-sm font-medium mb-1">Installation Duration (Days)</label>
