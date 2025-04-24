@@ -172,11 +172,21 @@ total *= 1 + safe(formData.margin) / 100;
       { label: 'Total Design Hours', value: totalDesignHours.toFixed(2), unit: 'hrs', isCurrency: false },
       { label: 'Design Cost', value: designCost.toFixed(2), isCurrency: true }
     ],
-    additional: [
-      { label: 'Lid Cost', value: (30 * safeInt(formData.lidUnits)).toFixed(2), isCurrency: true },
-      { label: 'Pipe Openings Cost', value: (50 * safeInt(formData.pipeOpeningsUnits)).toFixed(2), isCurrency: true },
-      { label: 'Ladder Rungs Cost', value: (100 * safeInt(formData.ladderRungsUnits)).toFixed(2), isCurrency: true }
-    ],
+additional: [
+  { label: 'Lid Units', value: (30 * safeInt(formData.lidUnits)).toFixed(2), isCurrency: true },
+  { label: 'Pipe Openings', value: (50 * safeInt(formData.pipeOpeningsUnits)).toFixed(2), isCurrency: true },
+  { label: 'Ladder Rungs', value: (100 * safeInt(formData.ladderRungsUnits)).toFixed(2), isCurrency: true },
+  { label: 'W.Bar & Scabbling', value: (safeInt(formData.wBarScabbling) * 0).toFixed(2), isCurrency: true },
+  { label: 'Lifters & Capstans', value: (safeInt(formData.liftersCapstans) * 0).toFixed(2), isCurrency: true },
+  { label: 'MKK Cones', value: (safeInt(formData.mkkCones) * 0).toFixed(2), isCurrency: true },
+  { label: 'Unistrut', value: (safeInt(formData.unistrut) * 0).toFixed(2), isCurrency: true },
+  { label: 'Sika Powder', value: (safeInt(formData.sikaPowder) * 0).toFixed(2), isCurrency: true },
+  { label: 'Pulling Irons', value: (safeInt(formData.pullingIrons) * 0).toFixed(2), isCurrency: true },
+  { label: 'Earthing Points', value: (safeInt(formData.earthingPoints) * 0).toFixed(2), isCurrency: true },
+  { label: 'Sump Gates', value: (safeInt(formData.sumpGates) * 0).toFixed(2), isCurrency: true },
+  { label: 'Polyfleece', value: (safeInt(formData.polyfleece) * 0).toFixed(2), isCurrency: true },
+  { label: 'Duct Type', value: formData.ductType ? `Included (${formData.ductType})` : 'N/A', isCurrency: false }
+],
     transport: [
       { label: 'Transport Cost', value: transportCost.toFixed(2), isCurrency: true }
     ],
@@ -654,7 +664,9 @@ total *= 1 + safe(formData.margin) / 100;
         const subtotal = items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
         return (
           <div key={section} className="bg-gray-50 border rounded p-4">
-            <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700">{section}</h3>
+            <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700">
+  {section === 'additional' ? 'Additional Items' : section.charAt(0).toUpperCase() + section.slice(1)}
+</h3>
             <ul className="space-y-1 text-sm">
               {items.map((item, idx) => (
                 <li key={idx} className="flex justify-between">
