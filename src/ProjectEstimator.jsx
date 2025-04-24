@@ -380,14 +380,26 @@ const [additionalItems] = useState({
 </section>
 
 
-        
-  
+        {/* 🛠 Installation Days */}
+<section className="space-y-4">
+  <h2 className="text-xl font-semibold text-gray-700 mb-2">Installation</h2>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1">Installation Duration (Days)</label>
+      <input
+        type="number"
+        name="installationDays"
+        value={formData.installationDays}
+        onChange={handleChange}
+        placeholder="Days"
+        className="border p-2 rounded"
+      />
+    </div>
+  </div>
+</section>
 
         
-          <div className="flex flex-col">
-            <label className="text-sm font-medium mb-1">Installation Days</label>
-            <input name="installationDays" type="number" value={formData.installationDays} onChange={handleChange} className="border p-2 rounded" />
-          </div>
+
       
 
         <div>
