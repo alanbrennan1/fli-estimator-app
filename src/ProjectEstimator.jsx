@@ -284,6 +284,7 @@ const [additionalItems] = useState({
             name={field}
             value={formData[field] || ''}
             onChange={handleChange}
+            placeholder="Quantity"
             className="border p-2 rounded"
           />
         </div>
@@ -330,12 +331,13 @@ const [additionalItems] = useState({
       { name: 'asBuiltsHours', label: 'As Builts' }
     ].map((item) => (
       <div key={item.name} className="flex flex-col">
-        <label className="text-sm font-medium mb-1">{item.label} (Hours)</label>
+        <label className="text-sm font-medium mb-1">{item.label} </label>
         <input
           type="number"
           name={item.name}
           value={formData[item.name] || ''}
           onChange={handleChange}
+          placeholder="Hours"
           className="border p-2 rounded"
         />
       </div>
