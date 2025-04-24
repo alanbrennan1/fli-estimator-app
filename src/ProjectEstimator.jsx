@@ -344,18 +344,44 @@ const [additionalItems] = useState({
 </section>
 
       
+{/* 🚚 Transport */}
+<section className="space-y-4">
+  <h2 className="text-xl font-semibold text-gray-700 mb-2">Transport</h2>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1">Transport Location</label>
+      <select
+        name="transport"
+        value={formData.transport}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      >
+        <option value="">Select Transport</option>
+        {Object.keys(transportCosts).map((place, idx) => (
+          <option key={idx} value={place}>
+            {place} (€{transportCosts[place]})
+          </option>
+        ))}
+      </select>
+    </div>
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1">Transport Quantity</label>
+      <input
+        type="number"
+        name="transportQuantity"
+        value={formData.transportQuantity || ''}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      />
+    </div>
+  </div>
+</section>
 
 
         
-          <div className="flex flex-col">
-            <label className="text-sm font-medium mb-1">Transport</label>
-            <select name="transport" value={formData.transport} onChange={handleChange} className="border p-2 rounded">
-              <option value="">Select Transport</option>
-              {Object.keys(transportCosts).map((place, idx) => (
-                <option key={idx} value={place}>{place} (€{transportCosts[place]})</option>
-              ))}
-            </select>
-          </div>
+  
+
+        
           <div className="flex flex-col">
             <label className="text-sm font-medium mb-1">Installation Days</label>
             <input name="installationDays" type="number" value={formData.installationDays} onChange={handleChange} className="border p-2 rounded" />
