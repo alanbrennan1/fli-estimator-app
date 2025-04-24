@@ -68,20 +68,22 @@ const [additionalItems] = useState({
 
 
 
-  const handleEstimate = () => {
+const handleEstimate = () => {
   const safe = (val) => parseFloat(val || 0);
   const safeInt = (val) => parseInt(val || '0', 10);
 
-  // 👇 use concrete volume from form (manually or CSV-injected)
-  const concreteVolume = safe(formData.concreteVolume) || (m3 + safe(formData.baseThickness) + safe(formData.wallThickness));
-    console.log("Concrete Volume:", concreteVolume);
+  // Use uploaded volume if present, otherwise fall back to dimensions
+  const userVolume =
+    safe(formData.concreteVolume) ||
+    safe(formData.length) * safe(formData.width) * safe(formData.height);
 
-  const steelKg = 120 * concreteVolume;
-  const weightTn = concreteVolume * 2.6;
-  const labourHrs = weightTn * 4.2;
-  const concreteCost = 137.21 * concreteVolume;
+  const concreteCost = userVolume * 137.21;
+
+  const steelKg = 120 * userVolume;
   const steelCost = 0.8 * steelKg;
-  const labourCost = 70.11 * labourHrs;
+
+  const labourHours = safe(formData.labourHours); // from file or manual
+  const labourCost = labourHours * 70.11;
 
   const additionalCost =
     additionalItems.lid * safeInt(formData.lidUnits) +
@@ -91,14 +93,22 @@ const [additionalItems] = useState({
   const transportCost = transportCosts[formData.transport] || 0;
   const installationCost = safe(formData.installationDays) * 500;
 
-  let total = concreteCost + steelCost + labourCost + additionalCost + transportCost + installationCost;
+  let total =
+    concreteCost +
+    steelCost +
+    labourCost +
+    additionalCost +
+    transportCost +
+    installationCost;
+
   total *= 1 + safe(formData.margin) / 100;
 
   setEstimate(total.toFixed(2));
 
-  setBreakdown({
+  setBreakdown((prev) => ({
+    ...prev,
     concrete: [
-      { label: 'Concrete Volume', value: concreteVolume.toFixed(2), unit: 'm³', isCurrency: false },
+      { label: 'Total Concrete Volume', value: userVolume.toFixed(2), unit: 'm³', isCurrency: false },
       { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
     ],
     steel: [
@@ -106,7 +116,7 @@ const [additionalItems] = useState({
       { label: 'Steel Cost', value: steelCost.toFixed(2), isCurrency: true }
     ],
     labour: [
-      { label: 'Labour Hours', value: labourHrs.toFixed(2), unit: 'hrs', isCurrency: false },
+      { label: 'Labour Hours', value: labourHours.toFixed(2), unit: 'hrs', isCurrency: false },
       { label: 'Labour Cost', value: labourCost.toFixed(2), isCurrency: true }
     ],
     installation: [
@@ -121,8 +131,9 @@ const [additionalItems] = useState({
     transport: [
       { label: 'Transport Cost', value: transportCost.toFixed(2), isCurrency: true }
     ]
-  });
+  }));
 };
+
 
 
 
