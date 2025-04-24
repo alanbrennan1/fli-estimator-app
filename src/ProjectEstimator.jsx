@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './index.css';
 
 function AccordionSection({ title, children }) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false); // collapsed by default
   return (
     <div className="border rounded shadow-sm mb-4">
       <button
