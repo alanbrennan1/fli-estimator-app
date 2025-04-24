@@ -181,10 +181,6 @@ total *= 1 + safe(formData.margin) / 100;
 
 
 
-
-
-  
-
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-white shadow p-4 flex items-center">
@@ -194,24 +190,46 @@ total *= 1 + safe(formData.margin) / 100;
 
       <main className="p-6 max-w-5xl mx-auto space-y-6">
         {/* 🧾 Project Info */}
-<section className="space-y-4">
-<h2 className="text-xl font-semibold text-teal-700 mb-2">Project Info</h2>
+
+
+        
+<AccordionSection title="🧾 Project Info">
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
     <div className="flex flex-col">
       <label className="text-sm font-medium mb-1">Project Name</label>
-      <input name="projectName" value={formData.projectName} onChange={handleChange} className="border p-2 rounded" />
+      <input
+        name="projectName"
+        value={formData.projectName}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      />
     </div>
     <div className="flex flex-col">
       <label className="text-sm font-medium mb-1">Project Number</label>
-      <input name="projectNumber" value={formData.projectNumber} onChange={handleChange} className="border p-2 rounded" />
+      <input
+        name="projectNumber"
+        value={formData.projectNumber}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      />
     </div>
     <div className="flex flex-col">
       <label className="text-sm font-medium mb-1">Client</label>
-      <input name="client" value={formData.client} onChange={handleChange} className="border p-2 rounded" />
+      <input
+        name="client"
+        value={formData.client}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      />
     </div>
     <div className="flex flex-col">
       <label className="text-sm font-medium mb-1">Sector</label>
-      <select name="sector" value={formData.sector} onChange={handleChange} className="border p-2 rounded">
+      <select
+        name="sector"
+        value={formData.sector}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      >
         <option value="">Select Sector</option>
         {Object.keys(sectorProductMap).map((sector, idx) => (
           <option key={idx} value={sector}>{sector}</option>
@@ -220,7 +238,12 @@ total *= 1 + safe(formData.margin) / 100;
     </div>
     <div className="flex flex-col">
       <label className="text-sm font-medium mb-1">Product Type</label>
-      <select name="productType" value={formData.productType} onChange={handleChange} className="border p-2 rounded">
+      <select
+        name="productType"
+        value={formData.productType}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      >
         <option value="">Select Product Type</option>
         {(sectorProductMap[formData.sector] || []).map((type, idx) => (
           <option key={idx} value={type}>{type}</option>
@@ -228,7 +251,8 @@ total *= 1 + safe(formData.margin) / 100;
       </select>
     </div>
   </div>
-</section>
+</AccordionSection>
+
 
 
 
