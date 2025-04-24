@@ -408,10 +408,6 @@ const [additionalItems] = useState({
         </div>
 
 
-
-
-
-
         
 <div className="border-dashed border-2 border-gray-400 rounded p-4 my-6">
   <label className="block mb-2 font-medium">Import from SketchUp Export (.csv)</label>
@@ -422,45 +418,39 @@ const [additionalItems] = useState({
       const file = e.target.files[0];
       if (!file) return;
 
-      const reader = new FileReader();
-
       
+
+const reader = new FileReader();
 reader.onload = (event) => {
   const text = event.target.result;
   const rows = text.split('\n').map(row => row.split(','));
-  const headers = rows[0].map(h => h.trim().toLowerCase());
+  const headers = rows[0].map(h => h.trim());
 
-  const required = ['product', 'sector', 'length', 'width', 'height', 'basethickness', 'wallthickness', 'lidunits', 'pipeopenings', 'ladderrungs'];
-  const missing = required.filter(r => !headers.includes(r));
+  const quantityIndex = headers.indexOf("Quantity");
+  const volumeIndex = headers.indexOf("Entity Volume");
 
-  if (missing.length > 0) {
-    alert('Missing required columns: ' + missing.join(', '));
-    return;
+  let totalVolume = 0;
+  for (let i = 1; i < rows.length; i++) {
+    const quantity = parseFloat(rows[i][quantityIndex]);
+    const volume = parseFloat(rows[i][volumeIndex].replace(' cubic m', ''));
+    if (!isNaN(quantity) && !isNaN(volume)) {
+      totalVolume += quantity * volume;
+    }
   }
 
-  const data = rows[1];
-  const mapped = {};
-  headers.forEach((h, idx) => mapped[h] = data[idx]);
+  const concreteCost = totalVolume * 137.21;
 
-  setPendingImport({
-    projectName: mapped.projectname || '',
-    projectNumber: mapped.projectnumber || '',
-    client: mapped.client || '',
-    sector: mapped.sector || '',
-    productType: mapped.product || '',
-    length: mapped.length || '',
-    width: mapped.width || '',
-    height: mapped.height || '',
-    baseThickness: mapped.basethickness || '',
-    wallThickness: mapped.wallthickness || '',
-    lidUnits: mapped.lidunits || 0,
-    pipeOpeningsUnits: mapped.pipeopenings || 0,
-    ladderRungsUnits: mapped.ladderrungs || 0,
-    ductType: mapped.ducttype || ''
-  });
-}; // ✅ CLOSE reader.onload function here
-
+  setBreakdown(prev => ({
+    ...prev,
+    concrete: [
+      { label: 'Total Concrete Volume', value: totalVolume.toFixed(2), unit: 'm³', isCurrency: false },
+      { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
+    ],
+    ...prev // preserve other sections like steel, labour, etc.
+  }));
+};
 reader.readAsText(file);
+      
 }}
 
 
