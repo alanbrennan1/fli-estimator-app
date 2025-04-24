@@ -631,15 +631,19 @@ total *= 1 + safe(formData.margin) / 100;
     />
   </div>
 </div>
-
-
-        
+      
 
         
         
 <div className="border-dashed border-2 border-gray-400 rounded p-4 my-6">
-  <label className="block mb-2 font-medium">Import from SketchUp Export (.csv)</label>
 
+<label className="block mb-2 font-medium">Import from SketchUp Export (.csv)</label>
+{uploadSuccess && (
+  <div className="mb-4 p-3 rounded bg-green-100 text-green-800 border border-green-300 text-sm">
+    ✅ File uploaded and values extracted successfully!
+  </div>
+)}
+  
   <input
   type="file"
   accept=".csv"
