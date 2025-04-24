@@ -151,34 +151,103 @@ const [additionalItems] = useState({
 
 
         
+{/* 🏗 Manufacturing */}
+<section className="space-y-4">
+  <h2 className="text-xl font-semibold text-gray-700 mb-2">Manufacturing</h2>
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    {['length', 'width', 'height', 'baseThickness', 'wallThickness'].map((field) => {
+      const labelMap = {
+        length: 'Length (m)',
+        width: 'Width (m)',
+        height: 'Height (m)',
+        baseThickness: 'Base Thickness (m)',
+        wallThickness: 'Wall Thickness (m)'
+      };
+      return (
+        <div key={field} className="flex flex-col">
+          <label className="text-sm font-medium mb-1">{labelMap[field]}</label>
+          <input
+            name={field}
+            type="number"
+            value={formData[field]}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          />
+        </div>
+      );
+    })}
+  </div>
+
+  {/* Calculated Fields */}
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1">Concrete Volume (m³)</label>
+      <input
+        type="text"
+        readOnly
+        value={
+          formData.length && formData.width && formData.height
+            ? (
+                parseFloat(formData.length || 0) *
+                parseFloat(formData.width || 0) *
+                parseFloat(formData.height || 0) +
+                parseFloat(formData.baseThickness || 0) +
+                parseFloat(formData.wallThickness || 0)
+              ).toFixed(2)
+            : ''
+        }
+        className="border p-2 rounded bg-gray-100"
+      />
+    </div>
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1">Steel Required (kg)</label>
+      <input
+        type="text"
+        readOnly
+        value={
+          formData.length && formData.width && formData.height
+            ? (
+                120 * (
+                  parseFloat(formData.length || 0) *
+                  parseFloat(formData.width || 0) *
+                  parseFloat(formData.height || 0) +
+                  parseFloat(formData.baseThickness || 0) +
+                  parseFloat(formData.wallThickness || 0)
+                )
+              ).toFixed(2)
+            : ''
+        }
+        className="border p-2 rounded bg-gray-100"
+      />
+    </div>
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1">Labour Hours</label>
+      <input
+        type="text"
+        readOnly
+        value={
+          formData.length && formData.width && formData.height
+            ? (
+                ((parseFloat(formData.length || 0) *
+                  parseFloat(formData.width || 0) *
+                  parseFloat(formData.height || 0) +
+                  parseFloat(formData.baseThickness || 0) +
+                  parseFloat(formData.wallThickness || 0)) *
+                  2.6 *
+                  4.2)
+              ).toFixed(2)
+            : ''
+        }
+        className="border p-2 rounded bg-gray-100"
+      />
+    </div>
+  </div>
+</section>
 
 
 
         
-<div className="grid grid-cols-3 gap-4">
-  {['length', 'width', 'height', 'baseThickness', 'wallThickness'].map((field) => {
-    const unitLabelMap = {
-      length: 'Length (m)',
-      width: 'Width (m)',
-      height: 'Height (m)',
-      baseThickness: 'Base Thickness (m)',
-      wallThickness: 'Wall Thickness (m)'
-    };
 
-    return (
-      <div key={field} className="flex flex-col">
-        <label className="text-sm font-medium mb-1">{unitLabelMap[field]}</label>
-        <input
-          name={field}
-          type="number"
-          value={formData[field]}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-      </div>
-    );
-  })}
-</div>
       
 
         <div className="grid grid-cols-3 gap-4">
