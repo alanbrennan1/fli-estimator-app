@@ -80,6 +80,7 @@ const [additionalItems] = useState({
   const [estimate, setEstimate] = useState(null);
   const [breakdown, setBreakdown] = useState({});
   const [pendingImport, setPendingImport] = useState(null);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -331,8 +332,12 @@ total *= 1 + safe(formData.margin) / 100;
             ],
             ...prev
           }));
+
+          setUploadSuccess(true);
+          setTimeout(() => setUploadSuccess(false), 4000); // Auto-hide after 4 seconds
         };
 
+        
         reader.readAsText(file);
       }}
       className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
