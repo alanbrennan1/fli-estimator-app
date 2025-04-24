@@ -1,6 +1,22 @@
 import React, { useState } from 'react';
 import './index.css';
 
+function AccordionSection({ title, children }) {
+  const [isOpen, setIsOpen] = useState(true);
+  return (
+    <div className="border rounded shadow-sm mb-4">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full text-left px-4 py-2 bg-gray-200 hover:bg-gray-300 font-semibold text-base rounded-t"
+      >
+        {title} {isOpen ? '▾' : '▸'}
+      </button>
+      {isOpen && <div className="p-4 bg-white border-t">{children}</div>}
+    </div>
+  );
+}
+
 
 export default function ProjectEstimator() {
   const sectorProductMap = {
