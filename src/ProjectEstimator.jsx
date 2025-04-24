@@ -424,51 +424,56 @@ const [additionalItems] = useState({
   <input
     type="file"
     accept=".csv"
-    onChange={(e) => {
-      const file = e.target.files[0];
-      if (!file) return;
 
-      
+onChange={(e) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
-const reader = new FileReader();
-reader.onload = (event) => {
-  const text = event.target.result;
-  const rows = text.split('\n').map(row => row.split(','));
-  const headers = rows[0].map(h => h.trim());
+  const reader = new FileReader();
 
-  const quantityIndex = headers.indexOf("Quantity");
-  const volumeIndex = headers.indexOf("Entity Volume");
+  reader.onload = (event) => {
+    const text = event.target.result;
+    const rows = text.split('\n').map(row => row.split(',').map(cell => cell.trim()));
+    const headers = rows[0];
 
-  let totalVolume = 0;
-  for (let i = 1; i < rows.length; i++) {
-    const quantity = parseFloat(rows[i][quantityIndex]);
-    const volume = parseFloat(rows[i][volumeIndex].replace(' cubic m', '').trim());
-    if (!isNaN(quantity) && !isNaN(volume)) {
-      totalVolume += quantity * volume;
+    const quantityIndex = headers.indexOf("Quantity");
+    const volumeIndex = headers.indexOf("Entity Volume");
+
+    if (quantityIndex === -1 || volumeIndex === -1) {
+      alert("Missing 'Quantity' or 'Entity Volume' column in CSV");
+      return;
     }
-  }
 
-  const concreteCost = totalVolume * 137.21;
+    let totalVolume = 0;
+    for (let i = 1; i < rows.length; i++) {
+      const quantity = parseFloat(rows[i][quantityIndex]);
+      const volumeRaw = rows[i][volumeIndex];
+      const volume = parseFloat(volumeRaw.replace('cubic m', '').replace('m³', '').trim());
 
-  // ✅ This sets the concrete volume into the input field
-  setFormData(prev => ({
-    ...prev,
-    concreteVolume: totalVolume.toFixed(2)
-  }));
+      if (!isNaN(quantity) && !isNaN(volume)) {
+        totalVolume += quantity * volume;
+      }
+    }
 
-  // ✅ This sets the breakdown for display/export
-  setBreakdown(prev => ({
-    ...prev,
-    concrete: [
-      { label: 'Total Concrete Volume', value: totalVolume.toFixed(2), unit: 'm³', isCurrency: false },
-      { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
-    ]
-  }));
-};
-reader.readAsText(file);
+    const concreteCost = totalVolume * 137.21;
 
-      
+    setFormData(prev => ({
+      ...prev,
+      concreteVolume: totalVolume.toFixed(2)
+    }));
+
+    setBreakdown(prev => ({
+      ...prev,
+      concrete: [
+        { label: 'Total Concrete Volume', value: totalVolume.toFixed(2), unit: 'm³', isCurrency: false },
+        { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
+      ]
+    }));
+  };
+
+  reader.readAsText(file);
 }}
+
 
       
     className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
