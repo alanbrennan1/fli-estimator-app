@@ -39,6 +39,7 @@ const [additionalItems] = useState({
     ladderRungsUnits: 0,
     ductType: '',
     margin: 0,
+    wasteMargin: 5, // Default 5%
     steelGrade: '',
     proposalHours: '',
     designMeetingsHours: '',
@@ -121,8 +122,14 @@ const handleEstimate = () => {
   const installationCost = safe(formData.installationDays) * 500;
 
   // Total
-  let total = concreteCost + labourCost + designCost + additionalCost + transportCost + installationCost;
-  total *= 1 + safe(formData.margin) / 100;
+let total = concreteCost + steelCost + labourCost + additionalCost + transportCost + installationCost;
+
+// Apply additional waste percentage
+total *= 1 + safe(formData.wasteMargin) / 100;
+
+// Then apply profitability margin
+total *= 1 + safe(formData.margin) / 100;
+
 
   setEstimate(total.toFixed(2));
 
@@ -455,6 +462,20 @@ const handleEstimate = () => {
 </section>
 
         
+<div className="mb-6">
+  <label className="block text-sm font-medium mb-1">
+    Additional Waste: {formData.wasteMargin}%
+  </label>
+  <input
+    type="range"
+    min="0"
+    max="50"
+    name="wasteMargin"
+    value={formData.wasteMargin}
+    onChange={handleChange}
+    className="w-full"
+  />
+</div>
 
       
 
