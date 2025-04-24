@@ -40,6 +40,19 @@ const [additionalItems] = useState({
     ductType: '',
     margin: 0,
     steelGrade: '',
+    proposalHours: '',
+    designMeetingsHours: '',
+    structuralDesignHours: '',
+    revitModelHours: '',
+    approvalCommentsHours: '',
+    detailingJointsHours: '',
+    detailingFloorsHours: '',
+    detailingScreedHours: '',
+    gasHours: '',
+    productionUnitsHours: '',
+    productionCheckingHours: '',
+    siteQueriesHours: '',
+    asBuiltsHours: '',
     transport: ''
   });
 
@@ -295,7 +308,40 @@ const [additionalItems] = useState({
     </div>
   </div>
 </section>
-        
+
+
+{/* 🎨 Design Section */}
+<section className="space-y-4">
+  <h2 className="text-xl font-semibold text-gray-700 mb-2">Design</h2>
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    {[
+      { name: 'proposalHours', label: 'Proposal' },
+      { name: 'designMeetingsHours', label: 'Design Meetings' },
+      { name: 'structuralDesignHours', label: 'Structural Design' },
+      { name: 'revitModelHours', label: 'Revit Model' },
+      { name: 'approvalCommentsHours', label: 'Approval Comments' },
+      { name: 'detailingJointsHours', label: 'Detailing In-Situ Joints' },
+      { name: 'detailingFloorsHours', label: 'Detailing In-Situ Floors' },
+      { name: 'detailingScreedHours', label: 'Detailing In-Situ Screed' },
+      { name: 'gasHours', label: "GA’s" },
+      { name: 'productionUnitsHours', label: 'Production Units' },
+      { name: 'productionCheckingHours', label: 'Production Checking' },
+      { name: 'siteQueriesHours', label: 'Site Queries' },
+      { name: 'asBuiltsHours', label: 'As Builts' }
+    ].map((item) => (
+      <div key={item.name} className="flex flex-col">
+        <label className="text-sm font-medium mb-1">{item.label}</label>
+        <input
+          type="number"
+          name={item.name}
+          value={formData[item.name] || ''}
+          onChange={handleChange}
+          className="border p-2 rounded"
+        />
+      </div>
+    ))}
+  </div>
+</section>
 
       
 
