@@ -260,15 +260,11 @@ total *= 1 + safe(formData.margin) / 100;
 </AccordionSection>
 
 
-
-
-        
-{/* 🚧 Manufacturing Section with Side Upload Panel */}
+{/* 🏗 Manufacturing with SketchUp Upload side-by-side */}
 <div className="flex flex-col md:flex-row gap-6 items-start">
-  
-  {/* 📥 Upload Panel */}
+  {/* Left Panel: SketchUp Upload */}
   <div className="md:w-1/3 w-full bg-white border border-gray-300 rounded-lg shadow p-4">
-    <h3 className="text-sm font-semibold text-blue-800 mb-2">📥 Upload SketchUp CSV</h3>
+    <h3 className="text-md font-semibold text-gray-700 mb-2">📥 Import SketchUp CSV</h3>
     <input
       type="file"
       accept=".csv"
@@ -277,6 +273,7 @@ total *= 1 + safe(formData.margin) / 100;
         if (!file) return;
 
         const reader = new FileReader();
+
         reader.onload = (event) => {
           const text = event.target.result;
           const rows = text.split('\n').map(row => row.split(','));
@@ -297,18 +294,20 @@ total *= 1 + safe(formData.margin) / 100;
           for (let i = 1; i < rows.length; i++) {
             const quantityRaw = rows[i][quantityIndex];
             const volumeRaw = rows[i][volumeIndex];
+
             if (!quantityRaw || !volumeRaw) continue;
 
             const quantity = parseFloat(quantityRaw.trim());
             const volume = parseFloat(volumeRaw.trim().replace(/[^\d.-]/g, ''));
 
             if (!isNaN(quantity) && !isNaN(volume)) {
+              totalVolume += quantity * volume;
+
               const unitWeight = volume * 2.6;
               const labourPerUnit = unitWeight * 4.5;
               const totalRowHours = quantity * labourPerUnit;
               const totalRowCost = totalRowHours * 70.11;
 
-              totalVolume += quantity * volume;
               totalLabourHours += totalRowHours;
               totalLabourCost += totalRowCost;
             }
@@ -316,12 +315,14 @@ total *= 1 + safe(formData.margin) / 100;
 
           const concreteCost = totalVolume * 137.21;
 
+          // Update form values
           setFormData(prev => ({
             ...prev,
             concreteVolume: totalVolume.toFixed(2),
             labourHours: totalLabourHours.toFixed(2)
           }));
 
+          // Update BoQ
           setBreakdown(prev => ({
             ...prev,
             concrete: [
@@ -338,11 +339,11 @@ total *= 1 + safe(formData.margin) / 100;
 
         reader.readAsText(file);
       }}
-      className="block w-full text-sm text-gray-700 file:mr-2 file:py-2 file:px-3 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+      className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
     />
   </div>
 
-  {/* 🏗 Manufacturing Accordion Section */}
+  {/* Right Panel: Accordion */}
   <div className="flex-1">
     <AccordionSection title="🏗 Manufacturing">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -413,6 +414,10 @@ total *= 1 + safe(formData.margin) / 100;
     </AccordionSection>
   </div>
 </div>
+
+
+        
+
 
 
 
