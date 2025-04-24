@@ -260,9 +260,10 @@ total *= 1 + safe(formData.margin) / 100;
 </AccordionSection>
 
 
-{/* 🏗 Manufacturing with SketchUp Upload side-by-side */}
+{/* 🏗 Manufacturing Layout */}
 <div className="flex flex-col md:flex-row gap-6 items-start">
-  {/* Left Panel: SketchUp Upload */}
+
+  {/* ⬅️ Left: SketchUp Upload Box */}
   <div className="md:w-1/3 w-full bg-white border border-gray-300 rounded-lg shadow p-4">
     <h3 className="text-md font-semibold text-gray-700 mb-2">📥 Import SketchUp CSV</h3>
     <input
@@ -273,7 +274,6 @@ total *= 1 + safe(formData.margin) / 100;
         if (!file) return;
 
         const reader = new FileReader();
-
         reader.onload = (event) => {
           const text = event.target.result;
           const rows = text.split('\n').map(row => row.split(','));
@@ -302,12 +302,10 @@ total *= 1 + safe(formData.margin) / 100;
 
             if (!isNaN(quantity) && !isNaN(volume)) {
               totalVolume += quantity * volume;
-
               const unitWeight = volume * 2.6;
               const labourPerUnit = unitWeight * 4.5;
               const totalRowHours = quantity * labourPerUnit;
               const totalRowCost = totalRowHours * 70.11;
-
               totalLabourHours += totalRowHours;
               totalLabourCost += totalRowCost;
             }
@@ -315,14 +313,12 @@ total *= 1 + safe(formData.margin) / 100;
 
           const concreteCost = totalVolume * 137.21;
 
-          // Update form values
           setFormData(prev => ({
             ...prev,
             concreteVolume: totalVolume.toFixed(2),
             labourHours: totalLabourHours.toFixed(2)
           }));
 
-          // Update BoQ
           setBreakdown(prev => ({
             ...prev,
             concrete: [
@@ -343,7 +339,7 @@ total *= 1 + safe(formData.margin) / 100;
     />
   </div>
 
-  {/* Right Panel: Accordion */}
+  {/* ➡️ Right: Manufacturing Accordion */}
   <div className="flex-1">
     <AccordionSection title="🏗 Manufacturing">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -415,8 +411,6 @@ total *= 1 + safe(formData.margin) / 100;
   </div>
 </div>
 
-
-        
 
 
 
