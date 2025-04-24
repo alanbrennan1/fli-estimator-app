@@ -476,11 +476,7 @@ total *= 1 + safe(formData.margin) / 100;
 </AccordionSection>
       
 
-
-
-        {/* 🛠 Installation Days */}
-<section className="space-y-4">
-  <h2 className="text-xl font-semibold text-teal-700 mb-2">Installation</h2>
+<AccordionSection title="🛠 Installation">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div className="flex flex-col">
       <label className="text-sm font-medium mb-1">Installation Duration (Days)</label>
@@ -494,7 +490,9 @@ total *= 1 + safe(formData.margin) / 100;
       />
     </div>
   </div>
-</section>
+</AccordionSection>
+
+
 
         
 <div className="mb-6">
