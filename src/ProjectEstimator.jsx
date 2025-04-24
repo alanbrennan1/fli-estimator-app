@@ -463,7 +463,7 @@ total *= 1 + safe(formData.margin) / 100;
 
         
 <div className="mb-6">
-  <label className="block text-sm font-medium mb-1">
+  <label className="block text-sm font-medium mb-1 text-indigo-700">
     Additional Waste: {formData.wasteMargin}%
   </label>
   <input
@@ -480,7 +480,7 @@ total *= 1 + safe(formData.margin) / 100;
       
 
         <div>
-          <label className="block text-sm font-medium mb-1">Profitability Margin: {formData.margin}%</label>
+          <label className="block text-sm font-medium mb-1 text-indigo-700">Profitability Margin: {formData.margin}%</label>
           <input type="range" min="0" max="100" name="margin" value={formData.margin} onChange={handleChange} className="w-full" />
         </div>
 
