@@ -74,6 +74,8 @@ const [additionalItems] = useState({
 
   // 👇 use concrete volume from form (manually or CSV-injected)
   const concreteVolume = safe(formData.concreteVolume) || (m3 + safe(formData.baseThickness) + safe(formData.wallThickness));
+    console.log("Concrete Volume:", concreteVolume);
+
   const steelKg = 120 * concreteVolume;
   const weightTn = concreteVolume * 2.6;
   const labourHrs = weightTn * 4.2;
@@ -421,63 +423,71 @@ const [additionalItems] = useState({
         
 <div className="border-dashed border-2 border-gray-400 rounded p-4 my-6">
   <label className="block mb-2 font-medium">Import from SketchUp Export (.csv)</label>
+
   <input
-    type="file"
-    accept=".csv"
+  type="file"
+  accept=".csv"
+  onChange={(e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-onChange={(e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+    const reader = new FileReader();
 
-  const reader = new FileReader();
+    reader.onload = (event) => {
+      const text = event.target.result;
+      const rows = text
+        .split('\n')
+        .map(row => row.split(',').map(cell => cell.trim()))
+        .filter(row => row.length >= 2); // Filter out empty or malformed rows
 
-  reader.onload = (event) => {
-    const text = event.target.result;
-    const rows = text.split('\n').map(row => row.split(',').map(cell => cell.trim()));
-    const headers = rows[0];
+      const headers = rows[0];
+      const quantityIndex = headers.findIndex(h => h.toLowerCase().includes('quantity'));
+      const volumeIndex = headers.findIndex(h => h.toLowerCase().includes('entity volume'));
 
-    const quantityIndex = headers.indexOf("Quantity");
-    const volumeIndex = headers.indexOf("Entity Volume");
-
-    if (quantityIndex === -1 || volumeIndex === -1) {
-      alert("Missing 'Quantity' or 'Entity Volume' column in CSV");
-      return;
-    }
-
-    let totalVolume = 0;
-    for (let i = 1; i < rows.length; i++) {
-      const quantity = parseFloat(rows[i][quantityIndex]);
-      const volumeRaw = rows[i][volumeIndex];
-      const volume = parseFloat(volumeRaw.replace('cubic m', '').replace('m³', '').trim());
-
-      if (!isNaN(quantity) && !isNaN(volume)) {
-        totalVolume += quantity * volume;
+      if (quantityIndex === -1 || volumeIndex === -1) {
+        alert("CSV must include 'Quantity' and 'Entity Volume' columns");
+        return;
       }
-    }
 
-    const concreteCost = totalVolume * 137.21;
+      let totalVolume = 0;
+      for (let i = 1; i < rows.length; i++) {
+        const quantityRaw = rows[i][quantityIndex];
+        const volumeRaw = rows[i][volumeIndex];
 
-    setFormData(prev => ({
-      ...prev,
-      concreteVolume: totalVolume.toFixed(2)
-    }));
+        const quantity = parseFloat(quantityRaw);
+        const volume = parseFloat(
+          volumeRaw
+            .replace('cubic m', '')
+            .replace('m³', '')
+            .replace(/[^0-9.]/g, '') // remove non-numeric except dot
+            .trim()
+        );
 
-    setBreakdown(prev => ({
-      ...prev,
-      concrete: [
-        { label: 'Total Concrete Volume', value: totalVolume.toFixed(2), unit: 'm³', isCurrency: false },
-        { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
-      ]
-    }));
-  };
+        if (!isNaN(quantity) && !isNaN(volume)) {
+          totalVolume += quantity * volume;
+        }
+      }
 
-  reader.readAsText(file);
-}}
+      const concreteCost = totalVolume * 137.21;
 
+      setFormData(prev => ({
+        ...prev,
+        concreteVolume: totalVolume.toFixed(2)
+      }));
 
-      
-    className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-  />
+      setBreakdown(prev => ({
+        ...prev,
+        concrete: [
+          { label: 'Total Concrete Volume', value: totalVolume.toFixed(2), unit: 'm³', isCurrency: false },
+          { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
+        ]
+      }));
+    };
+
+    reader.readAsText(file);
+  }}
+  className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+/>
   
 </div>
 
