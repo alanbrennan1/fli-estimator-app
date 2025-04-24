@@ -328,10 +328,8 @@ total *= 1 + safe(formData.margin) / 100;
 
 
 
-{/* ➕ Additional Items */}
-<section className="space-y-4">
-  <h2 className="text-xl font-semibold text-teal-700 mb-2">Additional Items</h2>
 
+      <AccordionSection title="➕ Additional Items">
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
     {[
       "lidUnits",
@@ -363,10 +361,17 @@ total *= 1 + safe(formData.margin) / 100;
       };
 
       const placeholderMap = {
+        lidUnits: "Qty",
+        pipeOpeningsUnits: "Qty",
+        ladderRungsUnits: "Qty",
         wBarScabbling: "Metres",
         liftersCapstans: "Pieces",
+        mkkCones: "Qty",
         unistrut: "Metres",
         sikaPowder: "m³",
+        pullingIrons: "Qty",
+        earthingPoints: "Qty",
+        sumpGates: "Qty",
         polyfleece: "m"
       };
 
@@ -378,7 +383,7 @@ total *= 1 + safe(formData.margin) / 100;
             name={field}
             value={formData[field] || ''}
             onChange={handleChange}
-            placeholder={placeholderMap[field] || 'Qty'}
+            placeholder={placeholderMap[field] || "Qty"}
             className="border p-2 rounded"
           />
         </div>
@@ -402,7 +407,8 @@ total *= 1 + safe(formData.margin) / 100;
       </select>
     </div>
   </div>
-</section>
+</AccordionSection>
+
 
 
         
