@@ -193,60 +193,8 @@ total *= 1 + safe(formData.margin) / 100;
       </header>
 
       <main className="p-6 max-w-5xl mx-auto space-y-6">
-        {/* 🧾 Project Info */}
-
-{/* 📊 Quote Controls */}
-<div className="bg-white border border-gray-300 rounded shadow-sm p-6 mb-6">
-  <h2 className="text-lg font-semibold text-gray-800 mb-4">Quote Controls</h2>
-
-  {/* 🔴 Waste Slider */}
-  <div className="mb-4">
-    <label className="block text-sm font-medium text-red-700 mb-1">Additional Waste: {formData.wasteMargin || 5}%</label>
-    <input
-      type="range"
-      min="0"
-      max="20"
-      step="1"
-      name="wasteMargin"
-      value={formData.wasteMargin || 5}
-      onChange={handleChange}
-      className="w-full accent-red-700"
-    />
-  </div>
-
-  {/* 🔵 Group Cost */}
-  <div className="mb-4">
-    <label className="block text-sm font-medium text-blue-600 mb-1">
-      Group Cost: {formData.groupCost || 2.5}%
-    </label>
-    <input
-      type="range"
-      min="0"
-      max="10"
-      step="0.1"
-      name="groupCost"
-      value={formData.groupCost || 2.5}
-      onChange={handleChange}
-      className="w-full accent-blue-400"
-    />
-  </div>
-  
-  {/* 🟢 Profit Margin */}
-  <div>
-    <label className="block text-sm font-medium text-green-700 mb-1">Profitability Margin: {formData.margin}%</label>
-    <input
-      type="range"
-      min="0"
-      max="100"
-      name="margin"
-      value={formData.margin}
-      onChange={handleChange}
-      className="w-full accent-green-700"
-    />
-  </div>
-</div>
-
-        
+ {/* 🧾 Project Info */}
+       
 <AccordionSection title="🧾 Project Info">
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
     <div className="flex flex-col">
@@ -548,30 +496,61 @@ total *= 1 + safe(formData.margin) / 100;
 
 
 
-        
-<div className="mb-6">
-  <label className="block text-sm font-medium mb-1 text-red-800">
-    Additional Waste: {formData.wasteMargin}%
-  </label>
-  <input
-    type="range"
-    min="0"
-    max="50"
-    name="wasteMargin"
-    value={formData.wasteMargin}
-    onChange={handleChange}
-    className="w-full"
-  />
+        {/* 📊 Quote Controls */}
+<div className="bg-white border border-gray-300 rounded shadow-sm p-6 mb-6">
+  <h2 className="text-lg font-semibold text-gray-800 mb-4">Quote Controls</h2>
+
+  {/* 🔴 Waste Slider */}
+  <div className="mb-4">
+    <label className="block text-sm font-medium text-red-700 mb-1">Additional Waste: {formData.wasteMargin || 5}%</label>
+    <input
+      type="range"
+      min="0"
+      max="20"
+      step="1"
+      name="wasteMargin"
+      value={formData.wasteMargin || 5}
+      onChange={handleChange}
+      className="w-full accent-red-700"
+    />
+  </div>
+
+  {/* 🔵 Group Cost */}
+  <div className="mb-4">
+    <label className="block text-sm font-medium text-blue-600 mb-1">
+      Group Cost: {formData.groupCost || 2.5}%
+    </label>
+    <input
+      type="range"
+      min="0"
+      max="20"
+      step="0.1"
+      name="groupCost"
+      value={formData.groupCost || 2.5}
+      onChange={handleChange}
+      className="w-full accent-blue-400"
+    />
+  </div>
+  
+  {/* 🟢 Profit Margin */}
+  <div>
+    <label className="block text-sm font-medium text-green-700 mb-1">Profitability Margin: {formData.margin}%</label>
+    <input
+      type="range"
+      min="0"
+      max="100"
+      name="margin"
+      value={formData.margin}
+      onChange={handleChange}
+      className="w-full accent-green-700"
+    />
+  </div>
 </div>
 
-      
 
-        <div>
-          <label className="block text-sm font-medium mb-1 text-green-800">Profitability Margin: {formData.margin}%</label>
-          <input type="range" min="0" max="100" name="margin" value={formData.margin} onChange={handleChange} className="w-full" />
-        </div>
+        
 
-
+        
         
 <div className="border-dashed border-2 border-gray-400 rounded p-4 my-6">
   <label className="block mb-2 font-medium">Import from SketchUp Export (.csv)</label>
