@@ -226,43 +226,81 @@ const [additionalItems] = useState({
   </div>
 
 </div>
-
-
-
-  
+ 
 </section>
 
 
+{/* ➕ Additional Items */}
+<section className="space-y-4">
+  <h2 className="text-xl font-semibold text-gray-700 mb-2">Additional Items</h2>
 
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    {[
+      "lidUnits",
+      "pipeOpeningsUnits",
+      "ladderRungsUnits",
+      "wBarScabbling",
+      "liftersCapstans",
+      "mkkCones",
+      "unistrut",
+      "sikaPowder",
+      "pullingIrons",
+      "earthingPoints",
+      "sumpGates",
+      "polyfleece"
+    ].map((field) => {
+      const labelMap = {
+        lidUnits: "Lid Units",
+        pipeOpeningsUnits: "Pipe Openings",
+        ladderRungsUnits: "Ladder Rungs",
+        wBarScabbling: "W.Bar & Scabbling",
+        liftersCapstans: "Lifters & Capstans",
+        mkkCones: "MKK Cones",
+        unistrut: "Unistrut",
+        sikaPowder: "Sika Powder",
+        pullingIrons: "Pulling Irons",
+        earthingPoints: "Earthing Points",
+        sumpGates: "Sump Gates",
+        polyfleece: "Polyfleece"
+      };
+      return (
+        <div key={field} className="flex flex-col">
+          <label className="text-sm font-medium mb-1">{labelMap[field]}</label>
+          <input
+            type="number"
+            name={field}
+            value={formData[field] || ''}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          />
+        </div>
+      );
+    })}
+
+    {/* Duct Type Dropdown */}
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1">Duct Type</label>
+      <select
+        name="ductType"
+        value={formData.ductType}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      >
+        <option value="">Select Duct Type</option>
+        <option value="Duct type 1">Duct type 1</option>
+        <option value="Duct type 2">Duct type 2</option>
+        <option value="Duct type 3">Duct type 3</option>
+        <option value="Duct type 4">Duct type 4</option>
+      </select>
+    </div>
+  </div>
+</section>
         
 
       
 
-        <div className="grid grid-cols-3 gap-4">
-          <div className="flex flex-col">
-            <label className="text-sm font-medium mb-1">Lid Units</label>
-            <input name="lidUnits" type="number" value={formData.lidUnits} onChange={handleChange} className="border p-2 rounded" />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-sm font-medium mb-1">Pipe Openings</label>
-            <input name="pipeOpeningsUnits" type="number" value={formData.pipeOpeningsUnits} onChange={handleChange} className="border p-2 rounded" />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-sm font-medium mb-1">Ladder Rungs</label>
-            <input name="ladderRungsUnits" type="number" value={formData.ladderRungsUnits} onChange={handleChange} className="border p-2 rounded" />
-          </div>
-        </div>
 
-        <div className="grid grid-cols-3 gap-4">
-          <div className="flex flex-col">
-            <label className="text-sm font-medium mb-1">Duct Type</label>
-            <select name="ductType" value={formData.ductType} onChange={handleChange} className="border p-2 rounded">
-              <option value="">Select Duct Type</option>
-              {["Duct type 1", "Duct type 2", "Duct type 3", "Duct type 4"].map((type, idx) => (
-                <option key={idx} value={type}>{type}</option>
-              ))}
-            </select>
-          </div>
+        
           <div className="flex flex-col">
             <label className="text-sm font-medium mb-1">Transport</label>
             <select name="transport" value={formData.transport} onChange={handleChange} className="border p-2 rounded">
