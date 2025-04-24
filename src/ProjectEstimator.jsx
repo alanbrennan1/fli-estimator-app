@@ -191,6 +191,39 @@ total *= 1 + safe(formData.margin) / 100;
       <main className="p-6 max-w-5xl mx-auto space-y-6">
         {/* 🧾 Project Info */}
 
+{/* 📊 Quote Controls */}
+<div className="bg-white border border-gray-300 rounded shadow-sm p-6 mb-6">
+  <h2 className="text-lg font-semibold text-gray-800 mb-4">Quote Controls</h2>
+
+  {/* 🔴 Waste Slider */}
+  <div className="mb-4">
+    <label className="block text-sm font-medium text-red-700 mb-1">Additional Waste: {formData.wasteMargin || 5}%</label>
+    <input
+      type="range"
+      min="0"
+      max="20"
+      step="1"
+      name="wasteMargin"
+      value={formData.wasteMargin || 5}
+      onChange={handleChange}
+      className="w-full accent-red-700"
+    />
+  </div>
+
+  {/* 🟢 Profit Margin */}
+  <div>
+    <label className="block text-sm font-medium text-green-700 mb-1">Profitability Margin: {formData.margin}%</label>
+    <input
+      type="range"
+      min="0"
+      max="100"
+      name="margin"
+      value={formData.margin}
+      onChange={handleChange}
+      className="w-full accent-green-700"
+    />
+  </div>
+</div>
 
         
 <AccordionSection title="🧾 Project Info">
