@@ -8,7 +8,7 @@ function AccordionSection({ title, children }) {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full text-left px-4 py-2 bg-gray-200 hover:bg-gray-300 font-semibold text-base rounded-t"
+        className="w-full text-left px-4 py-2 bg-teal-400 hover:bg-teal-500 text-white font-semibold text-base rounded-t"
       >
         {title} {isOpen ? '▾' : '▸'}
       </button>
