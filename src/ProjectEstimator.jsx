@@ -73,7 +73,7 @@ const [additionalItems] = useState({
   const safeInt = (val) => parseInt(val || '0', 10);
 
   // 👇 use concrete volume from form (manually or CSV-injected)
-  const concreteVolume = safe(formData.concreteVolume);
+  const concreteVolume = safe(formData.concreteVolume) || (m3 + safe(formData.baseThickness) + safe(formData.wallThickness));
   const steelKg = 120 * concreteVolume;
   const weightTn = concreteVolume * 2.6;
   const labourHrs = weightTn * 4.2;
@@ -448,13 +448,25 @@ reader.onload = (event) => {
     }
   }
 
-  // 🟢 Set value into formData
+  const concreteCost = totalVolume * 137.21;
+
+  // ✅ This sets the concrete volume into the input field
   setFormData(prev => ({
     ...prev,
     concreteVolume: totalVolume.toFixed(2)
   }));
+
+  // ✅ This sets the breakdown for display/export
+  setBreakdown(prev => ({
+    ...prev,
+    concrete: [
+      { label: 'Total Concrete Volume', value: totalVolume.toFixed(2), unit: 'm³', isCurrency: false },
+      { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
+    ]
+  }));
 };
 reader.readAsText(file);
+
       
 }}
 
