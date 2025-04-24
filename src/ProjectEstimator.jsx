@@ -442,7 +442,7 @@ reader.onload = (event) => {
   let totalVolume = 0;
   for (let i = 1; i < rows.length; i++) {
     const quantity = parseFloat(rows[i][quantityIndex]);
-    const volume = parseFloat(rows[i][volumeIndex].replace(' cubic m', ''));
+    const volume = parseFloat(rows[i][volumeIndex].replace(' cubic m', '').trim());
     if (!isNaN(quantity) && !isNaN(volume)) {
       totalVolume += quantity * volume;
     }
@@ -455,12 +455,8 @@ reader.onload = (event) => {
   }));
 };
 reader.readAsText(file);
-
-
       
 }}
-
-
 
       
     className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
