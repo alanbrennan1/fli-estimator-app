@@ -314,7 +314,7 @@ const [additionalItems] = useState({
             <label className="text-sm font-medium mb-1">Installation Days</label>
             <input name="installationDays" type="number" value={formData.installationDays} onChange={handleChange} className="border p-2 rounded" />
           </div>
-        </div>
+      
 
         <div>
           <label className="block text-sm font-medium mb-1">Profitability Margin: {formData.margin}%</label>
@@ -509,11 +509,6 @@ reader.readAsText(file);
     </div>
   </div>
 )}
-
-
-
-
-
 
         
       </main>
