@@ -72,47 +72,19 @@ const handleEstimate = () => {
   const safe = (val) => parseFloat(val || 0);
   const safeInt = (val) => parseInt(val || '0', 10);
 
-  // Base calculations from dimensions (manual input)
-  const m3 = safe(formData.length) * safe(formData.width) * safe(formData.height);
-  const concreteVolume = formData.concreteVolume ? safe(formData.concreteVolume) : (m3 + safe(formData.baseThickness) + safe(formData.wallThickness));
-  const concreteCost = 137.21 * concreteVolume;
+  // Concrete Volume – user input
+  const manualConcreteVolume = safe(formData.concreteVolume);
 
-  // Steel cost
-  const steelKg = 120 * concreteVolume;
-  const steelCost = 0.8 * steelKg;
+  // Labour from CSV logic (if volume exists from CSV)
+  const unitVolume = safe(formData.csvEntityVolume); // populated during CSV upload
+  const unitWeight = unitVolume * 2.6;
+  const labourPerUnit = unitWeight * 4.5;
+  const quantity = safeInt(formData.csvQuantity);
+  const totalLabourHoursFromCSV = quantity * labourPerUnit;
+  const labourCostFromCSV = totalLabourHoursFromCSV * 70.11;
 
-  // Labour calculations (from CSV logic)
-  const labourRate = 70.11;
-  const labourHoursPerTonne = 4.5;
-  let labourCost = 0;
-  let labourHrs = 0;
-
-  if (window.uploadedConcreteRows && window.uploadedConcreteRows.length > 0) {
-    labourHrs = window.uploadedConcreteRows.reduce((total, row) => {
-      const quantity = safe(row.Quantity);
-      const entityVolume = safe(row['Entity Volume']);
-      const unitWeight = entityVolume * 2.6;
-      const labourPerUnit = unitWeight * labourHoursPerTonne;
-      return total + (quantity * labourPerUnit);
-    }, 0);
-    labourCost = labourHrs * labourRate;
-  } else {
-    const concreteWeight = concreteVolume * 2.6;
-    labourHrs = concreteWeight * labourHoursPerTonne;
-    labourCost = labourHrs * labourRate;
-  }
-
-  // Additional cost
-  const additionalCost =
-    additionalItems.lid * safeInt(formData.lidUnits) +
-    additionalItems.pipeOpenings * safeInt(formData.pipeOpeningsUnits) +
-    additionalItems.ladderRungs * safeInt(formData.ladderRungsUnits);
-
-  const transportCost = transportCosts[formData.transport] || 0;
-  const installationCost = safe(formData.installationDays) * 500;
-
-  // Design calculations
-  const designInputs = [
+  // Design Hours and Cost
+  const designFields = [
     'proposalHours',
     'designMeetingsHours',
     'structuralDesignHours',
@@ -127,47 +99,61 @@ const handleEstimate = () => {
     'siteQueriesHours',
     'asBuiltsHours'
   ];
-  const totalDesignHours = designInputs.reduce((sum, key) => sum + safe(formData[key]), 0);
+  const totalDesignHours = designFields.reduce((sum, key) => sum + safe(formData[key]), 0);
   const designRate = 61.12;
   const designCost = totalDesignHours * designRate;
 
-  // Grand Total
-  let total = concreteCost + steelCost + labourCost + additionalCost + transportCost + installationCost + designCost;
+  // Concrete Cost
+  const concreteCost = manualConcreteVolume * 137.21;
+
+  // Labour fallback: if no CSV, calculate from manual inputs
+  const labourCost = labourCostFromCSV || (safe(formData.labourHours) * 70.11);
+
+  // Additional Items
+  const additionalCost =
+    30 * safeInt(formData.lidUnits) +
+    50 * safeInt(formData.pipeOpeningsUnits) +
+    100 * safeInt(formData.ladderRungsUnits);
+
+  // Transport + Installation
+  const transportCosts = { Cork: 850, Dublin: 650, UK: 2000 };
+  const transportCost = transportCosts[formData.transport] || 0;
+  const installationCost = safe(formData.installationDays) * 500;
+
+  // Total
+  let total = concreteCost + labourCost + designCost + additionalCost + transportCost + installationCost;
   total *= 1 + safe(formData.margin) / 100;
 
   setEstimate(total.toFixed(2));
 
   setBreakdown({
     concrete: [
-      { label: 'Concrete Volume', value: concreteVolume.toFixed(2), unit: 'm³', isCurrency: false },
+      { label: 'Concrete Volume', value: manualConcreteVolume.toFixed(2), unit: 'm³', isCurrency: false },
       { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
     ],
-    steel: [
-      { label: 'Steel Required', value: steelKg.toFixed(2), unit: 'kg', isCurrency: false },
-      { label: 'Steel Cost', value: steelCost.toFixed(2), isCurrency: true }
-    ],
     labour: [
-      { label: 'Labour Hours', value: labourHrs.toFixed(2), unit: 'hrs', isCurrency: false },
+      { label: 'Labour Hours', value: labourCostFromCSV ? totalLabourHoursFromCSV.toFixed(2) : formData.labourHours, unit: 'hrs', isCurrency: false },
       { label: 'Labour Cost', value: labourCost.toFixed(2), isCurrency: true }
     ],
     design: [
-      { label: 'Design Hours', value: totalDesignHours.toFixed(2), unit: 'hrs', isCurrency: false },
+      { label: 'Total Design Hours', value: totalDesignHours.toFixed(2), unit: 'hrs', isCurrency: false },
       { label: 'Design Cost', value: designCost.toFixed(2), isCurrency: true }
+    ],
+    additional: [
+      { label: 'Lid Cost', value: (30 * safeInt(formData.lidUnits)).toFixed(2), isCurrency: true },
+      { label: 'Pipe Openings Cost', value: (50 * safeInt(formData.pipeOpeningsUnits)).toFixed(2), isCurrency: true },
+      { label: 'Ladder Rungs Cost', value: (100 * safeInt(formData.ladderRungsUnits)).toFixed(2), isCurrency: true }
+    ],
+    transport: [
+      { label: 'Transport Cost', value: transportCost.toFixed(2), isCurrency: true }
     ],
     installation: [
       { label: 'Installation Days', value: formData.installationDays || 0, unit: 'days', isCurrency: false },
       { label: 'Installation Cost', value: installationCost.toFixed(2), isCurrency: true }
-    ],
-    additional: [
-      { label: 'Lid Cost', value: (additionalItems.lid * safeInt(formData.lidUnits)).toFixed(2), isCurrency: true },
-      { label: 'Pipe Openings Cost', value: (additionalItems.pipeOpenings * safeInt(formData.pipeOpeningsUnits)).toFixed(2), isCurrency: true },
-      { label: 'Ladder Rungs Cost', value: (additionalItems.ladderRungs * safeInt(formData.ladderRungsUnits)).toFixed(2), isCurrency: true }
-    ],
-    transport: [
-      { label: 'Transport Cost', value: transportCost.toFixed(2), isCurrency: true }
     ]
   });
 };
+
 
 
 
