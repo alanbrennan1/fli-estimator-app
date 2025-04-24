@@ -57,6 +57,7 @@ const [additionalItems] = useState({
     ductType: '',
     margin: 0,
     wasteMargin: 5, // Default 5%
+    groupCost: 2.5, // FLI Group cost 2.5%
     steelGrade: '',
     proposalHours: '',
     designMeetingsHours: '',
@@ -144,6 +145,9 @@ let total = concreteCost + steelCost + labourCost + additionalCost + transportCo
 // Apply additional waste percentage
 total *= 1 + safe(formData.wasteMargin) / 100;
 
+  // Apply group cost
+total *= 1 + safe(formData.groupCost) / 100;
+  
 // Then apply profitability margin
 total *= 1 + safe(formData.margin) / 100;
 
@@ -210,6 +214,23 @@ total *= 1 + safe(formData.margin) / 100;
     />
   </div>
 
+  {/* 🔵 Group Cost */}
+  <div className="mb-4">
+    <label className="block text-sm font-medium text-blue-600 mb-1">
+      Group Cost: {formData.groupCost || 2.5}%
+    </label>
+    <input
+      type="range"
+      min="0"
+      max="10"
+      step="0.1"
+      name="groupCost"
+      value={formData.groupCost || 2.5}
+      onChange={handleChange}
+      className="w-full accent-blue-400"
+    />
+  </div>
+  
   {/* 🟢 Profit Margin */}
   <div>
     <label className="block text-sm font-medium text-green-700 mb-1">Profitability Margin: {formData.margin}%</label>
