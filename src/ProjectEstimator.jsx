@@ -73,7 +73,8 @@ const [additionalItems] = useState({
     siteQueriesHours: '',
     asBuiltsHours: '',
     concreteVolume: '',
-    transport: ''
+    transportRate: '',
+    transportQuantity: ''
   });
 
   const [estimate, setEstimate] = useState(null);
@@ -139,8 +140,7 @@ const steelCost = steelKg * 0.8;
     100 * safeInt(formData.ladderRungsUnits);
 
   // Transport + Installation
-  const transportCosts = { Cork: 850, Dublin: 650, UK: 2000 };
-  const transportCost = transportCosts[formData.transport] || 0;
+  const transportCost = safe(formData.transportRate) * safe(formData.transportQuantity);
   const installationCost = safe(formData.installationDays) * 500;
 
   // Total
@@ -533,27 +533,22 @@ total *= 1 + safe(formData.margin) / 100;
 <AccordionSection title="🚚 Transport">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div className="flex flex-col">
-      <label className="text-sm font-medium mb-1">Transport Location</label>
-      <select
-        name="transport"
-        value={formData.transport}
+      <label className="text-sm font-medium mb-1">Transport Rate (€)</label>
+      <input
+        type="number"
+        name="transportRate"
+        value={formData.transportRate}
         onChange={handleChange}
+        placeholder="€/trip"
         className="border p-2 rounded"
-      >
-        <option value="">Select Transport</option>
-        {Object.keys(transportCosts).map((place, idx) => (
-          <option key={idx} value={place}>
-            {place} (€{transportCosts[place]})
-          </option>
-        ))}
-      </select>
+      />
     </div>
     <div className="flex flex-col">
       <label className="text-sm font-medium mb-1">Transport Quantity</label>
       <input
         type="number"
         name="transportQuantity"
-        value={formData.transportQuantity || ''}
+        value={formData.transportQuantity}
         onChange={handleChange}
         placeholder="Qty"
         className="border p-2 rounded"
@@ -561,7 +556,7 @@ total *= 1 + safe(formData.margin) / 100;
     </div>
   </div>
 </AccordionSection>
-      
+
 
 <AccordionSection title="🛠 Installation">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
