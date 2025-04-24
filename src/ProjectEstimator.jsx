@@ -266,7 +266,14 @@ total *= 1 + safe(formData.margin) / 100;
 
   {/* ⬅️ Left: SketchUp Upload Box */}
   <div className="md:w-1/3 w-full bg-white border border-gray-300 rounded-lg shadow p-4">
-    <h3 className="text-md font-semibold text-gray-700 mb-2">📥 Import SketchUp CSV</h3>
+    <h3 className="text-md font-semibold text-gray-700 mb-2">📥 Upload SketchUp CSV</h3>
+    {uploadSuccess && (
+      <div className="mb-4 p-3 rounded bg-green-100 text-green-800 border border-green-300 text-sm">
+        ✅ File uploaded and values extracted successfully!
+      </div>
+    )}
+
+    
     <input
       type="file"
       accept=".csv"
@@ -634,134 +641,7 @@ total *= 1 + safe(formData.margin) / 100;
       
 
         
-        
-<div className="border-dashed border-2 border-gray-400 rounded p-4 my-6">
-
-<label className="block mb-2 font-medium">Import from SketchUp Export (.csv)</label>
-{uploadSuccess && (
-  <div className="mb-4 p-3 rounded bg-green-100 text-green-800 border border-green-300 text-sm">
-    ✅ File uploaded and values extracted successfully!
-  </div>
-)}
-  
-  <input
-  type="file"
-  accept=".csv"
-  onChange={(e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = (event) => {
-  const text = event.target.result;
-  const rows = text.split('\n').map(row => row.split(','));
-  const headers = rows[0].map(h => h.trim().toLowerCase());
-
-  const quantityIndex = headers.indexOf("quantity");
-  const volumeIndex = headers.indexOf("entity volume");
-
-  if (quantityIndex === -1 || volumeIndex === -1) {
-    alert("CSV must include 'Quantity' and 'Entity Volume' columns.");
-    return;
-  }
-
-  let totalVolume = 0;
-  let totalLabourHours = 0;
-  let totalLabourCost = 0;
-
-  for (let i = 1; i < rows.length; i++) {
-    const quantityRaw = rows[i][quantityIndex];
-    const volumeRaw = rows[i][volumeIndex];
-
-    if (!quantityRaw || !volumeRaw) continue;
-
-    const quantity = parseFloat(quantityRaw.trim());
-    const volume = parseFloat(volumeRaw.trim().replace(/[^\d.-]/g, '')); // Remove "cubic m", units, spaces
-
-    if (!isNaN(quantity) && !isNaN(volume)) {
-      // Concrete
-      totalVolume += quantity * volume;
-
-      // Labour logic
-      const unitWeight = volume * 2.6;                      // in Tonnes
-      const labourPerUnit = unitWeight * 4.5;               // hours
-      const totalRowHours = quantity * labourPerUnit;
-      const totalRowCost = totalRowHours * 70.11;
-
-      totalLabourHours += totalRowHours;
-      totalLabourCost += totalRowCost;
-    }
-  }
-
-  const concreteCost = totalVolume * 137.21;
-
-  // Update formData
-  setFormData(prev => ({
-    ...prev,
-    concreteVolume: totalVolume.toFixed(2),
-    labourHours: totalLabourHours.toFixed(2)
-  }));
-
-  // Update BoQ Breakdown
-  setBreakdown(prev => ({
-    ...prev,
-    concrete: [
-      { label: 'Total Concrete Volume', value: totalVolume.toFixed(2), unit: 'm³', isCurrency: false },
-      { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
-    ],
-    labour: [
-      { label: 'Labour Hours', value: totalLabourHours.toFixed(2), unit: 'hrs', isCurrency: false },
-      { label: 'Labour Cost', value: totalLabourCost.toFixed(2), isCurrency: true }
-    ],
-    ...prev // keep other breakdowns (steel, transport, etc.)
-  }));
-};
-
-
-    reader.readAsText(file);
-  }}
-  className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-/>
-  
-</div>
-
-{pendingImport && (
-  <div className="bg-white border border-gray-300 rounded p-4 mt-4 space-y-2">
-    <h4 className="font-semibold mb-2">Preview Imported Values</h4>
-    {Object.entries(pendingImport).map(([key, value]) => (
-      <div key={key} className="flex justify-between text-sm">
-        <span className="capitalize">{key}</span>
-        <span>{value}</span>
-      </div>
-    ))}
-    <div className="flex gap-4 mt-4">
-      <button
-        onClick={() => {
-          setFormData(prev => ({
-            ...prev,
-            ...pendingImport
-          }));
-          setPendingImport(null);
-        }}
-        className="bg-green-600 text-white px-4 py-1 rounded"
-      >
-        Use These Values
-      </button>
-      <button
-        onClick={() => setPendingImport(null)}
-        className="bg-gray-400 text-white px-4 py-1 rounded"
-      >
-        Cancel
-      </button>
-    </div>
-  </div>
-)}
-
-
-
-
-        
+                
         <button onClick={handleEstimate} className="bg-blue-600 text-white px-4 py-2 rounded">Generate Estimate</button>
 
         {estimate && (
