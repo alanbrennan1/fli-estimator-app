@@ -550,7 +550,7 @@ total *= 1 + safe(formData.margin) / 100;
         name="transportQuantity"
         value={formData.transportQuantity}
         onChange={handleChange}
-        placeholder="Qty"
+        placeholder="No. loads"
         className="border p-2 rounded"
       />
     </div>
