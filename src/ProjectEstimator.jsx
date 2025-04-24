@@ -299,6 +299,22 @@ const handleEstimate = () => {
         sumpGates: "Sump Gates",
         polyfleece: "Polyfleece"
       };
+
+      const placeholderMap = {
+        wBarScabbling: "Metres",
+        liftersCapstans: "Pieces",
+        unistrut: "Metres",
+        sikaPowder: "m³",
+        polyfleece: "m",
+        ladderRungsUnits: "Quantity",
+        lidUnits: "Quantity",
+        pipeOpeningsUnits: "Quantity",
+        mkkCones: "Quantity",
+        pullingIrons: "Quantity",
+        earthingPoints: "Quantity",
+        sumpGates: "Quantity"
+      };
+
       return (
         <div key={field} className="flex flex-col">
           <label className="text-sm font-medium mb-1">{labelMap[field]}</label>
@@ -307,7 +323,7 @@ const handleEstimate = () => {
             name={field}
             value={formData[field] || ''}
             onChange={handleChange}
-            placeholder="Quantity"
+            placeholder={placeholderMap[field] || 'Quantity'}
             className="border p-2 rounded"
           />
         </div>
@@ -332,6 +348,8 @@ const handleEstimate = () => {
     </div>
   </div>
 </section>
+
+        
 
 
 {/* 🎨 Design Section */}
