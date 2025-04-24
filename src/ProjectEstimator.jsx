@@ -39,6 +39,7 @@ const [additionalItems] = useState({
     ladderRungsUnits: 0,
     ductType: '',
     margin: 0,
+    steelGrade: '',
     transport: ''
   });
 
@@ -178,6 +179,25 @@ const [additionalItems] = useState({
     })}
   </div>
 
+<div className="flex flex-col mt-4 w-full md:w-1/3">
+  <label className="text-sm font-medium mb-1">Steel Grade (kg/m³)</label>
+  <select
+    name="steelGrade"
+    value={formData.steelGrade}
+    onChange={handleChange}
+    className="border p-2 rounded"
+  >
+    <option value="">Select Steel Grade</option>
+    <option value="B125">B125</option>
+    <option value="C250">C250</option>
+    <option value="D400">D400</option>
+    <option value="E600">E600</option>
+    <option value="Other">Other</option>
+  </select>
+</div>
+
+
+  
   {/* Calculated Fields */}
 
 {/* Editable Manufacturing Totals */}
