@@ -285,71 +285,90 @@ const handleEstimate = () => {
       </div>
     )}
 
+
     <input
-      type="file"
-      accept=".csv"
-      onChange={(e) => {
-        const file = e.target.files[0];
-        if (!file) return;
+  type="file"
+  accept=".csv"
+  onChange={(e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const text = event.target.result;
-          const rows = text.split('\n').map(row => row.split(','));
-          const headers = rows[0].map(h => h.trim().toLowerCase());
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const text = event.target.result;
+      const rows = text.split('\n').map(row => row.split(','));
+      const headers = rows[0].map(h => h.trim().toLowerCase());
 
-          const defIndex = headers.indexOf("definition name");
-          const quantityIndex = headers.indexOf("quantity");
-          const volumeIndex = headers.indexOf("entity volume");
+      const quantityIndex = headers.indexOf("quantity");
+      const volumeIndex = headers.indexOf("entity volume");
 
-          if (defIndex === -1 || quantityIndex === -1 || volumeIndex === -1) {
-            alert("CSV must include 'Definition Name', 'Quantity', and 'Entity Volume' columns.");
-            return;
-          }
+      if (quantityIndex === -1 || volumeIndex === -1) {
+        alert("CSV must include 'Quantity' and 'Entity Volume' columns.");
+        return;
+      }
 
-          const concreteRate = 137.21;
-          const steelRate = 0.8;
-          const steelDensity = 120;
-          const labourRate = 70.11;
-          const labourHoursPerTonne = 4.5;
+      let totalVolume = 0;
+      let totalLabourHours = 0;
+      let totalSteelKg = 0;
 
-          const productMap = {};
+      for (let i = 1; i < rows.length; i++) {
+        const quantityRaw = rows[i][quantityIndex];
+        const volumeRaw = rows[i][volumeIndex];
 
-          for (let i = 1; i < rows.length; i++) {
-            const row = rows[i];
-            const defName = row[defIndex];
-            const qty = parseFloat(row[quantityIndex]);
-            const volumeRaw = row[volumeIndex]?.replace(/[^\d.-]/g, '');
-            const volume = parseFloat(volumeRaw);
+        if (!quantityRaw || !volumeRaw) continue;
 
-            if (!defName || isNaN(qty) || isNaN(volume)) continue;
+        const quantity = parseFloat(quantityRaw.trim());
+        const volume = parseFloat(volumeRaw.trim().replace(/[^\d.-]/g, ''));
 
-            const totalVolume = qty * volume;
-            const concreteCost = totalVolume * concreteRate;
-            const steelKg = totalVolume * steelDensity;
-            const steelCost = steelKg * steelRate;
-            const unitWeight = volume * 2.6;
-            const labourPerUnit = unitWeight * labourHoursPerTonne;
-            const totalLabourHours = qty * labourPerUnit;
-            const labourCost = totalLabourHours * labourRate;
+        if (!isNaN(quantity) && !isNaN(volume)) {
+          totalVolume += quantity * volume;
 
-            productMap[defName] = {
-              quantity: qty,
-              concrete: { volume: totalVolume.toFixed(2), cost: concreteCost.toFixed(2) },
-              steel: { kg: steelKg.toFixed(2), cost: steelCost.toFixed(2) },
-              labour: { hours: totalLabourHours.toFixed(2), cost: labourCost.toFixed(2) },
-            };
-          }
+          const unitWeight = volume * 2.6;
+          const labourPerUnit = unitWeight * 4.5;
+          const totalRowHours = quantity * labourPerUnit;
+          totalLabourHours += totalRowHours;
 
-          setProductBreakdowns(Object.entries(productMap).map(([name, data]) => ({ name, ...data })));
+          totalSteelKg += quantity * volume * 120; // density 120kg/m³
+        }
+      }
 
-          setUploadSuccess(true);
-          setTimeout(() => setUploadSuccess(false), 4000);
-        };
-        reader.readAsText(file);
-      }}
+      const concreteCost = totalVolume * 137.21;
+      const steelCost = totalSteelKg * 0.8;
+      const labourCost = totalLabourHours * 70.11;
+
+      // ➡ Update form fields immediately
+      setFormData(prev => ({
+        ...prev,
+        concreteVolume: totalVolume.toFixed(2),
+        labourHours: totalLabourHours.toFixed(2)
+      }));
+
+      // ➡ Optionally: update a separate breakdown preview
+      setBreakdown(prev => ({
+        ...prev,
+        concrete: [
+          { label: 'Concrete Volume', value: totalVolume.toFixed(2), unit: 'm³', isCurrency: false },
+          { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
+        ],
+        steel: [
+          { label: 'Steel Weight', value: totalSteelKg.toFixed(2), unit: 'kg', isCurrency: false },
+          { label: 'Steel Cost', value: steelCost.toFixed(2), isCurrency: true }
+        ],
+        labour: [
+          { label: 'Labour Hours', value: totalLabourHours.toFixed(2), unit: 'hrs', isCurrency: false },
+          { label: 'Labour Cost', value: labourCost.toFixed(2), isCurrency: true }
+        ]
+      }));
+
+      setUploadSuccess(true);
+      setTimeout(() => setUploadSuccess(false), 4000);
+    };
+
+    reader.readAsText(file);
+  }}
       className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
     />
+    
   </div>
 
   {/* ➡️ Right: Manufacturing Accordion */}
