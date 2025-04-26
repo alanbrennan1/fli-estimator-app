@@ -89,21 +89,16 @@ const [additionalItems] = useState({
   };
 
 
-
 const handleEstimate = () => {
   const safe = (val) => parseFloat(val || 0);
   const safeInt = (val) => parseInt(val || '0', 10);
 
-  // Concrete Volume – user input
+  // Concrete Volume — user input (from manual OR uploaded CSV)
   const manualConcreteVolume = safe(formData.concreteVolume);
 
-  // Labour from CSV logic (if volume exists from CSV)
-  const unitVolume = safe(formData.csvEntityVolume); // populated during CSV upload
-  const unitWeight = unitVolume * 2.6;
-  const labourPerUnit = unitWeight * 4.5;
-  const quantity = safeInt(formData.csvQuantity);
-  const totalLabourHoursFromCSV = quantity * labourPerUnit;
-  const labourCostFromCSV = totalLabourHoursFromCSV * 70.11;
+  // Labour Hours — user input (from manual OR uploaded CSV)
+  const totalLabourHours = safe(formData.labourHours);
+  const labourCost = totalLabourHours * 70.11;
 
   // Design Hours and Cost
   const designFields = [
@@ -131,6 +126,7 @@ const handleEstimate = () => {
   // Steel Cost
   const steelKg = manualConcreteVolume * 120;
   const steelCost = steelKg * 0.8;
+
 
   // Labour fallback: if no CSV, calculate from manual inputs
   const labourCost = labourCostFromCSV || (safe(formData.labourHours) * 70.11);
