@@ -1,3 +1,5 @@
+.jsx file (April 24)
+
 import React, { useState } from 'react';
 import './index.css';
 
@@ -37,7 +39,6 @@ const [additionalItems] = useState({
     UK: 2000,
   };
 
- 
   const [formData, setFormData] = useState({
     projectName: '',
     installationDays: '',
@@ -82,10 +83,6 @@ const [additionalItems] = useState({
   const [breakdown, setBreakdown] = useState({});
   const [pendingImport, setPendingImport] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
-  const [productBreakdowns, setProductBreakdowns] = useState([]);
-  const [uploadMessage, setUploadMessage] = useState('');
-
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -297,94 +294,73 @@ additional: [
         if (!file) return;
 
         const reader = new FileReader();
+        reader.onload = (event) => {
+          const text = event.target.result;
+          const rows = text.split('\n').map(row => row.split(','));
+          const headers = rows[0].map(h => h.trim().toLowerCase());
+
+          const quantityIndex = headers.indexOf("quantity");
+          const volumeIndex = headers.indexOf("entity volume");
+
+          if (quantityIndex === -1 || volumeIndex === -1) {
+            alert("CSV must include 'Quantity' and 'Entity Volume' columns.");
+            return;
+          }
+
+          let totalVolume = 0;
+          let totalLabourHours = 0;
+          let totalLabourCost = 0;
+
+          for (let i = 1; i < rows.length; i++) {
+            const quantityRaw = rows[i][quantityIndex];
+            const volumeRaw = rows[i][volumeIndex];
+
+            if (!quantityRaw || !volumeRaw) continue;
+
+            const quantity = parseFloat(quantityRaw.trim());
+            const volume = parseFloat(volumeRaw.trim().replace(/[^\d.-]/g, ''));
+
+            if (!isNaN(quantity) && !isNaN(volume)) {
+              totalVolume += quantity * volume;
+              const unitWeight = volume * 2.6;
+              const labourPerUnit = unitWeight * 4.5;
+              const totalRowHours = quantity * labourPerUnit;
+              const totalRowCost = totalRowHours * 70.11;
+              totalLabourHours += totalRowHours;
+              totalLabourCost += totalRowCost;
+            }
+          }
+
+          const concreteCost = totalVolume * 137.21;
+
+          setFormData(prev => ({
+            ...prev,
+            concreteVolume: totalVolume.toFixed(2),
+            labourHours: totalLabourHours.toFixed(2)
+          }));
+
+          setBreakdown(prev => ({
+            ...prev,
+            concrete: [
+              { label: 'Total Concrete Volume', value: totalVolume.toFixed(2), unit: 'm³', isCurrency: false },
+              { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
+            ],
+            labour: [
+              { label: 'Labour Hours', value: totalLabourHours.toFixed(2), unit: 'hrs', isCurrency: false },
+              { label: 'Labour Cost', value: totalLabourCost.toFixed(2), isCurrency: true }
+            ],
+            ...prev
+          }));
+
+          setUploadSuccess(true);
+          setTimeout(() => setUploadSuccess(false), 4000); // Auto-hide after 4 seconds
+        };
 
         
-
-reader.onload = (event) => {
-  const text = event.target.result;
-  const rows = text.split('\n').map(row => row.split(',').map(cell => cell.trim()));
-  const headers = rows[0].map(h => h.toLowerCase());
-
-  const defIndex = headers.indexOf('definition name');
-  const qtyIndex = headers.indexOf('quantity');
-  const volumeIndex = headers.indexOf('entity volume');
-
-  if (defIndex === -1 || qtyIndex === -1 || volumeIndex === -1) {
-    alert("CSV must include 'Definition Name', 'Quantity', and 'Entity Volume' columns.");
-    return;
-  }
-
-  const concreteRate = 137.21;
-  const steelRate = 0.8; // €/kg
-  const steelDensity = 120; // kg/m³
-  const labourRate = 70.11; // €/hr
-  const labourHoursPerTonne = 4.5;
-
-  const productMap = {};
-
-  for (let i = 1; i < rows.length; i++) {
-    const row = rows[i];
-    const defName = row[defIndex];
-    const qty = parseFloat(row[qtyIndex]);
-    const volStr = row[volumeIndex].replace(/[^\d.-]/g, '');
-    const volume = parseFloat(volStr);
-
-    if (!defName || isNaN(qty) || isNaN(volume)) continue;
-
-    const totalVol = qty * volume;
-    const concreteCost = totalVol * concreteRate;
-
-    const steelKg = totalVol * steelDensity;
-    const steelCost = steelKg * steelRate;
-
-    const unitWeight = volume * 2.6;
-    const labourPerUnit = unitWeight * labourHoursPerTonne;
-    const totalLabourHours = qty * labourPerUnit;
-    const labourCost = totalLabourHours * labourRate;
-
-    productMap[defName] = {
-      quantity: qty,
-      volumePerUnit: volume.toFixed(3),
-      concrete: {
-        volume: totalVol.toFixed(2),
-        cost: concreteCost.toFixed(2)
-      },
-      steel: {
-        kg: steelKg.toFixed(2),
-        cost: steelCost.toFixed(2)
-      },
-      labour: {
-        hours: totalLabourHours.toFixed(2),
-        cost: labourCost.toFixed(2)
-      }
-    };
-  }
-
-  // Set the extracted product breakdowns
-  setProductBreakdowns(Object.entries(productMap).map(([name, data]) => ({
-    name,
-    ...data
-  })));
-
-  // ✅ VERY IMPORTANT: Upload succeeded
-  setUploadSuccess(true);
-  setUploadMessage("✅ SketchUp CSV successfully uploaded and processed!");
-};
-
-
-
-        
-       
         reader.readAsText(file);
       }}
       className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
     />
-
-{/* ✅ Success Message Display */}
-  {uploadMessage && (
-    <div className="mt-2 text-green-600 font-medium">{uploadMessage}</div>
-  )}
-    
   </div>
 
   {/* ➡️ Right: Manufacturing Accordion */}
@@ -460,39 +436,6 @@ reader.onload = (event) => {
 </div>
 
 
-{productBreakdowns.length > 0 && (
-  <div className="mt-6 bg-white p-4 rounded shadow-sm">
-    <h3 className="text-lg font-semibold text-gray-700 mb-4">Product Breakdown</h3>
-    <div className="overflow-x-auto">
-      <table className="min-w-full text-sm">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="px-3 py-2 text-left">Product Name</th>
-            <th className="px-3 py-2 text-right">Concrete Vol (m³)</th>
-            <th className="px-3 py-2 text-right">Concrete €</th>
-            <th className="px-3 py-2 text-right">Steel (kg)</th>
-            <th className="px-3 py-2 text-right">Steel €</th>
-            <th className="px-3 py-2 text-right">Labour (hrs)</th>
-            <th className="px-3 py-2 text-right">Labour €</th>
-          </tr>
-        </thead>
-        <tbody>
-          {productBreakdowns.map((product, idx) => (
-            <tr key={idx} className="border-t">
-              <td className="px-3 py-2">{product.name}</td>
-              <td className="px-3 py-2 text-right">{product.concrete.volume}</td>
-              <td className="px-3 py-2 text-right">€{product.concrete.cost}</td>
-              <td className="px-3 py-2 text-right">{product.steel.kg}</td>
-              <td className="px-3 py-2 text-right">€{product.steel.cost}</td>
-              <td className="px-3 py-2 text-right">{product.labour.hours}</td>
-              <td className="px-3 py-2 text-right">€{product.labour.cost}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  </div>
-)}
 
 
 
