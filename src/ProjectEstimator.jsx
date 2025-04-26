@@ -455,6 +455,39 @@ additional: [
 </div>
 
 
+{productBreakdowns.length > 0 && (
+  <div className="mt-6 bg-white p-4 rounded shadow-sm">
+    <h3 className="text-lg font-semibold text-gray-700 mb-4">Product Breakdown</h3>
+    <div className="overflow-x-auto">
+      <table className="min-w-full text-sm">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="px-3 py-2 text-left">Product Name</th>
+            <th className="px-3 py-2 text-right">Concrete Vol (m³)</th>
+            <th className="px-3 py-2 text-right">Concrete €</th>
+            <th className="px-3 py-2 text-right">Steel (kg)</th>
+            <th className="px-3 py-2 text-right">Steel €</th>
+            <th className="px-3 py-2 text-right">Labour (hrs)</th>
+            <th className="px-3 py-2 text-right">Labour €</th>
+          </tr>
+        </thead>
+        <tbody>
+          {productBreakdowns.map((product, idx) => (
+            <tr key={idx} className="border-t">
+              <td className="px-3 py-2">{product.name}</td>
+              <td className="px-3 py-2 text-right">{product.concrete.volume}</td>
+              <td className="px-3 py-2 text-right">€{product.concrete.cost}</td>
+              <td className="px-3 py-2 text-right">{product.steel.kg}</td>
+              <td className="px-3 py-2 text-right">€{product.steel.cost}</td>
+              <td className="px-3 py-2 text-right">{product.labour.hours}</td>
+              <td className="px-3 py-2 text-right">€{product.labour.cost}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+)}
 
 
 
