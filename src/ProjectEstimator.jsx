@@ -299,7 +299,8 @@ additional: [
         const reader = new FileReader();
 
         
-       reader.onload = (event) => {
+
+reader.onload = (event) => {
   const text = event.target.result;
   const rows = text.split('\n').map(row => row.split(',').map(cell => cell.trim()));
   const headers = rows[0].map(h => h.toLowerCase());
@@ -359,16 +360,20 @@ additional: [
     };
   }
 
-  // Set the state for display in Manufacturing section
+  // Set the extracted product breakdowns
   setProductBreakdowns(Object.entries(productMap).map(([name, data]) => ({
     name,
     ...data
   })));
 
-  // ✅ Success message
-  setUploadMessage("✅ SketchUp CSV successfully uploaded and processed.");
+  // ✅ VERY IMPORTANT: Upload succeeded
+  setUploadSuccess(true);
+  setUploadMessage("✅ SketchUp CSV successfully uploaded and processed!");
 };
 
+
+
+        
        
         reader.readAsText(file);
       }}
