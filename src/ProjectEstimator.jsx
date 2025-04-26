@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+<import React, { useState } from 'react';
 import './index.css';
 
 function AccordionSection({ title, children }) {
@@ -439,19 +439,50 @@ additional: [
                   <th className="px-3 py-2 text-right">Labour (€)</th>
                 </tr>
               </thead>
-              <tbody>
-                {productBreakdowns.map((product, idx) => (
-                  <tr key={idx} className="border-t">
-                    <td className="px-3 py-2">{product.name}</td>
-                    <td className="px-3 py-2 text-right">{product.concrete.volume}</td>
-                    <td className="px-3 py-2 text-right">€{product.concrete.cost}</td>
-                    <td className="px-3 py-2 text-right">{product.steel.kg}</td>
-                    <td className="px-3 py-2 text-right">€{product.steel.cost}</td>
-                    <td className="px-3 py-2 text-right">{product.labour.hours}</td>
-                    <td className="px-3 py-2 text-right">€{product.labour.cost}</td>
-                  </tr>
-                ))}
-              </tbody>
+
+              
+        <tbody>
+  {productBreakdowns.map((product, idx) => (
+    <tr key={idx} className="border-t">
+      <td className="px-3 py-2">{product.name}</td>
+      <td className="px-3 py-2 text-right">{product.concrete.volume}</td>
+      <td className="px-3 py-2 text-right">€{product.concrete.cost}</td>
+      <td className="px-3 py-2 text-right">{product.steel.kg}</td>
+      <td className="px-3 py-2 text-right">€{product.steel.cost}</td>
+      <td className="px-3 py-2 text-right">{product.labour.hours}</td>
+      <td className="px-3 py-2 text-right">€{product.labour.cost}</td>
+    </tr>
+  ))}
+
+  {/* Totals Row */}
+  <tr className="border-t font-semibold bg-gray-100">
+    <td className="px-3 py-2 text-right">Totals:</td>
+    <td className="px-3 py-2 text-right">
+      {productBreakdowns.reduce((sum, p) => sum + parseFloat(p.concrete.volume), 0).toFixed(2)}
+    </td>
+    <td className="px-3 py-2 text-right">
+      €{productBreakdowns.reduce((sum, p) => sum + parseFloat(p.concrete.cost), 0).toFixed(2)}
+    </td>
+    <td className="px-3 py-2 text-right">
+      {productBreakdowns.reduce((sum, p) => sum + parseFloat(p.steel.kg), 0).toFixed(2)}
+    </td>
+    <td className="px-3 py-2 text-right">
+      €{productBreakdowns.reduce((sum, p) => sum + parseFloat(p.steel.cost), 0).toFixed(2)}
+    </td>
+    <td className="px-3 py-2 text-right">
+      {productBreakdowns.reduce((sum, p) => sum + parseFloat(p.labour.hours), 0).toFixed(2)}
+    </td>
+    <td className="px-3 py-2 text-right">
+      €{productBreakdowns.reduce((sum, p) => sum + parseFloat(p.labour.cost), 0).toFixed(2)}
+    </td>
+  </tr>
+</tbody>
+
+
+
+
+
+              
             </table>
           </div>
         </div>
