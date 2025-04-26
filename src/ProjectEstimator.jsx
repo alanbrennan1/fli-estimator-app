@@ -1,4 +1,4 @@
-<import React, { useState } from 'react';
+<mport React, { useState } from 'react';
 import './index.css';
 
 function AccordionSection({ title, children }) {
