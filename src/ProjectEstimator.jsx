@@ -83,6 +83,8 @@ const [additionalItems] = useState({
   const [pendingImport, setPendingImport] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [productBreakdowns, setProductBreakdowns] = useState([]);
+  const [isCableTroughProduct, setIsCableTroughProduct] = useState(false);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -379,6 +381,10 @@ const handleEstimate = () => {
 
   // ⭐ Now update the product breakdown table
   setProductBreakdowns(productList);
+      // Detect if any product starts with "CT" (Cable Trough)
+const hasCableTrough = productList.some(p => p.name.toUpperCase().startsWith('CT'));
+setIsCableTroughProduct(hasCableTrough);
+
 
   // ✅ Success message
   setUploadSuccess(true);
@@ -533,64 +539,73 @@ const handleEstimate = () => {
 
       <AccordionSection title="➕ Additional Items">
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-    {[
-      "lidUnits",
-      "pipeOpeningsUnits",
-      "ladderRungsUnits",
-      "wBarScabbling",
-      "liftersCapstans",
-      "mkkCones",
-      "unistrut",
-      "sikaPowder",
-      "pullingIrons",
-      "earthingPoints",
-      "sumpGates",
-      "polyfleece"
-    ].map((field) => {
-      const labelMap = {
-        lidUnits: "Lid Units",
-        pipeOpeningsUnits: "Pipe Openings",
-        ladderRungsUnits: "Ladder Rungs",
-        wBarScabbling: "W.Bar & Scabbling",
-        liftersCapstans: "Lifters & Capstans",
-        mkkCones: "MKK Cones",
-        unistrut: "Unistrut",
-        sikaPowder: "Sika Powder",
-        pullingIrons: "Pulling Irons",
-        earthingPoints: "Earthing Points",
-        sumpGates: "Sump Gates",
-        polyfleece: "Polyfleece"
-      };
+{[
+  "lidUnits",
+  "pipeOpeningsUnits",
+  "ladderRungsUnits",
+  "wBarScabbling",
+  "liftersCapstans",
+  "mkkCones",
+  "unistrut",
+  "sikaPowder",
+  "pullingIrons",
+  "earthingPoints",
+  "sumpGates",
+  "polyfleece"
+]
+.filter(field => {
+  if (isCableTroughProduct) {
+    // Only allow these for Cable Trough
+    return ["liftersCapstans", "unistrut", "sikaPowder"].includes(field);
+  }
+  return true; // Else show everything
+})
+.map((field) => {
+  const labelMap = {
+    lidUnits: "Lid Units",
+    pipeOpeningsUnits: "Pipe Openings",
+    ladderRungsUnits: "Ladder Rungs",
+    wBarScabbling: "W.Bar & Scabbling",
+    liftersCapstans: "Lifters & Capstans",
+    mkkCones: "MKK Cones",
+    unistrut: "Unistrut",
+    sikaPowder: "Sika Powder",
+    pullingIrons: "Pulling Irons",
+    earthingPoints: "Earthing Points",
+    sumpGates: "Sump Gates",
+    polyfleece: "Polyfleece"
+  };
 
-      const placeholderMap = {
-        lidUnits: "Qty",
-        pipeOpeningsUnits: "Qty",
-        ladderRungsUnits: "Qty",
-        wBarScabbling: "Metres",
-        liftersCapstans: "Pieces",
-        mkkCones: "Qty",
-        unistrut: "Metres",
-        sikaPowder: "m³",
-        pullingIrons: "Qty",
-        earthingPoints: "Qty",
-        sumpGates: "Qty",
-        polyfleece: "m"
-      };
+  const placeholderMap = {
+    lidUnits: "Qty",
+    pipeOpeningsUnits: "Qty",
+    ladderRungsUnits: "Qty",
+    wBarScabbling: "Metres",
+    liftersCapstans: "Pieces",
+    mkkCones: "Qty",
+    unistrut: "Metres",
+    sikaPowder: "m³",
+    pullingIrons: "Qty",
+    earthingPoints: "Qty",
+    sumpGates: "Qty",
+    polyfleece: "m"
+  };
 
-      return (
-        <div key={field} className="flex flex-col">
-          <label className="text-sm font-medium mb-1">{labelMap[field]}</label>
-          <input
-            type="number"
-            name={field}
-            value={formData[field] || ''}
-            onChange={handleChange}
-            placeholder={placeholderMap[field] || "Qty"}
-            className="border p-2 rounded"
-          />
-        </div>
-      );
-    })}
+  return (
+    <div key={field} className="flex flex-col">
+      <label className="text-sm font-medium mb-1">{labelMap[field]}</label>
+      <input
+        type="number"
+        name={field}
+        value={formData[field] || ''}
+        onChange={handleChange}
+        placeholder={placeholderMap[field] || "Qty"}
+        className="border p-2 rounded"
+      />
+    </div>
+  );
+})}
+    
 
     {/* Duct Type Dropdown */}
     <div className="flex flex-col">
