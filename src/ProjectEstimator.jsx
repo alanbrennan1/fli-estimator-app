@@ -81,6 +81,7 @@ const [additionalItems] = useState({
   const [breakdown, setBreakdown] = useState({});
   const [pendingImport, setPendingImport] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [productBreakdowns, setProductBreakdowns] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -271,6 +272,8 @@ additional: [
 </AccordionSection>
 
 
+
+
 {/* 🏗 Manufacturing Layout */}
 <div className="flex flex-col md:flex-row gap-6 items-start">
 
@@ -283,7 +286,6 @@ additional: [
       </div>
     )}
 
-    
     <input
       type="file"
       accept=".csv"
@@ -297,64 +299,54 @@ additional: [
           const rows = text.split('\n').map(row => row.split(','));
           const headers = rows[0].map(h => h.trim().toLowerCase());
 
+          const defIndex = headers.indexOf("definition name");
           const quantityIndex = headers.indexOf("quantity");
           const volumeIndex = headers.indexOf("entity volume");
 
-          if (quantityIndex === -1 || volumeIndex === -1) {
-            alert("CSV must include 'Quantity' and 'Entity Volume' columns.");
+          if (defIndex === -1 || quantityIndex === -1 || volumeIndex === -1) {
+            alert("CSV must include 'Definition Name', 'Quantity', and 'Entity Volume' columns.");
             return;
           }
 
-          let totalVolume = 0;
-          let totalLabourHours = 0;
-          let totalLabourCost = 0;
+          const concreteRate = 137.21;
+          const steelRate = 0.8;
+          const steelDensity = 120;
+          const labourRate = 70.11;
+          const labourHoursPerTonne = 4.5;
+
+          const productMap = {};
 
           for (let i = 1; i < rows.length; i++) {
-            const quantityRaw = rows[i][quantityIndex];
-            const volumeRaw = rows[i][volumeIndex];
+            const row = rows[i];
+            const defName = row[defIndex];
+            const qty = parseFloat(row[quantityIndex]);
+            const volumeRaw = row[volumeIndex]?.replace(/[^\d.-]/g, '');
+            const volume = parseFloat(volumeRaw);
 
-            if (!quantityRaw || !volumeRaw) continue;
+            if (!defName || isNaN(qty) || isNaN(volume)) continue;
 
-            const quantity = parseFloat(quantityRaw.trim());
-            const volume = parseFloat(volumeRaw.trim().replace(/[^\d.-]/g, ''));
+            const totalVolume = qty * volume;
+            const concreteCost = totalVolume * concreteRate;
+            const steelKg = totalVolume * steelDensity;
+            const steelCost = steelKg * steelRate;
+            const unitWeight = volume * 2.6;
+            const labourPerUnit = unitWeight * labourHoursPerTonne;
+            const totalLabourHours = qty * labourPerUnit;
+            const labourCost = totalLabourHours * labourRate;
 
-            if (!isNaN(quantity) && !isNaN(volume)) {
-              totalVolume += quantity * volume;
-              const unitWeight = volume * 2.6;
-              const labourPerUnit = unitWeight * 4.5;
-              const totalRowHours = quantity * labourPerUnit;
-              const totalRowCost = totalRowHours * 70.11;
-              totalLabourHours += totalRowHours;
-              totalLabourCost += totalRowCost;
-            }
+            productMap[defName] = {
+              quantity: qty,
+              concrete: { volume: totalVolume.toFixed(2), cost: concreteCost.toFixed(2) },
+              steel: { kg: steelKg.toFixed(2), cost: steelCost.toFixed(2) },
+              labour: { hours: totalLabourHours.toFixed(2), cost: labourCost.toFixed(2) },
+            };
           }
 
-          const concreteCost = totalVolume * 137.21;
-
-          setFormData(prev => ({
-            ...prev,
-            concreteVolume: totalVolume.toFixed(2),
-            labourHours: totalLabourHours.toFixed(2)
-          }));
-
-          setBreakdown(prev => ({
-            ...prev,
-            concrete: [
-              { label: 'Total Concrete Volume', value: totalVolume.toFixed(2), unit: 'm³', isCurrency: false },
-              { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
-            ],
-            labour: [
-              { label: 'Labour Hours', value: totalLabourHours.toFixed(2), unit: 'hrs', isCurrency: false },
-              { label: 'Labour Cost', value: totalLabourCost.toFixed(2), isCurrency: true }
-            ],
-            ...prev
-          }));
+          setProductBreakdowns(Object.entries(productMap).map(([name, data]) => ({ name, ...data })));
 
           setUploadSuccess(true);
-          setTimeout(() => setUploadSuccess(false), 4000); // Auto-hide after 4 seconds
+          setTimeout(() => setUploadSuccess(false), 4000);
         };
-
-        
         reader.readAsText(file);
       }}
       className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
@@ -429,14 +421,48 @@ additional: [
           />
         </div>
       </div>
+
+      {/* 🔎 Product breakdown (if exists) */}
+      {productBreakdowns.length > 0 && (
+        <div className="mt-6">
+          <h3 className="text-md font-semibold text-gray-700 mb-2">Product Breakdown</h3>
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="px-3 py-2 text-left">Product</th>
+                  <th className="px-3 py-2 text-right">Concrete (m³)</th>
+                  <th className="px-3 py-2 text-right">Concrete (€)</th>
+                  <th className="px-3 py-2 text-right">Steel (kg)</th>
+                  <th className="px-3 py-2 text-right">Steel (€)</th>
+                  <th className="px-3 py-2 text-right">Labour (hrs)</th>
+                  <th className="px-3 py-2 text-right">Labour (€)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {productBreakdowns.map((product, idx) => (
+                  <tr key={idx} className="border-t">
+                    <td className="px-3 py-2">{product.name}</td>
+                    <td className="px-3 py-2 text-right">{product.concrete.volume}</td>
+                    <td className="px-3 py-2 text-right">€{product.concrete.cost}</td>
+                    <td className="px-3 py-2 text-right">{product.steel.kg}</td>
+                    <td className="px-3 py-2 text-right">€{product.steel.cost}</td>
+                    <td className="px-3 py-2 text-right">{product.labour.hours}</td>
+                    <td className="px-3 py-2 text-right">€{product.labour.cost}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </AccordionSection>
   </div>
+
 </div>
 
 
-
-
-
+        
 
       <AccordionSection title="➕ Additional Items">
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
