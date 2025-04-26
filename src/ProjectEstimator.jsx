@@ -128,9 +128,6 @@ const handleEstimate = () => {
   const steelCost = steelKg * 0.8;
 
 
-  // Labour fallback: if no CSV, calculate from manual inputs
-  const labourCost = labourCostFromCSV || (safe(formData.labourHours) * 70.11);
-
   // Additional Items cost
   const additionalCost =
     30 * safeInt(formData.lidUnits) +
