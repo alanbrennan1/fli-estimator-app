@@ -129,13 +129,13 @@ const handleEstimate = () => {
   const concreteCost = manualConcreteVolume * 137.21;
 
   // Steel Cost
-const steelKg = manualConcreteVolume * 120;
-const steelCost = steelKg * 0.8;
+  const steelKg = manualConcreteVolume * 120;
+  const steelCost = steelKg * 0.8;
 
   // Labour fallback: if no CSV, calculate from manual inputs
   const labourCost = labourCostFromCSV || (safe(formData.labourHours) * 70.11);
 
-  // Additional Items
+  // Additional Items cost
   const additionalCost =
     30 * safeInt(formData.lidUnits) +
     50 * safeInt(formData.pipeOpeningsUnits) +
@@ -145,25 +145,29 @@ const steelCost = steelKg * 0.8;
   const transportCost = safe(formData.transportRate) * safe(formData.transportQuantity);
   const installationCost = safe(formData.installationDays) * 500;
 
-  // Total
-let total = concreteCost + steelCost + labourCost + additionalCost + transportCost + installationCost;
+  // Total before margins
+  let total = concreteCost + steelCost + labourCost + designCost + additionalCost + transportCost + installationCost;
 
-// Apply additional waste percentage
-total *= 1 + safe(formData.wasteMargin) / 100;
+  // Apply additional waste margin
+  total *= 1 + safe(formData.wasteMargin) / 100;
 
-  // Apply group cost
-total *= 1 + safe(formData.groupCost) / 100;
-  
-// Then apply profitability margin
-total *= 1 + safe(formData.margin) / 100;
+  // Apply group cost margin
+  total *= 1 + safe(formData.groupCost) / 100;
 
+  // Apply profitability margin
+  total *= 1 + safe(formData.margin) / 100;
 
+  // Update UI
   setEstimate(total.toFixed(2));
 
   setBreakdown({
     concrete: [
       { label: 'Concrete Volume', value: manualConcreteVolume.toFixed(2), unit: 'm³', isCurrency: false },
       { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
+    ],
+    steel: [
+      { label: 'Steel (kg)', value: steelKg.toFixed(2), unit: 'kg', isCurrency: false },
+      { label: 'Steel Cost', value: steelCost.toFixed(2), isCurrency: true }
     ],
     labour: [
       { label: 'Labour Hours', value: labourCostFromCSV ? totalLabourHoursFromCSV.toFixed(2) : formData.labourHours, unit: 'hrs', isCurrency: false },
@@ -173,21 +177,21 @@ total *= 1 + safe(formData.margin) / 100;
       { label: 'Total Design Hours', value: totalDesignHours.toFixed(2), unit: 'hrs', isCurrency: false },
       { label: 'Design Cost', value: designCost.toFixed(2), isCurrency: true }
     ],
-additional: [
-  { label: 'Lid Units', value: (30 * safeInt(formData.lidUnits)).toFixed(2), isCurrency: true },
-  { label: 'Pipe Openings', value: (50 * safeInt(formData.pipeOpeningsUnits)).toFixed(2), isCurrency: true },
-  { label: 'Ladder Rungs', value: (100 * safeInt(formData.ladderRungsUnits)).toFixed(2), isCurrency: true },
-  { label: 'W.Bar & Scabbling', value: (safeInt(formData.wBarScabbling) * 0).toFixed(2), isCurrency: true },
-  { label: 'Lifters & Capstans', value: (safeInt(formData.liftersCapstans) * 0).toFixed(2), isCurrency: true },
-  { label: 'MKK Cones', value: (safeInt(formData.mkkCones) * 0).toFixed(2), isCurrency: true },
-  { label: 'Unistrut', value: (safeInt(formData.unistrut) * 0).toFixed(2), isCurrency: true },
-  { label: 'Sika Powder', value: (safeInt(formData.sikaPowder) * 0).toFixed(2), isCurrency: true },
-  { label: 'Pulling Irons', value: (safeInt(formData.pullingIrons) * 0).toFixed(2), isCurrency: true },
-  { label: 'Earthing Points', value: (safeInt(formData.earthingPoints) * 0).toFixed(2), isCurrency: true },
-  { label: 'Sump Gates', value: (safeInt(formData.sumpGates) * 0).toFixed(2), isCurrency: true },
-  { label: 'Polyfleece', value: (safeInt(formData.polyfleece) * 0).toFixed(2), isCurrency: true },
-  { label: 'Duct Type', value: formData.ductType ? `Included (${formData.ductType})` : 'N/A', isCurrency: false }
-],
+    additional: [
+      { label: 'Lid Units', value: (30 * safeInt(formData.lidUnits)).toFixed(2), isCurrency: true },
+      { label: 'Pipe Openings', value: (50 * safeInt(formData.pipeOpeningsUnits)).toFixed(2), isCurrency: true },
+      { label: 'Ladder Rungs', value: (100 * safeInt(formData.ladderRungsUnits)).toFixed(2), isCurrency: true },
+      { label: 'W.Bar & Scabbling', value: (safeInt(formData.wBarScabbling) * 0).toFixed(2), isCurrency: true },
+      { label: 'Lifters & Capstans', value: (safeInt(formData.liftersCapstans) * 0).toFixed(2), isCurrency: true },
+      { label: 'MKK Cones', value: (safeInt(formData.mkkCones) * 0).toFixed(2), isCurrency: true },
+      { label: 'Unistrut', value: (safeInt(formData.unistrut) * 0).toFixed(2), isCurrency: true },
+      { label: 'Sika Powder', value: (safeInt(formData.sikaPowder) * 0).toFixed(2), isCurrency: true },
+      { label: 'Pulling Irons', value: (safeInt(formData.pullingIrons) * 0).toFixed(2), isCurrency: true },
+      { label: 'Earthing Points', value: (safeInt(formData.earthingPoints) * 0).toFixed(2), isCurrency: true },
+      { label: 'Sump Gates', value: (safeInt(formData.sumpGates) * 0).toFixed(2), isCurrency: true },
+      { label: 'Polyfleece', value: (safeInt(formData.polyfleece) * 0).toFixed(2), isCurrency: true },
+      { label: 'Duct Type', value: formData.ductType ? `Included (${formData.ductType})` : 'N/A', isCurrency: false }
+    ],
     transport: [
       { label: 'Transport Cost', value: transportCost.toFixed(2), isCurrency: true }
     ],
@@ -200,6 +204,7 @@ additional: [
 
 
 
+  
 
   return (
     <div className="min-h-screen bg-gray-100">
