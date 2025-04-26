@@ -1,5 +1,3 @@
-.jsx file (April 24)
-
 import React, { useState } from 'react';
 import './index.css';
 
