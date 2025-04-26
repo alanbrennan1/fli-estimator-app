@@ -72,6 +72,7 @@ const [additionalItems] = useState({
     productionCheckingHours: '',
     siteQueriesHours: '',
     asBuiltsHours: '',
+    labourHours: '',
     concreteVolume: '',
     transportRate: '',
     transportQuantity: ''
@@ -89,18 +90,18 @@ const [additionalItems] = useState({
   };
 
 
+
 const handleEstimate = () => {
   const safe = (val) => parseFloat(val || 0);
   const safeInt = (val) => parseInt(val || '0', 10);
 
-  // Concrete Volume — user input (from manual OR uploaded CSV)
-  const manualConcreteVolume = safe(formData.concreteVolume);
+  // 📏 Concrete Volume — comes from manual entry OR uploaded CSV
+  const concreteVolume = safe(formData.concreteVolume);
 
-  // Labour Hours — user input (from manual OR uploaded CSV)
+  // 🛠 Labour Hours — comes from manual entry OR uploaded CSV
   const totalLabourHours = safe(formData.labourHours);
-  const labourCost = totalLabourHours * 70.11;
 
-  // Design Hours and Cost
+  // 🎨 Design Hours & Cost
   const designFields = [
     'proposalHours',
     'designMeetingsHours',
@@ -117,53 +118,51 @@ const handleEstimate = () => {
     'asBuiltsHours'
   ];
   const totalDesignHours = designFields.reduce((sum, key) => sum + safe(formData[key]), 0);
-  const designRate = 61.12;
-  const designCost = totalDesignHours * designRate;
+  const designCost = totalDesignHours * 61.12; // €61.12/hour
 
-  // Concrete Cost
-  const concreteCost = manualConcreteVolume * 137.21;
+  // 💵 Concrete Cost
+  const concreteCost = concreteVolume * 137.21;
 
-  // Steel Cost
-  const steelKg = manualConcreteVolume * 120;
+  // 🛠 Steel Cost
+  const steelKg = concreteVolume * 120;
   const steelCost = steelKg * 0.8;
 
+  // 👷‍♂️ Labour Cost
+  const labourCost = totalLabourHours * 70.11;
 
-  // Additional Items cost
+  // ➕ Additional Items
   const additionalCost =
     30 * safeInt(formData.lidUnits) +
     50 * safeInt(formData.pipeOpeningsUnits) +
     100 * safeInt(formData.ladderRungsUnits);
 
-  // Transport + Installation
+  // 🚚 Transport & Installation
   const transportCost = safe(formData.transportRate) * safe(formData.transportQuantity);
   const installationCost = safe(formData.installationDays) * 500;
 
-  // Total before margins
+  // 🧮 Total Before Margins
   let total = concreteCost + steelCost + labourCost + designCost + additionalCost + transportCost + installationCost;
 
-  // Apply additional waste margin
-  total *= 1 + safe(formData.wasteMargin) / 100;
+  // 📈 Apply Margins
+  total *= 1 + safe(formData.wasteMargin) / 100;  // Additional waste
+  total *= 1 + safe(formData.groupCost) / 100;     // Group overhead
+  total *= 1 + safe(formData.margin) / 100;        // Profitability margin
 
-  // Apply group cost margin
-  total *= 1 + safe(formData.groupCost) / 100;
-
-  // Apply profitability margin
-  total *= 1 + safe(formData.margin) / 100;
-
-  // Update UI
+  // 💾 Save Estimate
   setEstimate(total.toFixed(2));
 
+  // 📋 Save BoQ Breakdown
   setBreakdown({
     concrete: [
-      { label: 'Concrete Volume', value: manualConcreteVolume.toFixed(2), unit: 'm³', isCurrency: false },
+      { label: 'Concrete Volume', value: concreteVolume.toFixed(2), unit: 'm³', isCurrency: false },
       { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
     ],
     steel: [
-      { label: 'Steel (kg)', value: steelKg.toFixed(2), unit: 'kg', isCurrency: false },
+      { label: 'Steel Weight', value: steelKg.toFixed(2), unit: 'kg', isCurrency: false },
       { label: 'Steel Cost', value: steelCost.toFixed(2), isCurrency: true }
     ],
     labour: [
-      { label: 'Labour Hours', value: labourCostFromCSV ? totalLabourHoursFromCSV.toFixed(2) : formData.labourHours, unit: 'hrs', isCurrency: false },
+      { label: 'Labour Hours', value: totalLabourHours.toFixed(2), unit: 'hrs', isCurrency: false },
       { label: 'Labour Cost', value: labourCost.toFixed(2), isCurrency: true }
     ],
     design: [
@@ -197,8 +196,10 @@ const handleEstimate = () => {
 
 
 
+
   
 
+  
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-white shadow p-4 flex items-center">
