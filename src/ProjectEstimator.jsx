@@ -360,6 +360,10 @@ const handleEstimate = () => {
         ]
       }));
 
+        // ⭐ Now update the product breakdown table
+      setProductBreakdowns(productList);
+
+
       setUploadSuccess(true);
       setTimeout(() => setUploadSuccess(false), 4000);
     };
@@ -494,13 +498,7 @@ const handleEstimate = () => {
       €{productBreakdowns.reduce((sum, p) => sum + parseFloat(p.labour.cost), 0).toFixed(2)}
     </td>
   </tr>
-</tbody>
-
-
-
-
-
-              
+</tbody>              
             </table>
           </div>
         </div>
