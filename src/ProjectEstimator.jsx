@@ -537,8 +537,20 @@ setIsCableTroughProduct(hasCableTrough);
 
         
 
-      <AccordionSection title="➕ Additional Items">
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+<AccordionSection 
+  title={
+    <>
+      ➕ Additional Items
+      {isCableTroughProduct && (
+        <span className="ml-2 px-2 py-0.5 text-xs bg-blue-100 text-blue-700 rounded-full">
+          Cable Troughs Mode ON
+        </span>
+      )}
+    </>
+  }
+>              
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 {[
   "lidUnits",
   "pipeOpeningsUnits",
