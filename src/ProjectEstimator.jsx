@@ -535,109 +535,141 @@ setIsCableTroughProduct(hasCableTrough);
 </div>
 
 
-        
-
-<AccordionSection 
-  title={
-    <>
-      ➕ Additional Items
-      {isCableTroughProduct && (
-        <span className="ml-2 px-2 py-0.5 text-xs bg-blue-100 text-blue-700 rounded-full">
-          Cable Troughs Mode ON
-        </span>
-      )}
-    </>
-  }
->              
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-{[
-  "lidUnits",
-  "pipeOpeningsUnits",
-  "ladderRungsUnits",
-  "wBarScabbling",
-  "liftersCapstans",
-  "mkkCones",
-  "unistrut",
-  "sikaPowder",
-  "pullingIrons",
-  "earthingPoints",
-  "sumpGates",
-  "polyfleece"
-]
-.filter(field => {
-  if (isCableTroughProduct) {
-    // Only allow these for Cable Trough
-    return ["liftersCapstans", "unistrut", "sikaPowder"].includes(field);
-  }
-  return true; // Else show everything
-})
-.map((field) => {
-  const labelMap = {
-    lidUnits: "Lid Units",
-    pipeOpeningsUnits: "Pipe Openings",
-    ladderRungsUnits: "Ladder Rungs",
-    wBarScabbling: "W.Bar & Scabbling",
-    liftersCapstans: "Lifters & Capstans",
-    mkkCones: "MKK Cones",
-    unistrut: "Unistrut",
-    sikaPowder: "Sika Powder",
-    pullingIrons: "Pulling Irons",
-    earthingPoints: "Earthing Points",
-    sumpGates: "Sump Gates",
-    polyfleece: "Polyfleece"
-  };
-
-  const placeholderMap = {
-    lidUnits: "Qty",
-    pipeOpeningsUnits: "Qty",
-    ladderRungsUnits: "Qty",
-    wBarScabbling: "Metres",
-    liftersCapstans: "Pieces",
-    mkkCones: "Qty",
-    unistrut: "Metres",
-    sikaPowder: "m³",
-    pullingIrons: "Qty",
-    earthingPoints: "Qty",
-    sumpGates: "Qty",
-    polyfleece: "m"
-  };
-
-  return (
-    <div key={field} className="flex flex-col">
-      <label className="text-sm font-medium mb-1">{labelMap[field]}</label>
-      <input
-        type="number"
-        name={field}
-        value={formData[field] || ''}
-        onChange={handleChange}
-        placeholder={placeholderMap[field] || "Qty"}
-        className="border p-2 rounded"
-      />
+        <AccordionSection title="➕ Additional Items">
+  {/* Cable Troughs Mode Badge */}
+  {productBreakdowns.some(p => p.name.toLowerCase().startsWith('ct')) && (
+    <div className="mb-4">
+      <span className="inline-block bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">
+        Cable Troughs Mode ON
+      </span>
     </div>
-  );
-})}
-    
+  )}
 
-    {/* Duct Type Dropdown */}
-    <div className="flex flex-col">
-      <label className="text-sm font-medium mb-1">Duct Type</label>
-      <select
-        name="ductType"
-        value={formData.ductType}
-        onChange={handleChange}
-        className="border p-2 rounded"
-      >
-        <option value="">Select Duct Type</option>
-        <option value="Duct type 1">Duct type 1</option>
-        <option value="Duct type 2">Duct type 2</option>
-        <option value="Duct type 3">Duct type 3</option>
-        <option value="Duct type 4">Duct type 4</option>
-      </select>
-    </div>
+  {/* Global Additional Items */}
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    {[
+      "lidUnits",
+      "pipeOpeningsUnits",
+      "ladderRungsUnits",
+      "wBarScabbling",
+      "mkkCones",
+      "pullingIrons",
+      "earthingPoints",
+      "sumpGates",
+      "polyfleece"
+    ].map((field) => {
+      const labelMap = {
+        lidUnits: "Lid Units",
+        pipeOpeningsUnits: "Pipe Openings",
+        ladderRungsUnits: "Ladder Rungs",
+        wBarScabbling: "W.Bar & Scabbling",
+        mkkCones: "MKK Cones",
+        pullingIrons: "Pulling Irons",
+        earthingPoints: "Earthing Points",
+        sumpGates: "Sump Gates",
+        polyfleece: "Polyfleece"
+      };
+
+      const placeholderMap = {
+        lidUnits: "Qty",
+        pipeOpeningsUnits: "Qty",
+        ladderRungsUnits: "Qty",
+        wBarScabbling: "Metres",
+        mkkCones: "Qty",
+        pullingIrons: "Qty",
+        earthingPoints: "Qty",
+        sumpGates: "Qty",
+        polyfleece: "m"
+      };
+
+      return (
+        <div key={field} className="flex flex-col">
+          <label className="text-sm font-medium mb-1">{labelMap[field]}</label>
+          <input
+            type="number"
+            name={field}
+            value={formData[field] || ''}
+            onChange={handleChange}
+            placeholder={placeholderMap[field] || "Qty"}
+            className="border p-2 rounded"
+          />
+        </div>
+      );
+    })}
   </div>
+
+  {/* Per-Product Additional Inputs for CT Items */}
+  {productBreakdowns.length > 0 && (
+    <div className="mt-6">
+      <h3 className="text-md font-semibold text-gray-700 mb-3">Per-Product Additional Items</h3>
+      <div className="space-y-4">
+        {productBreakdowns
+          .filter(p => p.name.toLowerCase().startsWith('ct'))
+          .map((product, index) => (
+            <div key={index} className="border rounded p-4 bg-gray-50">
+              <h4 className="text-sm font-semibold mb-2 text-indigo-700">{product.name}</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {['unistrut', 'sikaPowder', 'liftersCapstans', 'ductType'].map(item => {
+                  const labelMap = {
+                    unistrut: 'Unistrut (m)',
+                    sikaPowder: 'Sika Powder (m³)',
+                    liftersCapstans: 'Lifters & Capstans (pcs)',
+                    ductType: 'Duct Type'
+                  };
+
+                  return (
+                    <div key={item} className="flex flex-col">
+                      <label className="text-sm font-medium mb-1">{labelMap[item]}</label>
+                      {item === 'ductType' ? (
+                        <select
+                          className="border p-2 rounded"
+                          value={product.additionalItems?.[item] || ''}
+                          onChange={(e) => {
+                            const updated = [...productBreakdowns];
+                            if (!updated[index].additionalItems) {
+                              updated[index].additionalItems = {};
+                            }
+                            updated[index].additionalItems[item] = e.target.value;
+                            setProductBreakdowns(updated);
+                          }}
+                        >
+                          <option value="">Select Duct Type</option>
+                          <option value="Type 1">Type 1</option>
+                          <option value="Type 2">Type 2</option>
+                          <option value="Type 3">Type 3</option>
+                        </select>
+                      ) : (
+                        <input
+                          type="number"
+                          className="border p-2 rounded"
+                          value={product.additionalItems?.[item] || ''}
+                          onChange={(e) => {
+                            const updated = [...productBreakdowns];
+                            if (!updated[index].additionalItems) {
+                              updated[index].additionalItems = {};
+                            }
+                            updated[index].additionalItems[item] = e.target.value;
+                            setProductBreakdowns(updated);
+                          }}
+                        />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+      </div>
+    </div>
+  )}
 </AccordionSection>
 
+        
+
+
+        
+
+        
 
 <AccordionSection title="🎨 Design">
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
