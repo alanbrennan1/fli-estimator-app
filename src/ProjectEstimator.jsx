@@ -186,22 +186,19 @@ if (productBreakdowns.length > 0) {
       const unitPrice = pricingMap[itemKey] || 0;
 
       if (!isNaN(unitsPerProduct) && unitsPerProduct > 0) {
-        const totalUnits = unitsPerProduct * quantity;
-        const totalCost = totalUnits * unitPrice;
-
+        const totalCost = unitsPerProduct * quantity * unitPrice;
         const label = `${itemKey.charAt(0).toUpperCase() + itemKey.slice(1)} for ${product.name}`;
 
         additionalItemsBreakdown.push({
           label,
-          quantity: totalUnits,
-          unitRate: unitPrice,
-          totalCost
+          quantity: unitsPerProduct * quantity,  // total units
+          unitRate: unitPrice,                   // unit price
+          totalCost                              // total cost
         });
       }
     });
   });
 }
-
 
 
   
@@ -247,8 +244,10 @@ console.log("✅ Total Estimated Cost:", total);
       { label: 'Design Cost', value: designCost.toFixed(2), isCurrency: true }
     ],
 
-    additional: additionalItemsBreakdown.length > 0 ? additionalItemsBreakdown : [
-  { label: 'No additional items', value: 0, isCurrency: true }
+    additional: additionalItemsBreakdown.length > 0
+  ? additionalItemsBreakdown
+  : [{ label: 'No additional items', quantity: 0, unitRate: 0, totalCost: 0 }]
+
 ],
 
 
