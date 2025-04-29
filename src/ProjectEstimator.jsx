@@ -149,24 +149,11 @@ const handleEstimate = () => {
   // 👷‍♂️ Labour Cost
   const labourCost = totalLabourHours * 70.11;
 
-  // ➕ Additional Items
-  const additionalCost =
-    30 * safeInt(formData.lidUnits) +
-    50 * safeInt(formData.pipeOpeningsUnits) +
-    100 * safeInt(formData.ladderRungsUnits);
-
   // 🚚 Transport & Installation
   const transportCost = safe(formData.transportRate) * safe(formData.transportQuantity);
   const installationCost = safe(formData.installationDays) * 500;
 
-  // 🧮 Total Before Margins
-  let total = concreteCost + steelCost + labourCost + designCost + additionalCost + transportCost + installationCost;
-
-  // 📈 Apply Margins
-  total *= 1 + safe(formData.wasteMargin) / 100;  // Additional waste
-  total *= 1 + safe(formData.groupCost) / 100;     // Group overhead
-  total *= 1 + safe(formData.margin) / 100;        // Profitability margin
-
+  // ✅ Additional Items cost calculation
 let additionalCost = 0;
 
 if (productBreakdowns.length > 0) {
@@ -182,6 +169,15 @@ if (productBreakdowns.length > 0) {
     });
   });
 }
+  
+
+  // 🧮 Total Before Margins
+  let total = concreteCost + steelCost + labourCost + designCost + additionalCost + transportCost + installationCost;
+
+  // 📈 Apply Margins
+  total *= 1 + safe(formData.wasteMargin) / 100;  // Additional waste
+  total *= 1 + safe(formData.groupCost) / 100;     // Group overhead
+  total *= 1 + safe(formData.margin) / 100;        // Profitability margin
   
 
   // 💾 Save Estimate
