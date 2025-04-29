@@ -165,15 +165,16 @@ const handleEstimate = () => {
   const transportCost = safe(formData.transportRate) * safe(formData.transportQuantity);
   const installationCost = safe(formData.installationDays) * 500;
 
-const itemKeyToPricingName = {
-  unistrut: 'Unistrut',
-  duct: 'Duct Type',
-  sika: 'Sika Powder',
-  lifters: 'Lifters'
+// 🛠 Mapping between app field names and pricing file names
+const itemPricingKeys = {
+  unistrut: "Unistrut",
+  sika: "Sika Powder",
+  duct: "Duct Type",
+  lifters: "Lifters & Capstans"
 };
 
-let additionalItemsBreakdown = [];
 let additionalCost = 0;
+let additionalItemsBreakdown = [];
 
 if (productBreakdowns.length > 0) {
   productBreakdowns.forEach(product => {
@@ -181,15 +182,15 @@ if (productBreakdowns.length > 0) {
 
     ['unistrut', 'duct', 'sika', 'lifters'].forEach(itemKey => {
       const unitsPerProduct = parseFloat(product[itemKey] || 0);
-      const pricingName = itemKeyToPricingName[itemKey];
-      const unitPrice = pricingMap[pricingName] || 0;
+      const unitPrice = pricingMap[itemPricingKeys[itemKey]] || 0;
 
       if (!isNaN(unitsPerProduct) && unitsPerProduct > 0) {
         const cost = unitsPerProduct * quantity * unitPrice;
-        additionalCost += cost;
+        const label = `${itemKey.charAt(0).toUpperCase() + itemKey.slice(1)} for ${product.name}`;
 
+        additionalCost += cost;
         additionalItemsBreakdown.push({
-          label: `${pricingName} for ${product.name}`,
+          label,
           value: cost.toFixed(2),
           isCurrency: true
         });
@@ -197,6 +198,7 @@ if (productBreakdowns.length > 0) {
     });
   });
 }
+
 
   
 // 🧮 Calculate total Additional Items Cost
