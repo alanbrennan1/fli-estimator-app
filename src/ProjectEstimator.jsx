@@ -204,10 +204,9 @@ if (productBreakdowns.length > 0) {
 }
 
 
-
-  
 // 🧮 Calculate total Additional Items Cost
-const totalAdditionalCost = additionalItemsBreakdown.reduce((sum, item) => sum + parseFloat(item.value), 0);
+const totalAdditionalCost = Object.values(additionalItemsGrouped).flat().reduce((sum, item) => sum + (item.totalCost || 0), 0);
+
 // 🧮 Total Before Margins
 let total = concreteCost + steelCost + labourCost + designCost + totalAdditionalCost + transportCost + installationCost;
 
@@ -803,15 +802,14 @@ setIsCableTroughProduct(hasCableTrough);
     <div className="text-xl font-semibold">Estimated Price: €{estimate}</div>
 
     <div className="pt-4 space-y-4">
-     {Object.entries(breakdown).map(([section, items]) => {
+
+      {Object.entries(breakdown).map(([section, items]) => {
   if (section === "additionalGrouped") {
     return (
       <div key="additional-grouped" className="bg-gray-50 border rounded p-4">
         <h3 className="font-semibold border-b pb-1 mb-3 capitalize text-blue-700">Additional Items</h3>
-
         {Object.entries(items).map(([productName, group]) => {
           const productSubtotal = group.reduce((sum, i) => sum + i.totalCost, 0);
-
           return (
             <div key={productName} className="mb-4 border border-gray-200 rounded-lg bg-white shadow-sm">
               <div className="bg-gray-100 px-4 py-2 font-medium text-gray-800 text-sm rounded-t">{productName}</div>
@@ -832,8 +830,37 @@ setIsCableTroughProduct(hasCableTrough);
         })}
       </div>
     );
+  } else {
+    // ⚡ standard sections (concrete, steel, labour, etc)
+    const subtotal = items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
+    return (
+      <div key={section} className="bg-gray-50 border rounded p-4">
+        <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700">
+          {section === 'additional' ? 'Additional Items' : section.charAt(0).toUpperCase() + section.slice(1)}
+        </h3>
+        <ul className="space-y-1 text-sm">
+          {items.map((item, idx) => (
+            <li key={idx} className="flex justify-between">
+              <span>{item.label}</span>
+              <span>{item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit || ''}`}</span>
+            </li>
+          ))}
+          <li className="flex justify-between font-semibold border-t pt-1 mt-2">
+            <span>Subtotal</span>
+            <span>€{subtotal.toFixed(2)}</span>
+          </li>
+        </ul>
+      </div>
+    );
   }
+})}
 
+
+
+        
+      </div>
+    );
+  }
 
       <div className="text-right text-lg font-bold pt-2 border-t">Grand Total: €{estimate}</div>
 
