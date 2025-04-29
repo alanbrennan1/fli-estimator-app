@@ -174,38 +174,34 @@ const itemPricingKeys = {
 };
 
 let additionalCost = 0;
+// 🧮 Build dynamic additional items breakdown
 let additionalItemsBreakdown = [];
 
 if (productBreakdowns.length > 0) {
   productBreakdowns.forEach(product => {
     const quantity = product.quantity || 0;
 
-    console.log(`▶ Processing product: ${product.name}`);
-    console.log(`  Quantity: ${quantity}`);
-    console.log(`  Unistrut: ${product.unistrut}`);
-    console.log(`  Sika: ${product.sika}`);
-    console.log(`  Lifters: ${product.lifters}`);
-    console.log(`  Duct: ${product.duct}`);
-    console.log(`  Pricing Map:`, pricingMap);
-    
     ['unistrut', 'duct', 'sika', 'lifters'].forEach(itemKey => {
       const unitsPerProduct = parseFloat(product[itemKey] || 0);
-      const unitPrice = pricingMap[itemPricingKeys[itemKey]] || 0;
+      const unitPrice = pricingMap[itemKey] || 0;
 
       if (!isNaN(unitsPerProduct) && unitsPerProduct > 0) {
-        const cost = unitsPerProduct * quantity * unitPrice;
+        const totalUnits = unitsPerProduct * quantity;
+        const totalCost = totalUnits * unitPrice;
+
         const label = `${itemKey.charAt(0).toUpperCase() + itemKey.slice(1)} for ${product.name}`;
 
-        additionalCost += cost;
         additionalItemsBreakdown.push({
           label,
-          value: cost.toFixed(2),
-          isCurrency: true
+          quantity: totalUnits,
+          unitRate: unitPrice,
+          totalCost
         });
       }
     });
   });
 }
+
 
 
   
@@ -817,28 +813,42 @@ setIsCableTroughProduct(hasCableTrough);
     <div className="text-xl font-semibold">Estimated Price: €{estimate}</div>
 
     <div className="pt-4 space-y-4">
-      {Object.entries(breakdown).map(([section, items]) => {
-        const subtotal = items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
-        return (
-          <div key={section} className="bg-gray-50 border rounded p-4">
-            <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700">
-  {section === 'additional' ? 'Additional Items' : section.charAt(0).toUpperCase() + section.slice(1)}
-</h3>
-            <ul className="space-y-1 text-sm">
-              {items.map((item, idx) => (
-                <li key={idx} className="flex justify-between">
-                  <span>{item.label}</span>
-                  <span>{item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit}`}</span>
-                </li>
-              ))}
-              <li className="flex justify-between font-semibold border-t pt-1 mt-2">
-                <span>Subtotal</span>
-                <span>€{subtotal.toFixed(2)}</span>
+   {Object.entries(breakdown).map(([section, items]) => {
+  const subtotal = items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : (i.totalCost || 0)), 0);
+
+  return (
+    <div key={section} className="bg-gray-50 border rounded p-4">
+      <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700">
+        {section === 'additional' ? 'Additional Items' : section.charAt(0).toUpperCase() + section.slice(1)}
+      </h3>
+
+      <ul className="space-y-1 text-sm">
+        {section === 'additional'
+          ? items.map((item, idx) => (
+              <li key={idx} className="flex justify-between">
+                <span>
+                  {item.label} × {item.quantity} units @ €{item.unitRate.toFixed(2)}
+                </span>
+                <span>€{item.totalCost.toFixed(2)}</span>
               </li>
-            </ul>
-          </div>
-        );
-      })}
+            ))
+          : items.map((item, idx) => (
+              <li key={idx} className="flex justify-between">
+                <span>{item.label}</span>
+                <span>{item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit}`}</span>
+              </li>
+            ))
+        }
+
+        {/* Subtotal */}
+        <li className="flex justify-between font-semibold border-t pt-1 mt-2">
+          <span>Subtotal</span>
+          <span>€{subtotal.toFixed(2)}</span>
+        </li>
+      </ul>
+    </div>
+  );
+})}
 
       <div className="text-right text-lg font-bold pt-2 border-t">Grand Total: €{estimate}</div>
 
