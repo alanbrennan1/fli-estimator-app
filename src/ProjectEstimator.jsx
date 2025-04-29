@@ -626,10 +626,10 @@ setIsCableTroughProduct(hasCableTrough);
       {product.isOpen && (
         <div className="bg-white px-4 py-3 grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
-            { key: 'unistrut', label: 'Unistrut (m)' },
+            { key: 'unistrut', label: 'Unistrut' },
             { key: 'duct', label: 'Duct Type' },
-            { key: 'sika', label: 'Sika Powder (m³)' },
-            { key: 'lifters', label: 'Lifters (pcs)' }
+            { key: 'sika', label: 'Sika Powder' },
+            { key: 'lifters', label: 'Lifters' }
           ].map(item => (
             <div key={item.key} className="flex flex-col">
               <label className="text-sm font-medium text-gray-700 mb-1">{item.label}</label>
