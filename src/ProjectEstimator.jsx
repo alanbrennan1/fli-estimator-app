@@ -167,6 +167,23 @@ const handleEstimate = () => {
   total *= 1 + safe(formData.groupCost) / 100;     // Group overhead
   total *= 1 + safe(formData.margin) / 100;        // Profitability margin
 
+let additionalCost = 0;
+
+if (productBreakdowns.length > 0) {
+  productBreakdowns.forEach(product => {
+    const quantity = product.quantity || 0;
+
+    ['liftersCapstans', 'unistrut', 'sikaPowder', 'ductType'].forEach(itemKey => {
+      const formKey = `additional_${product.name}_${itemKey}`;
+      const unitsPerProduct = parseFloat(formData[formKey] || 0);
+      const unitPrice = pricingMap[itemKey] || 0;
+
+      additionalCost += unitsPerProduct * quantity * unitPrice;
+    });
+  });
+}
+  
+
   // 💾 Save Estimate
   setEstimate(total.toFixed(2));
 
@@ -754,22 +771,6 @@ setIsCableTroughProduct(hasCableTrough);
         
                 
         <button onClick={handleEstimate} className="bg-blue-600 text-white px-4 py-2 rounded">Generate Estimate</button>
-
-let additionalCost = 0;
-
-if (productBreakdowns.length > 0) {
-  productBreakdowns.forEach(product => {
-    const quantity = product.quantity || 0;
-
-    ['liftersCapstans', 'unistrut', 'sikaPowder', 'ductType'].forEach(itemKey => {
-      const formKey = `additional_${product.name}_${itemKey}`;
-      const unitsPerProduct = parseFloat(formData[formKey] || 0);
-      const unitPrice = pricingMap[itemKey] || 0;
-
-      additionalCost += unitsPerProduct * quantity * unitPrice;
-    });
-  });
-}
 
         
         {estimate && (
