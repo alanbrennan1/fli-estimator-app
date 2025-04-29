@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.css';
 
-import { useEffect, useState } from 'react';
 import Papa from 'papaparse';
 
 const [pricingData, setPricingData] = useState({});
