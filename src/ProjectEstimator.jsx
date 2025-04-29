@@ -1,6 +1,30 @@
 import React, { useState } from 'react';
 import './index.css';
 
+import { useEffect, useState } from 'react';
+import Papa from 'papaparse';
+
+const [pricingData, setPricingData] = useState({});
+
+useEffect(() => {
+  fetch('/pricing_sheet.csv')
+    .then(response => response.text())
+    .then(csvText => {
+      Papa.parse(csvText, {
+        header: true,
+        skipEmptyLines: true,
+        complete: (results) => {
+          const prices = {};
+          results.data.forEach(row => {
+            prices[row['Item']] = parseFloat(row['Unit Price']);
+          });
+          setPricingData(prices);
+        }
+      });
+    });
+}, []);
+
+
 function AccordionSection({ title, children }) {
   const [isOpen, setIsOpen] = useState(false); // collapsed by default
   return (
