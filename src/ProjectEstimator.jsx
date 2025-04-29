@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
-import pricingMap from './pricing.json';
 
 // State for pricing data
-const [pricingData, setPricingData] = useState([]);
+export default function ProjectEstimator() {
+  const [pricingMap, setPricingMap] = useState({});
 
-// Load JSON from public folder
-useEffect(() => {
-  fetch('/pricing.json')
-    .then((res) => res.json())
-    .then((data) => setPricingData(data))
-    .catch((err) => console.error("Error loading pricing.json:", err));
-}, []);
+  useEffect(() => {
+    fetch('/pricing.json')
+      .then(response => response.json())
+      .then(data => {
+        setPricingMap(data);
+      })
+      .catch(error => {
+        console.error("Failed to load pricing.json:", error);
+      });
+  }, []);
+
 
 // Helper function to fetch unit price
 const getUnitPrice = (itemName) => {
@@ -115,6 +119,12 @@ const handleEstimate = () => {
   const safe = (val) => parseFloat(val || 0);
   const safeInt = (val) => parseInt(val || '0', 10);
 
+  if (!pricingMap || Object.keys(pricingMap).length === 0) {
+  console.error('Pricing data not loaded yet.');
+  return;
+}
+
+
   // 📏 Concrete Volume — comes from manual entry OR uploaded CSV
   const concreteVolume = safe(formData.concreteVolume);
 
@@ -171,7 +181,6 @@ if (productBreakdowns.length > 0) {
   });
 }
   
-
   // 🧮 Total Before Margins
   let total = concreteCost + steelCost + labourCost + designCost + additionalCost + transportCost + installationCost;
 
