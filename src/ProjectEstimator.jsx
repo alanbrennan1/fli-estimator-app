@@ -179,33 +179,41 @@ let additionalItemsBreakdown = [];
 if (productBreakdowns.length > 0) {
   productBreakdowns.forEach(product => {
     const quantity = product.quantity || 0;
+    const productLabel = product.name;
 
-    console.log(`▶ Processing product: ${product.name}`);
-    console.log(`  Quantity: ${quantity}`);
-    console.log(`  Unistrut: ${product.unistrut}`);
-    console.log(`  Sika: ${product.sika}`);
-    console.log(`  Lifters: ${product.lifters}`);
-    console.log(`  Duct: ${product.duct}`);
-    console.log(`  Pricing Map:`, pricingMap);
-    
+    const itemLines = [];
+
     ['unistrut', 'duct', 'sika', 'lifters'].forEach(itemKey => {
       const unitsPerProduct = parseFloat(product[itemKey] || 0);
-      const unitPrice = pricingMap[itemPricingKeys[itemKey]] || 0;
+      const unitPrice = pricingMap[itemKey] || 0;
 
       if (!isNaN(unitsPerProduct) && unitsPerProduct > 0) {
-        const cost = unitsPerProduct * quantity * unitPrice;
-        const label = `${itemKey.charAt(0).toUpperCase() + itemKey.slice(1)} for ${product.name}`;
+        const totalQty = unitsPerProduct * quantity;
+        const cost = totalQty * unitPrice;
+        const itemLabel = itemKey.charAt(0).toUpperCase() + itemKey.slice(1);
 
-        additionalCost += cost;
-        additionalItemsBreakdown.push({
-          label,
+        itemLines.push({
+          label: `${itemLabel} × ${totalQty} units`,
           value: cost.toFixed(2),
           isCurrency: true
         });
       }
     });
+
+    if (itemLines.length > 0) {
+      // Group header for the product
+      additionalItemsBreakdown.push({
+        label: `🔹 ${productLabel}`,
+        value: '', // empty to render as header
+        isCurrency: false
+      });
+
+      // Then append each item's breakdown
+      additionalItemsBreakdown.push(...itemLines);
+    }
   });
 }
+
 
 
   
