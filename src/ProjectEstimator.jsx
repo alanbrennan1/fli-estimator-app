@@ -1,6 +1,22 @@
 import React, { useState, useEffect } from 'react';
-
 import './index.css';
+
+// State for pricing data
+const [pricingData, setPricingData] = useState([]);
+
+// Load JSON from public folder
+useEffect(() => {
+  fetch('/pricing.json')
+    .then((res) => res.json())
+    .then((data) => setPricingData(data))
+    .catch((err) => console.error("Error loading pricing.json:", err));
+}, []);
+
+// Helper function to fetch unit price
+const getUnitPrice = (itemName) => {
+  const item = pricingData.find((entry) => entry.item === itemName);
+  return item ? parseFloat(item.price) : 0;
+};
 
 function AccordionSection({ title, children }) {
   const [isOpen, setIsOpen] = useState(false); // collapsed by default
