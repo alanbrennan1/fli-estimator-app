@@ -1,28 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
 
-// State for pricing data
-export default function ProjectEstimator() {
-  const [pricingMap, setPricingMap] = useState({});
-
-  useEffect(() => {
-    fetch('/pricing.json')
-      .then(response => response.json())
-      .then(data => {
-        setPricingMap(data);
-      })
-      .catch(error => {
-        console.error("Failed to load pricing.json:", error);
-      });
-  }, []);
-
-
-// Helper function to fetch unit price
-const getUnitPrice = (itemName) => {
-  const item = pricingData.find((entry) => entry.item === itemName);
-  return item ? parseFloat(item.price) : 0;
-};
-
 function AccordionSection({ title, children }) {
   const [isOpen, setIsOpen] = useState(false); // collapsed by default
   return (
@@ -39,13 +17,34 @@ function AccordionSection({ title, children }) {
   );
 }
 
-
 export default function ProjectEstimator() {
-  const sectorProductMap = {
+
+    // Load pricing.json
+  const [pricingMap, setPricingMap] = useState({});
+  useEffect(() => {
+    fetch('/pricing.json')
+      .then(response => response.json())
+      .then(data => {
+        setPricingMap(data);
+      })
+      .catch(error => {
+        console.error("Failed to load pricing.json:", error);
+      });
+  }, []);
+
+    const sectorProductMap = {
     Water: ['Baffle Walls', 'Contact Tanks'],
     Energy: ['Cable Troughs', 'Blast Walls'],
     'Bespoke Precast': ['Foundation Bases', 'Cover Slabs'],
   };
+
+
+// Helper function to fetch unit price
+const getUnitPrice = (itemName) => {
+  const item = pricingData.find((entry) => entry.item === itemName);
+  return item ? parseFloat(item.price) : 0;
+};
+
 
 const [additionalItems] = useState({
   lid: 30,             // Fixed price for lid
@@ -114,7 +113,6 @@ const [additionalItems] = useState({
   };
 
 
-
 const handleEstimate = () => {
   const safe = (val) => parseFloat(val || 0);
   const safeInt = (val) => parseInt(val || '0', 10);
@@ -123,7 +121,6 @@ const handleEstimate = () => {
   console.error('Pricing data not loaded yet.');
   return;
 }
-
 
   // 📏 Concrete Volume — comes from manual entry OR uploaded CSV
   const concreteVolume = safe(formData.concreteVolume);
