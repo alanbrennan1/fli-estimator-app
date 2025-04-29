@@ -179,8 +179,11 @@ if (productBreakdowns.length > 0) {
   });
 }
   
-  // 🧮 Total Before Margins
-  let total = concreteCost + steelCost + labourCost + designCost + additionalCost + transportCost + installationCost;
+// 🧮 Calculate total Additional Items Cost
+const totalAdditionalCost = additionalItemsBreakdown.reduce((sum, item) => sum + parseFloat(item.value), 0);
+// 🧮 Total Before Margins
+let total = concreteCost + steelCost + labourCost + designCost + totalAdditionalCost + transportCost + installationCost;
+
 
   // 📈 Apply Margins
   total *= 1 + safe(formData.wasteMargin) / 100;  // Additional waste
