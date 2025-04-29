@@ -871,65 +871,67 @@ setIsCableTroughProduct(hasCableTrough);
   })}
 </div>
 
+<div className="text-right text-lg font-bold pt-2 border-t">Grand Total: €{estimate}</div>
 
-      <div className="text-right text-lg font-bold pt-2 border-t">Grand Total: €{estimate}</div>
+{/* ✅ Export Buttons: CSV + PDF */}
+<div className="flex gap-4 pt-6">
+  <button
+    onClick={() => {
+      const now = new Date().toLocaleString();
+      const rows = [
+        ['FLI Precast Solutions'],
+        [`Quote for: ${formData.projectName || 'Unnamed Project'}`],
+        [`Client: ${formData.client || 'N/A'}`],
+        [`Generated: ${now}`],
+        [],
+      ];
 
-      {/* ✅ Export Buttons: CSV + PDF */}
-      <div className="flex gap-4 pt-6">
-        <button
-          onClick={() => {
-            const now = new Date().toLocaleString();
-            const rows = [
-              ['FLI Precast Solutions'],
-              [`Quote for: ${formData.projectName || 'Unnamed Project'}`],
-              [`Client: ${formData.client || 'N/A'}`],
-              [`Generated: ${now}`],
-              [],
-            ];
+      Object.entries(breakdown).forEach(([section, items]) => {
+        rows.push([`${section.toUpperCase()} BREAKDOWN`]);
+        rows.push(['Label', 'Value']);
+        items.forEach(item => {
+          const value = item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit || ''}`;
+          rows.push([item.label, value]);
+        });
+        rows.push([]);
+      });
 
-            Object.entries(breakdown).forEach(([section, items]) => {
-              rows.push([`${section.toUpperCase()} BREAKDOWN`]);
-              rows.push(['Label', 'Value']);
-              items.forEach(item => {
-                rows.push([
-                  item.label,
-                  item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit || ''}`
-                ]);
-              });
-              rows.push([]);
-            });
+      rows.push(['Grand Total', `€${estimate}`]);
 
-            rows.push(['Grand Total', `€${estimate}`]);
+      const csvContent = 'data:text/csv;charset=utf-8,' + rows.map(e => e.join(',')).join('\n');
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', `${formData.projectName || 'quote'}_BoQ.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }}
+    className="bg-green-600 text-white px-4 py-2 rounded"
+  >
+    Export CSV
+  </button>
 
-            const csvContent = 'data:text/csv;charset=utf-8,' + rows.map(e => e.join(',')).join('\n');
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement('a');
-            link.setAttribute('href', encodedUri);
-            link.setAttribute('download', `${formData.projectName || 'quote'}_BoQ.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          }}
-          className="bg-green-600 text-white px-4 py-2 rounded"
-        >
-          Export CSV
-        </button>
+  <button
+    onClick={() => {
+      const content = document.getElementById('quote-preview');
+      if (!content) return;
 
-        <button
-          onClick={() => {
-            const content = document.getElementById('quote-preview');
-            if (!content) return;
-            import('html2pdf.js').then(html2pdf => {
-              html2pdf.default().from(content).save(`${formData.projectName || 'quote'}_BoQ.pdf`);
-            });
-          }}
-          className="bg-red-600 text-white px-4 py-2 rounded"
-        >
-          Export PDF
-        </button>
-      </div>
-    </div>
-  </div>
+      const filename = `${formData.projectName || 'quote'}_BoQ.pdf`;
+
+      import('html2pdf.js').then(html2pdf => {
+        html2pdf.default().from(content).save(filename);
+      });
+    }}
+    className="bg-red-600 text-white px-4 py-2 rounded"
+  >
+    Export PDF
+  </button>
+</div>
+
+
+
+    
 )}
 
         
