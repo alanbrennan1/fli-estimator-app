@@ -154,6 +154,13 @@ const handleEstimate = () => {
   const transportCost = safe(formData.transportRate) * safe(formData.transportQuantity);
   const installationCost = safe(formData.installationDays) * 500;
 
+const itemKeyToPricingName = {
+  unistrut: 'Unistrut',
+  duct: 'Duct Type',
+  sika: 'Sika Powder',
+  lifters: 'Lifters'
+};
+  
 // 🧮 Build dynamic additional items breakdown
 let additionalItemsBreakdown = [];
 
