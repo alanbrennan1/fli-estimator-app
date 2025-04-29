@@ -21,16 +21,27 @@ export default function ProjectEstimator() {
 
     // Load pricing.json
   const [pricingMap, setPricingMap] = useState({});
-  useEffect(() => {
-    fetch('/pricing.json')
-      .then(response => response.json())
-      .then(data => {
-        setPricingMap(data);
-      })
-      .catch(error => {
-        console.error("Failed to load pricing.json:", error);
+useEffect(() => {
+  fetch('/pricing.json')
+    .then(response => response.json())
+    .then(data => {
+      // ✅ Convert array into a simple key:value object
+      const mappedData = {};
+      data.forEach(entry => {
+        mappedData[entry.item] = parseFloat(entry.price);
       });
-  }, []);
+
+      // ✅ LOG here!
+      console.log("Pricing map loaded:", mappedData);
+
+      setPricingMap(mappedData);
+    })
+    .catch(error => {
+      console.error("Failed to load pricing.json:", error);
+    });
+}, []);
+
+
 
     const sectorProductMap = {
     Water: ['Baffle Walls', 'Contact Tanks'],
@@ -160,9 +171,9 @@ const itemKeyToPricingName = {
   sika: 'Sika Powder',
   lifters: 'Lifters'
 };
-  
-// 🧮 Build dynamic additional items breakdown
+
 let additionalItemsBreakdown = [];
+let additionalCost = 0;
 
 if (productBreakdowns.length > 0) {
   productBreakdowns.forEach(product => {
@@ -170,14 +181,15 @@ if (productBreakdowns.length > 0) {
 
     ['unistrut', 'duct', 'sika', 'lifters'].forEach(itemKey => {
       const unitsPerProduct = parseFloat(product[itemKey] || 0);
-      const unitPrice = pricingMap[itemKey] || 0;
+      const pricingName = itemKeyToPricingName[itemKey];
+      const unitPrice = pricingMap[pricingName] || 0;
 
       if (!isNaN(unitsPerProduct) && unitsPerProduct > 0) {
         const cost = unitsPerProduct * quantity * unitPrice;
-        const label = `${itemKey.charAt(0).toUpperCase() + itemKey.slice(1)} for ${product.name}`;
+        additionalCost += cost;
 
         additionalItemsBreakdown.push({
-          label,
+          label: `${pricingName} for ${product.name}`,
           value: cost.toFixed(2),
           isCurrency: true
         });
@@ -185,6 +197,7 @@ if (productBreakdowns.length > 0) {
     });
   });
 }
+
   
 // 🧮 Calculate total Additional Items Cost
 const totalAdditionalCost = additionalItemsBreakdown.reduce((sum, item) => sum + parseFloat(item.value), 0);
