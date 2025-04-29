@@ -538,7 +538,7 @@ setIsCableTroughProduct(hasCableTrough);
 <AccordionSection title="➕ Additional Items">
   {/* 🔔 Mode Badge */}
   {productBreakdowns.some(p => p.name.startsWith('CT')) && (
-    <div className="mb-4 inline-block bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded">
+    <div className="mb-4 inline-block bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">
       Cable Troughs Mode ON
     </div>
   )}
