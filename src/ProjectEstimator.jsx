@@ -931,9 +931,6 @@ setIsCableTroughProduct(hasCableTrough);
 
 
 
-    
-)}
-
         
       </main>
     </div>
