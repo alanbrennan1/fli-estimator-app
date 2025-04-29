@@ -180,6 +180,14 @@ if (productBreakdowns.length > 0) {
   productBreakdowns.forEach(product => {
     const quantity = product.quantity || 0;
 
+    console.log(`▶ Processing product: ${product.name}`);
+    console.log(`  Quantity: ${quantity}`);
+    console.log(`  Unistrut: ${product.unistrut}`);
+    console.log(`  Sika: ${product.sika}`);
+    console.log(`  Lifters: ${product.lifters}`);
+    console.log(`  Duct: ${product.duct}`);
+    console.log(`  Pricing Map:`, pricingMap);
+    
     ['unistrut', 'duct', 'sika', 'lifters'].forEach(itemKey => {
       const unitsPerProduct = parseFloat(product[itemKey] || 0);
       const unitPrice = pricingMap[itemPricingKeys[itemKey]] || 0;
@@ -412,6 +420,7 @@ console.log("✅ Total Estimated Cost:", total);
       // 👉 Build each product's line
       productList.push({
         name: defName,
+        quantity,
         concrete: { volume: totalRowVolume.toFixed(2), cost: concreteCost.toFixed(2) },
         steel: { kg: steelKg.toFixed(2), cost: steelCost.toFixed(2) },
         labour: { hours: totalRowHours.toFixed(2), cost: totalRowCost.toFixed(2) }
