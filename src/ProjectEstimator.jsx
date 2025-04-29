@@ -246,9 +246,7 @@ console.log("✅ Total Estimated Cost:", total);
 
     additional: additionalItemsBreakdown.length > 0
   ? additionalItemsBreakdown
-  : [{ label: 'No additional items', quantity: 0, unitRate: 0, totalCost: 0 }]
-
-],
+  : [{ label: 'No additional items', quantity: 0, unitRate: 0, totalCost: 0 }],
 
 
     
