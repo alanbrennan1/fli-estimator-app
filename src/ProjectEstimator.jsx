@@ -168,15 +168,17 @@ if (productBreakdowns.length > 0) {
   productBreakdowns.forEach(product => {
     const quantity = product.quantity || 0;
 
-    ['liftersCapstans', 'unistrut', 'sikaPowder', 'ductType'].forEach(itemKey => {
-      const formKey = `additional_${product.name}_${itemKey}`;
-      const unitsPerProduct = parseFloat(formData[formKey] || 0);
+    ['unistrut', 'duct', 'sika', 'lifters'].forEach(itemKey => {
+      const unitsPerProduct = parseFloat(product[itemKey] || 0);
       const unitPrice = pricingMap[itemKey] || 0;
 
-      additionalCost += unitsPerProduct * quantity * unitPrice;
+      if (!isNaN(unitsPerProduct)) {
+        additionalCost += unitsPerProduct * quantity * unitPrice;
+      }
     });
   });
 }
+
   
   // 🧮 Total Before Margins
   let total = concreteCost + steelCost + labourCost + designCost + additionalCost + transportCost + installationCost;
