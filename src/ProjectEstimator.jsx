@@ -174,29 +174,33 @@ const itemPricingKeys = {
 };
 
 let additionalCost = 0;
-let additionalItemsGrouped = {};
+let additionalItemsBreakdown = [];
 
 if (productBreakdowns.length > 0) {
   productBreakdowns.forEach(product => {
     const quantity = product.quantity || 0;
 
+    console.log(`▶ Processing product: ${product.name}`);
+    console.log(`  Quantity: ${quantity}`);
+    console.log(`  Unistrut: ${product.unistrut}`);
+    console.log(`  Sika: ${product.sika}`);
+    console.log(`  Lifters: ${product.lifters}`);
+    console.log(`  Duct: ${product.duct}`);
+    console.log(`  Pricing Map:`, pricingMap);
+    
     ['unistrut', 'duct', 'sika', 'lifters'].forEach(itemKey => {
       const unitsPerProduct = parseFloat(product[itemKey] || 0);
-      const unitPrice = pricingMap[itemKey] || 0;
+      const unitPrice = pricingMap[itemPricingKeys[itemKey]] || 0;
 
       if (!isNaN(unitsPerProduct) && unitsPerProduct > 0) {
-        const totalUnits = unitsPerProduct * quantity;
-        const totalCost = totalUnits * unitPrice;
+        const cost = unitsPerProduct * quantity * unitPrice;
+        const label = `${itemKey.charAt(0).toUpperCase() + itemKey.slice(1)} for ${product.name}`;
 
-        if (!additionalItemsGrouped[product.name]) {
-          additionalItemsGrouped[product.name] = [];
-        }
-
-        additionalItemsGrouped[product.name].push({
-          label: itemKey.charAt(0).toUpperCase() + itemKey.slice(1),
-          quantity: totalUnits,
-          unitRate: unitPrice,
-          totalCost: totalCost
+        additionalCost += cost;
+        additionalItemsBreakdown.push({
+          label,
+          value: cost.toFixed(2),
+          isCurrency: true
         });
       }
     });
@@ -204,9 +208,9 @@ if (productBreakdowns.length > 0) {
 }
 
 
+  
 // 🧮 Calculate total Additional Items Cost
-const totalAdditionalCost = Object.values(additionalItemsGrouped).flat().reduce((sum, item) => sum + (item.totalCost || 0), 0);
-
+const totalAdditionalCost = additionalItemsBreakdown.reduce((sum, item) => sum + parseFloat(item.value), 0);
 // 🧮 Total Before Margins
 let total = concreteCost + steelCost + labourCost + designCost + totalAdditionalCost + transportCost + installationCost;
 
@@ -229,33 +233,44 @@ console.log("✅ Total Estimated Cost:", total);
 
   
   // 📋 Save BoQ Breakdown
- setBreakdown({
-  concrete: [
-    { label: 'Concrete Volume', value: concreteVolume.toFixed(2), unit: 'm³', isCurrency: false },
-    { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
-  ],
-  steel: [
-    { label: 'Steel Weight', value: steelKg.toFixed(2), unit: 'kg', isCurrency: false },
-    { label: 'Steel Cost', value: steelCost.toFixed(2), isCurrency: true }
-  ],
-  labour: [
-    { label: 'Labour Hours', value: totalLabourHours.toFixed(2), unit: 'hrs', isCurrency: false },
-    { label: 'Labour Cost', value: labourCost.toFixed(2), isCurrency: true }
-  ],
-  design: [
-    { label: 'Total Design Hours', value: totalDesignHours.toFixed(2), unit: 'hrs', isCurrency: false },
-    { label: 'Design Cost', value: designCost.toFixed(2), isCurrency: true }
-  ],
-  transport: [
-    { label: 'Transport Cost', value: transportCost.toFixed(2), isCurrency: true }
-  ],
-  installation: [
-    { label: 'Installation Days', value: formData.installationDays || 0, unit: 'days', isCurrency: false },
-    { label: 'Installation Cost', value: installationCost.toFixed(2), isCurrency: true }
-  ],
-  additionalGrouped: additionalItemsGrouped.length === 0 ? { 'No Items': [] } : additionalItemsGrouped
-});
+  setBreakdown({
+    concrete: [
+      { label: 'Concrete Volume', value: concreteVolume.toFixed(2), unit: 'm³', isCurrency: false },
+      { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
+    ],
+    steel: [
+      { label: 'Steel Weight', value: steelKg.toFixed(2), unit: 'kg', isCurrency: false },
+      { label: 'Steel Cost', value: steelCost.toFixed(2), isCurrency: true }
+    ],
+    labour: [
+      { label: 'Labour Hours', value: totalLabourHours.toFixed(2), unit: 'hrs', isCurrency: false },
+      { label: 'Labour Cost', value: labourCost.toFixed(2), isCurrency: true }
+    ],
+    design: [
+      { label: 'Total Design Hours', value: totalDesignHours.toFixed(2), unit: 'hrs', isCurrency: false },
+      { label: 'Design Cost', value: designCost.toFixed(2), isCurrency: true }
+    ],
 
+    additional: additionalItemsBreakdown.length > 0 ? additionalItemsBreakdown : [
+  { label: 'No additional items', value: 0, isCurrency: true }
+],
+
+
+    
+    transport: [
+      { label: 'Transport Cost', value: transportCost.toFixed(2), isCurrency: true }
+    ],
+    installation: [
+      { label: 'Installation Days', value: formData.installationDays || 0, unit: 'days', isCurrency: false },
+      { label: 'Installation Cost', value: installationCost.toFixed(2), isCurrency: true }
+    ]
+  });
+};
+
+
+
+
+  
 
   
   return (
@@ -802,65 +817,28 @@ setIsCableTroughProduct(hasCableTrough);
     <div className="text-xl font-semibold">Estimated Price: €{estimate}</div>
 
     <div className="pt-4 space-y-4">
-
       {Object.entries(breakdown).map(([section, items]) => {
-  if (section === "additionalGrouped") {
-    return (
-      <div key="additional-grouped" className="bg-gray-50 border rounded p-4">
-        <h3 className="font-semibold border-b pb-1 mb-3 capitalize text-blue-700">Additional Items</h3>
-        {Object.entries(items).map(([productName, group]) => {
-          const productSubtotal = group.reduce((sum, i) => sum + i.totalCost, 0);
-          return (
-            <div key={productName} className="mb-4 border border-gray-200 rounded-lg bg-white shadow-sm">
-              <div className="bg-gray-100 px-4 py-2 font-medium text-gray-800 text-sm rounded-t">{productName}</div>
-              <div className="p-4 space-y-2 text-sm">
-                {group.map((item, idx) => (
-                  <div key={idx} className="flex justify-between border-b pb-1">
-                    <span>{item.label} × {item.quantity} units @ €{item.unitRate.toFixed(2)}</span>
-                    <span className="font-medium text-right">€{item.totalCost.toFixed(2)}</span>
-                  </div>
-                ))}
-                <div className="flex justify-between font-semibold pt-2 border-t">
-                  <span>Subtotal for {productName}</span>
-                  <span>€{productSubtotal.toFixed(2)}</span>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    );
-  } else {
-    // ⚡ standard sections (concrete, steel, labour, etc)
-    const subtotal = items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
-    return (
-      <div key={section} className="bg-gray-50 border rounded p-4">
-        <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700">
-          {section === 'additional' ? 'Additional Items' : section.charAt(0).toUpperCase() + section.slice(1)}
-        </h3>
-        <ul className="space-y-1 text-sm">
-          {items.map((item, idx) => (
-            <li key={idx} className="flex justify-between">
-              <span>{item.label}</span>
-              <span>{item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit || ''}`}</span>
-            </li>
-          ))}
-          <li className="flex justify-between font-semibold border-t pt-1 mt-2">
-            <span>Subtotal</span>
-            <span>€{subtotal.toFixed(2)}</span>
-          </li>
-        </ul>
-      </div>
-    );
-  }
-})}
-
-
-
-        
-      </div>
-    );
-  }
+        const subtotal = items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
+        return (
+          <div key={section} className="bg-gray-50 border rounded p-4">
+            <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700">
+  {section === 'additional' ? 'Additional Items' : section.charAt(0).toUpperCase() + section.slice(1)}
+</h3>
+            <ul className="space-y-1 text-sm">
+              {items.map((item, idx) => (
+                <li key={idx} className="flex justify-between">
+                  <span>{item.label}</span>
+                  <span>{item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit}`}</span>
+                </li>
+              ))}
+              <li className="flex justify-between font-semibold border-t pt-1 mt-2">
+                <span>Subtotal</span>
+                <span>€{subtotal.toFixed(2)}</span>
+              </li>
+            </ul>
+          </div>
+        );
+      })}
 
       <div className="text-right text-lg font-bold pt-2 border-t">Grand Total: €{estimate}</div>
 
