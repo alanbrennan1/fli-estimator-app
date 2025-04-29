@@ -191,6 +191,14 @@ if (productBreakdowns.length > 0) {
   // 💾 Save Estimate
   setEstimate(total.toFixed(2));
 
+console.log("✅ Concrete Volume:", concreteVolume);
+console.log("✅ Total Labour Hours:", totalLabourHours);
+console.log("✅ Product Breakdowns:", productBreakdowns);
+console.log("✅ Pricing Map:", pricingMap);
+console.log("✅ Additional Items Breakdown:", additionalItemsBreakdown);
+console.log("✅ Total Estimated Cost:", total);
+
+  
   // 📋 Save BoQ Breakdown
   setBreakdown({
     concrete: [
