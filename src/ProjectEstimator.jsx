@@ -45,13 +45,6 @@ const getUnitPrice = (itemName) => {
   return item ? parseFloat(item.price) : 0;
 };
 
-
-const [additionalItems] = useState({
-  lid: 30,             // Fixed price for lid
-  pipeOpenings: 50,    // Fixed price for pipe opening
-  ladderRungs: 100     // Fixed price for ladder rung
-});
-
   const transportCosts = {
     Cork: 850,
     Dublin: 650,
@@ -161,8 +154,8 @@ const handleEstimate = () => {
   const transportCost = safe(formData.transportRate) * safe(formData.transportQuantity);
   const installationCost = safe(formData.installationDays) * 500;
 
-  // ✅ Additional Items cost calculation
-let additionalCost = 0;
+// 🧮 Build dynamic additional items breakdown
+let additionalItemsBreakdown = [];
 
 if (productBreakdowns.length > 0) {
   productBreakdowns.forEach(product => {
@@ -172,13 +165,19 @@ if (productBreakdowns.length > 0) {
       const unitsPerProduct = parseFloat(product[itemKey] || 0);
       const unitPrice = pricingMap[itemKey] || 0;
 
-      if (!isNaN(unitsPerProduct)) {
-        additionalCost += unitsPerProduct * quantity * unitPrice;
+      if (!isNaN(unitsPerProduct) && unitsPerProduct > 0) {
+        const cost = unitsPerProduct * quantity * unitPrice;
+        const label = `${itemKey.charAt(0).toUpperCase() + itemKey.slice(1)} for ${product.name}`;
+
+        additionalItemsBreakdown.push({
+          label,
+          value: cost.toFixed(2),
+          isCurrency: true
+        });
       }
     });
   });
 }
-
   
   // 🧮 Total Before Margins
   let total = concreteCost + steelCost + labourCost + designCost + additionalCost + transportCost + installationCost;
@@ -210,21 +209,13 @@ if (productBreakdowns.length > 0) {
       { label: 'Total Design Hours', value: totalDesignHours.toFixed(2), unit: 'hrs', isCurrency: false },
       { label: 'Design Cost', value: designCost.toFixed(2), isCurrency: true }
     ],
-    additional: [
-      { label: 'Lid Units', value: (30 * safeInt(formData.lidUnits)).toFixed(2), isCurrency: true },
-      { label: 'Pipe Openings', value: (50 * safeInt(formData.pipeOpeningsUnits)).toFixed(2), isCurrency: true },
-      { label: 'Ladder Rungs', value: (100 * safeInt(formData.ladderRungsUnits)).toFixed(2), isCurrency: true },
-      { label: 'W.Bar & Scabbling', value: (safeInt(formData.wBarScabbling) * 0).toFixed(2), isCurrency: true },
-      { label: 'Lifters & Capstans', value: (safeInt(formData.liftersCapstans) * 0).toFixed(2), isCurrency: true },
-      { label: 'MKK Cones', value: (safeInt(formData.mkkCones) * 0).toFixed(2), isCurrency: true },
-      { label: 'Unistrut', value: (safeInt(formData.unistrut) * 0).toFixed(2), isCurrency: true },
-      { label: 'Sika Powder', value: (safeInt(formData.sikaPowder) * 0).toFixed(2), isCurrency: true },
-      { label: 'Pulling Irons', value: (safeInt(formData.pullingIrons) * 0).toFixed(2), isCurrency: true },
-      { label: 'Earthing Points', value: (safeInt(formData.earthingPoints) * 0).toFixed(2), isCurrency: true },
-      { label: 'Sump Gates', value: (safeInt(formData.sumpGates) * 0).toFixed(2), isCurrency: true },
-      { label: 'Polyfleece', value: (safeInt(formData.polyfleece) * 0).toFixed(2), isCurrency: true },
-      { label: 'Duct Type', value: formData.ductType ? `Included (${formData.ductType})` : 'N/A', isCurrency: false }
-    ],
+
+    additional: additionalItemsBreakdown.length > 0 ? additionalItemsBreakdown : [
+  { label: 'No additional items', value: 0, isCurrency: true }
+],
+
+
+    
     transport: [
       { label: 'Transport Cost', value: transportCost.toFixed(2), isCurrency: true }
     ],
