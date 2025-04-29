@@ -536,87 +536,94 @@ setIsCableTroughProduct(hasCableTrough);
 
 
         <AccordionSection title="➕ Additional Items">
-  {/* Cable Troughs Mode Badge */}
-  {productBreakdowns.some(p => p.name.toLowerCase().startsWith('ct')) && (
-    <div className="mb-4">
-      <span className="inline-block bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">
-        Cable Troughs Mode ON
-      </span>
-    </div>
-  )}
-
-  {/* Per-Product Additional Inputs for CT Items Only */}
-  {productBreakdowns.length > 0 && (
-    <div className="mt-4">
-      <h3 className="text-md font-semibold text-gray-700 mb-3">Per-Product Additional Items</h3>
-      <div className="space-y-4">
-        {productBreakdowns
-          .filter(p => p.name.toLowerCase().startsWith('ct'))
-          .map((product, index) => (
-            <div key={index} className="border rounded p-4 bg-gray-50">
-              <h4 className="text-sm font-semibold mb-2 text-indigo-700">{product.name}</h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {['unistrut', 'sikaPowder', 'liftersCapstans', 'ductType'].map(item => {
-                  const labelMap = {
-                    unistrut: 'Unistrut (m)',
-                    sikaPowder: 'Sika Powder (m³)',
-                    liftersCapstans: 'Lifters & Capstans (pcs)',
-                    ductType: 'Duct Type'
-                  };
-
-                  return (
-                    <div key={item} className="flex flex-col">
-                      <label className="text-sm font-medium mb-1">{labelMap[item]}</label>
-                      {item === 'ductType' ? (
-                        <select
-                          className="border p-2 rounded"
-                          value={product.additionalItems?.[item] || ''}
-                          onChange={(e) => {
-                            const updated = [...productBreakdowns];
-                            if (!updated[index].additionalItems) {
-                              updated[index].additionalItems = {};
-                            }
-                            updated[index].additionalItems[item] = e.target.value;
-                            setProductBreakdowns(updated);
-                          }}
-                        >
-                          <option value="">Select Duct Type</option>
-                          <option value="Type 1">Type 1</option>
-                          <option value="Type 2">Type 2</option>
-                          <option value="Type 3">Type 3</option>
-                        </select>
-                      ) : (
-                        <input
-                          type="number"
-                          className="border p-2 rounded"
-                          value={product.additionalItems?.[item] || ''}
-                          onChange={(e) => {
-                            const updated = [...productBreakdowns];
-                            if (!updated[index].additionalItems) {
-                              updated[index].additionalItems = {};
-                            }
-                            updated[index].additionalItems[item] = e.target.value;
-                            setProductBreakdowns(updated);
-                          }}
-                        />
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+  {productBreakdowns.length > 0 ? (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h3 className="text-md font-semibold text-gray-700">Per-Product Additional Items</h3>
+        <span className="text-sm font-medium text-white bg-indigo-600 px-2 py-1 rounded">
+          Cable Troughs Mode ON
+        </span>
       </div>
+
+      {productBreakdowns
+        .filter(p => p.name.toLowerCase().startsWith('ct'))
+        .map((product, index) => {
+          const [isOpen, setIsOpen] = useState(true); // local toggle per row
+
+          return (
+            <div key={index} className="border rounded bg-white shadow-sm">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="w-full text-left px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold rounded-t"
+              >
+                {product.name} {isOpen ? '▾' : '▸'}
+              </button>
+
+              {isOpen && (
+                <div className="p-4 border-t">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    {['unistrut', 'sikaPowder', 'liftersCapstans', 'ductType'].map((item) => {
+                      const labelMap = {
+                        unistrut: 'Unistrut (m)',
+                        sikaPowder: 'Sika Powder (m³)',
+                        liftersCapstans: 'Lifters & Capstans (pcs)',
+                        ductType: 'Duct Type'
+                      };
+
+                      return (
+                        <div key={item} className="flex flex-col">
+                          <label className="text-xs font-medium text-gray-600 mb-1">{labelMap[item]}</label>
+                          {item === 'ductType' ? (
+                            <select
+                              className="border text-sm p-2 rounded"
+                              value={product.additionalItems?.[item] || ''}
+                              onChange={(e) => {
+                                const updated = [...productBreakdowns];
+                                if (!updated[index].additionalItems) {
+                                  updated[index].additionalItems = {};
+                                }
+                                updated[index].additionalItems[item] = e.target.value;
+                                setProductBreakdowns(updated);
+                              }}
+                            >
+                              <option value="">Select</option>
+                              <option value="Type 1">Type 1</option>
+                              <option value="Type 2">Type 2</option>
+                              <option value="Type 3">Type 3</option>
+                            </select>
+                          ) : (
+                            <input
+                              type="number"
+                              className="border text-sm p-2 rounded"
+                              value={product.additionalItems?.[item] || ''}
+                              onChange={(e) => {
+                                const updated = [...productBreakdowns];
+                                if (!updated[index].additionalItems) {
+                                  updated[index].additionalItems = {};
+                                }
+                                updated[index].additionalItems[item] = e.target.value;
+                                setProductBreakdowns(updated);
+                              }}
+                            />
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
     </div>
+  ) : (
+    <div className="text-sm text-gray-500">No product-specific additional items to display yet.</div>
   )}
 </AccordionSection>
 
 
-        
-
 
         
-
         
 
 <AccordionSection title="🎨 Design">
