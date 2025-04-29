@@ -174,39 +174,38 @@ const itemPricingKeys = {
 };
 
 let additionalCost = 0;
-let additionalItemsBreakdownGrouped = {}; // 🔹 New structure
+let additionalItemsBreakdown = [];
 
 if (productBreakdowns.length > 0) {
   productBreakdowns.forEach(product => {
     const quantity = product.quantity || 0;
-    const productLabel = product.name;
 
-    const itemGroup = [];
-
-    ['unistrut', 'sika', 'duct', 'lifters'].forEach(itemKey => {
-      const itemMeta = itemKeyMap[itemKey];
+    console.log(`▶ Processing product: ${product.name}`);
+    console.log(`  Quantity: ${quantity}`);
+    console.log(`  Unistrut: ${product.unistrut}`);
+    console.log(`  Sika: ${product.sika}`);
+    console.log(`  Lifters: ${product.lifters}`);
+    console.log(`  Duct: ${product.duct}`);
+    console.log(`  Pricing Map:`, pricingMap);
+    
+    ['unistrut', 'duct', 'sika', 'lifters'].forEach(itemKey => {
       const unitsPerProduct = parseFloat(product[itemKey] || 0);
+      const unitPrice = pricingMap[itemPricingKeys[itemKey]] || 0;
 
-      if (itemMeta && !isNaN(unitsPerProduct) && unitsPerProduct > 0) {
-        const unitPrice = pricingMap[itemMeta.pricingKey] || 0;
-        const totalCost = unitsPerProduct * quantity * unitPrice;
+      if (!isNaN(unitsPerProduct) && unitsPerProduct > 0) {
+        const cost = unitsPerProduct * quantity * unitPrice;
+        const label = `${itemKey.charAt(0).toUpperCase() + itemKey.slice(1)} for ${product.name}`;
 
-        itemGroup.push({
-          label: `${itemMeta.label}`,
-          quantity: unitsPerProduct,
-          unitRate: unitPrice,
-          totalCost: totalCost
+        additionalCost += cost;
+        additionalItemsBreakdown.push({
+          label,
+          value: cost.toFixed(2),
+          isCurrency: true
         });
       }
     });
-
-    if (itemGroup.length > 0) {
-      additionalItemsBreakdownGrouped[productLabel] = itemGroup;
-    }
   });
 }
-
-
 
 
   
@@ -252,7 +251,9 @@ console.log("✅ Total Estimated Cost:", total);
       { label: 'Design Cost', value: designCost.toFixed(2), isCurrency: true }
     ],
 
-additionalGrouped: additionalItemsBreakdownGrouped,
+    additional: additionalItemsBreakdown.length > 0 ? additionalItemsBreakdown : [
+  { label: 'No additional items', value: 0, isCurrency: true }
+],
 
 
     
@@ -808,128 +809,96 @@ setIsCableTroughProduct(hasCableTrough);
         
                 
         <button onClick={handleEstimate} className="bg-blue-600 text-white px-4 py-2 rounded">Generate Estimate</button>
+
         
         {estimate && (
   <div id="quote-preview" className="pt-6 space-y-4">
 
     <div className="text-xl font-semibold">Estimated Price: €{estimate}</div>
 
-   <div className="pt-4 space-y-4">
-  {Object.entries(breakdown).map(([section, items]) => {
-    if (section === "additionalGrouped") {
-      return (
-        <div key="additional-grouped" className="bg-gray-50 border rounded p-4">
-          <h3 className="font-semibold border-b pb-1 mb-3 capitalize text-blue-700">Additional Items</h3>
+    <div className="pt-4 space-y-4">
+      {Object.entries(breakdown).map(([section, items]) => {
+        const subtotal = items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
+        return (
+          <div key={section} className="bg-gray-50 border rounded p-4">
+            <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700">
+  {section === 'additional' ? 'Additional Items' : section.charAt(0).toUpperCase() + section.slice(1)}
+</h3>
+            <ul className="space-y-1 text-sm">
+              {items.map((item, idx) => (
+                <li key={idx} className="flex justify-between">
+                  <span>{item.label}</span>
+                  <span>{item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit}`}</span>
+                </li>
+              ))}
+              <li className="flex justify-between font-semibold border-t pt-1 mt-2">
+                <span>Subtotal</span>
+                <span>€{subtotal.toFixed(2)}</span>
+              </li>
+            </ul>
+          </div>
+        );
+      })}
 
-          {Object.entries(items).map(([productName, group]) => {
-            const productSubtotal = group.reduce((sum, i) => sum + i.totalCost, 0);
+      <div className="text-right text-lg font-bold pt-2 border-t">Grand Total: €{estimate}</div>
 
-            return (
-              <div key={productName} className="mb-4 border border-gray-200 rounded-lg bg-white shadow-sm">
-                <div className="bg-gray-100 px-4 py-2 font-medium text-gray-800 text-sm rounded-t">{productName}</div>
-                <div className="p-4 space-y-2 text-sm">
-                  {group.map((item, idx) => (
-                    <div key={idx} className="flex justify-between border-b pb-1">
-                      <span>{item.label} × {item.quantity} units @ €{item.unitRate}</span>
-                      <span className="font-medium text-right">€{item.totalCost.toFixed(2)}</span>
-                    </div>
-                  ))}
-                  <div className="flex justify-between font-semibold pt-2 border-t">
-                    <span>Subtotal for {productName}</span>
-                    <span>€{productSubtotal.toFixed(2)}</span>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      );
-    }
+      {/* ✅ Export Buttons: CSV + PDF */}
+      <div className="flex gap-4 pt-6">
+        <button
+          onClick={() => {
+            const now = new Date().toLocaleString();
+            const rows = [
+              ['FLI Precast Solutions'],
+              [`Quote for: ${formData.projectName || 'Unnamed Project'}`],
+              [`Client: ${formData.client || 'N/A'}`],
+              [`Generated: ${now}`],
+              [],
+            ];
 
-    // fallback for other breakdown sections
-    return (
-      <div key={section} className="bg-gray-50 border rounded p-4">
-        <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700">
-          {section.charAt(0).toUpperCase() + section.slice(1)}
-        </h3>
-        <ul className="space-y-1 text-sm">
-          {items.map((item, idx) => (
-            <li key={idx} className="flex justify-between">
-              <span>{item.label}</span>
-              <span>{item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit}`}</span>
-            </li>
-          ))}
-          <li className="flex justify-between font-semibold border-t pt-1 mt-2">
-            <span>Subtotal</span>
-            <span>
-              €{items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0).toFixed(2)}
-            </span>
-          </li>
-        </ul>
+            Object.entries(breakdown).forEach(([section, items]) => {
+              rows.push([`${section.toUpperCase()} BREAKDOWN`]);
+              rows.push(['Label', 'Value']);
+              items.forEach(item => {
+                rows.push([
+                  item.label,
+                  item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit || ''}`
+                ]);
+              });
+              rows.push([]);
+            });
+
+            rows.push(['Grand Total', `€${estimate}`]);
+
+            const csvContent = 'data:text/csv;charset=utf-8,' + rows.map(e => e.join(',')).join('\n');
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', `${formData.projectName || 'quote'}_BoQ.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }}
+          className="bg-green-600 text-white px-4 py-2 rounded"
+        >
+          Export CSV
+        </button>
+
+        <button
+          onClick={() => {
+            const content = document.getElementById('quote-preview');
+            if (!content) return;
+            import('html2pdf.js').then(html2pdf => {
+              html2pdf.default().from(content).save(`${formData.projectName || 'quote'}_BoQ.pdf`);
+            });
+          }}
+          className="bg-red-600 text-white px-4 py-2 rounded"
+        >
+          Export PDF
+        </button>
       </div>
-    );
-  })}
-</div>
-
-<div className="text-right text-lg font-bold pt-2 border-t">Grand Total: €{estimate}</div>
-
-{/* ✅ Export Buttons: CSV + PDF */}
-<div className="flex gap-4 pt-6">
-  <button
-    onClick={() => {
-      const now = new Date().toLocaleString();
-      const rows = [
-        ['FLI Precast Solutions'],
-        [`Quote for: ${formData.projectName || 'Unnamed Project'}`],
-        [`Client: ${formData.client || 'N/A'}`],
-        [`Generated: ${now}`],
-        [],
-      ];
-
-      Object.entries(breakdown).forEach(([section, items]) => {
-        rows.push([`${section.toUpperCase()} BREAKDOWN`]);
-        rows.push(['Label', 'Value']);
-        items.forEach(item => {
-          const value = item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit || ''}`;
-          rows.push([item.label, value]);
-        });
-        rows.push([]);
-      });
-
-      rows.push(['Grand Total', `€${estimate}`]);
-
-      const csvContent = 'data:text/csv;charset=utf-8,' + rows.map(e => e.join(',')).join('\n');
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement('a');
-      link.setAttribute('href', encodedUri);
-      link.setAttribute('download', `${formData.projectName || 'quote'}_BoQ.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }}
-    className="bg-green-600 text-white px-4 py-2 rounded"
-  >
-    Export CSV
-  </button>
-
-  <button
-    onClick={() => {
-      const content = document.getElementById('quote-preview');
-      if (!content) return;
-
-      const filename = `${formData.projectName || 'quote'}_BoQ.pdf`;
-
-      import('html2pdf.js').then(html2pdf => {
-        html2pdf.default().from(content).save(filename);
-      });
-    }}
-    className="bg-red-600 text-white px-4 py-2 rounded"
-  >
-    Export PDF
-  </button>
-</div>
-
-
+    </div>
+  </div>
+)}
 
         
       </main>
