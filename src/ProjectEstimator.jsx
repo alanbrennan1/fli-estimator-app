@@ -536,81 +536,68 @@ setIsCableTroughProduct(hasCableTrough);
 
 
 <AccordionSection title="➕ Additional Items">
-  {/* Cable Troughs Mode Badge */}
-  {productBreakdowns.some(p => p.name.toLowerCase().startsWith('ct')) && (
-    <div className="mb-4">
-      <span className="inline-block bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">
-        Cable Troughs Mode ON
-      </span>
+  {/* 🔔 Mode Badge */}
+  {productBreakdowns.some(p => p.name.startsWith('CT')) && (
+    <div className="mb-4 inline-block bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded">
+      Cable Troughs Mode ON
     </div>
   )}
 
-  {/* Per-Product Additional Inputs for CT Items Only */}
-  {productBreakdowns.length > 0 && (
-    <div className="mt-4">
-      <h3 className="text-md font-semibold text-gray-700 mb-3">Per-Product Additional Items</h3>
-      <div className="space-y-4">
-        {productBreakdowns
-          .filter(p => p.name.toLowerCase().startsWith('ct'))
-          .map((product, index) => (
-            <div key={index} className="border rounded p-4 bg-gray-50">
-              <h4 className="text-sm font-semibold mb-2 text-indigo-700">{product.name}</h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {['unistrut', 'sikaPowder', 'liftersCapstans', 'ductType'].map(item => {
-                  const labelMap = {
-                    unistrut: 'Unistrut (m)',
-                    sikaPowder: 'Sika Powder (m³)',
-                    liftersCapstans: 'Lifters & Capstans (pcs)',
-                    ductType: 'Duct Type'
-                  };
+  {/* 🧱 Per-Product Inputs */}
+  {productBreakdowns.filter(p => p.name.startsWith('CT')).map((product, idx) => (
+    <div key={idx} className="border border-gray-300 rounded-lg mb-4 shadow-sm">
+      {/* Header */}
+      <button
+        type="button"
+        onClick={() => {
+          const copy = [...productBreakdowns];
+          copy[idx].isOpen = !copy[idx].isOpen;
+          setProductBreakdowns(copy);
+        }}
+        className="w-full text-left px-4 py-2 bg-gray-100 text-gray-800 font-semibold rounded-t hover:bg-gray-200"
+      >
+        {product.name} ▾
+      </button>
 
-                  return (
-                    <div key={item} className="flex flex-col">
-                      <label className="text-sm font-medium mb-1">{labelMap[item]}</label>
-                      {item === 'ductType' ? (
-                        <select
-                          className="border p-2 rounded"
-                          value={product.additionalItems?.[item] || ''}
-                          onChange={(e) => {
-                            const updated = [...productBreakdowns];
-                            if (!updated[index].additionalItems) {
-                              updated[index].additionalItems = {};
-                            }
-                            updated[index].additionalItems[item] = e.target.value;
-                            setProductBreakdowns(updated);
-                          }}
-                        >
-                          <option value="">Select Duct Type</option>
-                          <option value="Type 1">Type 1</option>
-                          <option value="Type 2">Type 2</option>
-                          <option value="Type 3">Type 3</option>
-                        </select>
-                      ) : (
-                        <input
-                          type="number"
-                          className="border p-2 rounded"
-                          value={product.additionalItems?.[item] || ''}
-                          onChange={(e) => {
-                            const updated = [...productBreakdowns];
-                            if (!updated[index].additionalItems) {
-                              updated[index].additionalItems = {};
-                            }
-                            updated[index].additionalItems[item] = e.target.value;
-                            setProductBreakdowns(updated);
-                          }}
-                        />
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+      {/* Inputs */}
+      {product.isOpen && (
+        <div className="bg-white px-4 py-3 grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[
+            { key: 'unistrut', label: 'Unistrut (m)' },
+            { key: 'duct', label: 'Duct Type' },
+            { key: 'sika', label: 'Sika Powder (m³)' },
+            { key: 'lifters', label: 'Lifters (pcs)' }
+          ].map(item => (
+            <div key={item.key} className="flex flex-col">
+              <label className="text-sm font-medium text-gray-700 mb-1">{item.label}</label>
+              <input
+                type={item.key === 'duct' ? 'text' : 'number'}
+                name={`additional-${product.name}-${item.key}`}
+                value={product[item.key] || ''}
+                placeholder={item.key === 'duct' ? 'Type e.g. Duct-1' : 'Qty'}
+                onChange={(e) => {
+                  const updated = [...productBreakdowns];
+                  updated[idx][item.key] = e.target.value;
+                  setProductBreakdowns(updated);
+                }}
+                className="border p-2 rounded"
+              />
             </div>
           ))}
-      </div>
+        </div>
+      )}
+    </div>
+  ))}
+
+  {/* ❗Fallback message */}
+  {productBreakdowns.length === 0 && (
+    <div className="text-sm text-gray-500">
+      Upload a SketchUp CSV to begin entering additional item inputs.
     </div>
   )}
 </AccordionSection>
 
+        
 
 
         
