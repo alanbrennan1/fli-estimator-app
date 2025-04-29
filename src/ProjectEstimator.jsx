@@ -174,38 +174,35 @@ const itemPricingKeys = {
 };
 
 let additionalCost = 0;
-let additionalItemsBreakdown = [];
+let additionalItemsGrouped = {};
 
 if (productBreakdowns.length > 0) {
   productBreakdowns.forEach(product => {
     const quantity = product.quantity || 0;
 
-    console.log(`▶ Processing product: ${product.name}`);
-    console.log(`  Quantity: ${quantity}`);
-    console.log(`  Unistrut: ${product.unistrut}`);
-    console.log(`  Sika: ${product.sika}`);
-    console.log(`  Lifters: ${product.lifters}`);
-    console.log(`  Duct: ${product.duct}`);
-    console.log(`  Pricing Map:`, pricingMap);
-    
     ['unistrut', 'duct', 'sika', 'lifters'].forEach(itemKey => {
       const unitsPerProduct = parseFloat(product[itemKey] || 0);
-      const unitPrice = pricingMap[itemPricingKeys[itemKey]] || 0;
+      const unitPrice = pricingMap[itemKey] || 0;
 
       if (!isNaN(unitsPerProduct) && unitsPerProduct > 0) {
-        const cost = unitsPerProduct * quantity * unitPrice;
-        const label = `${itemKey.charAt(0).toUpperCase() + itemKey.slice(1)} for ${product.name}`;
+        const totalUnits = unitsPerProduct * quantity;
+        const totalCost = totalUnits * unitPrice;
 
-        additionalCost += cost;
-        additionalItemsBreakdown.push({
-          label,
-          value: cost.toFixed(2),
-          isCurrency: true
+        if (!additionalItemsGrouped[product.name]) {
+          additionalItemsGrouped[product.name] = [];
+        }
+
+        additionalItemsGrouped[product.name].push({
+          label: itemKey.charAt(0).toUpperCase() + itemKey.slice(1),
+          quantity: totalUnits,
+          unitRate: unitPrice,
+          totalCost: totalCost
         });
       }
     });
   });
 }
+
 
 
   
@@ -250,26 +247,20 @@ console.log("✅ Total Estimated Cost:", total);
       { label: 'Total Design Hours', value: totalDesignHours.toFixed(2), unit: 'hrs', isCurrency: false },
       { label: 'Design Cost', value: designCost.toFixed(2), isCurrency: true }
     ],
-
-    additional: additionalItemsBreakdown.length > 0 ? additionalItemsBreakdown : [
-  { label: 'No additional items', value: 0, isCurrency: true }
-],
-
-
-    
+   
     transport: [
       { label: 'Transport Cost', value: transportCost.toFixed(2), isCurrency: true }
     ],
     installation: [
       { label: 'Installation Days', value: formData.installationDays || 0, unit: 'days', isCurrency: false },
       { label: 'Installation Cost', value: installationCost.toFixed(2), isCurrency: true }
-    ]
+    ],
+
+    additionalGrouped: Object.keys(additionalItemsGrouped).length > 0
+  ? additionalItemsGrouped
+  : { 'No Additional Items': [{ label: 'None selected', quantity: 0, unitRate: 0, totalCost: 0 }] }
+
   });
-};
-
-
-
-
   
 
   
