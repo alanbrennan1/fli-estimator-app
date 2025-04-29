@@ -554,7 +554,7 @@ setIsCableTroughProduct(hasCableTrough);
           copy[idx].isOpen = !copy[idx].isOpen;
           setProductBreakdowns(copy);
         }}
-        className="w-full text-left px-4 py-2 bg-gray-100 text-gray-800 font-semibold rounded-t hover:bg-gray-200"
+        className="w-full text-left px-4 py-2 bg-gray-100 text-gray-800 font-semibold text-sm rounded-t hover:bg-gray-200"
       >
         {product.name} ▾
       </button>
