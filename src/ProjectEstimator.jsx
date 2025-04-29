@@ -230,38 +230,33 @@ console.log("✅ Total Estimated Cost:", total);
 
   
   // 📋 Save BoQ Breakdown
-  setBreakdown({
-    concrete: [
-      { label: 'Concrete Volume', value: concreteVolume.toFixed(2), unit: 'm³', isCurrency: false },
-      { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
-    ],
-    steel: [
-      { label: 'Steel Weight', value: steelKg.toFixed(2), unit: 'kg', isCurrency: false },
-      { label: 'Steel Cost', value: steelCost.toFixed(2), isCurrency: true }
-    ],
-    labour: [
-      { label: 'Labour Hours', value: totalLabourHours.toFixed(2), unit: 'hrs', isCurrency: false },
-      { label: 'Labour Cost', value: labourCost.toFixed(2), isCurrency: true }
-    ],
-    design: [
-      { label: 'Total Design Hours', value: totalDesignHours.toFixed(2), unit: 'hrs', isCurrency: false },
-      { label: 'Design Cost', value: designCost.toFixed(2), isCurrency: true }
-    ],
-   
-    transport: [
-      { label: 'Transport Cost', value: transportCost.toFixed(2), isCurrency: true }
-    ],
-    installation: [
-      { label: 'Installation Days', value: formData.installationDays || 0, unit: 'days', isCurrency: false },
-      { label: 'Installation Cost', value: installationCost.toFixed(2), isCurrency: true }
-    ],
+ setBreakdown({
+  concrete: [
+    { label: 'Concrete Volume', value: concreteVolume.toFixed(2), unit: 'm³', isCurrency: false },
+    { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
+  ],
+  steel: [
+    { label: 'Steel Weight', value: steelKg.toFixed(2), unit: 'kg', isCurrency: false },
+    { label: 'Steel Cost', value: steelCost.toFixed(2), isCurrency: true }
+  ],
+  labour: [
+    { label: 'Labour Hours', value: totalLabourHours.toFixed(2), unit: 'hrs', isCurrency: false },
+    { label: 'Labour Cost', value: labourCost.toFixed(2), isCurrency: true }
+  ],
+  design: [
+    { label: 'Total Design Hours', value: totalDesignHours.toFixed(2), unit: 'hrs', isCurrency: false },
+    { label: 'Design Cost', value: designCost.toFixed(2), isCurrency: true }
+  ],
+  transport: [
+    { label: 'Transport Cost', value: transportCost.toFixed(2), isCurrency: true }
+  ],
+  installation: [
+    { label: 'Installation Days', value: formData.installationDays || 0, unit: 'days', isCurrency: false },
+    { label: 'Installation Cost', value: installationCost.toFixed(2), isCurrency: true }
+  ],
+  additionalGrouped: additionalItemsGrouped.length === 0 ? { 'No Items': [] } : additionalItemsGrouped
+});
 
-    additionalGrouped: Object.keys(additionalItemsGrouped).length > 0
-  ? additionalItemsGrouped
-  : { 'No Additional Items': [{ label: 'None selected', quantity: 0, unitRate: 0, totalCost: 0 }] }
-
-  });
-  
 
   
   return (
