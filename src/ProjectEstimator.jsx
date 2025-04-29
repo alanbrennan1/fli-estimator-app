@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
+import pricingMap from './pricing.json';
 
 // State for pricing data
 const [pricingData, setPricingData] = useState([]);
