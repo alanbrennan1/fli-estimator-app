@@ -230,12 +230,10 @@ let total = concreteCost + steelCost + labourCost + designCost + totalAdditional
   // 💾 Save Estimate
   setEstimate(total.toFixed(2));
 
-console.log("✅ Concrete Volume:", concreteVolume);
-console.log("✅ Total Labour Hours:", totalLabourHours);
-console.log("✅ Product Breakdowns:", productBreakdowns);
-console.log("✅ Pricing Map:", pricingMap);
-console.log("✅ Additional Items Breakdown:", additionalItemsBreakdown);
-console.log("✅ Total Estimated Cost:", total);
+
+console.log("🔍 Breakdown structure:", breakdown);
+console.log("✅ flatGrouped is array:", Array.isArray(flatGrouped));
+console.log("📦 flatGrouped contents:", flatGrouped);
 
   
   // 📋 Save BoQ Breakdown
@@ -260,7 +258,6 @@ console.log("✅ Total Estimated Cost:", total);
    additional: flatGrouped.length > 0 ? flatGrouped : [
   { label: 'No additional items', value: 0, isCurrency: true }
 ],
-
 
     
     transport: [
