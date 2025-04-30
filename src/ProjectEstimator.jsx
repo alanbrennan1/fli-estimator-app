@@ -849,19 +849,29 @@ setIsCableTroughProduct(hasCableTrough);
       <span className="w-1/4 text-right">Total</span>
     </li>
 
-    {safeItems.map((item, idx) => (
-      <li key={idx} className="flex justify-between">
-        <span className="flex-1">{item.label}</span>
-        <span className="w-1/4 text-right">{item.unitQty ?? '-'}</span>
+{safeItems.map((item, idx) =>
+  item.isGroupHeader ? (
+    <li
+      key={idx}
+      className="bg-gray-100 text-gray-800 font-semibold px-3 py-1 mt-4 rounded border border-gray-300"
+    >
+      {item.label}
+    </li>
+  ) : (
+    <li key={idx} className="flex justify-between">
+      <span className="flex-1 pl-4">{item.label}</span>
+      <span className="w-1/4 text-right">{item.unitQty ?? '-'}</span>
       <span className="w-1/4 text-right">
-  {typeof item.unitPrice === 'string' || typeof item.unitPrice === 'number'
-    ? `€${item.unitPrice}`
-    : '-'}
-</span>
+        {item.unitPrice ? `€${item.unitPrice}` : '-'}
+      </span>
+      <span className="w-1/4 text-right">€{item.value}</span>
+    </li>
+  )
+)}
 
-        <span className="w-1/4 text-right">€{item.value}</span>
-      </li>
-    ))}
+
+
+    
 
     <li className="flex justify-between font-semibold border-t pt-1 mt-2">
       <span className="flex-1">Subtotal</span>
