@@ -216,7 +216,11 @@ Object.entries(additionalItemsBreakdown).forEach(([productName, items]) => {
 
   
 // 🧮 Calculate total Additional Items Cost
-const totalAdditionalCost = additionalItemsBreakdown.reduce((sum, item) => sum + parseFloat(item.value), 0);
+const totalAdditionalCost = flatGrouped.reduce(
+  (sum, item) => item.isCurrency ? sum + parseFloat(item.value) : sum,
+  0
+);
+
 // 🧮 Total Before Margins
 let total = concreteCost + steelCost + labourCost + designCost + totalAdditionalCost + transportCost + installationCost;
 
