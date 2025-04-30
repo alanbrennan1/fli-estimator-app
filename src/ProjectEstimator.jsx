@@ -258,7 +258,6 @@ console.log("📦 flatGrouped contents:", flatGrouped);
    additional: flatGrouped.length > 0 ? flatGrouped : [
   { label: 'No additional items', value: 0, isCurrency: true }
 ],
-
     
     transport: [
       { label: 'Transport Cost', value: transportCost.toFixed(2), isCurrency: true }
@@ -822,10 +821,14 @@ setIsCableTroughProduct(hasCableTrough);
     <div className="pt-4 space-y-4">
 
       
-      {Object.entries(breakdown).map(([section, items]) => {
-       const subtotal = Array.isArray(items)
-  ? items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0)
-  : 0;
+{Object.entries(breakdown || {}).map(([section, items]) => {
+  const safeItems = Array.isArray(items) ? items : [];
+
+  const subtotal = safeItems.reduce((sum, i) =>
+    sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
+
+    console.log("📦 Rendering section:", section, Array.isArray(items), items);
+
         return (
           <div key={section} className="bg-gray-50 border rounded p-4">
             <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700">
