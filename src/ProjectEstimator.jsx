@@ -828,7 +828,12 @@ setIsCableTroughProduct(hasCableTrough);
               {items.map((item, idx) => (
                 <li key={idx} className="flex justify-between">
                   <span>{item.label}</span>
-                  <span>{item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit}`}</span>
+                 <span>
+  {item.isCurrency
+    ? `€${item.value}${item.debug ? ` (${item.debug})` : ''}`
+    : `${item.value} ${item.unit}`}
+</span>
+
                 </li>
               ))}
               <li className="flex justify-between font-semibold border-t pt-1 mt-2">
