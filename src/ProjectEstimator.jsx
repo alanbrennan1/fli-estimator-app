@@ -174,40 +174,44 @@ const itemPricingKeys = {
 };
 
 let additionalCost = 0;
-let additionalItemsBreakdown = [];
+let additionalItemsBreakdown = {}; // grouped by product name
 
 if (productBreakdowns.length > 0) {
   productBreakdowns.forEach(product => {
     const quantity = product.quantity || 0;
 
-    console.log(`▶ Processing product: ${product.name}`);
-    console.log(`  Quantity: ${quantity}`);
-    console.log(`  Unistrut: ${product.unistrut}`);
-    console.log(`  Sika: ${product.sika}`);
-    console.log(`  Lifters: ${product.lifters}`);
-    console.log(`  Duct: ${product.duct}`);
-    console.log(`  Pricing Map:`, pricingMap);
-    
     ['unistrut', 'duct', 'sika', 'lifters'].forEach(itemKey => {
       const unitsPerProduct = parseFloat(product[itemKey] || 0);
       const unitPrice = pricingMap[itemPricingKeys[itemKey]] || 0;
 
       if (!isNaN(unitsPerProduct) && unitsPerProduct > 0) {
         const cost = unitsPerProduct * quantity * unitPrice;
-        const label = `${itemKey.charAt(0).toUpperCase() + itemKey.slice(1)} for ${product.name}`;
 
         additionalCost += cost;
- additionalItemsBreakdown.push({
-  label,
-  value: cost.toFixed(2),
-  isCurrency: true,
-  unitQty: unitsPerProduct * quantity,
-  unitPrice: unitPrice.toFixed(2)
-});
+
+        if (!additionalItemsBreakdown[product.name]) {
+          additionalItemsBreakdown[product.name] = [];
+        }
+
+        additionalItemsBreakdown[product.name].push({
+          label: itemKey.charAt(0).toUpperCase() + itemKey.slice(1),
+          value: cost.toFixed(2),
+          isCurrency: true,
+          unitQty: unitsPerProduct * quantity,
+          unitPrice: unitPrice.toFixed(2)
+        });
       }
     });
   });
 }
+
+// ✅ Move this OUTSIDE the loops, after both `.forEach()` are done
+let flatGrouped = [];
+Object.entries(additionalItemsBreakdown).forEach(([productName, items]) => {
+  flatGrouped.push({ isGroupHeader: true, label: productName });
+  flatGrouped.push(...items);
+});
+
 
 
   
@@ -253,7 +257,7 @@ console.log("✅ Total Estimated Cost:", total);
       { label: 'Design Cost', value: designCost.toFixed(2), isCurrency: true }
     ],
 
-    additional: additionalItemsBreakdown.length > 0 ? additionalItemsBreakdown : [
+   additional: flatGrouped.length > 0 ? flatGrouped : [
   { label: 'No additional items', value: 0, isCurrency: true }
 ],
 
