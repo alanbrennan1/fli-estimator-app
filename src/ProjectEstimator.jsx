@@ -819,6 +819,8 @@ setIsCableTroughProduct(hasCableTrough);
     <div className="text-xl font-semibold">Estimated Price: €{estimate}</div>
 
     <div className="pt-4 space-y-4">
+
+      
       {Object.entries(breakdown).map(([section, items]) => {
         const subtotal = items.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
         return (
@@ -876,7 +878,9 @@ setIsCableTroughProduct(hasCableTrough);
     </li>
   </ul>
 )}
-
+ </div>
+  );
+})}
               
  
 
