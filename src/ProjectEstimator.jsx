@@ -841,7 +841,12 @@ setIsCableTroughProduct(hasCableTrough);
       <li key={idx} className="flex justify-between">
         <span className="flex-1">{item.label}</span>
         <span className="w-1/4 text-right">{item.unitQty ?? '-'}</span>
-        <span className="w-1/4 text-right">{item.unitPrice ? `€${item.unitPrice}` : '-'}</span>
+      <span className="w-1/4 text-right">
+  {typeof item.unitPrice === 'string' || typeof item.unitPrice === 'number'
+    ? `€${item.unitPrice}`
+    : '-'}
+</span>
+
         <span className="w-1/4 text-right">€{item.value}</span>
       </li>
     ))}
