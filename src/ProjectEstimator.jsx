@@ -845,7 +845,7 @@ setIsCableTroughProduct(hasCableTrough);
       <span className="w-1/4 text-right">Total</span>
     </li>
 
-    {items.map((item, idx) => (
+    {safeItems.map((item, idx) => (
       <li key={idx} className="flex justify-between">
         <span className="flex-1">{item.label}</span>
         <span className="w-1/4 text-right">{item.unitQty ?? '-'}</span>
@@ -868,7 +868,7 @@ setIsCableTroughProduct(hasCableTrough);
   </ul>
 ) : (
   <ul className="space-y-1 text-sm">
-    {items.map((item, idx) => (
+    {safeItems.map((item, idx) => (
       <li key={idx} className="flex justify-between">
         <span>{item.label}</span>
         <span>
