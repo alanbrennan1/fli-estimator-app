@@ -591,209 +591,101 @@ setIsCableTroughProduct(hasCableTrough);
     
   </div>
 
+   {/* ➡️ Right: Manufacturing Accordion */}
+  <div className="flex-1">
+    <AccordionSection title="🏗 Manufacturing">
+      <div className="flex justify-center mb-4">
+        <div className="flex flex-col w-1/2">
+          <label className="text-xs font-medium mb-1 text-center">Product/Structure Selector</label>
+          <select
+            name="structureSelector"
+            value={formData.structureSelector}
+            onChange={handleChange}
+            className="border p-2 rounded text-xs"
+          >
+            <option value="">Select Structure</option>
+            <option value="Chambers">Chambers</option>
+            <option value="Walls">Walls</option>
+            <option value="Columns">Columns</option>
+            <option value="Beams">Beams</option>
+            <option value="Slabs">Slabs</option>
+            <option value="Troughs">Troughs</option>
+            <option value="SATs">SAT’s</option>
+            <option value="Tanks">Tanks</option>
+            <option value="Specials">Specials</option>
+          </select>
+        </div>
+      </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {['length', 'width', 'height', 'baseThickness', 'wallThickness'].map((field) => {
+          const labelMap = {
+            length: 'Length (m)',
+            width: 'Width (m)',
+            height: 'Height (m)',
+            baseThickness: 'Base Thickness (m)',
+            wallThickness: 'Wall Thickness (m)'
+          };
+          return (
+            <div key={field} className="flex flex-col">
+              <label className="text-sm font-medium mb-1">{labelMap[field]}</label>
+              <input
+                name={field}
+                type="number"
+                value={formData[field]}
+                onChange={handleChange}
+                className="border p-2 rounded"
+              />
+            </div>
+          );
+        })}
+      </div>
 
-  {/* 📌 Project Info */}
-<AccordionSection title="📌 Project Info">
-  <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
-    {/* Project Name */}
-    <div className="flex flex-col col-span-2">
-      <label className="text-xs font-medium mb-1">Project Name</label>
-      <input
-        name="projectName"
-        value={formData.projectName}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      />
-    </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+        <div className="flex flex-col">
+          <label className="text-sm font-medium mb-1">Concrete Volume (m³)</label>
+          <input
+            name="concreteVolume"
+            type="number"
+            value={formData.concreteVolume || ''}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          />
+        </div>
 
-    {/* Product/Structure Selector */}
-    <div className="flex flex-col col-span-2">
-      <label className="text-xs font-medium mb-1">Product/Structure Selector</label>
-      <select
-        name="structureSelector"
-        value={formData.structureSelector}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      >
-        <option value="">Select Structure</option>
-        <option value="Chambers">Chambers</option>
-        <option value="Walls">Walls</option>
-        <option value="Columns">Columns</option>
-        <option value="Beams">Beams</option>
-        <option value="Slabs">Slabs</option>
-        <option value="Troughs">Troughs</option>
-        <option value="SATs">SAT’s</option>
-        <option value="Tanks">Tanks</option>
-        <option value="Specials">Specials</option>
-      </select>
-    </div>
+        <div className="flex flex-col">
+          <label className="text-sm font-medium mb-1">Steel Grade (kg/m³)</label>
+          <select
+            name="steelGrade"
+            value={formData.steelGrade}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          >
+            <option value="">Select Steel Grade</option>
+            <option value="B125">B125</option>
+            <option value="C250">C250</option>
+            <option value="D400">D400</option>
+            <option value="E600">E600</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
 
-    {/* Account Name */}
-    <div className="flex flex-col">
-      <label className="text-xs font-medium mb-1">Account Name</label>
-      <select
-        name="accountName"
-        value={formData.accountName}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      >
-        <option value="">Select Account</option>
-      </select>
-    </div>
+        <div className="flex flex-col">
+          <label className="text-sm font-medium mb-1">Labour Hours</label>
+          <input
+            name="labourHours"
+            type="number"
+            value={formData.labourHours || ''}
+            onChange={handleChange}
+            placeholder="Hours"
+            className="border p-2 rounded"
+          />
+        </div>
+      </div>
 
-    {/* Account Contact */}
-    <div className="flex flex-col">
-      <label className="text-xs font-medium mb-1">Account Contact</label>
-      <select
-        name="accountContact"
-        value={formData.accountContact}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      >
-        <option value="">Select Contact</option>
-      </select>
-    </div>
-
-    {/* End Client */}
-    <div className="flex flex-col">
-      <label className="text-xs font-medium mb-1">End Client</label>
-      <select
-        name="endClient"
-        value={formData.endClient}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      >
-        <option value="">Select End Client</option>
-      </select>
-    </div>
-
-    {/* Salesperson */}
-    <div className="flex flex-col">
-      <label className="text-xs font-medium mb-1">Salesperson</label>
-      <select
-        name="salesperson"
-        value={formData.salesperson}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      >
-        <option value="">Select Salesperson</option>
-      </select>
-    </div>
-
-    {/* Sector */}
-    <div className="flex flex-col">
-      <label className="text-xs font-medium mb-1">Sector</label>
-      <select
-        name="sector"
-        value={formData.sector}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      >
-        <option value="">Select Sector</option>
-      </select>
-    </div>
-
-    {/* Close Date */}
-    <div className="flex flex-col">
-      <label className="text-xs font-medium mb-1">Close Date</label>
-      <input
-        name="closeDate"
-        type="date"
-        value={formData.closeDate || ''}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      />
-    </div>
-
-    {/* Currency & Probability */}
-    <div className="flex flex-col col-span-1">
-      <label className="text-xs font-medium mb-1">Currency</label>
-      <select
-        name="currency"
-        value={formData.currency}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      >
-        <option value="">Select Currency</option>
-        <option value="£">£</option>
-        <option value="€">€</option>
-      </select>
-    </div>
-    <div className="flex flex-col col-span-1">
-      <label className="text-xs font-medium mb-1">Probability (%)</label>
-      <input
-        name="probability"
-        type="number"
-        value={formData.probability || ''}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      />
-    </div>
-
-    {/* Req. Products */}
-    <div className="flex flex-col">
-      <label className="text-xs font-medium mb-1">Req. Products</label>
-      <select
-        name="requiredProducts"
-        value={formData.requiredProducts}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      >
-        <option value="">Select Product</option>
-      </select>
-    </div>
-
-    {/* Region */}
-    <div className="flex flex-col">
-      <label className="text-xs font-medium mb-1">Region</label>
-      <select
-        name="region"
-        value={formData.region}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      >
-        <option value="">Select Region</option>
-      </select>
-    </div>
-
-    {/* Return Date */}
-    <div className="flex flex-col">
-      <label className="text-xs font-medium mb-1">Return Date</label>
-      <input
-        name="returnDate"
-        type="date"
-        value={formData.returnDate || ''}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      />
-    </div>
-
-    {/* Opp. Description */}
-    <div className="flex flex-col md:col-span-4">
-      <label className="text-xs font-medium mb-1">Opp. Description</label>
-      <textarea
-        name="opportunityDescription"
-        value={formData.opportunityDescription}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-        rows={3}
-      />
-    </div>
-
-    {/* Address */}
-    <div className="flex flex-col md:col-span-4">
-      <label className="text-xs font-medium mb-1">Address</label>
-      <input
-        name="address"
-        value={formData.address}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      />
-    </div>
-  </div>
-</AccordionSection>
-
+      {/* 🔎 Product breakdown (if exists) */}
+      {/* Keep the rest of the product breakdown logic unchanged */}
+    </AccordionSection>
 
 
 
