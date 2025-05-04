@@ -591,7 +591,7 @@ setIsCableTroughProduct(hasCableTrough);
     
   </div>
 
-     {/* ➡️ Right: Manufacturing Accordion */}
+      {/* ➡️ Right: Manufacturing Accordion */}
   <div className="flex-1">
     <AccordionSection title="🏗 Manufacturing">
       <div className="flex justify-center mb-4">
@@ -646,6 +646,17 @@ setIsCableTroughProduct(hasCableTrough);
                 </div>
               );
             })}
+            <div className="flex flex-col">
+              <label className="text-xs font-medium mb-1">Concrete Volume (m³)</label>
+              <input
+                name="concreteVolume"
+                type="number"
+                value={formData.concreteVolume || ''}
+                onChange={handleChange}
+                placeholder="Auto-calculated from SketchUp"
+                className="border p-2 rounded text-xs bg-gray-50"
+              />
+            </div>
           </div>
         </div>
 
@@ -699,6 +710,7 @@ setIsCableTroughProduct(hasCableTrough);
 
       {/* Keep the rest of the product breakdown logic unchanged */}
     </AccordionSection>
+
 
 
   </div>
