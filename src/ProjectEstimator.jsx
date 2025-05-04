@@ -591,7 +591,7 @@ setIsCableTroughProduct(hasCableTrough);
     
   </div>
 
-      {/* ➡️ Right: Manufacturing Accordion */}
+       {/* ➡️ Right: Manufacturing Accordion */}
   <div className="flex-1">
     <AccordionSection title="🏗 Manufacturing">
       <div className="flex justify-center mb-4">
@@ -618,12 +618,12 @@ setIsCableTroughProduct(hasCableTrough);
       </div>
 
       {/* Inputs - Common */}
-      <div className="mb-6">
-        <h4 className="text-xs font-bold uppercase text-gray-600 mb-2">Inputs - Common</h4>
+      <div className="mb-6 border border-gray-300 rounded-lg p-4 bg-gray-50">
+        <h4 className="text-xs font-bold uppercase text-gray-700 mb-4 tracking-wider">Inputs - Common</h4>
 
         {/* Concrete Header */}
         <div className="mb-4">
-          <h5 className="text-xs font-semibold text-gray-500 mb-1">Concrete</h5>
+          <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Concrete</h5>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {['length', 'width', 'height', 'baseThickness', 'wallThickness'].map((field) => {
               const labelMap = {
@@ -654,7 +654,7 @@ setIsCableTroughProduct(hasCableTrough);
                 value={formData.concreteVolume || ''}
                 onChange={handleChange}
                 placeholder="Auto-calculated from SketchUp"
-                className="border p-2 rounded text-xs bg-gray-50"
+                className="border p-2 rounded text-xs bg-gray-100 text-gray-700"
               />
             </div>
           </div>
@@ -664,7 +664,7 @@ setIsCableTroughProduct(hasCableTrough);
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Steel/Fibres Header */}
           <div className="flex flex-col">
-            <h5 className="text-xs font-semibold text-gray-500 mb-1">Steel/Fibres</h5>
+            <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Steel/Fibres</h5>
             <select
               name="steelGrade"
               value={formData.steelGrade}
@@ -682,7 +682,7 @@ setIsCableTroughProduct(hasCableTrough);
 
           {/* Surface Finish Header */}
           <div className="flex flex-col">
-            <h5 className="text-xs font-semibold text-gray-500 mb-1">Surface Finish</h5>
+            <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Surface Finish</h5>
             <input
               name="surfaceFinish"
               type="text"
@@ -695,7 +695,7 @@ setIsCableTroughProduct(hasCableTrough);
 
           {/* Labour Header */}
           <div className="flex flex-col">
-            <h5 className="text-xs font-semibold text-gray-500 mb-1">Labour</h5>
+            <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Labour</h5>
             <input
               name="labourHours"
               type="number"
