@@ -283,7 +283,7 @@ console.log("📦 flatGrouped contents:", flatGrouped);
       <main className="p-6 max-w-5xl mx-auto space-y-6">
 
   {/* 📌 Project Info */}
-<AccordionSection title="📌 Project Info">
+<AccordionSection title="📌 Project Details">
   <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
     {/* Project Name */}
     <div className="flex flex-col">
@@ -593,7 +593,7 @@ setIsCableTroughProduct(hasCableTrough);
 
           {/* ➡️ Right: Manufacturing Accordion */}
   <div className="flex-1">
-    <AccordionSection title="🎗 Manufacturing">
+    <AccordionSection title="🎗 Manufacturing BoQ">
       <div className="flex justify-center mb-4">
         <div className="flex flex-col w-1/2 rounded shadow border border-gray-300 bg-gray-100 p-4">
           <label className="text-xs font-bold mb-2 text-center text-gray-700 uppercase tracking-wide">Product/Structure Selector</label>
