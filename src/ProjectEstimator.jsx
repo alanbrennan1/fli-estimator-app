@@ -288,11 +288,12 @@ console.log("📦 flatGrouped contents:", flatGrouped);
 
       <main className="p-6 max-w-5xl mx-auto space-y-6">
 
+
           {/* 📌 Project Info */}
 <AccordionSection title="📌 Project Info">
   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
     {/* Project Name */}
-    <div className="flex flex-col">
+    <div className="flex flex-col col-span-2">
       <label className="text-sm font-medium mb-1">Project Name</label>
       <input
         name="projectName"
@@ -380,30 +381,28 @@ console.log("📦 flatGrouped contents:", flatGrouped);
     </div>
 
     {/* Currency & Probability */}
-    <div className="flex flex-col col-span-2 md:flex-row gap-2">
-      <div className="flex flex-col w-full">
-        <label className="text-sm font-medium mb-1">Currency</label>
-        <select
-          name="currency"
-          value={formData.currency}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        >
-          <option value="">Select Currency</option>
-          <option value="£">£</option>
-          <option value="€">€</option>
-        </select>
-      </div>
-      <div className="flex flex-col w-full">
-        <label className="text-sm font-medium mb-1">Probability (%)</label>
-        <input
-          name="probability"
-          type="number"
-          value={formData.probability || ''}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-      </div>
+    <div className="flex flex-col col-span-1">
+      <label className="text-sm font-medium mb-1">Currency</label>
+      <select
+        name="currency"
+        value={formData.currency}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      >
+        <option value="">Select Currency</option>
+        <option value="£">£</option>
+        <option value="€">€</option>
+      </select>
+    </div>
+    <div className="flex flex-col col-span-1">
+      <label className="text-sm font-medium mb-1">Probability (%)</label>
+      <input
+        name="probability"
+        type="number"
+        value={formData.probability || ''}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      />
     </div>
 
     {/* Req. Products */}
