@@ -591,7 +591,7 @@ setIsCableTroughProduct(hasCableTrough);
     
   </div>
 
-   {/* ➡️ Right: Manufacturing Accordion */}
+     {/* ➡️ Right: Manufacturing Accordion */}
   <div className="flex-1">
     <AccordionSection title="🏗 Manufacturing">
       <div className="flex justify-center mb-4">
@@ -601,7 +601,7 @@ setIsCableTroughProduct(hasCableTrough);
             name="structureSelector"
             value={formData.structureSelector}
             onChange={handleChange}
-            className="border p-2 rounded text-xs"
+            className="border p-2 rounded text-xs bg-white focus:ring-2 focus:ring-blue-400"
           >
             <option value="">Select Structure</option>
             <option value="Chambers">Chambers</option>
@@ -617,75 +617,89 @@ setIsCableTroughProduct(hasCableTrough);
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {['length', 'width', 'height', 'baseThickness', 'wallThickness'].map((field) => {
-          const labelMap = {
-            length: 'Length (m)',
-            width: 'Width (m)',
-            height: 'Height (m)',
-            baseThickness: 'Base Thickness (m)',
-            wallThickness: 'Wall Thickness (m)'
-          };
-          return (
-            <div key={field} className="flex flex-col">
-              <label className="text-sm font-medium mb-1">{labelMap[field]}</label>
-              <input
-                name={field}
-                type="number"
-                value={formData[field]}
-                onChange={handleChange}
-                className="border p-2 rounded"
-              />
-            </div>
-          );
-        })}
+      {/* Inputs - Common */}
+      <div className="mb-6">
+        <h4 className="text-xs font-bold uppercase text-gray-600 mb-2">Inputs - Common</h4>
+
+        {/* Concrete Header */}
+        <div className="mb-4">
+          <h5 className="text-xs font-semibold text-gray-500 mb-1">Concrete</h5>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {['length', 'width', 'height', 'baseThickness', 'wallThickness'].map((field) => {
+              const labelMap = {
+                length: 'Length (m)',
+                width: 'Width (m)',
+                height: 'Height (m)',
+                baseThickness: 'Base Thickness (m)',
+                wallThickness: 'Wall Thickness (m)'
+              };
+              return (
+                <div key={field} className="flex flex-col">
+                  <label className="text-xs font-medium mb-1">{labelMap[field]}</label>
+                  <input
+                    name={field}
+                    type="number"
+                    value={formData[field]}
+                    onChange={handleChange}
+                    className="border p-2 rounded text-xs"
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Steel/Fibres, Surface Finish, Labour */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Steel/Fibres Header */}
+          <div className="flex flex-col">
+            <h5 className="text-xs font-semibold text-gray-500 mb-1">Steel/Fibres</h5>
+            <select
+              name="steelGrade"
+              value={formData.steelGrade}
+              onChange={handleChange}
+              className="border p-2 rounded text-xs"
+            >
+              <option value="">Select Steel Grade</option>
+              <option value="B125">B125</option>
+              <option value="C250">C250</option>
+              <option value="D400">D400</option>
+              <option value="E600">E600</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          {/* Surface Finish Header */}
+          <div className="flex flex-col">
+            <h5 className="text-xs font-semibold text-gray-500 mb-1">Surface Finish</h5>
+            <input
+              name="surfaceFinish"
+              type="text"
+              value={formData.surfaceFinish || ''}
+              onChange={handleChange}
+              placeholder="e.g. Trowelled, Brushed"
+              className="border p-2 rounded text-xs"
+            />
+          </div>
+
+          {/* Labour Header */}
+          <div className="flex flex-col">
+            <h5 className="text-xs font-semibold text-gray-500 mb-1">Labour</h5>
+            <input
+              name="labourHours"
+              type="number"
+              value={formData.labourHours}
+              onChange={handleChange}
+              placeholder="Hours"
+              className="border p-2 rounded text-xs"
+            />
+          </div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-        <div className="flex flex-col">
-          <label className="text-sm font-medium mb-1">Concrete Volume (m³)</label>
-          <input
-            name="concreteVolume"
-            type="number"
-            value={formData.concreteVolume || ''}
-            onChange={handleChange}
-            className="border p-2 rounded"
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label className="text-sm font-medium mb-1">Steel Grade (kg/m³)</label>
-          <select
-            name="steelGrade"
-            value={formData.steelGrade}
-            onChange={handleChange}
-            className="border p-2 rounded"
-          >
-            <option value="">Select Steel Grade</option>
-            <option value="B125">B125</option>
-            <option value="C250">C250</option>
-            <option value="D400">D400</option>
-            <option value="E600">E600</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-
-        <div className="flex flex-col">
-          <label className="text-sm font-medium mb-1">Labour Hours</label>
-          <input
-            name="labourHours"
-            type="number"
-            value={formData.labourHours || ''}
-            onChange={handleChange}
-            placeholder="Hours"
-            className="border p-2 rounded"
-          />
-        </div>
-      </div>
-
-      {/* 🔎 Product breakdown (if exists) */}
       {/* Keep the rest of the product breakdown logic unchanged */}
     </AccordionSection>
+  </div>
 
 
 
