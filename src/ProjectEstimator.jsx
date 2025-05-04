@@ -287,10 +287,11 @@ console.log("📦 flatGrouped contents:", flatGrouped);
       </header>
 
       <main className="p-6 max-w-5xl mx-auto space-y-6">
- {/* 🧾 Project Info */}
-       
-<AccordionSection title="🧾 Project Info">
+
+          {/* 📎 Project Info */}
+<AccordionSection title="📎 Project Info">
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    {/* Project Name */}
     <div className="flex flex-col">
       <label className="text-sm font-medium mb-1">Project Name</label>
       <input
@@ -300,24 +301,62 @@ console.log("📦 flatGrouped contents:", flatGrouped);
         className="border p-2 rounded"
       />
     </div>
+
+    {/* Account Name */}
     <div className="flex flex-col">
-      <label className="text-sm font-medium mb-1">Project Number</label>
-      <input
-        name="projectNumber"
-        value={formData.projectNumber}
+      <label className="text-sm font-medium mb-1">Account Name</label>
+      <select
+        name="accountName"
+        value={formData.accountName}
         onChange={handleChange}
         className="border p-2 rounded"
-      />
+      >
+        <option value="">Select Account</option>
+        {/* Populate dynamically if needed */}
+      </select>
     </div>
+
+    {/* Account Contact */}
     <div className="flex flex-col">
-      <label className="text-sm font-medium mb-1">Client</label>
-      <input
-        name="client"
-        value={formData.client}
+      <label className="text-sm font-medium mb-1">Account Contact</label>
+      <select
+        name="accountContact"
+        value={formData.accountContact}
         onChange={handleChange}
         className="border p-2 rounded"
-      />
+      >
+        <option value="">Select Contact</option>
+        {/* Populate dynamically if needed */}
+      </select>
     </div>
+
+    {/* End Client */}
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1">End Client</label>
+      <select
+        name="endClient"
+        value={formData.endClient}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      >
+        <option value="">Select End Client</option>
+      </select>
+    </div>
+
+    {/* Salesperson */}
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1">Salesperson</label>
+      <select
+        name="salesperson"
+        value={formData.salesperson}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      >
+        <option value="">Select Salesperson</option>
+      </select>
+    </div>
+
+    {/* Sector */}
     <div className="flex flex-col">
       <label className="text-sm font-medium mb-1">Sector</label>
       <select
@@ -327,27 +366,111 @@ console.log("📦 flatGrouped contents:", flatGrouped);
         className="border p-2 rounded"
       >
         <option value="">Select Sector</option>
-        {Object.keys(sectorProductMap).map((sector, idx) => (
-          <option key={idx} value={sector}>{sector}</option>
-        ))}
       </select>
     </div>
+
+    {/* Close Date */}
     <div className="flex flex-col">
-      <label className="text-sm font-medium mb-1">Product Type</label>
+      <label className="text-sm font-medium mb-1">Close Date</label>
+      <input
+        name="closeDate"
+        type="date"
+        value={formData.closeDate || ''}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      />
+    </div>
+
+    {/* Currency */}
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1">Currency</label>
       <select
-        name="productType"
-        value={formData.productType}
+        name="currency"
+        value={formData.currency}
         onChange={handleChange}
         className="border p-2 rounded"
       >
-        <option value="">Select Product Type</option>
-        {(sectorProductMap[formData.sector] || []).map((type, idx) => (
-          <option key={idx} value={type}>{type}</option>
-        ))}
+        <option value="">Select Currency</option>
+        <option value="£">£</option>
+        <option value="€">€</option>
       </select>
+    </div>
+
+    {/* Probability */}
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1">Probability (%)</label>
+      <input
+        name="probability"
+        type="number"
+        value={formData.probability || ''}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      />
+    </div>
+
+    {/* Req. Products */}
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1">Req. Products</label>
+      <select
+        name="requiredProducts"
+        value={formData.requiredProducts}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      >
+        <option value="">Select Product</option>
+      </select>
+    </div>
+
+    {/* Opp. Description */}
+    <div className="flex flex-col md:col-span-3">
+      <label className="text-sm font-medium mb-1">Opp. Description</label>
+      <textarea
+        name="opportunityDescription"
+        value={formData.opportunityDescription}
+        onChange={handleChange}
+        className="border p-2 rounded"
+        rows={3}
+      />
+    </div>
+
+    {/* Address */}
+    <div className="flex flex-col md:col-span-3">
+      <label className="text-sm font-medium mb-1">Address</label>
+      <input
+        name="address"
+        value={formData.address}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      />
+    </div>
+
+    {/* Region */}
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1">Region</label>
+      <select
+        name="region"
+        value={formData.region}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      >
+        <option value="">Select Region</option>
+      </select>
+    </div>
+
+    {/* Return Date */}
+    <div className="flex flex-col">
+      <label className="text-sm font-medium mb-1">Return Date</label>
+      <input
+        name="returnDate"
+        type="date"
+        value={formData.returnDate || ''}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      />
     </div>
   </div>
 </AccordionSection>
+
 
 
 
