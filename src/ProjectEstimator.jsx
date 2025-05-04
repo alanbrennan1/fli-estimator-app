@@ -715,7 +715,7 @@ setIsCableTroughProduct(hasCableTrough);
         {/* Additional Items Header */}
         <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Additional Items</h5>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
-          {[ 'Concrete', 'Steel', 'Labour', 'W.Bar & Scabbling', 'Lifters & Capstans', 'MKK Cones', 'Duct Type 1', 'Duct Type 2', 'Duct Type 3', 'Duct Type 4', 'Unistrut', 'Ladder Rungs', 'Sika Powder', 'Pulling Irons', 'Earthing Points', 'Sump Grates', 'Polyfleece' ].map((item, idx) => (
+          {[ 'W.Bar & Scabbling', 'Lifters & Capstans', 'MKK Cones', 'Duct Type 1', 'Duct Type 2', 'Duct Type 3', 'Duct Type 4', 'Unistrut', 'Ladder Rungs', 'Sika Powder', 'Pulling Irons', 'Earthing Points', 'Sump Grates', 'Polyfleece' ].map((item, idx) => (
             <div key={idx} className="flex flex-col gap-1">
               <label className="flex items-center gap-2">
                 <input
