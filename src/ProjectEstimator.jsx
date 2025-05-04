@@ -591,9 +591,9 @@ setIsCableTroughProduct(hasCableTrough);
     
   </div>
 
-        {/* ➡️ Right: Manufacturing Accordion */}
+         {/* ➡️ Right: Manufacturing Accordion */}
   <div className="flex-1">
-    <AccordionSection title="🏗 Manufacturing">
+    <AccordionSection title="🎗 Manufacturing">
       <div className="flex justify-center mb-4">
         <div className="flex flex-col w-1/2 rounded shadow border border-gray-300 bg-gray-100 p-4">
           <label className="text-xs font-bold mb-2 text-center text-gray-700 uppercase tracking-wide">Product/Structure Selector</label>
@@ -715,34 +715,31 @@ setIsCableTroughProduct(hasCableTrough);
         {/* Additional Items Header */}
         <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Additional Items</h5>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
-          {[
-            'Concrete',
-            'Steel',
-            'Labour',
-            'W.Bar & Scabbling',
-            'Lifters & Capstans',
-            'MKK Cones',
-            'Duct Type 1',
-            'Duct Type 2',
-            'Duct Type 3',
-            'Duct Type 4',
-            'Unistrut',
-            'Ladder Rungs',
-            'Sika Powder',
-            'Pulling Irons',
-            'Earthing Points',
-            'Sump Grates',
-            'Polyfleece'
-          ].map((item, idx) => (
-            <label key={idx} className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                name={`additional_${item}`}
-                checked={formData[`additional_${item}`] || false}
-                onChange={(e) => setFormData(prev => ({ ...prev, [`additional_${item}`]: e.target.checked }))}
-              />
-              {item}
-            </label>
+          {[ 'Concrete', 'Steel', 'Labour', 'W.Bar & Scabbling', 'Lifters & Capstans', 'MKK Cones', 'Duct Type 1', 'Duct Type 2', 'Duct Type 3', 'Duct Type 4', 'Unistrut', 'Ladder Rungs', 'Sika Powder', 'Pulling Irons', 'Earthing Points', 'Sump Grates', 'Polyfleece' ].map((item, idx) => (
+            <div key={idx} className="flex flex-col gap-1">
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={!!formData[`additionalCheck_${item}`]}
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    [`additionalCheck_${item}`]: e.target.checked,
+                    ...(e.target.checked ? {} : { [`additionalQty_${item}`]: '' })
+                  }))}
+                />
+                {item}
+              </label>
+              {formData[`additionalCheck_${item}`] && (
+                <input
+                  type="number"
+                  name={`additionalQty_${item}`]
+                  value={formData[`additionalQty_${item}`] || ''}
+                  onChange={(e) => setFormData(prev => ({ ...prev, [`additionalQty_${item}`]: e.target.value }))}
+                  placeholder="Qty"
+                  className="border p-1 rounded w-20 text-xs"
+                />
+              )}
+            </div>
           ))}
         </div>
       </div>
