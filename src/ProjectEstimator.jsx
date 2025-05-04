@@ -596,7 +596,7 @@ setIsCableTroughProduct(hasCableTrough);
     <AccordionSection title="🏗 Manufacturing">
       <div className="flex justify-center mb-4">
         <div className="flex flex-col w-1/2">
-          <label className="text-xs font-medium mb-1 text-center">Product/Structure Selector</label>
+          <label className="text-xs font-bold mb-2 text-center text-gray-700 uppercase tracking-wide">Product/Structure Selector</label>
           <select
             name="structureSelector"
             value={formData.structureSelector}
