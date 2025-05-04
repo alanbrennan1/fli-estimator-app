@@ -288,11 +288,11 @@ console.log("📦 flatGrouped contents:", flatGrouped);
 
       <main className="p-6 max-w-5xl mx-auto space-y-6">
 
-         {/* 📎 Project Info */}
-<AccordionSection title="📎 Project Info">
+          {/* 📌 Project Info */}
+<AccordionSection title="📌 Project Info">
   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
     {/* Project Name */}
-    <div className="flex flex-col md:col-span-2">
+    <div className="flex flex-col">
       <label className="text-sm font-medium mb-1">Project Name</label>
       <input
         name="projectName"
