@@ -288,11 +288,11 @@ console.log("📦 flatGrouped contents:", flatGrouped);
 
       <main className="p-6 max-w-5xl mx-auto space-y-6">
 
-          {/* 📎 Project Info */}
+         {/* 📎 Project Info */}
 <AccordionSection title="📎 Project Info">
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
     {/* Project Name */}
-    <div className="flex flex-col">
+    <div className="flex flex-col md:col-span-2">
       <label className="text-sm font-medium mb-1">Project Name</label>
       <input
         name="projectName"
@@ -312,7 +312,6 @@ console.log("📦 flatGrouped contents:", flatGrouped);
         className="border p-2 rounded"
       >
         <option value="">Select Account</option>
-        {/* Populate dynamically if needed */}
       </select>
     </div>
 
@@ -326,7 +325,6 @@ console.log("📦 flatGrouped contents:", flatGrouped);
         className="border p-2 rounded"
       >
         <option value="">Select Contact</option>
-        {/* Populate dynamically if needed */}
       </select>
     </div>
 
@@ -381,31 +379,31 @@ console.log("📦 flatGrouped contents:", flatGrouped);
       />
     </div>
 
-    {/* Currency */}
-    <div className="flex flex-col">
-      <label className="text-sm font-medium mb-1">Currency</label>
-      <select
-        name="currency"
-        value={formData.currency}
-        onChange={handleChange}
-        className="border p-2 rounded"
-      >
-        <option value="">Select Currency</option>
-        <option value="£">£</option>
-        <option value="€">€</option>
-      </select>
-    </div>
-
-    {/* Probability */}
-    <div className="flex flex-col">
-      <label className="text-sm font-medium mb-1">Probability (%)</label>
-      <input
-        name="probability"
-        type="number"
-        value={formData.probability || ''}
-        onChange={handleChange}
-        className="border p-2 rounded"
-      />
+    {/* Currency & Probability */}
+    <div className="flex flex-col col-span-2 md:flex-row gap-2">
+      <div className="flex flex-col w-full">
+        <label className="text-sm font-medium mb-1">Currency</label>
+        <select
+          name="currency"
+          value={formData.currency}
+          onChange={handleChange}
+          className="border p-2 rounded"
+        >
+          <option value="">Select Currency</option>
+          <option value="£">£</option>
+          <option value="€">€</option>
+        </select>
+      </div>
+      <div className="flex flex-col w-full">
+        <label className="text-sm font-medium mb-1">Probability (%)</label>
+        <input
+          name="probability"
+          type="number"
+          value={formData.probability || ''}
+          onChange={handleChange}
+          className="border p-2 rounded"
+        />
+      </div>
     </div>
 
     {/* Req. Products */}
@@ -419,29 +417,6 @@ console.log("📦 flatGrouped contents:", flatGrouped);
       >
         <option value="">Select Product</option>
       </select>
-    </div>
-
-    {/* Opp. Description */}
-    <div className="flex flex-col md:col-span-3">
-      <label className="text-sm font-medium mb-1">Opp. Description</label>
-      <textarea
-        name="opportunityDescription"
-        value={formData.opportunityDescription}
-        onChange={handleChange}
-        className="border p-2 rounded"
-        rows={3}
-      />
-    </div>
-
-    {/* Address */}
-    <div className="flex flex-col md:col-span-3">
-      <label className="text-sm font-medium mb-1">Address</label>
-      <input
-        name="address"
-        value={formData.address}
-        onChange={handleChange}
-        className="border p-2 rounded"
-      />
     </div>
 
     {/* Region */}
@@ -464,6 +439,29 @@ console.log("📦 flatGrouped contents:", flatGrouped);
         name="returnDate"
         type="date"
         value={formData.returnDate || ''}
+        onChange={handleChange}
+        className="border p-2 rounded"
+      />
+    </div>
+
+    {/* Opp. Description */}
+    <div className="flex flex-col md:col-span-4">
+      <label className="text-sm font-medium mb-1">Opp. Description</label>
+      <textarea
+        name="opportunityDescription"
+        value={formData.opportunityDescription}
+        onChange={handleChange}
+        className="border p-2 rounded"
+        rows={3}
+      />
+    </div>
+
+    {/* Address */}
+    <div className="flex flex-col md:col-span-4">
+      <label className="text-sm font-medium mb-1">Address</label>
+      <input
+        name="address"
+        value={formData.address}
         onChange={handleChange}
         className="border p-2 rounded"
       />
