@@ -753,73 +753,7 @@ setIsCableTroughProduct(hasCableTrough);
   </div>
 
 </div>
-
-
-<AccordionSection title="➕ Additional Items">
-  {/* 🔔 Mode Badge */}
-  {productBreakdowns.some(p => p.name.startsWith('CT')) && (
-    <div className="mb-4 inline-block bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">
-      Cable Troughs Mode ON
-    </div>
-  )}
-
-  {/* 🧱 Per-Product Inputs */}
-  {productBreakdowns.filter(p => p.name.startsWith('CT')).map((product, idx) => (
-    <div key={idx} className="border border-gray-300 rounded-lg mb-4 shadow-sm">
-      {/* Header */}
-      <button
-        type="button"
-        onClick={() => {
-          const copy = [...productBreakdowns];
-          copy[idx].isOpen = !copy[idx].isOpen;
-          setProductBreakdowns(copy);
-        }}
-        className="w-full text-left px-4 py-2 bg-gray-100 text-gray-800 font-semibold text-sm rounded-t hover:bg-gray-200"
-      >
-        {product.name} ▾
-      </button>
-
-      {/* Inputs */}
-      {product.isOpen && (
-        <div className="bg-white px-4 py-3 grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[
-            { key: 'unistrut', label: 'Unistrut' },
-            { key: 'duct', label: 'Duct Type' },
-            { key: 'sika', label: 'Sika Powder' },
-            { key: 'lifters', label: 'Lifters' }
-          ].map(item => (
-            <div key={item.key} className="flex flex-col">
-              <label className="text-sm font-medium text-gray-700 mb-1">{item.label}</label>
-              <input
-                type={item.key === 'duct' ? 'text' : 'number'}
-                name={`additional-${product.name}-${item.key}`}
-                value={product[item.key] || ''}
-                placeholder={item.key === 'duct' ? 'Type e.g. Duct-1' : 'Qty'}
-                onChange={(e) => {
-                  const updated = [...productBreakdowns];
-                  updated[idx][item.key] = e.target.value;
-                  setProductBreakdowns(updated);
-                }}
-                className="border p-2 rounded"
-              />
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  ))}
-
-  {/* ❗Fallback message */}
-  {productBreakdowns.length === 0 && (
-    <div className="text-sm text-gray-500">
-      Upload a SketchUp CSV to begin entering additional item inputs.
-    </div>
-  )}
-</AccordionSection>
-
-        
-
-
+    
         
         
 
