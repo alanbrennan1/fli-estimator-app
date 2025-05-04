@@ -293,7 +293,7 @@ console.log("📦 flatGrouped contents:", flatGrouped);
 <AccordionSection title="📌 Project Info">
   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
     {/* Project Name */}
-    <div className="flex flex-col col-span-2">
+    <div className="flex flex-col">
       <label className="text-sm font-medium mb-1">Project Name</label>
       <input
         name="projectName"
