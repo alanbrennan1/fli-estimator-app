@@ -591,7 +591,7 @@ setIsCableTroughProduct(hasCableTrough);
     
   </div>
 
-         {/* ➡️ Right: Manufacturing Accordion */}
+          {/* ➡️ Right: Manufacturing Accordion */}
   <div className="flex-1">
     <AccordionSection title="🎗 Manufacturing">
       <div className="flex justify-center mb-4">
@@ -732,7 +732,7 @@ setIsCableTroughProduct(hasCableTrough);
               {formData[`additionalCheck_${item}`] && (
                 <input
                   type="number"
-                  name={`additionalQty_${item}`]
+                  name={`additionalQty_${item}`}
                   value={formData[`additionalQty_${item}`] || ''}
                   onChange={(e) => setFormData(prev => ({ ...prev, [`additionalQty_${item}`]: e.target.value }))}
                   placeholder="Qty"
