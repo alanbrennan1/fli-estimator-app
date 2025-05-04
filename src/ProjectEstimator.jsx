@@ -699,9 +699,6 @@ setIsCableTroughProduct(hasCableTrough);
 
       {/* Keep the rest of the product breakdown logic unchanged */}
     </AccordionSection>
-  </div>
-
-
 
 
   </div>
