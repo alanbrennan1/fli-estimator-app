@@ -591,7 +591,7 @@ setIsCableTroughProduct(hasCableTrough);
     
   </div>
 
-       {/* ➡️ Right: Manufacturing Accordion */}
+        {/* ➡️ Right: Manufacturing Accordion */}
   <div className="flex-1">
     <AccordionSection title="🏗 Manufacturing">
       <div className="flex justify-center mb-4">
@@ -619,7 +619,7 @@ setIsCableTroughProduct(hasCableTrough);
 
       {/* Inputs - Common */}
       <div className="mb-6 border border-gray-300 rounded-lg p-4 bg-gray-50">
-        <h4 className="text-xs font-bold uppercase text-gray-700 mb-4 tracking-wider">Inputs - Common</h4>
+        <h4 className="text-xs font-bold uppercase text-gray-700 mb-4 tracking-wider border-b pb-2">Inputs - Common</h4>
 
         {/* Concrete Header */}
         <div className="mb-4">
@@ -708,8 +708,48 @@ setIsCableTroughProduct(hasCableTrough);
         </div>
       </div>
 
+      {/* Inputs - Unique */}
+      <div className="border border-gray-300 rounded-lg p-4 bg-gray-50">
+        <h4 className="text-xs font-bold uppercase text-gray-700 mb-4 tracking-wider border-b pb-2">Inputs - Unique</h4>
+
+        {/* Additional Items Header */}
+        <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Additional Items</h5>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
+          {[
+            'Concrete',
+            'Steel',
+            'Labour',
+            'W.Bar & Scabbling',
+            'Lifters & Capstans',
+            'MKK Cones',
+            'Duct Type 1',
+            'Duct Type 2',
+            'Duct Type 3',
+            'Duct Type 4',
+            'Unistrut',
+            'Ladder Rungs',
+            'Sika Powder',
+            'Pulling Irons',
+            'Earthing Points',
+            'Sump Grates',
+            'Polyfleece'
+          ].map((item, idx) => (
+            <label key={idx} className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                name={`additional_${item}`}
+                checked={formData[`additional_${item}`] || false}
+                onChange={(e) => setFormData(prev => ({ ...prev, [`additional_${item}`]: e.target.checked }))}
+              />
+              {item}
+            </label>
+          ))}
+        </div>
+      </div>
+
       {/* Keep the rest of the product breakdown logic unchanged */}
     </AccordionSection>
+
 
 
 
