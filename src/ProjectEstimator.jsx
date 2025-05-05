@@ -977,6 +977,8 @@ setIsCableTroughProduct(hasCableTrough);
             <th className="border p-2 text-right">Total (€)</th>
           </tr>
         </thead>
+
+
         <tbody>
           {productBreakdowns.map((product, idx) => {
             const quantity = parseFloat(product.quantity || 0);
@@ -1005,9 +1007,26 @@ Object.entries(pricingMapKeys).forEach(([normalizedKey, label]) => {
     additionalCost += itemCost;
   }
 });
-
-
             const total = concreteCost + steelCost + labourCost + additionalCost;
+
+<tr className="bg-gray-100 font-bold text-sm">
+  <td className="border p-2 text-right" colSpan={2}>Subtotals</td>
+  <td className="border p-2 text-center">
+    €{(breakdown?.subtotals?.concrete || 0).toFixed(2)}
+  </td>
+  <td className="border p-2 text-center">
+    €{(breakdown?.subtotals?.steel || 0).toFixed(2)}
+  </td>
+  <td className="border p-2 text-center">
+    €{(breakdown?.subtotals?.labour || 0).toFixed(2)}
+  </td>
+  <td className="border p-2 text-center">
+    €{(breakdown?.subtotals?.additional || 0).toFixed(2)}
+  </td>
+  <td className="border p-2"></td>
+</tr>
+
+
 
             return (
               <tr key={idx} className="border-b">
