@@ -180,6 +180,22 @@ const handleEstimate = () => {
   }
 
   let sourceBreakdowns = [];
+  const pricingMapKeys = {
+    unistrut: 'Unistrut',
+    sikapowder: 'Sika Powder',
+    ducttype1: 'Duct Type 1',
+    ducttype2: 'Duct Type 2',
+    ducttype3: 'Duct Type 3',
+    ducttype4: 'Duct Type 4',
+    lifterscapstans: 'Lifters & Capstans',
+    wbarscabbling: 'W.Bar & Scabbling',
+    mkkcones: 'MKK Cones',
+    ladderrungs: 'Ladder Rungs',
+    pullingirons: 'Pulling Irons',
+    earthingpoints: 'Earthing Points',
+    sumpgrates: 'Sump Grates',
+    polyfleece: 'Polyfleece'
+  };
 
   if (pendingImport && pendingImport.length > 0) {
     sourceBreakdowns = pendingImport;
@@ -229,6 +245,11 @@ const handleEstimate = () => {
 
   let grandTotal = 0;
 
+  let concreteSubtotal = 0;
+  let steelSubtotal = 0;
+  let labourSubtotal = 0;
+  let additionalSubtotal = 0;
+
   const productBreakdowns = sourceBreakdowns.map(product => {
     const quantity = safe(product.quantity);
     const concreteVol = safe(product.concrete?.volume);
@@ -259,6 +280,10 @@ const handleEstimate = () => {
     subtotal *= 1 + safe(formData.margin) / 100;
 
     grandTotal += subtotal;
+    concreteSubtotal += concreteCost;
+    steelSubtotal += steelCost;
+    labourSubtotal += labourCost;
+    additionalSubtotal += additionalCost;
 
     return {
       ...product,
@@ -285,7 +310,13 @@ const handleEstimate = () => {
     installation: [
       { label: 'Installation Days', value: formData.installationDays || 0, unit: 'days', isCurrency: false },
       { label: 'Installation Cost', value: installationCost.toFixed(2), isCurrency: true }
-    ]
+    ],
+    subtotals: {
+      concrete: concreteSubtotal,
+      steel: steelSubtotal,
+      labour: labourSubtotal,
+      additional: additionalSubtotal
+    }
   });
 
   setPendingImport(null);
