@@ -977,7 +977,7 @@ setIsCableTroughProduct(hasCableTrough);
             <th className="border p-2">Product</th>
             <th className="border p-2">Qty</th>
             <th className="border p-2">Concrete (m³)</th>
-            <th className="border p-2">Steel (kg)</th>
+            <th className="border p-2">Steel (kg/m³)</th>
             <th className="border p-2">Labour (hrs)</th>
             <th className="border p-2">Add. Items</th>
             <th className="border p-2 text-right">Total (€)</th>
@@ -985,29 +985,14 @@ setIsCableTroughProduct(hasCableTrough);
         </thead>
         <tbody>
           {productBreakdowns.map((product, idx) => {
-            const quantity = parseFloat(product.quantity || 0);
-            const concreteVol = parseFloat(product.concrete?.volume || 0);
-            const steelKg = parseFloat(product.steel?.kg || 0);
-            const labourHrs = parseFloat(product.labour?.hours || 0);
+            const { quantity, concrete, steel, labour, additionalItems, total } = product;
+            const concreteVol = parseFloat(concrete?.volume || 0);
+            const steelKg = parseFloat(steel?.kg || 0);
+            const labourHrs = parseFloat(labour?.hours || 0);
 
-            const concreteCost = concreteVol * 137.21;
-            const steelCost = steelKg * 0.8;
-            const labourCost = labourHrs * 70.11;
-
-            const marginMultiplier =
-              (1 + (formData.wasteMargin || 0) / 100) *
-              (1 + (formData.groupCost || 0) / 100) *
-              (1 + (formData.margin || 0) / 100);
-
-            let additionalItems = [];
-            let additionalCost = 0;
-
-            product.additionalItems?.forEach((item) => {
-              additionalItems.push(item);
-              additionalCost += item.cost;
-            });
-
-            const total = (concreteCost + steelCost + labourCost + additionalCost) * marginMultiplier;
+            const concreteCost = product.concreteCost || 0;
+            const steelCost = product.steelCost || 0;
+            const labourCost = product.labourCost || 0;
 
             return (
               <tr key={idx} className="border-b">
@@ -1043,16 +1028,46 @@ setIsCableTroughProduct(hasCableTrough);
               </tr>
             );
           })}
+
+          {/* ➕ Subtotals Row */}
+          <tr className="bg-gray-100 font-semibold text-sm border-t-2 border-gray-400">
+            <td className="border p-2 text-right" colSpan={2}>Subtotals:</td>
+            <td className="border p-2 text-center">
+              {breakdown.subtotals?.concrete?.units?.toFixed(2)} m³
+              <div className="text-gray-500 text-[10px]">
+                €{breakdown.subtotals?.concrete?.cost?.toFixed(2)}
+              </div>
+            </td>
+            <td className="border p-2 text-center">
+              {breakdown.subtotals?.steel?.units?.toFixed(2)} kg/m³
+              <div className="text-gray-500 text-[10px]">
+                €{breakdown.subtotals?.steel?.cost?.toFixed(2)}
+              </div>
+            </td>
+            <td className="border p-2 text-center">
+              {breakdown.subtotals?.labour?.units?.toFixed(2)} hrs
+              <div className="text-gray-500 text-[10px]">
+                €{breakdown.subtotals?.labour?.cost?.toFixed(2)}
+              </div>
+            </td>
+            <td className="border p-2 text-center text-gray-700 italic">—
+              <div className="text-gray-500 text-[10px]">
+                €{breakdown.subtotals?.additional?.cost?.toFixed(2)}
+              </div>
+            </td>
+            <td className="border p-2 text-right font-bold text-sm">—</td>
+          </tr>
         </tbody>
       </table>
     </div>
 
-    {/* Grand Total */}
+    {/* 💰 Grand Total */}
     <div className="mt-6 text-right text-base font-bold text-blue-900">
       Grand Total: €{estimate}
     </div>
   </div>
 )}
+
 
         
 </main>
