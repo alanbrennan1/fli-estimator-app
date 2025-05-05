@@ -166,12 +166,28 @@ const handleEstimate = () => {
   const additionalItemsBreakdown = {};
   let flatGrouped = [];
 
-  const pricingMapKeys = {
-    unistrut: 'Unistrut',
-    sikapowder: 'Sika Powder',
-    ducttype: 'Duct Type',
-    lifterscapstans: 'Lifters & Capstans'
-  };
+const pricingMapKeys = {
+  unistrut: 'Unistrut',
+  sikapowder: 'Sika Powder',
+  ducttype: 'Duct Type',
+  lifterscapstans: 'Lifters & Capstans'
+};
+
+Object.entries(pricingMapKeys).forEach(([normalizedKey, label]) => {
+  const unitQty = parseFloat(product[normalizedKey] || 0) * quantity;
+  const unitPrice = pricingMap[label] || 0;
+  const itemCost = unitQty * unitPrice;
+
+  if (unitQty > 0) {
+    additionalItems.push({
+      label,
+      qty: unitQty,
+      cost: itemCost
+    });
+    additionalCost += itemCost;
+  }
+});
+
 
   if (pendingImport && pendingImport.length > 0) {
     // ✅ Use SketchUp CSV Data
