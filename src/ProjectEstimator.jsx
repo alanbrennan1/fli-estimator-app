@@ -1113,41 +1113,30 @@ setIsCableTroughProduct(hasCableTrough);
 </table>
 </div>
 
-    {/* 📐 Design Cost Row */}
-<tr className="bg-white text-sm">
-  <td className="border p-2 text-right italic text-gray-700" colSpan={5}>Design:</td>
-  <td className="border p-2 text-center text-gray-600">
-    {breakdown.design?.[0]?.value} hrs
-    <div className="text-gray-500 text-[10px]">€{breakdown.design?.[1]?.value}</div>
-  </td>
-  <td className="border p-2 text-right font-semibold text-sm text-gray-800">
-    €{breakdown.design?.[1]?.value}
-  </td>
-</tr>
+{/* 🧾 Service Costs Summary */}
+<table className="w-full text-sm mt-4 border-t border-blue-300">
+  <tbody>
+    <tr className="bg-blue-50 text-blue-900 font-semibold border-t border-blue-200">
+      <td className="border p-2 text-right" colSpan={6}>
+        Service Costs:
+      </td>
+      <td className="border p-2 text-right font-bold">
+        €{(breakdown.services?.reduce((sum, s) => sum + parseFloat(s.value || 0), 0)).toFixed(2)}
+      </td>
+    </tr>
 
-{/* 🚚 Transport Cost Row */}
-<tr className="bg-white text-sm">
-  <td className="border p-2 text-right italic text-gray-700" colSpan={5}>Transport:</td>
-  <td className="border p-2 text-center text-gray-600">
-    {formData.transportQuantity || 0} loads
-    <div className="text-gray-500 text-[10px]">€{breakdown.transport?.[0]?.value}</div>
-  </td>
-  <td className="border p-2 text-right font-semibold text-sm text-gray-800">
-    €{breakdown.transport?.[0]?.value}
-  </td>
-</tr>
-
-{/* 🛠 Installation Cost Row */}
-<tr className="bg-white text-sm">
-  <td className="border p-2 text-right italic text-gray-700" colSpan={5}>Installation:</td>
-  <td className="border p-2 text-center text-gray-600">
-    {breakdown.installation?.[0]?.value} days
-    <div className="text-gray-500 text-[10px]">€{breakdown.installation?.[1]?.value}</div>
-  </td>
-  <td className="border p-2 text-right font-semibold text-sm text-gray-800">
-    €{breakdown.installation?.[1]?.value}
-  </td>
-</tr>
+    {breakdown.services?.map((service, idx) => (
+      <tr key={idx} className="text-sm text-blue-800">
+        <td className="border p-2 text-right italic text-gray-600" colSpan={6}>
+          {service.label} Cost:
+        </td>
+        <td className="border p-2 text-right font-semibold">
+          €{parseFloat(service.value || 0).toFixed(2)}
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
 
 
 
