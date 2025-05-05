@@ -888,7 +888,7 @@ setIsCableTroughProduct(hasCableTrough);
 </div>
       
 
-        <button onClick={handleEstimate} className="bg-blue-600 text-white px-4 py-2 rounded">Generate Estimate</button>
+<button onClick={handleEstimate} className="bg-blue-600 text-white px-4 py-2 rounded">Generate Estimate</button>
 
 {estimate && (
   <div id="quote-preview" className="pt-6 space-y-4">
@@ -1023,12 +1023,14 @@ setIsCableTroughProduct(hasCableTrough);
           </div>
         );
       })}
- 
+    </div>
 
     <div className="text-right text-lg font-bold pt-2 border-t">Grand Total: €{estimate}</div>
+  </div>
+)}
 
 
-                
+        
 
 
       
