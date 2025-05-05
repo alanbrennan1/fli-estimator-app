@@ -888,100 +888,151 @@ setIsCableTroughProduct(hasCableTrough);
 </div>
       
 
-        
-                
         <button onClick={handleEstimate} className="bg-blue-600 text-white px-4 py-2 rounded">Generate Estimate</button>
 
-        
-        {estimate && (
+{estimate && (
   <div id="quote-preview" className="pt-6 space-y-4">
-
     <div className="text-xl font-semibold">Estimated Price: €{estimate}</div>
 
     <div className="pt-4 space-y-4">
+      {productBreakdowns && productBreakdowns.length > 0 && (
+        <div className="bg-gray-50 border rounded p-4">
+          <h3 className="font-semibold border-b pb-1 mb-4 capitalize text-blue-700 flex items-center gap-2">
+            🧱 Per-Product Breakdown
+          </h3>
 
-      
-{Object.entries(breakdown || {}).map(([section, items]) => {
-  const safeItems = Array.isArray(items) ? items : [];
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="px-3 py-2 text-left">Product</th>
+                  <th className="px-3 py-2 text-right">Qty</th>
+                  <th className="px-3 py-2 text-right">Concrete (m³)</th>
+                  <th className="px-3 py-2 text-right">Steel (kg)</th>
+                  <th className="px-3 py-2 text-right">Labour (hrs)</th>
+                  <th className="px-3 py-2 text-right">Additional Items</th>
+                  <th className="px-3 py-2 text-right">Total (€)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {productBreakdowns.map((product, idx) => {
+                  const additionalItems = ['unistrut', 'sika', 'lifters', 'duct'].map(key => {
+                    const qty = parseFloat(product[key] || 0);
+                    const price = pricingMap?.[itemPricingKeys?.[key]] || 0;
+                    return qty > 0 ? `${key.charAt(0).toUpperCase() + key.slice(1)} (${qty}×€${price})` : null;
+                  }).filter(Boolean).join(', ');
 
-  const subtotal = safeItems.reduce((sum, i) =>
-    sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
+                  const concreteCost = parseFloat(product.concrete?.cost || 0);
+                  const steelCost = parseFloat(product.steel?.cost || 0);
+                  const labourCost = parseFloat(product.labour?.cost || 0);
 
-    console.log("📦 Rendering section:", section, Array.isArray(items), items);
+                  const additionalItemTotal = ['unistrut', 'sika', 'lifters', 'duct'].reduce((sum, key) => {
+                    const qty = parseFloat(product[key] || 0);
+                    const price = pricingMap?.[itemPricingKeys?.[key]] || 0;
+                    return sum + (qty * price * product.quantity);
+                  }, 0);
+
+                  const total = concreteCost + steelCost + labourCost + additionalItemTotal;
+
+                  return (
+                    <tr key={idx} className="border-t">
+                      <td className="px-3 py-2">{product.name}</td>
+                      <td className="px-3 py-2 text-right">{product.quantity}</td>
+                      <td className="px-3 py-2 text-right">{product.concrete?.volume}</td>
+                      <td className="px-3 py-2 text-right">{product.steel?.kg}</td>
+                      <td className="px-3 py-2 text-right">{product.labour?.hours}</td>
+                      <td className="px-3 py-2 text-right">{additionalItems || '-'}</td>
+                      <td className="px-3 py-2 text-right font-semibold">€{total.toFixed(2)}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {Object.entries(breakdown || {}).map(([section, items]) => {
+        const safeItems = Array.isArray(items) ? items : [];
+        const subtotal = safeItems.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
 
         return (
           <div key={section} className="bg-gray-50 border rounded p-4">
-            <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700">
-  {section === 'additional' ? 'Additional Items' : section.charAt(0).toUpperCase() + section.slice(1)}
-</h3>
-            
-{section === 'additional' ? (
-  <ul className="space-y-1 text-sm">
-    {/* Header Row */}
-    <li className="flex justify-between font-semibold text-gray-500 border-b pb-1 mb-2">
-      <span className="flex-1">Item</span>
-      <span className="w-1/4 text-right">Qty</span>
-      <span className="w-1/4 text-right">Unit Price</span>
-      <span className="w-1/4 text-right">Total</span>
-    </li>
+            <h3 className="font-semibold border-b pb-1 mb-2 capitalize text-blue-700 flex items-center gap-2">
+              {section === 'additional' ? (
+                <>
+                  <span>📦</span> <span>Additional Items</span>
+                </>
+              ) : (
+                section.charAt(0).toUpperCase() + section.slice(1)
+              )}
+            </h3>
 
-{safeItems.map((item, idx) =>
-  item.isGroupHeader ? (
-    <li
-      key={idx}
-      className="bg-gray-100 text-gray-800 font-semibold px-3 py-1 mt-4 rounded border border-gray-300"
-    >
-      {item.label}
-    </li>
-  ) : (
-    <li key={idx} className="flex justify-between">
-      <span className="flex-1 pl-4">{item.label}</span>
-      <span className="w-1/4 text-right">{item.unitQty ?? '-'}</span>
-      <span className="w-1/4 text-right">
-        {item.unitPrice ? `€${item.unitPrice}` : '-'}
-      </span>
-      <span className="w-1/4 text-right">€{item.value}</span>
-    </li>
-  )
+            {section === 'additional' ? (
+              <ul className="space-y-1 text-sm">
+                <li className="flex justify-between font-semibold text-gray-500 border-b pb-1 mb-2">
+                  <span className="flex-1">Item</span>
+                  <span className="w-1/4 text-right">Qty</span>
+                  <span className="w-1/4 text-right">Unit Price</span>
+                  <span className="w-1/4 text-right">Total</span>
+                </li>
+
+                {safeItems.map((item, idx) =>
+                  item.isGroupHeader ? (
+                    <li
+                      key={idx}
+                      className="bg-gray-100 text-gray-800 font-semibold px-3 py-1 mt-4 rounded border border-gray-300"
+                    >
+                      {item.label}
+                    </li>
+                  ) : (
+                    <li key={idx} className="flex justify-between">
+                      <span className="flex-1 pl-4">{item.label}</span>
+                      <span className="w-1/4 text-right">{item.unitQty ?? '-'}</span>
+                      <span className="w-1/4 text-right">
+                        {item.unitPrice ? `€${item.unitPrice}` : '-'}
+                      </span>
+                      <span className="w-1/4 text-right">€{item.value}</span>
+                    </li>
+                  )
+                )}
+
+                <li className="flex justify-between font-semibold border-t pt-1 mt-2">
+                  <span className="flex-1">Subtotal</span>
+                  <span className="w-1/4 text-right"></span>
+                  <span className="w-1/4 text-right"></span>
+                  <span className="w-1/4 text-right">€{subtotal.toFixed(2)}</span>
+                </li>
+              </ul>
+            ) : (
+              <ul className="space-y-1 text-sm">
+                {safeItems.map((item, idx) => (
+                  <li key={idx} className="flex justify-between">
+                    <span>{item.label}</span>
+                    <span>
+                      {item.isCurrency ? `€${item.value}` : `${item.value} ${item.unit}`}
+                    </span>
+                  </li>
+                ))}
+                <li className="flex justify-between font-semibold border-t pt-1 mt-2">
+                  <span>Subtotal</span>
+                  <span>€{subtotal.toFixed(2)}</span>
+                </li>
+              </ul>
+            )}
+          </div>
+        );
+      })}
+    </div>
+
+    <div className="text-right text-lg font-bold pt-2 border-t">Grand Total: €{estimate}</div>
+  </div>
 )}
 
+                
 
 
-    
-
-    <li className="flex justify-between font-semibold border-t pt-1 mt-2">
-      <span className="flex-1">Subtotal</span>
-      <span className="w-1/4 text-right"></span>
-      <span className="w-1/4 text-right"></span>
-      <span className="w-1/4 text-right">€{subtotal.toFixed(2)}</span>
-    </li>
-  </ul>
-) : (
-  <ul className="space-y-1 text-sm">
-    {safeItems.map((item, idx) => (
-      <li key={idx} className="flex justify-between">
-        <span>{item.label}</span>
-        <span>
-          {item.isCurrency
-            ? `€${item.value}`
-            : `${item.value} ${item.unit}`}
-        </span>
-      </li>
-    ))}
-    <li className="flex justify-between font-semibold border-t pt-1 mt-2">
-      <span>Subtotal</span>
-      <span>€{subtotal.toFixed(2)}</span>
-    </li>
-  </ul>
-)}
- </div>
-  );
-})}
-              
- 
-
-      <div className="text-right text-lg font-bold pt-2 border-t">Grand Total: €{estimate}</div>
-
+      
       {/* ✅ Export Buttons: CSV + PDF */}
       <div className="flex gap-4 pt-6">
         <button
