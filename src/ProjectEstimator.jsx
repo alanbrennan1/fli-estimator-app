@@ -626,6 +626,31 @@ setIsCableTroughProduct(hasCableTrough);
          
 
 <AccordionSection title="🏗️ Manufacturing BoQ">
+  {/* Product/Structure Selector */}
+  <div className="flex justify-center mb-4">
+    <div className="flex flex-col w-1/2 rounded shadow border border-gray-300 bg-gray-100 p-4">
+      <label className="text-xs font-bold mb-2 text-center text-gray-700 uppercase tracking-wide">
+        Product/Structure Selector
+      </label>
+      <select
+        name="structureSelector"
+        value={formData.structureSelector}
+        onChange={handleChange}
+        className="border p-2 rounded text-xs bg-white focus:ring-2 focus:ring-blue-400"
+      >
+        <option value="">Select Structure</option>
+        <option value="Troughs">Troughs</option>
+        <option value="Chambers">Chambers</option>
+        <option value="Walls">Walls</option>
+        <option value="Beams">Beams</option>
+        <option value="Slabs">Slabs</option>
+        <option value="SATs">SATs</option>
+        <option value="Tanks">Tanks</option>
+        <option value="Specials">Specials</option>
+      </select>
+    </div>
+  </div>
+
   {/* Tabs for Sub-Products */}
   {subProductMap[formData.structureSelector]?.length > 0 && (
     <>
@@ -662,13 +687,13 @@ setIsCableTroughProduct(hasCableTrough);
             <div className="mb-4">
               <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Concrete</h5>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {['length', 'width', 'height', 'baseThickness', 'wallThickness'].map((field) => {
+                {["length", "width", "height", "baseThickness", "wallThickness"].map((field) => {
                   const labelMap = {
-                    length: 'Length (m)',
-                    width: 'Width (m)',
-                    height: 'Height (m)',
-                    baseThickness: 'Base Thickness (m)',
-                    wallThickness: 'Wall Thickness (m)'
+                    length: "Length (m)",
+                    width: "Width (m)",
+                    height: "Height (m)",
+                    baseThickness: "Base Thickness (m)",
+                    wallThickness: "Wall Thickness (m)"
                   };
                   return (
                     <div key={field} className="flex flex-col">
@@ -758,6 +783,7 @@ setIsCableTroughProduct(hasCableTrough);
     </>
   )}
 </AccordionSection>
+
   
         
 
