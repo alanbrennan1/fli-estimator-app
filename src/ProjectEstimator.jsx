@@ -153,7 +153,7 @@ useEffect(() => {
 
 
 
- const handleEstimate = () => {
+const handleEstimate = () => {
   const safe = (val) => parseFloat(val || 0);
   const safeInt = (val) => parseInt(val || '0', 10);
 
@@ -163,6 +163,8 @@ useEffect(() => {
   }
 
   let sourceBreakdowns = [];
+  const additionalItemsBreakdown = {};
+  let flatGrouped = [];
 
   if (pendingImport && pendingImport.length > 0) {
     // ✅ Use SketchUp CSV Data
@@ -185,6 +187,19 @@ useEffect(() => {
         if (val > 0) {
           const key = label.toLowerCase().replace(/[^a-z]/g, '');
           additionalMapped[key] = val;
+
+          if (!additionalItemsBreakdown[productName]) {
+            additionalItemsBreakdown[productName] = [];
+          }
+
+          const unitPrice = pricingMap[label] || 0;
+          additionalItemsBreakdown[productName].push({
+            label,
+            value: (val * quantity * unitPrice).toFixed(2),
+            isCurrency: true,
+            unitQty: val * quantity,
+            unitPrice: unitPrice.toFixed(2)
+          });
         }
       });
 
@@ -198,9 +213,6 @@ useEffect(() => {
       });
     });
   }
-
-  // Only now save product breakdowns
-  setProductBreakdowns(sourceBreakdowns);
 
   // 🎨 Design Hours & Cost
   const designFields = [
@@ -240,7 +252,6 @@ useEffect(() => {
     });
 
     let subtotal = concreteCost + steelCost + labourCost + additionalCost;
-
     subtotal *= 1 + safe(formData.wasteMargin) / 100;
     subtotal *= 1 + safe(formData.groupCost) / 100;
     subtotal *= 1 + safe(formData.margin) / 100;
@@ -250,63 +261,35 @@ useEffect(() => {
 
   grandTotal += designCost + transportCost + installationCost;
 
+  // 📋 Flatten additional items breakdown
+  Object.entries(additionalItemsBreakdown).forEach(([productName, items]) => {
+    flatGrouped.push({ isGroupHeader: true, label: productName });
+    flatGrouped.push(...items);
+  });
+
   setEstimate(grandTotal.toFixed(2));
-  setPendingImport(null); // optionally clear import
-};
-
-
-
-// 🧮 Total Before Margins
-let total = concreteCost + steelCost + labourCost + designCost + totalAdditionalCost + transportCost + installationCost;
-
-
-  // 📈 Apply Margins
-  total *= 1 + safe(formData.wasteMargin) / 100;  // Additional waste
-  total *= 1 + safe(formData.groupCost) / 100;     // Group overhead
-  total *= 1 + safe(formData.margin) / 100;        // Profitability margin
-  
-
-  // 💾 Save Estimate
-  setEstimate(total.toFixed(2));
-
-
-console.log("🔍 Breakdown structure:", breakdown);
-console.log("✅ flatGrouped is array:", Array.isArray(flatGrouped));
-console.log("📦 flatGrouped contents:", flatGrouped);
-
-  
-  // 📋 Save BoQ Breakdown
+  setProductBreakdowns(sourceBreakdowns);
   setBreakdown({
-    concrete: [
-      { label: 'Concrete Volume', value: concreteVolume.toFixed(2), unit: 'm³', isCurrency: false },
-      { label: 'Concrete Cost', value: concreteCost.toFixed(2), isCurrency: true }
-    ],
-    steel: [
-      { label: 'Steel Weight', value: steelKg.toFixed(2), unit: 'kg', isCurrency: false },
-      { label: 'Steel Cost', value: steelCost.toFixed(2), isCurrency: true }
-    ],
-    labour: [
-      { label: 'Labour Hours', value: totalLabourHours.toFixed(2), unit: 'hrs', isCurrency: false },
-      { label: 'Labour Cost', value: labourCost.toFixed(2), isCurrency: true }
-    ],
     design: [
       { label: 'Total Design Hours', value: totalDesignHours.toFixed(2), unit: 'hrs', isCurrency: false },
       { label: 'Design Cost', value: designCost.toFixed(2), isCurrency: true }
     ],
-
-   additional: flatGrouped.length > 0 ? flatGrouped : [
-  { label: 'No additional items', value: 0, isCurrency: true }
-],
-    
     transport: [
       { label: 'Transport Cost', value: transportCost.toFixed(2), isCurrency: true }
     ],
     installation: [
       { label: 'Installation Days', value: formData.installationDays || 0, unit: 'days', isCurrency: false },
       { label: 'Installation Cost', value: installationCost.toFixed(2), isCurrency: true }
+    ],
+    additional: flatGrouped.length > 0 ? flatGrouped : [
+      { label: 'No additional items', value: 0, isCurrency: true }
     ]
   });
+
+  setPendingImport(null); // optionally clear import after use
 };
+
+
 
 
   return (
