@@ -1023,11 +1023,10 @@ setIsCableTroughProduct(hasCableTrough);
           </div>
         );
       })}
-    </div>
+ 
 
     <div className="text-right text-lg font-bold pt-2 border-t">Grand Total: €{estimate}</div>
-  </div>
-)}
+
 
                 
 
