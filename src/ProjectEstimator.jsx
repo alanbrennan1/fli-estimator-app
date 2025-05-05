@@ -170,7 +170,14 @@ const handleEstimate = () => {
     ducttype2: 'Duct Type 2',
     ducttype3: 'Duct Type 3',
     ducttype4: 'Duct Type 4',
-    lifterscapstans: 'Lifters & Capstans'
+    lifterscapstans: 'Lifters & Capstans',
+    wbarscabbling: 'W.Bar & Scabbling',
+    mkkcones: 'MKK Cones',
+    ladderrungs: 'Ladder Rungs',
+    pullingirons: 'Pulling Irons',
+    earthingpoints: 'Earthing Points',
+    sumpgrates: 'Sump Grates',
+    polyfleece: 'Polyfleece'
   };
 
   if (pendingImport && pendingImport.length > 0) {
@@ -286,6 +293,7 @@ const handleChange = (e) => {
   const { name, value } = e.target;
   setFormData(prev => ({ ...prev, [name]: value }));
 };
+
 
 
   
