@@ -153,7 +153,7 @@ useEffect(() => {
 
 
 
-  const handleEstimate = () => {
+ const handleEstimate = () => {
   const safe = (val) => parseFloat(val || 0);
   const safeInt = (val) => parseInt(val || '0', 10);
 
@@ -251,6 +251,7 @@ useEffect(() => {
   grandTotal += designCost + transportCost + installationCost;
 
   setEstimate(grandTotal.toFixed(2));
+  setPendingImport(null); // optionally clear import
 };
 
 
