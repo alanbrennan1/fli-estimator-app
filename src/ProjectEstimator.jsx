@@ -323,7 +323,12 @@ const handleEstimate = () => {
       steel: { cost: steelSubtotal, units: steelUnitTotal },
       labour: { cost: labourSubtotal, units: labourUnitTotal },
       additional: { cost: additionalSubtotal, units: additionalUnitTotal }
-    }
+    },
+    services: [
+      { label: 'Design', value: designCost.toFixed(2) },
+      { label: 'Installation', value: installationCost.toFixed(2) },
+      { label: 'Transport', value: transportCost.toFixed(2) }
+    ]
   });
 
   setPendingImport(null);
