@@ -197,7 +197,8 @@ const handleEstimate = () => {
 
       Object.keys(pricingMapKeys).forEach(normalizedKey => {
         const label = pricingMapKeys[normalizedKey];
-        const val = safe(additionalItems[label]);
+        const foundKey = Object.keys(additionalItems).find(k => k.toLowerCase() === label.toLowerCase());
+        const val = safe(foundKey ? additionalItems[foundKey] : 0);
         if (val > 0) {
           additionalMapped[normalizedKey] = val;
         }
