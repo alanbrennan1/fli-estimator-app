@@ -899,6 +899,82 @@ setIsCableTroughProduct(hasCableTrough);
 </div>
 
 
+{productBreakdowns.length > 0 && (
+  <AccordionSection title="📦 Product Breakdown">
+    <div className="overflow-x-auto">
+      <table className="min-w-full text-xs border">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="border p-2">Product</th>
+            <th className="border p-2">Qty</th>
+            <th className="border p-2">Concrete (m³)</th>
+            <th className="border p-2">Steel (kg)</th>
+            <th className="border p-2">Labour (hrs)</th>
+            {['Unistrut', 'Sika Powder', 'Duct Type', 'Lifters & Capstans'].map((item) => (
+              <th key={item} className="border p-2">{item}</th>
+            ))}
+            <th className="border p-2 font-bold">Total (€)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {productBreakdowns.map((product, idx) => {
+            const quantity = parseFloat(product.quantity || 0);
+            const concreteVol = parseFloat(product.concrete?.volume || 0);
+            const steelKg = parseFloat(product.steel?.kg || 0);
+            const labourHrs = parseFloat(product.labour?.hours || 0);
+
+            let total = 0;
+            const rowItems = {};
+
+            // Base material costs
+            const concreteCost = concreteVol * 137.21;
+            const steelCost = steelKg * 0.8;
+            const labourCost = labourHrs * 70.11;
+            total += concreteCost + steelCost + labourCost;
+
+            // Additional item costs
+            ['unistrut', 'sika', 'duct', 'lifters'].forEach((itemKey) => {
+              const pricingNameMap = {
+                unistrut: 'Unistrut',
+                sika: 'Sika Powder',
+                duct: 'Duct Type',
+                lifters: 'Lifters & Capstans'
+              };
+
+              const unitQty = parseFloat(product[itemKey] || 0) * quantity;
+              const unitPrice = pricingMap[pricingNameMap[itemKey]] || 0;
+              const itemCost = unitQty * unitPrice;
+              rowItems[itemKey] = { unitQty, unitPrice, itemCost };
+
+              if (unitQty > 0) total += itemCost;
+            });
+
+            return (
+              <tr key={idx}>
+                <td className="border p-2">{product.name}</td>
+                <td className="border p-2 text-center">{quantity}</td>
+                <td className="border p-2 text-center">{concreteVol.toFixed(2)}</td>
+                <td className="border p-2 text-center">{steelKg.toFixed(2)}</td>
+                <td className="border p-2 text-center">{labourHrs.toFixed(2)}</td>
+                {['unistrut', 'sika', 'duct', 'lifters'].map((key) => (
+                  <td key={key} className="border p-2 text-center">
+                    {rowItems[key]?.unitQty ? `${rowItems[key].unitQty.toFixed(2)} (€${rowItems[key].itemCost.toFixed(2)})` : '-'}
+                  </td>
+                ))}
+                <td className="border p-2 text-right font-bold">€{total.toFixed(2)}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+
+    {/* Grand Total */}
+    <div className="mt-4 text-right text-lg font-semibold text-blue-900">
+      Grand Total: €{estimate}
+    </div>
+  </AccordionSection>
+)}
 
 
 
