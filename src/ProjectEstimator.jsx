@@ -764,18 +764,36 @@ setIsCableTroughProduct(hasCableTrough);
                 'W.Bar & Scabbling', 'Lifters & Capstans', 'MKK Cones', 'Duct Type 1', 'Duct Type 2',
                 'Duct Type 3', 'Duct Type 4', 'Unistrut', 'Ladder Rungs', 'Sika Powder',
                 'Pulling Irons', 'Earthing Points', 'Sump Grates', 'Polyfleece'
-              ].map((item, itemIdx) => (
-                <div key={itemIdx} className="flex flex-col gap-1">
-                  <label className="text-xs font-medium">{item}</label>
-                  <input
-                    type="number"
-                    value={subProductInputs[selectedProduct]?.additionalItems?.[item] || ''}
-                    onChange={(e) => handleAdditionalItemChange(selectedProduct, item, e.target.value)}
-                    placeholder="Qty"
-                    className="border p-1 rounded w-24 text-xs"
-                  />
-                </div>
-              ))}
+              ].map((item, itemIdx) => {
+                const isChecked = !!subProductInputs[selectedProduct]?.additionalItems?.[item];
+                return (
+                  <div key={itemIdx} className="flex flex-col gap-1">
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={(e) => {
+                          handleAdditionalItemChange(
+                            selectedProduct,
+                            item,
+                            e.target.checked ? '1' : '' // default to 1 if checked
+                          );
+                        }}
+                      />
+                      {item}
+                    </label>
+                    {isChecked && (
+                      <input
+                        type="number"
+                        value={subProductInputs[selectedProduct]?.additionalItems?.[item] || ''}
+                        onChange={(e) => handleAdditionalItemChange(selectedProduct, item, e.target.value)}
+                        placeholder="Qty"
+                        className="border p-1 rounded w-24 text-xs"
+                      />
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -784,7 +802,6 @@ setIsCableTroughProduct(hasCableTrough);
   )}
 </AccordionSection>
 
-  
         
 
 <AccordionSection title="🎨 Design">
