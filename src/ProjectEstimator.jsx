@@ -120,15 +120,13 @@ const getUnitPrice = (itemName) => {
   const [productQuantities, setProductQuantities] = useState({});
   const [subProductInputs, setSubProductInputs] = useState({});
 
-  const [selectedProduct, setSelectedProduct] = useState(
-  subProductMap[formData.structureSelector]?.[0] || ''
-);
+ const [selectedProduct, setSelectedProduct] = useState('');
 
-// Automatically select the first product when structure changes
 useEffect(() => {
   const products = subProductMap[formData.structureSelector] || [];
   setSelectedProduct(products[0] || '');
 }, [formData.structureSelector]);
+
 
 
   const handleSubInputChange = (productName, field, value) => {
