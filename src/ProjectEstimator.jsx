@@ -152,6 +152,7 @@ useEffect(() => {
 };
 
 
+
   const handleEstimate = () => {
   const safe = (val) => parseFloat(val || 0);
   const safeInt = (val) => parseInt(val || '0', 10);
@@ -169,18 +170,18 @@ useEffect(() => {
   } else {
     // ✅ Use Manual SubProduct Inputs
     Object.entries(subProductInputs).forEach(([productName, inputs]) => {
-      const quantity = parseFloat(inputs.quantity || 1);
-      const length = parseFloat(inputs.length || 0);
-      const width = parseFloat(inputs.width || 0);
-      const height = parseFloat(inputs.height || 0);
+      const quantity = safe(inputs.quantity || 1);
+      const length = safe(inputs.length);
+      const width = safe(inputs.width);
+      const height = safe(inputs.height);
       const concreteVolume = length * width * height * quantity;
       const steelKg = concreteVolume * 120;
-      const labourHrs = parseFloat(inputs.labourHours || 0);
+      const labourHrs = safe(inputs.labourHours);
 
       const additionalItems = inputs.additionalItems || {};
       const additionalMapped = {};
       ['Unistrut', 'Sika Powder', 'Duct Type', 'Lifters & Capstans'].forEach(label => {
-        const val = parseFloat(additionalItems[label] || 0);
+        const val = safe(additionalItems[label]);
         if (val > 0) {
           const key = label.toLowerCase().replace(/[^a-z]/g, '');
           additionalMapped[key] = val;
@@ -198,23 +199,14 @@ useEffect(() => {
     });
   }
 
+  // Only now save product breakdowns
   setProductBreakdowns(sourceBreakdowns);
 
   // 🎨 Design Hours & Cost
   const designFields = [
-    'proposalHours',
-    'designMeetingsHours',
-    'structuralDesignHours',
-    'revitModelHours',
-    'approvalCommentsHours',
-    'detailingJointsHours',
-    'detailingFloorsHours',
-    'detailingScreedHours',
-    'gasHours',
-    'productionUnitsHours',
-    'productionCheckingHours',
-    'siteQueriesHours',
-    'asBuiltsHours'
+    'proposalHours', 'designMeetingsHours', 'structuralDesignHours', 'revitModelHours',
+    'approvalCommentsHours', 'detailingJointsHours', 'detailingFloorsHours', 'detailingScreedHours',
+    'gasHours', 'productionUnitsHours', 'productionCheckingHours', 'siteQueriesHours', 'asBuiltsHours'
   ];
   const totalDesignHours = designFields.reduce((sum, key) => sum + safe(formData[key]), 0);
   const designCost = totalDesignHours * 61.12;
@@ -222,14 +214,13 @@ useEffect(() => {
   const transportCost = safe(formData.transportRate) * safe(formData.transportQuantity);
   const installationCost = safe(formData.installationDays) * 500;
 
-  // 🧮 Aggregate estimate
   let grandTotal = 0;
 
   sourceBreakdowns.forEach(product => {
-    const quantity = parseFloat(product.quantity || 0);
-    const concreteVol = parseFloat(product.concrete?.volume || 0);
-    const steelKg = parseFloat(product.steel?.kg || 0);
-    const labourHrs = parseFloat(product.labour?.hours || 0);
+    const quantity = safe(product.quantity);
+    const concreteVol = safe(product.concrete?.volume);
+    const steelKg = safe(product.steel?.kg);
+    const labourHrs = safe(product.labour?.hours);
 
     const concreteCost = concreteVol * 137.21;
     const steelCost = steelKg * 0.8;
@@ -243,7 +234,7 @@ useEffect(() => {
         duct: 'Duct Type',
         lifters: 'Lifters & Capstans'
       };
-      const unitQty = parseFloat(product[key] || 0) * quantity;
+      const unitQty = safe(product[key]) * quantity;
       const unitPrice = pricingMap[pricingMapKeys[key]] || 0;
       additionalCost += unitQty * unitPrice;
     });
