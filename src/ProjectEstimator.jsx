@@ -800,22 +800,26 @@ setIsCableTroughProduct(hasCableTrough);
               Inputs - Unique
             </h4>
 
-           <h5
-  className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1 flex items-center gap-1"
-  title="Additional item quantities per product unit"
->
-  Additional Items
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-3 w-3 text-blue-500 cursor-help"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={2}
-  >
-    <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 18a6 6 0 100-12 6 6 0 000 12z" />
-  </svg>
-</h5>
+           <div className="relative inline-block group">
+  <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1 flex items-center gap-1">
+    Additional Items
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-3 w-3 text-blue-500"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 18a6 6 0 100-12 6 6 0 000 12z" />
+    </svg>
+  </h5>
+
+  {/* Tooltip bubble */}
+  <div className="absolute z-10 w-48 bg-blue-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none left-full top-0 ml-2 shadow-lg">
+    Additional item quantities per product unit
+  </div>
+</div>
 
             <div className="flex flex-wrap gap-2">
               {[
