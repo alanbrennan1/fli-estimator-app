@@ -239,12 +239,12 @@ const handleEstimate = () => {
     const labourCost = labourHrs * 70.11;
 
     let additionalCost = 0;
-    ['unistrut', 'sika', 'duct', 'lifters'].forEach((key) => {
+    ['unistrut', 'sikapowder', 'ducttype', 'lifterscapstans'].forEach((key) => {
       const pricingMapKeys = {
         unistrut: 'Unistrut',
-        sika: 'Sika Powder',
-        duct: 'Duct Type',
-        lifters: 'Lifters & Capstans'
+        sikapowder: 'Sika Powder',
+        ducttype: 'Duct Type',
+        lifterscapstans: 'Lifters & Capstans'
       };
       const unitQty = safe(product[key]) * quantity;
       const unitPrice = pricingMap[pricingMapKeys[key]] || 0;
