@@ -152,13 +152,8 @@ useEffect(() => {
   }));
 };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
 
-
-const handleEstimate = () => {
+  const handleEstimate = () => {
   const safe = (val) => parseFloat(val || 0);
   const safeInt = (val) => parseInt(val || '0', 10);
 
@@ -269,6 +264,7 @@ const handleEstimate = () => {
 };
 
 
+  
 
   
 // ✅ Move this OUTSIDE the loops, after both `.forEach()` are done
