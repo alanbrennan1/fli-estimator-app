@@ -692,26 +692,31 @@ setIsCableTroughProduct(hasCableTrough);
         ))}
       </div>
 
-      {/* Selected Sub-Product Form */}
-      {selectedProduct && (
-        <div className="flex items-center justify-between mb-4 sticky top-0 bg-white z-20">
-  <h6 className="text-md font-semibold text-blue-800">
-    {selectedProduct}
-  </h6>
-  <div className="flex items-center space-x-2 bg-blue-50 px-3 py-1 rounded-full border border-blue-300 shadow-sm">
-    <label className="text-xs font-semibold text-blue-700">Qty</label>
-    <input
-      type="number"
-      min="1"
-      value={subProductInputs[selectedProduct]?.quantity || ''}
-      onChange={(e) =>
-        handleSubInputChange(selectedProduct, 'quantity', e.target.value)
-      }
-      placeholder="e.g. 2"
-      className="w-14 text-xs px-2 py-1 rounded-full border border-blue-200 focus:ring-1 focus:ring-blue-500 text-center"
-    />
+{selectedProduct && (
+  <div className="border border-gray-300 bg-white rounded-lg p-4 max-h-[600px] overflow-y-auto">
+    <div className="flex items-center justify-between mb-4 sticky top-0 bg-white z-20">
+      <h6 className="text-md font-semibold text-blue-800">
+        {selectedProduct}
+      </h6>
+      <div className="flex items-center space-x-2 bg-blue-50 px-3 py-1 rounded-full border border-blue-300 shadow-sm">
+        <label className="text-xs font-semibold text-blue-700">Qty</label>
+        <input
+          type="number"
+          min="1"
+          value={subProductInputs[selectedProduct]?.quantity || ''}
+          onChange={(e) =>
+            handleSubInputChange(selectedProduct, 'quantity', e.target.value)
+          }
+          placeholder="e.g. 2"
+          className="w-14 text-xs px-2 py-1 rounded-full border border-blue-200 focus:ring-1 focus:ring-blue-500 text-center"
+        />
+      </div>
+    </div>
+
+    {/* 👇 Keep the rest of the form here */}
+    {/* Inputs - Common, Unique, etc. */}
   </div>
-</div>
+)}
 
           
 
