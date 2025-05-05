@@ -1113,30 +1113,29 @@ setIsCableTroughProduct(hasCableTrough);
 </table>
 </div>
 
-{/* 🧾 Service Costs Summary */}
-<table className="w-full text-sm mt-4 border-t border-blue-300">
-  <tbody>
-    <tr className="bg-blue-50 text-blue-900 font-semibold border-t border-blue-200">
-      <td className="border p-2 text-right" colSpan={6}>
-        Service Costs:
-      </td>
-      <td className="border p-2 text-right font-bold">
-        €{(breakdown.services?.reduce((sum, s) => sum + parseFloat(s.value || 0), 0)).toFixed(2)}
-      </td>
-    </tr>
-
-    {breakdown.services?.map((service, idx) => (
-      <tr key={idx} className="text-sm text-blue-800">
-        <td className="border p-2 text-right italic text-gray-600" colSpan={6}>
-          {service.label} Cost:
-        </td>
-        <td className="border p-2 text-right font-semibold">
-          €{parseFloat(service.value || 0).toFixed(2)}
-        </td>
-      </tr>
+{/* 💼 Service Costs */}
+<div className="mt-6 border border-blue-100 rounded-lg overflow-hidden shadow-sm">
+  <div className="bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-800 border-b border-blue-200">
+    Service Costs
+  </div>
+  <div className="divide-y divide-blue-100 text-sm">
+    {breakdown.services?.map((s, i) => (
+      <div key={i} className="flex items-center justify-between px-4 py-2 bg-white">
+        <span className="text-gray-600 italic">{s.label} Cost</span>
+        <span className="font-semibold text-blue-900">€{parseFloat(s.value).toFixed(2)}</span>
+      </div>
     ))}
-  </tbody>
-</table>
+
+    {/* Total Row */}
+    <div className="flex items-center justify-between px-4 py-2 bg-blue-50 font-medium border-t border-blue-200">
+      <span className="text-blue-800">Total Services Cost</span>
+      <span className="text-blue-900 font-bold">
+        €{(breakdown.services?.reduce((sum, s) => sum + parseFloat(s.value || 0), 0)).toFixed(2)}
+      </span>
+    </div>
+  </div>
+</div>
+
 
 
 
