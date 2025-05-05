@@ -760,16 +760,7 @@ setIsCableTroughProduct(hasCableTrough);
     </>
   )}
 </AccordionSection>
-
-
-
-
-
-  </div>
-
-</div>
-    
-        
+  
         
 
 <AccordionSection title="🎨 Design">
