@@ -1113,42 +1113,23 @@ setIsCableTroughProduct(hasCableTrough);
 </table>
 </div>
 
-    {/* 📐 Design Cost Row */}
-<tr className="bg-white text-sm">
-  <td className="border p-2 text-right italic text-gray-700" colSpan={5}>Design:</td>
-  <td className="border p-2 text-center text-gray-600">
-    {breakdown.design?.[0]?.value} hrs
-    <div className="text-gray-500 text-[10px]">€{breakdown.design?.[1]?.value}</div>
-  </td>
-  <td className="border p-2 text-right font-semibold text-sm text-gray-800">
-    €{breakdown.design?.[1]?.value}
+   {/* 🛠 Service Costs Row */}
+<tr className="bg-blue-50 border-t border-blue-200 text-sm">
+  <td className="border p-2 font-semibold text-blue-800 text-right" colSpan={6}>Service Costs:</td>
+  <td className="border p-2 text-right font-bold text-blue-900">
+    €{(breakdown.services?.reduce((sum, s) => sum + parseFloat(s.value || 0), 0)).toFixed(2)}
   </td>
 </tr>
-
-{/* 🚚 Transport Cost Row */}
-<tr className="bg-white text-sm">
-  <td className="border p-2 text-right italic text-gray-700" colSpan={5}>Transport:</td>
-  <td className="border p-2 text-center text-gray-600">
-    {formData.transportQuantity || 0} loads
-    <div className="text-gray-500 text-[10px]">€{breakdown.transport?.[0]?.value}</div>
-  </td>
-  <td className="border p-2 text-right font-semibold text-sm text-gray-800">
-    €{breakdown.transport?.[0]?.value}
-  </td>
-</tr>
-
-{/* 🛠 Installation Cost Row */}
-<tr className="bg-white text-sm">
-  <td className="border p-2 text-right italic text-gray-700" colSpan={5}>Installation:</td>
-  <td className="border p-2 text-center text-gray-600">
-    {breakdown.installation?.[0]?.value} days
-    <div className="text-gray-500 text-[10px]">€{breakdown.installation?.[1]?.value}</div>
-  </td>
-  <td className="border p-2 text-right font-semibold text-sm text-gray-800">
-    €{breakdown.installation?.[1]?.value}
-  </td>
-</tr>
-
+{breakdown.services?.map((s, i) => (
+  <tr key={i} className="text-sm text-blue-900">
+    <td className="border p-2 text-right italic text-gray-600" colSpan={6}>
+      {s.label} Cost:
+    </td>
+    <td className="border p-2 text-right font-semibold">
+      €{parseFloat(s.value).toFixed(2)}
+    </td>
+  </tr>
+    
 
 
     {/* 💰 Grand Total */}
