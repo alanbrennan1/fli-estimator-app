@@ -494,11 +494,6 @@ console.log("📦 flatGrouped contents:", flatGrouped);
   </div>
 </AccordionSection>
 
-         
-
-
-{/* 🏗 Manufacturing Layout */}
-<div className="flex flex-col md:flex-row gap-6 items-start">
 
   {/* ⬅️ Left: SketchUp Upload Box */}
   <div className="md:w-1/3 w-full bg-white border border-gray-300 rounded-lg shadow p-4">
@@ -508,7 +503,6 @@ console.log("📦 flatGrouped contents:", flatGrouped);
         ✅ File uploaded and values extracted successfully!
       </div>
     )}
-
 
     <input
   type="file"
@@ -613,9 +607,6 @@ setIsCableTroughProduct(hasCableTrough);
   setUploadSuccess(true);
   setTimeout(() => setUploadSuccess(false), 4000);
 };
-
-
-
     
     reader.readAsText(file);
   }}
@@ -623,6 +614,11 @@ setIsCableTroughProduct(hasCableTrough);
     />
     
   </div>
+         
+
+{/* 🏗 Manufacturing Layout */}
+<div className="flex flex-col md:flex-row gap-6 items-start">
+
 
           {/* ➡️ Right: Manufacturing Accordion */}
   <div className="flex-1">
