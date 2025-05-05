@@ -900,20 +900,20 @@ setIsCableTroughProduct(hasCableTrough);
 
 
 {productBreakdowns.length > 0 && (
-  <AccordionSection title="📦 Product Breakdown">
+  <div className="mt-10 bg-white border border-gray-300 rounded shadow p-6">
+    <h2 className="text-lg font-bold text-gray-800 mb-4">📦 Product Breakdown (BoQ)</h2>
+
     <div className="overflow-x-auto">
-      <table className="min-w-full text-xs border">
-        <thead className="bg-gray-100">
+      <table className="w-full text-xs border">
+        <thead className="bg-gray-100 text-left text-gray-700 uppercase tracking-wider">
           <tr>
             <th className="border p-2">Product</th>
             <th className="border p-2">Qty</th>
             <th className="border p-2">Concrete (m³)</th>
             <th className="border p-2">Steel (kg)</th>
             <th className="border p-2">Labour (hrs)</th>
-            {['Unistrut', 'Sika Powder', 'Duct Type', 'Lifters & Capstans'].map((item) => (
-              <th key={item} className="border p-2">{item}</th>
-            ))}
-            <th className="border p-2 font-bold">Total (€)</th>
+            <th className="border p-2">Add. Items</th>
+            <th className="border p-2 text-right">Total (€)</th>
           </tr>
         </thead>
         <tbody>
@@ -923,45 +923,68 @@ setIsCableTroughProduct(hasCableTrough);
             const steelKg = parseFloat(product.steel?.kg || 0);
             const labourHrs = parseFloat(product.labour?.hours || 0);
 
-            let total = 0;
-            const rowItems = {};
-
-            // Base material costs
             const concreteCost = concreteVol * 137.21;
             const steelCost = steelKg * 0.8;
             const labourCost = labourHrs * 70.11;
-            total += concreteCost + steelCost + labourCost;
 
-            // Additional item costs
-            ['unistrut', 'sika', 'duct', 'lifters'].forEach((itemKey) => {
-              const pricingNameMap = {
+            let additionalItems = [];
+            let additionalCost = 0;
+
+            ['unistrut', 'sika', 'duct', 'lifters'].forEach((key) => {
+              const pricingMapKeys = {
                 unistrut: 'Unistrut',
                 sika: 'Sika Powder',
                 duct: 'Duct Type',
                 lifters: 'Lifters & Capstans'
               };
 
-              const unitQty = parseFloat(product[itemKey] || 0) * quantity;
-              const unitPrice = pricingMap[pricingNameMap[itemKey]] || 0;
+              const unitQty = parseFloat(product[key] || 0) * quantity;
+              const unitPrice = pricingMap[pricingMapKeys[key]] || 0;
               const itemCost = unitQty * unitPrice;
-              rowItems[itemKey] = { unitQty, unitPrice, itemCost };
 
-              if (unitQty > 0) total += itemCost;
+              if (unitQty > 0) {
+                additionalItems.push({
+                  label: pricingMapKeys[key],
+                  qty: unitQty,
+                  cost: itemCost
+                });
+                additionalCost += itemCost;
+              }
             });
 
+            const total = concreteCost + steelCost + labourCost + additionalCost;
+
             return (
-              <tr key={idx}>
-                <td className="border p-2">{product.name}</td>
+              <tr key={idx} className="border-b">
+                <td className="border p-2 font-medium text-sm">{product.name}</td>
                 <td className="border p-2 text-center">{quantity}</td>
-                <td className="border p-2 text-center">{concreteVol.toFixed(2)}</td>
-                <td className="border p-2 text-center">{steelKg.toFixed(2)}</td>
-                <td className="border p-2 text-center">{labourHrs.toFixed(2)}</td>
-                {['unistrut', 'sika', 'duct', 'lifters'].map((key) => (
-                  <td key={key} className="border p-2 text-center">
-                    {rowItems[key]?.unitQty ? `${rowItems[key].unitQty.toFixed(2)} (€${rowItems[key].itemCost.toFixed(2)})` : '-'}
-                  </td>
-                ))}
-                <td className="border p-2 text-right font-bold">€{total.toFixed(2)}</td>
+                <td className="border p-2 text-center">
+                  {concreteVol.toFixed(2)}
+                  <div className="text-gray-500 text-[10px]">€{concreteCost.toFixed(2)}</div>
+                </td>
+                <td className="border p-2 text-center">
+                  {steelKg.toFixed(2)}
+                  <div className="text-gray-500 text-[10px]">€{steelCost.toFixed(2)}</div>
+                </td>
+                <td className="border p-2 text-center">
+                  {labourHrs.toFixed(2)}
+                  <div className="text-gray-500 text-[10px]">€{labourCost.toFixed(2)}</div>
+                </td>
+                <td className="border p-2">
+                  {additionalItems.length > 0 ? (
+                    <ul className="space-y-1">
+                      {additionalItems.map((item, i) => (
+                        <li key={i}>
+                          <span className="font-semibold">{item.label}</span>: {item.qty.toFixed(2)}
+                          <div className="text-gray-500 text-[10px]">€{item.cost.toFixed(2)}</div>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <span className="text-gray-400 italic">None</span>
+                  )}
+                </td>
+                <td className="border p-2 text-right font-bold text-sm">€{total.toFixed(2)}</td>
               </tr>
             );
           })}
@@ -970,11 +993,12 @@ setIsCableTroughProduct(hasCableTrough);
     </div>
 
     {/* Grand Total */}
-    <div className="mt-4 text-right text-lg font-semibold text-blue-900">
+    <div className="mt-6 text-right text-base font-bold text-blue-900">
       Grand Total: €{estimate}
     </div>
-  </AccordionSection>
+  </div>
 )}
+
 
 
 
