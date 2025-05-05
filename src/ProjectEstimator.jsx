@@ -977,85 +977,73 @@ setIsCableTroughProduct(hasCableTrough);
             <th className="border p-2">Product</th>
             <th className="border p-2">Qty</th>
             <th className="border p-2">Concrete (m³)</th>
-            <th className="border p-2">Steel (kg/m³)</th>
+            <th className="border p-2">Steel (kg)</th>
             <th className="border p-2">Labour (hrs)</th>
-            <th className="border p-2">Add. Items (qty)</th>
+            <th className="border p-2">Add. Items</th>
             <th className="border p-2 text-right">Total (€)</th>
           </tr>
         </thead>
         <tbody>
-          {productBreakdowns.map((product, idx) => (
-            <tr key={idx} className="border-b">
-              <td className="border p-2 font-medium text-sm">{product.name}</td>
-              <td className="border p-2 text-center">{product.quantity}</td>
-              <td className="border p-2 text-center">
-                {parseFloat(product.concrete?.volume || 0).toFixed(2)}
-                <div className="text-gray-500 text-[10px]">€{parseFloat(product.concreteCost || 0).toFixed(2)}</div>
-              </td>
-              <td className="border p-2 text-center">
-                {parseFloat(product.steel?.kg || 0).toFixed(2)}
-                <div className="text-gray-500 text-[10px]">€{parseFloat(product.steelCost || 0).toFixed(2)}</div>
-              </td>
-              <td className="border p-2 text-center">
-                {parseFloat(product.labour?.hours || 0).toFixed(2)}
-                <div className="text-gray-500 text-[10px]">€{parseFloat(product.labourCost || 0).toFixed(2)}</div>
-              </td>
-              <td className="border p-2">
-                {product.additionalItems?.length > 0 ? (
-                  <ul className="space-y-1">
-                    {product.additionalItems.map((item, i) => (
-                      <li key={i}>
-                        <span className="font-semibold">{item.label}</span>: {Math.round(item.qty)}
-                        <div className="text-gray-500 text-[10px]">€{item.cost.toFixed(2)}</div>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <span className="text-gray-400 italic">None</span>
-                )}
-              </td>
-              <td className="border p-2 text-right font-bold text-sm">
-                €{parseFloat(product.total || 0).toFixed(2)}
-              </td>
-            </tr>
-          ))}
+          {productBreakdowns.map((product, idx) => {
+            const quantity = parseFloat(product.quantity || 0);
+            const concreteVol = parseFloat(product.concrete?.volume || 0);
+            const steelKg = parseFloat(product.steel?.kg || 0);
+            const labourHrs = parseFloat(product.labour?.hours || 0);
+
+            const concreteCost = concreteVol * 137.21;
+            const steelCost = steelKg * 0.8;
+            const labourCost = labourHrs * 70.11;
+
+            const marginMultiplier =
+              (1 + (formData.wasteMargin || 0) / 100) *
+              (1 + (formData.groupCost || 0) / 100) *
+              (1 + (formData.margin || 0) / 100);
+
+            let additionalItems = [];
+            let additionalCost = 0;
+
+            product.additionalItems?.forEach((item) => {
+              additionalItems.push(item);
+              additionalCost += item.cost;
+            });
+
+            const total = (concreteCost + steelCost + labourCost + additionalCost) * marginMultiplier;
+
+            return (
+              <tr key={idx} className="border-b">
+                <td className="border p-2 font-medium text-sm">{product.name}</td>
+                <td className="border p-2 text-center">{quantity}</td>
+                <td className="border p-2 text-center">
+                  {concreteVol.toFixed(2)}
+                  <div className="text-gray-500 text-[10px]">€{concreteCost.toFixed(2)}</div>
+                </td>
+                <td className="border p-2 text-center">
+                  {steelKg.toFixed(2)}
+                  <div className="text-gray-500 text-[10px]">€{steelCost.toFixed(2)}</div>
+                </td>
+                <td className="border p-2 text-center">
+                  {labourHrs.toFixed(2)}
+                  <div className="text-gray-500 text-[10px]">€{labourCost.toFixed(2)}</div>
+                </td>
+                <td className="border p-2">
+                  {additionalItems.length > 0 ? (
+                    <ul className="space-y-1">
+                      {additionalItems.map((item, i) => (
+                        <li key={i}>
+                          <span className="font-semibold">{item.label}</span>: {Math.round(item.qty)}
+                          <div className="text-gray-500 text-[10px]">€{item.cost.toFixed(2)}</div>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <span className="text-gray-400 italic">None</span>
+                  )}
+                </td>
+                <td className="border p-2 text-right font-bold text-sm">€{total.toFixed(2)}</td>
+              </tr>
+            );
+          })}
         </tbody>
-
-        <tfoot className="bg-gray-50 font-semibold text-sm">
-          <tr>
-            <td className="border p-2 text-right" colSpan={2}>Subtotals:</td>
-
-            <td className="border p-2 text-center">
-              {parseFloat(breakdown.subtotals?.concrete?.units || 0).toFixed(2)}
-              <div className="text-gray-500 text-[10px]">
-                €{parseFloat(breakdown.subtotals?.concrete?.cost || 0).toFixed(2)}
-              </div>
-            </td>
-
-            <td className="border p-2 text-center">
-              {parseFloat(breakdown.subtotals?.steel?.units || 0).toFixed(2)}
-              <div className="text-gray-500 text-[10px]">
-                €{parseFloat(breakdown.subtotals?.steel?.cost || 0).toFixed(2)}
-              </div>
-            </td>
-
-            <td className="border p-2 text-center">
-              {parseFloat(breakdown.subtotals?.labour?.units || 0).toFixed(2)}
-              <div className="text-gray-500 text-[10px]">
-                €{parseFloat(breakdown.subtotals?.labour?.cost || 0).toFixed(2)}
-              </div>
-            </td>
-
-            <td className="border p-2 text-center italic text-gray-700">
-              <div>Total:</div>
-              <div className="text-gray-500 text-[10px]">
-                €{parseFloat(breakdown.subtotals?.additional?.cost || 0).toFixed(2)}
-              </div>
-            </td>
-
-            <td className="border p-2" />
-          </tr>
-        </tfoot>
       </table>
     </div>
 
@@ -1065,8 +1053,6 @@ setIsCableTroughProduct(hasCableTrough);
     </div>
   </div>
 )}
-
-
 
         
 </main>
