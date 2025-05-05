@@ -177,7 +177,7 @@ const handleEstimate = () => {
     console.error('Pricing data not loaded yet.');
     return;
   }
-
+  
   let sourceBreakdowns = [];
   const pricingMapKeys = {
     unistrut: 'Unistrut',
@@ -251,6 +251,7 @@ const handleEstimate = () => {
   let labourSubtotal = 0;
   let labourUnitTotal = 0;
   let additionalSubtotal = 0;
+  let additionalUnitTotal = 0;
 
   const productBreakdowns = sourceBreakdowns.map(product => {
     const quantity = safe(product.quantity);
@@ -274,6 +275,10 @@ const handleEstimate = () => {
       if (unitQty > 0) {
         additionalItems.push({ label, qty: unitQty, cost: itemCost });
       }
+
+   additionalCost += itemCost;
+   additionalUnitTotal += unitQty;
+      
     });
 
     let subtotal = concreteCost + steelCost + labourCost + additionalCost;
@@ -316,11 +321,11 @@ const handleEstimate = () => {
       { label: 'Installation Days', value: formData.installationDays || 0, unit: 'days', isCurrency: false },
       { label: 'Installation Cost', value: installationCost.toFixed(2), isCurrency: true }
     ],
-    subtotals: {
-      concrete: { cost: concreteSubtotal, units: concreteUnitTotal },
-      steel: { cost: steelSubtotal, units: steelUnitTotal },
-      labour: { cost: labourSubtotal, units: labourUnitTotal },
-      additional: { cost: additionalSubtotal }
+subtotals: {
+    concrete: { cost: concreteSubtotal, units: concreteUnitTotal },
+    steel: { cost: steelSubtotal, units: steelUnitTotal },
+    labour: { cost: labourSubtotal, units: labourUnitTotal },
+    additional: { cost: additionalSubtotal, units: additionalUnitTotal }
     }
   });
 
@@ -1044,37 +1049,49 @@ setIsCableTroughProduct(hasCableTrough);
             );
           })}
 
-          {/* ➕ Subtotals Row */}
-          <tr className="bg-gray-100 font-semibold text-sm border-t-2 border-gray-400">
-            <td className="border p-2 text-right" colSpan={2}>Subtotals:</td>
-            <td className="border p-2 text-center">
-              {breakdown.subtotals?.concrete?.units?.toFixed(2)} m³
-              <div className="text-gray-500 text-[10px]">
-                €{breakdown.subtotals?.concrete?.cost?.toFixed(2)}
-              </div>
-            </td>
-            <td className="border p-2 text-center">
-              {breakdown.subtotals?.steel?.units?.toFixed(2)} kg/m³
-              <div className="text-gray-500 text-[10px]">
-                €{breakdown.subtotals?.steel?.cost?.toFixed(2)}
-              </div>
-            </td>
-            <td className="border p-2 text-center">
-              {breakdown.subtotals?.labour?.units?.toFixed(2)} hrs
-              <div className="text-gray-500 text-[10px]">
-                €{breakdown.subtotals?.labour?.cost?.toFixed(2)}
-              </div>
-            </td>
-            <td className="border p-2 text-center text-gray-700 italic">—
-              <div className="text-gray-500 text-[10px]">
-                €{breakdown.subtotals?.additional?.cost?.toFixed(2)}
-              </div>
-            </td>
-            <td className="border p-2 text-right font-bold text-sm">—</td>
-          </tr>
-        </tbody>
-      </table>
+    {/* ➕ Subtotals Row */}
+<tr className="bg-gray-100 font-semibold text-sm border-t-2 border-gray-400">
+  <td className="border p-2 text-right" colSpan={2}>Subtotals:</td>
+
+  {/* Concrete */}
+  <td className="border p-2 text-center">
+    {breakdown.subtotals?.concrete?.units?.toFixed(2)} m³
+    <div className="text-gray-500 text-[10px]">
+      €{breakdown.subtotals?.concrete?.cost?.toFixed(2)}
     </div>
+  </td>
+
+  {/* Steel */}
+  <td className="border p-2 text-center">
+    {breakdown.subtotals?.steel?.units?.toFixed(2)} kg/m³
+    <div className="text-gray-500 text-[10px]">
+      €{breakdown.subtotals?.steel?.cost?.toFixed(2)}
+    </div>
+  </td>
+
+  {/* Labour */}
+  <td className="border p-2 text-center">
+    {breakdown.subtotals?.labour?.units?.toFixed(2)} hrs
+    <div className="text-gray-500 text-[10px]">
+      €{breakdown.subtotals?.labour?.cost?.toFixed(2)}
+    </div>
+  </td>
+
+  {/* Additional Items */}
+  <td className="border p-2 text-center">
+    {breakdown.subtotals?.additional?.units?.toFixed(0)} items
+    <div className="text-gray-500 text-[10px]">
+      €{breakdown.subtotals?.additional?.cost?.toFixed(2)}
+    </div>
+  </td>
+
+  {/* Total Column - Blank since total is shown separately */}
+  <td className="border p-2 text-right font-bold text-sm">—</td>
+</tr>
+</tbody>
+</table>
+</div>
+
 
     {/* 💰 Grand Total */}
     <div className="mt-6 text-right text-base font-bold text-blue-900">
