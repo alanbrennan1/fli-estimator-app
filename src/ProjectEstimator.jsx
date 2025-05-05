@@ -887,6 +887,23 @@ setIsCableTroughProduct(hasCableTrough);
   </div>
 </div>
 
+
+{/* ▶ Generate Estimate */}
+<div className="mt-6 text-center">
+  <button
+    onClick={handleEstimate}
+    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded shadow text-sm"
+  >
+    Generate Estimate
+  </button>
+</div>
+
+
+
+
+
+
+        
 </main>
     </div>
   );
