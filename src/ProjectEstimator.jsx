@@ -169,7 +169,6 @@ useEffect(() => {
 };
 
 
-
 const handleEstimate = () => {
   const safe = (val) => parseFloat(val || 0);
   const safeInt = (val) => parseInt(val || '0', 10);
@@ -712,11 +711,6 @@ setIsCableTroughProduct(hasCableTrough);
         />
       </div>
     </div>
-
-    {/* 👇 Keep the rest of the form here */}
-    {/* Inputs - Common, Unique, etc. */}
-  </div>
-)}
 
           
 
