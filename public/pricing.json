@@ -2,5 +2,15 @@
   { "item": "Lifters & Capstans", "price": 50 },
   { "item": "Unistrut", "price": 25 },
   { "item": "Sika Powder", "price": 63.3 },
-  { "item": "Duct Type", "price": 9.75 }
+  { "item": "Duct Type 1", "price": 9.75 },
+  { "item": "Duct Type 2", "price": 9.75 },
+  { "item": "Duct Type 3", "price": 9.75 },
+  { "item": "Duct Type 4", "price": 9.75 },
+  { "item": "W.Bar & Scabbling", "price": 22 },
+  { "item": "MKK Cones", "price": 18 },
+  { "item": "Ladder Rungs", "price": 12 },
+  { "item": "Pulling Irons", "price": 14 },
+  { "item": "Earthing Points", "price": 20 },
+  { "item": "Sump Grates", "price": 75 },
+  { "item": "Polyfleece", "price": 10 }
 ]
