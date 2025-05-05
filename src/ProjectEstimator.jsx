@@ -289,6 +289,11 @@ const handleEstimate = () => {
   setPendingImport(null); // optionally clear import after use
 };
 
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData(prev => ({ ...prev, [name]: value }));
+};
+
 
 
 
