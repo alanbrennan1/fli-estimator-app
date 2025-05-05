@@ -163,21 +163,19 @@ const handleEstimate = () => {
   }
 
   let sourceBreakdowns = [];
-  const additionalItemsBreakdown = {};
-  let flatGrouped = [];
-
   const pricingMapKeys = {
     unistrut: 'Unistrut',
     sikapowder: 'Sika Powder',
-    ducttype: 'Duct Type',
+    ducttype1: 'Duct Type 1',
+    ducttype2: 'Duct Type 2',
+    ducttype3: 'Duct Type 3',
+    ducttype4: 'Duct Type 4',
     lifterscapstans: 'Lifters & Capstans'
   };
 
   if (pendingImport && pendingImport.length > 0) {
-    // ✅ Use SketchUp CSV Data
     sourceBreakdowns = pendingImport;
   } else {
-    // ✅ Use Manual SubProduct Inputs
     Object.entries(subProductInputs).forEach(([productName, inputs]) => {
       const quantity = safe(inputs.quantity || 1);
       const length = safe(inputs.length);
@@ -195,19 +193,6 @@ const handleEstimate = () => {
         const val = safe(additionalItems[label]);
         if (val > 0) {
           additionalMapped[normalizedKey] = val;
-
-          if (!additionalItemsBreakdown[productName]) {
-            additionalItemsBreakdown[productName] = [];
-          }
-
-          const unitPrice = pricingMap[label] || 0;
-          additionalItemsBreakdown[productName].push({
-            label,
-            value: (val * quantity * unitPrice).toFixed(2),
-            isCurrency: true,
-            unitQty: val * quantity,
-            unitPrice: unitPrice.toFixed(2)
-          });
         }
       });
 
@@ -222,7 +207,6 @@ const handleEstimate = () => {
     });
   }
 
-  // 🎨 Design Hours & Cost
   const designFields = [
     'proposalHours', 'designMeetingsHours', 'structuralDesignHours', 'revitModelHours',
     'approvalCommentsHours', 'detailingJointsHours', 'detailingFloorsHours', 'detailingScreedHours',
@@ -236,7 +220,7 @@ const handleEstimate = () => {
 
   let grandTotal = 0;
 
-  sourceBreakdowns.forEach(product => {
+  const productBreakdowns = sourceBreakdowns.map(product => {
     const quantity = safe(product.quantity);
     const concreteVol = safe(product.concrete?.volume);
     const steelKg = safe(product.steel?.kg);
@@ -247,10 +231,17 @@ const handleEstimate = () => {
     const labourCost = labourHrs * 70.11;
 
     let additionalCost = 0;
+    const additionalItems = [];
+
     Object.entries(pricingMapKeys).forEach(([normalizedKey, label]) => {
       const unitQty = safe(product[normalizedKey]) * quantity;
       const unitPrice = pricingMap[label] || 0;
-      additionalCost += unitQty * unitPrice;
+      const itemCost = unitQty * unitPrice;
+      additionalCost += itemCost;
+
+      if (unitQty > 0) {
+        additionalItems.push({ label, qty: unitQty, cost: itemCost });
+      }
     });
 
     let subtotal = concreteCost + steelCost + labourCost + additionalCost;
@@ -259,18 +250,21 @@ const handleEstimate = () => {
     subtotal *= 1 + safe(formData.margin) / 100;
 
     grandTotal += subtotal;
+
+    return {
+      ...product,
+      concreteCost,
+      steelCost,
+      labourCost,
+      additionalItems,
+      total: subtotal
+    };
   });
 
   grandTotal += designCost + transportCost + installationCost;
 
-  // 📋 Flatten additional items breakdown
-  Object.entries(additionalItemsBreakdown).forEach(([productName, items]) => {
-    flatGrouped.push({ isGroupHeader: true, label: productName });
-    flatGrouped.push(...items);
-  });
-
   setEstimate(grandTotal.toFixed(2));
-  setProductBreakdowns(sourceBreakdowns);
+  setProductBreakdowns(productBreakdowns);
   setBreakdown({
     design: [
       { label: 'Total Design Hours', value: totalDesignHours.toFixed(2), unit: 'hrs', isCurrency: false },
@@ -282,13 +276,10 @@ const handleEstimate = () => {
     installation: [
       { label: 'Installation Days', value: formData.installationDays || 0, unit: 'days', isCurrency: false },
       { label: 'Installation Cost', value: installationCost.toFixed(2), isCurrency: true }
-    ],
-    additional: flatGrouped.length > 0 ? flatGrouped : [
-      { label: 'No additional items', value: 0, isCurrency: true }
     ]
   });
 
-  setPendingImport(null); // optionally clear import after use
+  setPendingImport(null);
 };
 
 const handleChange = (e) => {
