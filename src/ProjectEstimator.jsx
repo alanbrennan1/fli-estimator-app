@@ -1111,31 +1111,34 @@ setIsCableTroughProduct(hasCableTrough);
 </tr>
 </tbody>
 </table>
+
+{/* 🛠 Service Costs Row */}
+<table className="w-full text-sm mt-4 border-t border-blue-300">
+  <tbody>
+    <tr className="bg-blue-50 border-t border-blue-200 text-sm">
+      <td className="border p-2 font-semibold text-blue-800 text-right" colSpan={6}>Service Costs:</td>
+      <td className="border p-2 text-right font-bold text-blue-900">
+        €{(breakdown.services?.reduce((sum, s) => sum + parseFloat(s.value || 0), 0)).toFixed(2)}
+      </td>
+    </tr>
+
+    {breakdown.services?.map((s, i) => (
+      <tr key={i} className="text-sm text-blue-900">
+        <td className="border p-2 text-right italic text-gray-600" colSpan={6}>
+          {s.label} Cost:
+        </td>
+        <td className="border p-2 text-right font-semibold">
+          €{parseFloat(s.value).toFixed(2)}
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+{/* 💰 Grand Total */}
+<div className="mt-6 text-right text-base font-bold text-blue-900">
+  Grand Total: €{estimate}
 </div>
-
-   {/* 🛠 Service Costs Row */}
-<tr className="bg-blue-50 border-t border-blue-200 text-sm">
-  <td className="border p-2 font-semibold text-blue-800 text-right" colSpan={6}>Service Costs:</td>
-  <td className="border p-2 text-right font-bold text-blue-900">
-    €{(breakdown.services?.reduce((sum, s) => sum + parseFloat(s.value || 0), 0)).toFixed(2)}
-  </td>
-</tr>
-{breakdown.services?.map((s, i) => (
-  <tr key={i} className="text-sm text-blue-900">
-    <td className="border p-2 text-right italic text-gray-600" colSpan={6}>
-      {s.label} Cost:
-    </td>
-    <td className="border p-2 text-right font-semibold">
-      €{parseFloat(s.value).toFixed(2)}
-    </td>
-  </tr>
-    
-
-
-    {/* 💰 Grand Total */}
-    <div className="mt-6 text-right text-base font-bold text-blue-900">
-      Grand Total: €{estimate}
-    </div>
   </div>
 )}
 
