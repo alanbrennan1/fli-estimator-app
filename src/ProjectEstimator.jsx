@@ -1070,7 +1070,7 @@ setIsCableTroughProduct(hasCableTrough);
             );
           })}
 
-    {/* ➕ Subtotals Row */}
+{/* ➕ Subtotals Row */}
 <tr className="bg-gray-100 font-semibold text-sm border-t-2 border-gray-400">
   <td className="border p-2 text-right" colSpan={2}>Subtotals:</td>
 
@@ -1112,7 +1112,7 @@ setIsCableTroughProduct(hasCableTrough);
 </tbody>
 </table>
 
-{/* 🛠 Service Costs Row */}
+{/* 🛠 Service Costs Section */}
 <table className="w-full text-sm mt-4 border-t border-blue-300">
   <tbody>
     <tr className="bg-blue-50 border-t border-blue-200 text-sm">
@@ -1135,12 +1135,10 @@ setIsCableTroughProduct(hasCableTrough);
   </tbody>
 </table>
 
-{/* 💰 Grand Total */}
+{/* ✅ Grand Total placed correctly outside the table */}
 <div className="mt-6 text-right text-base font-bold text-blue-900">
   Grand Total: €{estimate}
 </div>
-  </div>
-)}
 
 
         
