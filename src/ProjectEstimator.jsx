@@ -166,6 +166,13 @@ const handleEstimate = () => {
   const additionalItemsBreakdown = {};
   let flatGrouped = [];
 
+  const pricingMapKeys = {
+    unistrut: 'Unistrut',
+    sikapowder: 'Sika Powder',
+    ducttype: 'Duct Type',
+    lifterscapstans: 'Lifters & Capstans'
+  };
+
   if (pendingImport && pendingImport.length > 0) {
     // ✅ Use SketchUp CSV Data
     sourceBreakdowns = pendingImport;
@@ -182,7 +189,8 @@ const handleEstimate = () => {
 
       const additionalItems = inputs.additionalItems || {};
       const additionalMapped = {};
-      ['Unistrut', 'Sika Powder', 'Duct Type', 'Lifters & Capstans'].forEach(label => {
+
+      Object.values(pricingMapKeys).forEach(label => {
         const val = safe(additionalItems[label]);
         if (val > 0) {
           const key = label.toLowerCase().replace(/[^a-z]/g, '');
@@ -239,15 +247,9 @@ const handleEstimate = () => {
     const labourCost = labourHrs * 70.11;
 
     let additionalCost = 0;
-    ['unistrut', 'sikapowder', 'ducttype', 'lifterscapstans'].forEach((key) => {
-      const pricingMapKeys = {
-        unistrut: 'Unistrut',
-        sikapowder: 'Sika Powder',
-        ducttype: 'Duct Type',
-        lifterscapstans: 'Lifters & Capstans'
-      };
-      const unitQty = safe(product[key]) * quantity;
-      const unitPrice = pricingMap[pricingMapKeys[key]] || 0;
+    Object.entries(pricingMapKeys).forEach(([normalizedKey, originalLabel]) => {
+      const unitQty = safe(product[normalizedKey]) * quantity;
+      const unitPrice = pricingMap[originalLabel] || 0;
       additionalCost += unitQty * unitPrice;
     });
 
@@ -295,7 +297,7 @@ const handleChange = (e) => {
 };
 
 
-
+  
 
   return (
     <div className="min-h-screen bg-gray-100">
