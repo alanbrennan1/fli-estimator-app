@@ -177,7 +177,7 @@ const handleEstimate = () => {
     console.error('Pricing data not loaded yet.');
     return;
   }
-  
+
   let sourceBreakdowns = [];
   const pricingMapKeys = {
     unistrut: 'Unistrut',
@@ -271,14 +271,11 @@ const handleEstimate = () => {
       const unitPrice = pricingMap[label] || 0;
       const itemCost = unitQty * unitPrice;
       additionalCost += itemCost;
+      additionalUnitTotal += unitQty;
 
       if (unitQty > 0) {
         additionalItems.push({ label, qty: unitQty, cost: itemCost });
       }
-
-   additionalCost += itemCost;
-   additionalUnitTotal += unitQty;
-      
     });
 
     let subtotal = concreteCost + steelCost + labourCost + additionalCost;
@@ -321,11 +318,11 @@ const handleEstimate = () => {
       { label: 'Installation Days', value: formData.installationDays || 0, unit: 'days', isCurrency: false },
       { label: 'Installation Cost', value: installationCost.toFixed(2), isCurrency: true }
     ],
-subtotals: {
-    concrete: { cost: concreteSubtotal, units: concreteUnitTotal },
-    steel: { cost: steelSubtotal, units: steelUnitTotal },
-    labour: { cost: labourSubtotal, units: labourUnitTotal },
-    additional: { cost: additionalSubtotal, units: additionalUnitTotal }
+    subtotals: {
+      concrete: { cost: concreteSubtotal, units: concreteUnitTotal },
+      steel: { cost: steelSubtotal, units: steelUnitTotal },
+      labour: { cost: labourSubtotal, units: labourUnitTotal },
+      additional: { cost: additionalSubtotal, units: additionalUnitTotal }
     }
   });
 
@@ -336,7 +333,6 @@ const handleChange = (e) => {
   const { name, value } = e.target;
   setFormData(prev => ({ ...prev, [name]: value }));
 };
-
 
 
   
