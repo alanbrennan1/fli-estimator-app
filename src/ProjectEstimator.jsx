@@ -1139,6 +1139,8 @@ setIsCableTroughProduct(hasCableTrough);
 <div className="mt-6 text-right text-base font-bold text-blue-900">
   Grand Total: €{estimate}
 </div>
+  </div>
+)}
 
 
         
