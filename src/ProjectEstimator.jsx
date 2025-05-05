@@ -166,28 +166,12 @@ const handleEstimate = () => {
   const additionalItemsBreakdown = {};
   let flatGrouped = [];
 
-const pricingMapKeys = {
-  unistrut: 'Unistrut',
-  sikapowder: 'Sika Powder',
-  ducttype: 'Duct Type',
-  lifterscapstans: 'Lifters & Capstans'
-};
-
-Object.entries(pricingMapKeys).forEach(([normalizedKey, label]) => {
-  const unitQty = parseFloat(product[normalizedKey] || 0) * quantity;
-  const unitPrice = pricingMap[label] || 0;
-  const itemCost = unitQty * unitPrice;
-
-  if (unitQty > 0) {
-    additionalItems.push({
-      label,
-      qty: unitQty,
-      cost: itemCost
-    });
-    additionalCost += itemCost;
-  }
-});
-
+  const pricingMapKeys = {
+    unistrut: 'Unistrut',
+    sikapowder: 'Sika Powder',
+    ducttype: 'Duct Type',
+    lifterscapstans: 'Lifters & Capstans'
+  };
 
   if (pendingImport && pendingImport.length > 0) {
     // ✅ Use SketchUp CSV Data
@@ -206,11 +190,11 @@ Object.entries(pricingMapKeys).forEach(([normalizedKey, label]) => {
       const additionalItems = inputs.additionalItems || {};
       const additionalMapped = {};
 
-      Object.values(pricingMapKeys).forEach(label => {
+      Object.keys(pricingMapKeys).forEach(normalizedKey => {
+        const label = pricingMapKeys[normalizedKey];
         const val = safe(additionalItems[label]);
         if (val > 0) {
-          const key = label.toLowerCase().replace(/[^a-z]/g, '');
-          additionalMapped[key] = val;
+          additionalMapped[normalizedKey] = val;
 
           if (!additionalItemsBreakdown[productName]) {
             additionalItemsBreakdown[productName] = [];
@@ -263,9 +247,9 @@ Object.entries(pricingMapKeys).forEach(([normalizedKey, label]) => {
     const labourCost = labourHrs * 70.11;
 
     let additionalCost = 0;
-    Object.entries(pricingMapKeys).forEach(([normalizedKey, originalLabel]) => {
+    Object.entries(pricingMapKeys).forEach(([normalizedKey, label]) => {
       const unitQty = safe(product[normalizedKey]) * quantity;
-      const unitPrice = pricingMap[originalLabel] || 0;
+      const unitPrice = pricingMap[label] || 0;
       additionalCost += unitQty * unitPrice;
     });
 
