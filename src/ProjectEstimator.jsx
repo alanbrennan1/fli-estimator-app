@@ -977,9 +977,9 @@ setIsCableTroughProduct(hasCableTrough);
             <th className="border p-2">Product</th>
             <th className="border p-2">Qty</th>
             <th className="border p-2">Concrete (m³)</th>
-            <th className="border p-2">Steel (kg)</th>
+            <th className="border p-2">Steel (kg/m³)</th>
             <th className="border p-2">Labour (hrs)</th>
-            <th className="border p-2">Add. Items</th>
+            <th className="border p-2">Add. Items (qty)</th>
             <th className="border p-2 text-right">Total (€)</th>
           </tr>
         </thead>
@@ -1005,7 +1005,7 @@ setIsCableTroughProduct(hasCableTrough);
                   <ul className="space-y-1">
                     {product.additionalItems.map((item, i) => (
                       <li key={i}>
-                        <span className="font-semibold">{item.label}</span>: {item.qty.toFixed(2)}
+                        <span className="font-semibold">{item.label}</span>: {Math.round(item.qty)}
                         <div className="text-gray-500 text-[10px]">€{item.cost.toFixed(2)}</div>
                       </li>
                     ))}
