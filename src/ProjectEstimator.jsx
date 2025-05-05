@@ -128,7 +128,6 @@ useEffect(() => {
 }, [formData.structureSelector]);
 
 
-
   const handleSubInputChange = (productName, field, value) => {
   setSubProductInputs(prev => ({
     ...prev,
@@ -264,13 +263,6 @@ useEffect(() => {
 };
 
 
-
-  
-// 🧮 Calculate total Additional Items Cost
-const totalAdditionalCost = flatGrouped.reduce(
-  (sum, item) => item.isCurrency ? sum + parseFloat(item.value) : sum,
-  0
-);
 
 // 🧮 Total Before Margins
 let total = concreteCost + steelCost + labourCost + designCost + totalAdditionalCost + transportCost + installationCost;
