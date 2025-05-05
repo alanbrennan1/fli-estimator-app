@@ -118,11 +118,28 @@ const getUnitPrice = (itemName) => {
   const [productBreakdowns, setProductBreakdowns] = useState([]);
   const [isCableTroughProduct, setIsCableTroughProduct] = useState(false);
   const [productQuantities, setProductQuantities] = useState({});
+  const [subProductInputs, setSubProductInputs] = useState({});
 
-  const handleSubProductQtyChange = (productName, value) => {
-  setProductQuantities(prev => ({
+  const handleSubInputChange = (productName, field, value) => {
+  setSubProductInputs(prev => ({
     ...prev,
-    [productName]: value
+    [productName]: {
+      ...prev[productName],
+      [field]: value
+    }
+  }));
+};
+
+  const handleAdditionalItemChange = (productName, itemName, value) => {
+  setSubProductInputs(prev => ({
+    ...prev,
+    [productName]: {
+      ...prev[productName],
+      additionalItems: {
+        ...prev[productName]?.additionalItems,
+        [itemName]: value
+      }
+    }
   }));
 };
 
@@ -633,154 +650,115 @@ setIsCableTroughProduct(hasCableTrough);
         </div>
       </div>
 
-{subProductMap[formData.structureSelector] && (
-  <div className="mt-6">
-    <h5 className="text-xs font-bold uppercase text-gray-700 mb-3 tracking-wider border-b pb-1">Sub-Product Quantities</h5>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {subProductMap[formData.structureSelector].map((productName, idx) => (
-        <div key={idx} className="flex flex-col">
-          <label className="text-xs font-medium mb-1">{productName}</label>
-          <input
-            type="number"
-            min="0"
-            value={productQuantities[productName] || ''}
-            onChange={(e) => handleSubProductQtyChange(productName, e.target.value)}
+{subProductMap[formData.structureSelector]?.map((productName, idx) => (
+  <div key={idx} className="mt-6 border border-gray-300 bg-white rounded-lg p-4">
+    <h6 className="text-sm font-semibold text-blue-800 mb-4">{productName}</h6>
+
+    {/* 🧱 Inputs - Common */}
+    <div className="mb-6 border border-gray-300 rounded-lg p-4 bg-gray-50">
+      <h4 className="text-xs font-bold uppercase text-gray-700 mb-4 tracking-wider border-b pb-2">Inputs - Common</h4>
+
+      {/* Concrete Header */}
+      <div className="mb-4">
+        <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Concrete</h5>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {['length', 'width', 'height', 'baseThickness', 'wallThickness'].map((field) => {
+            const labelMap = {
+              length: 'Length (m)',
+              width: 'Width (m)',
+              height: 'Height (m)',
+              baseThickness: 'Base Thickness (m)',
+              wallThickness: 'Wall Thickness (m)'
+            };
+            return (
+              <div key={field} className="flex flex-col">
+                <label className="text-xs font-medium mb-1">{labelMap[field]}</label>
+                <input
+                  name={field}
+                  type="number"
+                  value={subProductInputs[productName]?.[field] || ''}
+                  onChange={(e) => handleSubInputChange(productName, field, e.target.value)}
+                  className="border p-2 rounded text-xs"
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Steel/Fibres, Surface Finish, Labour */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Steel Grade */}
+        <div className="flex flex-col">
+          <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Steel/Fibres</h5>
+          <select
+            value={subProductInputs[productName]?.steelGrade || ''}
+            onChange={(e) => handleSubInputChange(productName, 'steelGrade', e.target.value)}
             className="border p-2 rounded text-xs"
-            placeholder="Qty"
+          >
+            <option value="">Select Steel Grade</option>
+            <option value="B125">B125</option>
+            <option value="C250">C250</option>
+            <option value="D400">D400</option>
+            <option value="E600">E600</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        {/* Surface Finish */}
+        <div className="flex flex-col">
+          <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Surface Finish</h5>
+          <input
+            type="text"
+            value={subProductInputs[productName]?.surfaceFinish || ''}
+            onChange={(e) => handleSubInputChange(productName, 'surfaceFinish', e.target.value)}
+            placeholder="e.g. Trowelled, Brushed"
+            className="border p-2 rounded text-xs"
           />
         </div>
-      ))}
+
+        {/* Labour Hours */}
+        <div className="flex flex-col">
+          <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Labour</h5>
+          <input
+            type="number"
+            value={subProductInputs[productName]?.labourHours || ''}
+            onChange={(e) => handleSubInputChange(productName, 'labourHours', e.target.value)}
+            placeholder="Hours"
+            className="border p-2 rounded text-xs"
+          />
+        </div>
+      </div>
+    </div>
+
+    {/* 🧩 Inputs - Unique */}
+    <div className="border border-gray-300 rounded-lg p-4 bg-gray-50">
+      <h4 className="text-xs font-bold uppercase text-gray-700 mb-4 tracking-wider border-b pb-2">Inputs - Unique</h4>
+
+      {/* Additional Items Header */}
+      <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Additional Items</h5>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
+        {[
+          'W.Bar & Scabbling', 'Lifters & Capstans', 'MKK Cones', 'Duct Type 1', 'Duct Type 2',
+          'Duct Type 3', 'Duct Type 4', 'Unistrut', 'Ladder Rungs', 'Sika Powder',
+          'Pulling Irons', 'Earthing Points', 'Sump Grates', 'Polyfleece'
+        ].map((item, itemIdx) => (
+          <div key={itemIdx} className="flex flex-col gap-1">
+            <label className="text-xs font-medium">{item}</label>
+            <input
+              type="number"
+              value={subProductInputs[productName]?.additionalItems?.[item] || ''}
+              onChange={(e) => handleAdditionalItemChange(productName, item, e.target.value)}
+              placeholder="Qty"
+              className="border p-1 rounded w-24 text-xs"
+            />
+          </div>
+        ))}
+      </div>
     </div>
   </div>
-)}
+))}
 
-      
-      {/* Inputs - Common */}
-      <div className="mb-6 border border-gray-300 rounded-lg p-4 bg-gray-50">
-        <h4 className="text-xs font-bold uppercase text-gray-700 mb-4 tracking-wider border-b pb-2">Inputs - Common</h4>
-
-        {/* Concrete Header */}
-        <div className="mb-4">
-          <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Concrete</h5>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {['length', 'width', 'height', 'baseThickness', 'wallThickness'].map((field) => {
-              const labelMap = {
-                length: 'Length (m)',
-                width: 'Width (m)',
-                height: 'Height (m)',
-                baseThickness: 'Base Thickness (m)',
-                wallThickness: 'Wall Thickness (m)'
-              };
-              return (
-                <div key={field} className="flex flex-col">
-                  <label className="text-xs font-medium mb-1">{labelMap[field]}</label>
-                  <input
-                    name={field}
-                    type="number"
-                    value={formData[field]}
-                    onChange={handleChange}
-                    className="border p-2 rounded text-xs"
-                  />
-                </div>
-              );
-            })}
-            <div className="flex flex-col">
-              <label className="text-xs font-medium mb-1">Concrete Volume (m³)</label>
-              <input
-                name="concreteVolume"
-                type="number"
-                value={formData.concreteVolume || ''}
-                onChange={handleChange}
-                placeholder="Auto-calculated from SketchUp"
-                className="border p-2 rounded text-xs bg-gray-100 text-gray-700"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Steel/Fibres, Surface Finish, Labour */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Steel/Fibres Header */}
-          <div className="flex flex-col">
-            <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Steel/Fibres</h5>
-            <select
-              name="steelGrade"
-              value={formData.steelGrade}
-              onChange={handleChange}
-              className="border p-2 rounded text-xs"
-            >
-              <option value="">Select Steel Grade</option>
-              <option value="B125">B125</option>
-              <option value="C250">C250</option>
-              <option value="D400">D400</option>
-              <option value="E600">E600</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-
-          {/* Surface Finish Header */}
-          <div className="flex flex-col">
-            <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Surface Finish</h5>
-            <input
-              name="surfaceFinish"
-              type="text"
-              value={formData.surfaceFinish || ''}
-              onChange={handleChange}
-              placeholder="e.g. Trowelled, Brushed"
-              className="border p-2 rounded text-xs"
-            />
-          </div>
-
-          {/* Labour Header */}
-          <div className="flex flex-col">
-            <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Labour</h5>
-            <input
-              name="labourHours"
-              type="number"
-              value={formData.labourHours}
-              onChange={handleChange}
-              placeholder="Hours"
-              className="border p-2 rounded text-xs"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Inputs - Unique */}
-      <div className="border border-gray-300 rounded-lg p-4 bg-gray-50">
-        <h4 className="text-xs font-bold uppercase text-gray-700 mb-4 tracking-wider border-b pb-2">Inputs - Unique</h4>
-
-        {/* Additional Items Header */}
-        <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Additional Items</h5>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
-          {[ 'W.Bar & Scabbling', 'Lifters & Capstans', 'MKK Cones', 'Duct Type 1', 'Duct Type 2', 'Duct Type 3', 'Duct Type 4', 'Unistrut', 'Ladder Rungs', 'Sika Powder', 'Pulling Irons', 'Earthing Points', 'Sump Grates', 'Polyfleece' ].map((item, idx) => (
-            <div key={idx} className="flex flex-col gap-1">
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={!!formData[`additionalCheck_${item}`]}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    [`additionalCheck_${item}`]: e.target.checked,
-                    ...(e.target.checked ? {} : { [`additionalQty_${item}`]: '' })
-                  }))}
-                />
-                {item}
-              </label>
-              {formData[`additionalCheck_${item}`] && (
-                <input
-                  type="number"
-                  name={`additionalQty_${item}`}
-                  value={formData[`additionalQty_${item}`] || ''}
-                  onChange={(e) => setFormData(prev => ({ ...prev, [`additionalQty_${item}`]: e.target.value }))}
-                  placeholder="Qty"
-                  className="border p-1 rounded w-20 text-xs"
-                />
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* Keep the rest of the product breakdown logic unchanged */}
     </AccordionSection>
