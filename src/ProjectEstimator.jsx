@@ -264,17 +264,6 @@ useEffect(() => {
 };
 
 
-  
-
-  
-// ✅ Move this OUTSIDE the loops, after both `.forEach()` are done
-let flatGrouped = [];
-Object.entries(additionalItemsBreakdown).forEach(([productName, items]) => {
-  flatGrouped.push({ isGroupHeader: true, label: productName });
-  flatGrouped.push(...items);
-});
-
-
 
   
 // 🧮 Calculate total Additional Items Cost
