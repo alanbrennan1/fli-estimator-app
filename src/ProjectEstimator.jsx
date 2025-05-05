@@ -800,7 +800,23 @@ setIsCableTroughProduct(hasCableTrough);
               Inputs - Unique
             </h4>
 
-            <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Additional Items</h5>
+           <h5
+  className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1 flex items-center gap-1"
+  title="Additional item quantities per product unit"
+>
+  Additional Items
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-3 w-3 text-blue-500 cursor-help"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 18a6 6 0 100-12 6 6 0 000 12z" />
+  </svg>
+</h5>
+
             <div className="flex flex-wrap gap-2">
               {[
                 'W.Bar & Scabbling', 'Lifters & Capstans', 'MKK Cones', 'Duct Type 1', 'Duct Type 2',
