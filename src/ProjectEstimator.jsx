@@ -759,36 +759,33 @@ setIsCableTroughProduct(hasCableTrough);
             </h4>
 
             <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Additional Items</h5>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
+            <div className="flex flex-wrap gap-2">
               {[
                 'W.Bar & Scabbling', 'Lifters & Capstans', 'MKK Cones', 'Duct Type 1', 'Duct Type 2',
                 'Duct Type 3', 'Duct Type 4', 'Unistrut', 'Ladder Rungs', 'Sika Powder',
                 'Pulling Irons', 'Earthing Points', 'Sump Grates', 'Polyfleece'
               ].map((item, itemIdx) => {
-                const isChecked = !!subProductInputs[selectedProduct]?.additionalItems?.[item];
+                const isSelected = subProductInputs[selectedProduct]?.additionalItems?.[item];
                 return (
-                  <div key={itemIdx} className="flex flex-col gap-1">
-                    <label className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={(e) => {
-                          handleAdditionalItemChange(
-                            selectedProduct,
-                            item,
-                            e.target.checked ? '1' : '' // default to 1 if checked
-                          );
-                        }}
-                      />
-                      {item}
-                    </label>
-                    {isChecked && (
+                  <div
+                    key={itemIdx}
+                    className={`flex items-center border rounded-full px-3 py-1 text-xs font-medium cursor-pointer transition ${
+                      isSelected ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                    onClick={() => {
+                      const newVal = isSelected ? '' : '1';
+                      handleAdditionalItemChange(selectedProduct, item, newVal);
+                    }}
+                  >
+                    {item}
+                    {isSelected && (
                       <input
                         type="number"
-                        value={subProductInputs[selectedProduct]?.additionalItems?.[item] || ''}
+                        value={isSelected || ''}
                         onChange={(e) => handleAdditionalItemChange(selectedProduct, item, e.target.value)}
+                        className="ml-2 w-16 px-1 rounded text-xs border border-white bg-white text-gray-900"
                         placeholder="Qty"
-                        className="border p-1 rounded w-24 text-xs"
+                        onClick={(e) => e.stopPropagation()}
                       />
                     )}
                   </div>
@@ -801,6 +798,7 @@ setIsCableTroughProduct(hasCableTrough);
     </>
   )}
 </AccordionSection>
+
 
         
 
