@@ -70,6 +70,23 @@ const getUnitPrice = (itemName) => {
     UK: 2000,
   };
 
+  const pricingMapKeys = {
+    unistrut: 'Unistrut',
+    sikapowder: 'Sika Powder',
+    ducttype1: 'Duct Type 1',
+    ducttype2: 'Duct Type 2',
+    ducttype3: 'Duct Type 3',
+    ducttype4: 'Duct Type 4',
+    lifterscapstans: 'Lifters & Capstans',
+    wbarscabbling: 'W.Bar & Scabbling',
+    mkkcones: 'MKK Cones',
+    ladderrungs: 'Ladder Rungs',
+    pullingirons: 'Pulling Irons',
+    earthingpoints: 'Earthing Points',
+    sumpgrates: 'Sump Grates',
+    polyfleece: 'Polyfleece'
+  };
+
   const [formData, setFormData] = useState({
     projectName: '',
     installationDays: '',
@@ -163,22 +180,6 @@ const handleEstimate = () => {
   }
 
   let sourceBreakdowns = [];
-  const pricingMapKeys = {
-    unistrut: 'Unistrut',
-    sikapowder: 'Sika Powder',
-    ducttype1: 'Duct Type 1',
-    ducttype2: 'Duct Type 2',
-    ducttype3: 'Duct Type 3',
-    ducttype4: 'Duct Type 4',
-    lifterscapstans: 'Lifters & Capstans',
-    wbarscabbling: 'W.Bar & Scabbling',
-    mkkcones: 'MKK Cones',
-    ladderrungs: 'Ladder Rungs',
-    pullingirons: 'Pulling Irons',
-    earthingpoints: 'Earthing Points',
-    sumpgrates: 'Sump Grates',
-    polyfleece: 'Polyfleece'
-  };
 
   if (pendingImport && pendingImport.length > 0) {
     sourceBreakdowns = pendingImport;
@@ -1021,9 +1022,6 @@ Object.entries(pricingMapKeys).forEach(([normalizedKey, label]) => {
     </div>
   </div>
 )}
-
-
-
 
 
         
