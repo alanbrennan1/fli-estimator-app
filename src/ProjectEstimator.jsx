@@ -886,4 +886,10 @@ setIsCableTroughProduct(hasCableTrough);
     />
   </div>
 </div>
+
+</main>
+    </div>
+  );
+}
+
       
