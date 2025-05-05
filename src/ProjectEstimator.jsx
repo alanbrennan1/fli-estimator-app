@@ -163,15 +163,48 @@ const handleEstimate = () => {
   const safeInt = (val) => parseInt(val || '0', 10);
 
   if (!pricingMap || Object.keys(pricingMap).length === 0) {
-  console.error('Pricing data not loaded yet.');
-  return;
-}
+    console.error('Pricing data not loaded yet.');
+    return;
+  }
 
-  // 📏 Concrete Volume — comes from manual entry OR uploaded CSV
-  const concreteVolume = safe(formData.concreteVolume);
+  let sourceBreakdowns = [];
 
-  // 🛠 Labour Hours — comes from manual entry OR uploaded CSV
-  const totalLabourHours = safe(formData.labourHours);
+  if (pendingImport && pendingImport.length > 0) {
+    // ✅ Use SketchUp CSV Data
+    sourceBreakdowns = pendingImport;
+  } else {
+    // ✅ Use Manual SubProduct Inputs
+    Object.entries(subProductInputs).forEach(([productName, inputs]) => {
+      const quantity = parseFloat(inputs.quantity || 1);
+      const length = parseFloat(inputs.length || 0);
+      const width = parseFloat(inputs.width || 0);
+      const height = parseFloat(inputs.height || 0);
+      const concreteVolume = length * width * height * quantity;
+      const steelKg = concreteVolume * 120;
+      const labourHrs = parseFloat(inputs.labourHours || 0);
+
+      const additionalItems = inputs.additionalItems || {};
+      const additionalMapped = {};
+      ['Unistrut', 'Sika Powder', 'Duct Type', 'Lifters & Capstans'].forEach(label => {
+        const val = parseFloat(additionalItems[label] || 0);
+        if (val > 0) {
+          const key = label.toLowerCase().replace(/[^a-z]/g, '');
+          additionalMapped[key] = val;
+        }
+      });
+
+      sourceBreakdowns.push({
+        name: productName,
+        quantity,
+        concrete: { volume: concreteVolume.toFixed(2) },
+        steel: { kg: steelKg.toFixed(2) },
+        labour: { hours: labourHrs.toFixed(2) },
+        ...additionalMapped
+      });
+    });
+  }
+
+  setProductBreakdowns(sourceBreakdowns);
 
   // 🎨 Design Hours & Cost
   const designFields = [
@@ -190,62 +223,54 @@ const handleEstimate = () => {
     'asBuiltsHours'
   ];
   const totalDesignHours = designFields.reduce((sum, key) => sum + safe(formData[key]), 0);
-  const designCost = totalDesignHours * 61.12; // €61.12/hour
+  const designCost = totalDesignHours * 61.12;
 
-  // 💵 Concrete Cost
-  const concreteCost = concreteVolume * 137.21;
-
-  // 🛠 Steel Cost
-  const steelKg = concreteVolume * 120;
-  const steelCost = steelKg * 0.8;
-
-  // 👷‍♂️ Labour Cost
-  const labourCost = totalLabourHours * 70.11;
-
-  // 🚚 Transport & Installation
   const transportCost = safe(formData.transportRate) * safe(formData.transportQuantity);
   const installationCost = safe(formData.installationDays) * 500;
 
-// 🛠 Mapping between app field names and pricing file names
-const itemPricingKeys = {
-  unistrut: "Unistrut",
-  sika: "Sika Powder",
-  duct: "Duct Type",
-  lifters: "Lifters & Capstans"
+  // 🧮 Aggregate estimate
+  let grandTotal = 0;
+
+  sourceBreakdowns.forEach(product => {
+    const quantity = parseFloat(product.quantity || 0);
+    const concreteVol = parseFloat(product.concrete?.volume || 0);
+    const steelKg = parseFloat(product.steel?.kg || 0);
+    const labourHrs = parseFloat(product.labour?.hours || 0);
+
+    const concreteCost = concreteVol * 137.21;
+    const steelCost = steelKg * 0.8;
+    const labourCost = labourHrs * 70.11;
+
+    let additionalCost = 0;
+    ['unistrut', 'sika', 'duct', 'lifters'].forEach((key) => {
+      const pricingMapKeys = {
+        unistrut: 'Unistrut',
+        sika: 'Sika Powder',
+        duct: 'Duct Type',
+        lifters: 'Lifters & Capstans'
+      };
+      const unitQty = parseFloat(product[key] || 0) * quantity;
+      const unitPrice = pricingMap[pricingMapKeys[key]] || 0;
+      additionalCost += unitQty * unitPrice;
+    });
+
+    let subtotal = concreteCost + steelCost + labourCost + additionalCost;
+
+    subtotal *= 1 + safe(formData.wasteMargin) / 100;
+    subtotal *= 1 + safe(formData.groupCost) / 100;
+    subtotal *= 1 + safe(formData.margin) / 100;
+
+    grandTotal += subtotal;
+  });
+
+  grandTotal += designCost + transportCost + installationCost;
+
+  setEstimate(grandTotal.toFixed(2));
 };
 
-let additionalCost = 0;
-let additionalItemsBreakdown = {}; // grouped by product name
 
-if (productBreakdowns.length > 0) {
-  productBreakdowns.forEach(product => {
-    const quantity = product.quantity || 0;
 
-    ['unistrut', 'duct', 'sika', 'lifters'].forEach(itemKey => {
-      const unitsPerProduct = parseFloat(product[itemKey] || 0);
-      const unitPrice = pricingMap[itemPricingKeys[itemKey]] || 0;
-
-      if (!isNaN(unitsPerProduct) && unitsPerProduct > 0) {
-        const cost = unitsPerProduct * quantity * unitPrice;
-
-        additionalCost += cost;
-
-        if (!additionalItemsBreakdown[product.name]) {
-          additionalItemsBreakdown[product.name] = [];
-        }
-
-        additionalItemsBreakdown[product.name].push({
-          label: itemKey.charAt(0).toUpperCase() + itemKey.slice(1),
-          value: cost.toFixed(2),
-          isCurrency: true,
-          unitQty: unitsPerProduct * quantity,
-          unitPrice: unitPrice.toFixed(2)
-        });
-      }
-    });
-  });
-}
-
+  
 // ✅ Move this OUTSIDE the loops, after both `.forEach()` are done
 let flatGrouped = [];
 Object.entries(additionalItemsBreakdown).forEach(([productName, items]) => {
@@ -606,7 +631,7 @@ console.log("📦 flatGrouped contents:", flatGrouped);
   }));
 
   // ⭐ Now update the product breakdown table
-  setProductBreakdowns(productList);
+  setPendingImport(productList); // ✅ HOLD IT HERE until estimate is requested
       // Detect if any product starts with "CT" (Cable Trough)
 const hasCableTrough = productList.some(p => p.name.toUpperCase().startsWith('CT'));
 setIsCableTroughProduct(hasCableTrough);
