@@ -48,6 +48,15 @@ useEffect(() => {
     'Bespoke Precast': ['Foundation Bases', 'Cover Slabs'],
   };
 
+  const subProductMap = {
+  Troughs: [
+    'CT45 182809600410_0000_065_D400',
+    'CTT_250009600410_0000_065_D400',
+    'CT_25609600410_0000_065_D400'
+  ],
+  // Add more mappings for other structure types as needed
+};
+
 
 // Helper function to fetch unit price
 const getUnitPrice = (itemName) => {
@@ -108,7 +117,14 @@ const getUnitPrice = (itemName) => {
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [productBreakdowns, setProductBreakdowns] = useState([]);
   const [isCableTroughProduct, setIsCableTroughProduct] = useState(false);
+  const [productQuantities, setProductQuantities] = useState({});
 
+  const handleSubProductQtyChange = (productName, value) => {
+  setProductQuantities(prev => ({
+    ...prev,
+    [productName]: value
+  }));
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -617,6 +633,28 @@ setIsCableTroughProduct(hasCableTrough);
         </div>
       </div>
 
+{subProductMap[formData.structureSelector] && (
+  <div className="mt-6">
+    <h5 className="text-xs font-bold uppercase text-gray-700 mb-3 tracking-wider border-b pb-1">Sub-Product Quantities</h5>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {subProductMap[formData.structureSelector].map((productName, idx) => (
+        <div key={idx} className="flex flex-col">
+          <label className="text-xs font-medium mb-1">{productName}</label>
+          <input
+            type="number"
+            min="0"
+            value={productQuantities[productName] || ''}
+            onChange={(e) => handleSubProductQtyChange(productName, e.target.value)}
+            className="border p-2 rounded text-xs"
+            placeholder="Qty"
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+      
       {/* Inputs - Common */}
       <div className="mb-6 border border-gray-300 rounded-lg p-4 bg-gray-50">
         <h4 className="text-xs font-bold uppercase text-gray-700 mb-4 tracking-wider border-b pb-2">Inputs - Common</h4>
