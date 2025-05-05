@@ -959,27 +959,21 @@ setIsCableTroughProduct(hasCableTrough);
             let additionalItems = [];
             let additionalCost = 0;
 
-            ['unistrut', 'sika', 'duct', 'lifters'].forEach((key) => {
-              const pricingMapKeys = {
-                unistrut: 'Unistrut',
-                sika: 'Sika Powder',
-                duct: 'Duct Type',
-                lifters: 'Lifters & Capstans'
-              };
+Object.entries(pricingMapKeys).forEach(([normalizedKey, label]) => {
+  const unitQty = parseFloat(product[normalizedKey] || 0) * quantity;
+  const unitPrice = pricingMap[label] || 0;
+  const itemCost = unitQty * unitPrice;
 
-              const unitQty = parseFloat(product[key] || 0) * quantity;
-              const unitPrice = pricingMap[pricingMapKeys[key]] || 0;
-              const itemCost = unitQty * unitPrice;
+  if (unitQty > 0) {
+    additionalItems.push({
+      label,
+      qty: unitQty,
+      cost: itemCost
+    });
+    additionalCost += itemCost;
+  }
+});
 
-              if (unitQty > 0) {
-                additionalItems.push({
-                  label: pricingMapKeys[key],
-                  qty: unitQty,
-                  cost: itemCost
-                });
-                additionalCost += itemCost;
-              }
-            });
 
             const total = concreteCost + steelCost + labourCost + additionalCost;
 
