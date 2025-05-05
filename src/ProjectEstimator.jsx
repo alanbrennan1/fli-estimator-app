@@ -646,9 +646,13 @@ setIsCableTroughProduct(hasCableTrough);
         </div>
       </div>
 
-{subProductMap[formData.structureSelector]?.map((productName, idx) => (
-  <div key={idx} className="mt-6 border border-gray-300 bg-white rounded-lg p-4">
-    <h6 className="text-sm font-semibold text-blue-800 mb-4">{productName}</h6>
+{subProductMap[formData.structureSelector]?.length > 0 && (
+  <div className="mt-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      {subProductMap[formData.structureSelector].map((productName, idx) => (
+        <div key={idx} className="border border-gray-300 bg-white rounded-lg p-4">
+          {/* 🏗️ Sub-product input block content (Inputs - Common + Unique) goes here */}
+          <h6 className="text-sm font-semibold text-blue-800 mb-3">{productName}</h6>
 
     {/* 🧱 Inputs - Common */}
     <div className="mb-6 border border-gray-300 rounded-lg p-4 bg-gray-50">
