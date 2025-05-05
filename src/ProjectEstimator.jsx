@@ -246,8 +246,11 @@ const handleEstimate = () => {
   let grandTotal = 0;
 
   let concreteSubtotal = 0;
+  let concreteUnitTotal = 0;
   let steelSubtotal = 0;
+  let steelUnitTotal = 0;
   let labourSubtotal = 0;
+  let labourUnitTotal = 0;
   let additionalSubtotal = 0;
 
   const productBreakdowns = sourceBreakdowns.map(product => {
@@ -281,8 +284,11 @@ const handleEstimate = () => {
 
     grandTotal += subtotal;
     concreteSubtotal += concreteCost;
+    concreteUnitTotal += concreteVol;
     steelSubtotal += steelCost;
+    steelUnitTotal += steelKg;
     labourSubtotal += labourCost;
+    labourUnitTotal += labourHrs;
     additionalSubtotal += additionalCost;
 
     return {
@@ -312,10 +318,10 @@ const handleEstimate = () => {
       { label: 'Installation Cost', value: installationCost.toFixed(2), isCurrency: true }
     ],
     subtotals: {
-      concrete: concreteSubtotal,
-      steel: steelSubtotal,
-      labour: labourSubtotal,
-      additional: additionalSubtotal
+      concrete: { cost: concreteSubtotal, units: concreteUnitTotal },
+      steel: { cost: steelSubtotal, units: steelUnitTotal },
+      labour: { cost: labourSubtotal, units: labourUnitTotal },
+      additional: { cost: additionalSubtotal }
     }
   });
 
