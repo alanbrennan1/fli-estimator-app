@@ -1232,7 +1232,6 @@ setIsCableTroughProduct(hasCableTrough);
           * (1 + (parseFloat(formData.margin || 0) / 100))
         ).toFixed(2)}
       </div>
-    </div>
 
 
 
