@@ -817,25 +817,26 @@ setIsCableTroughProduct(hasCableTrough);
 
 
     {/* Hours per Tonne with inline label */}
-    <div className="relative">
-      <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs pointer-events-none">
-        Hrs/Tonne
-      </span>
-      <input
-        type="number"
-        step="any"
-        name="labourPerTonne"
-        value={
-          subProductInputs[selectedProduct]?.labourPerTonne !== undefined
-            ? subProductInputs[selectedProduct].labourPerTonne
-            : 4.58
-        }
-        onChange={(e) =>
-          handleSubInputChange(selectedProduct, 'labourPerTonne', e.target.value)
-        }
-        className="pl-24 border p-2 rounded text-xs w-full"
-      />
-    </div>
+<div className="relative">
+  <input
+    type="number"
+    step="any"
+    name="labourPerTonne"
+    value={
+      subProductInputs[selectedProduct]?.labourPerTonne !== undefined
+        ? subProductInputs[selectedProduct].labourPerTonne
+        : 4.58
+    }
+    onChange={(e) =>
+      handleSubInputChange(selectedProduct, 'labourPerTonne', e.target.value)
+    }
+    placeholder="4.58"
+    className="border p-2 rounded text-xs w-full text-center"
+  />
+  <span className="absolute inset-y-0 right-2 flex items-center text-gray-400 text-[10px]">
+    Hours/Tonne
+  </span>
+</div>
 
     
     {/* Hours Total */}
