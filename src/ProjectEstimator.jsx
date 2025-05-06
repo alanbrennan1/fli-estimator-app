@@ -1218,23 +1218,6 @@ setIsCableTroughProduct(hasCableTrough);
   </table>
 </div>
 
-     {/* Final Subtotal after Margins */}
-      <div className="text-right text-sm font-semibold pt-4 border-t">
-        <span className="text-gray-600 mr-2">Subtotal with Margins:</span>
-        €{(
-          Object.values(breakdown || {}).reduce((total, section) => {
-            if (!Array.isArray(section)) return total;
-            const sectionSum = section.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
-            return total + sectionSum;
-          }, 0)
-          * (1 + (parseFloat(formData.wasteMargin || 5) / 100))
-          * (1 + (parseFloat(formData.groupCost || 2.5) / 100))
-          * (1 + (parseFloat(formData.margin || 0) / 100))
-        ).toFixed(2)}
-      </div>
-
-
-
 
     {/* 💰 Grand Total */}
     <div className="mt-6 text-right text-base font-bold text-blue-900">
