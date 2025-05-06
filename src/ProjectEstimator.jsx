@@ -1023,7 +1023,7 @@ setIsCableTroughProduct(hasCableTrough);
 
    <div className="overflow-x-auto">
   <table className="w-full text-xs border">
-    <thead className="bg-blue-100 text-left text-gray-700 uppercase tracking-wider">
+    <thead className="bg-blue-100 text-left text-blue-800 uppercase tracking-wider">
       <tr>
         <th className="border p-2">Product</th>
         <th className="border p-2">Qty</th>
@@ -1080,7 +1080,7 @@ setIsCableTroughProduct(hasCableTrough);
       })}
 
       {/* ➕ Subtotals Row */}
-      <tr className="bg-blue-100 font-semibold text-sm border-t-2 border-blue-300">
+      <tr className="bg-blue-100 text-blue-800 font-semibold text-sm border-t-2 border-blue-300">
         <td className="border p-2 text-right" colSpan={2}>Subtotals:</td>
         <td className="border p-2 text-center">
           {breakdown.subtotals?.concrete?.units?.toFixed(2)} m³
