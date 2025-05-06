@@ -811,7 +811,7 @@ setIsCableTroughProduct(hasCableTrough);
                 />
               </div>
 
-  <div className="flex flex-col">
+ <div className="flex flex-col">
   <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Labour</h5>
   <div className="grid grid-cols-2 gap-2">
     
@@ -827,21 +827,28 @@ setIsCableTroughProduct(hasCableTrough);
 
     {/* Hours per Tonne with inline label */}
     <div className="relative">
-      <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs">
+      <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs pointer-events-none">
         Hours/Tonne
       </span>
       <input
         type="number"
         step="any"
         name="labourPerTonne"
-        value={subProductInputs[selectedProduct]?.labourPerTonne || '4.58'}
-        onChange={(e) => handleSubInputChange(selectedProduct, 'labourPerTonne', e.target.value)}
+        value={
+          subProductInputs[selectedProduct]?.labourPerTonne !== undefined
+            ? subProductInputs[selectedProduct].labourPerTonne
+            : 4.58
+        }
+        onChange={(e) =>
+          handleSubInputChange(selectedProduct, 'labourPerTonne', e.target.value)
+        }
         className="pl-24 border p-2 rounded text-xs w-full"
       />
     </div>
-    
+
   </div>
-</div>      
+</div>
+
 
               
             </div>
