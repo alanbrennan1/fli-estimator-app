@@ -1126,7 +1126,7 @@ setIsCableTroughProduct(hasCableTrough);
 {/* 🛠 Service Costs Table */}
 <div className="mt-6 overflow-x-auto">
   <table className="w-full text-sm border border-gray-300">
-    <thead className="bg-teal-50 text-teal-800 text-xs uppercase tracking-wider border-b border-teal-200">
+    <thead className="bg-blue-50 text-blue-800 text-xs uppercase tracking-wider border-b border-blue-200">
       <tr>
         <th className="border p-2 text-left">Service</th>
         <th className="border p-2 text-center">Qty (Unit)</th>
@@ -1147,7 +1147,7 @@ setIsCableTroughProduct(hasCableTrough);
       ))}
 
       {/* Total Row */}
-      <tr className="bg-teal-50 text-teal-900 font-bold border-t border-teal-200">
+      <tr className="bg-blue-50 text-blue-900 font-bold border-t border-blue-200">
         <td className="border p-2 text-right" colSpan={3}>Total Service Costs:</td>
         <td className="border p-2 text-right">
           €{(breakdown.services?.reduce((sum, s) => sum + parseFloat(s.value || 0), 0)).toFixed(2)}
