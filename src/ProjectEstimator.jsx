@@ -1006,57 +1006,74 @@ setIsCableTroughProduct(hasCableTrough);
 
 
 
- {/* 📊 Quote Controls */}
-<div className="bg-white border border-gray-300 rounded shadow-sm p-6 mb-6">
-  <h2 className="text-sm font-semibold text-gray-800 mb-4">Quote Controls</h2>
+{/* 📊 Quote Controls */}
+<div className="bg-gray-50 border border-gray-300 rounded-lg shadow-sm p-4 mb-6">
+  <h2 className="text-xs font-semibold text-gray-700 mb-3 uppercase tracking-wide">Quote Controls</h2>
 
+  {/* Controls Grid */}
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
-  {/* 🔴 Waste Slider */}
-  <div className="mb-4">
-    <label className="block text-sm font-medium text-red-700 mb-1">Additional Waste: {formData.wasteMargin || 5}%</label>
-    <input
-      type="range"
-      min="0"
-      max="20"
-      step="1"
-      name="wasteMargin"
-      value={formData.wasteMargin || 5}
-      onChange={handleChange}
-      className="w-full accent-red-700"
-    />
-  </div>
+    {/* 🔴 Waste Slider */}
+    <div className="flex flex-col gap-2">
+      <label className="text-xs font-medium text-red-700">
+        Additional Waste
+        <span className="ml-2 font-mono bg-red-100 text-red-800 px-2 py-0.5 rounded text-xs">
+          {formData.wasteMargin || 5}%
+        </span>
+      </label>
+      <input
+        type="range"
+        min="0"
+        max="20"
+        step="1"
+        name="wasteMargin"
+        value={formData.wasteMargin || 5}
+        onChange={handleChange}
+        className="w-full accent-red-600 rounded-full"
+      />
+    </div>
 
-  {/* 🔵 Group Cost */}
-  <div className="mb-4">
-    <label className="block text-sm font-medium text-blue-600 mb-1">
-      Group Cost: {formData.groupCost || 2.5}%
-    </label>
-    <input
-      type="range"
-      min="0"
-      max="20"
-      step="0.1"
-      name="groupCost"
-      value={formData.groupCost || 2.5}
-      onChange={handleChange}
-      className="w-full accent-blue-400"
-    />
-  </div>
-  
-  {/* 🟢 Profit Margin */}
-  <div>
-    <label className="block text-sm font-medium text-green-700 mb-1">Profitability Margin: {formData.margin}%</label>
-    <input
-      type="range"
-      min="0"
-      max="100"
-      name="margin"
-      value={formData.margin}
-      onChange={handleChange}
-      className="w-full accent-green-700"
-    />
+    {/* 🔵 Group Cost */}
+    <div className="flex flex-col gap-2">
+      <label className="text-xs font-medium text-blue-700">
+        Group Cost
+        <span className="ml-2 font-mono bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-xs">
+          {formData.groupCost || 2.5}%
+        </span>
+      </label>
+      <input
+        type="range"
+        min="0"
+        max="20"
+        step="0.1"
+        name="groupCost"
+        value={formData.groupCost || 2.5}
+        onChange={handleChange}
+        className="w-full accent-blue-500 rounded-full"
+      />
+    </div>
+
+    {/* 🟢 Profit Margin */}
+    <div className="flex flex-col gap-2">
+      <label className="text-xs font-medium text-green-700">
+        Profit Margin
+        <span className="ml-2 font-mono bg-green-100 text-green-800 px-2 py-0.5 rounded text-xs">
+          {formData.margin}%
+        </span>
+      </label>
+      <input
+        type="range"
+        min="0"
+        max="100"
+        name="margin"
+        value={formData.margin}
+        onChange={handleChange}
+        className="w-full accent-green-600 rounded-full"
+      />
+    </div>
   </div>
 </div>
+
 
 
 {/* ▶ Generate Estimate */}
