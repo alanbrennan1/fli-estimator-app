@@ -137,7 +137,22 @@ const getUnitPrice = (itemName) => {
   const [productQuantities, setProductQuantities] = useState({});
   const [subProductInputs, setSubProductInputs] = useState({});
 
+
  const [selectedProduct, setSelectedProduct] = useState('');
+
+  useEffect(() => {
+  if (selectedProduct && (!subProductInputs[selectedProduct] || !subProductInputs[selectedProduct].quantity)) {
+    setSubProductInputs((prev) => ({
+      ...prev,
+      [selectedProduct]: {
+        ...prev[selectedProduct],
+        quantity: 1  // Default quantity
+      }
+    }));
+  }
+}, [selectedProduct]);
+
+
 
 useEffect(() => {
   const products = subProductMap[formData.structureSelector] || [];
