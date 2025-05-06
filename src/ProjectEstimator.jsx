@@ -755,26 +755,30 @@ setIsCableTroughProduct(hasCableTrough);
             <div className="mb-4">
               <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Concrete</h5>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {["length", "width", "height", "baseThickness", "wallThickness"].map((field) => {
-                  const labelMap = {
-                    length: "Length (m)",
-                    width: "Width (m)",
-                    height: "Height (m)",
-                    baseThickness: "Base Thickness (m)",
-                    wallThickness: "Wall Thickness (m)"
-                  };
-                  return (
-                    <div key={field} className="flex flex-col">
-                      <label className="text-xs font-medium mb-1">{labelMap[field]}</label>
-                      <input
-                        type="number"
-                        value={subProductInputs[selectedProduct]?.[field] || ''}
-                        onChange={(e) => handleSubInputChange(selectedProduct, field, e.target.value)}
-                        className="border p-2 rounded text-xs"
-                      />
-                    </div>
-                  );
-                })}
+                
+               {["length", "width", "height", "baseThickness", "wallThickness", "sectionArea"].map((field) => {
+  const labelMap = {
+    length: "Length (m)",
+    width: "Width (m)",
+    height: "Height (m)",
+    baseThickness: "Base Thickness (m)",
+    wallThickness: "Wall Thickness (m)",
+    sectionArea: "Area of Section (m²)"
+  };
+  return (
+    <div key={field} className="flex flex-col">
+      <label className="text-xs font-medium mb-1">{labelMap[field]}</label>
+      <input
+        type="number"
+        value={subProductInputs[selectedProduct]?.[field] || ''}
+        onChange={(e) => handleSubInputChange(selectedProduct, field, e.target.value)}
+        className="border p-2 rounded text-xs"
+        placeholder={field === "sectionArea" ? "e.g. 0.15" : ""}
+      />
+    </div>
+  );
+})}
+
               </div>
             </div>
 
