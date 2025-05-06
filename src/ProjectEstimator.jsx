@@ -957,48 +957,48 @@ setIsCableTroughProduct(hasCableTrough);
 </AccordionSection>
     
 
-
-
-        
 <AccordionSection title="🚚 Transport">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div className="flex flex-col">
-      <label className="text-sm font-medium mb-1">Transport Rate (€)</label>
+      <label className="text-xs font-medium mb-1">Transport Rate (€)</label>
       <input
         type="number"
         name="transportRate"
         value={formData.transportRate}
         onChange={handleChange}
         placeholder="€/trip"
-        className="border p-2 rounded"
+        className="border p-2 rounded text-xs"
       />
     </div>
     <div className="flex flex-col">
-      <label className="text-sm font-medium mb-1">Transport Quantity</label>
+      <label className="text-xs font-medium mb-1">Transport Quantity</label>
       <input
         type="number"
         name="transportQuantity"
         value={formData.transportQuantity}
         onChange={handleChange}
         placeholder="No. loads"
-        className="border p-2 rounded"
+        className="border p-2 rounded text-xs"
       />
     </div>
   </div>
 </AccordionSection>
 
 
+        
+
+
 <AccordionSection title="🛠 Installation">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div className="flex flex-col">
-      <label className="text-sm font-medium mb-1">Installation Duration (Days)</label>
+      <label className="text-xs font-medium mb-1">Installation Duration (Days)</label>
       <input
         type="number"
         name="installationDays"
         value={formData.installationDays}
         onChange={handleChange}
         placeholder="Days"
-        className="border p-2 rounded"
+        className="border p-2 rounded text-xs"
       />
     </div>
   </div>
@@ -1006,9 +1006,10 @@ setIsCableTroughProduct(hasCableTrough);
 
 
 
-        {/* 📊 Quote Controls */}
+ {/* 📊 Quote Controls */}
 <div className="bg-white border border-gray-300 rounded shadow-sm p-6 mb-6">
-  <h2 className="text-lg font-semibold text-gray-800 mb-4">Quote Controls</h2>
+  <h2 className="text-sm font-semibold text-gray-800 mb-4">Quote Controls</h2>
+
 
   {/* 🔴 Waste Slider */}
   <div className="mb-4">
