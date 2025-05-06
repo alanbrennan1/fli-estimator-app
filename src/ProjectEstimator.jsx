@@ -1157,7 +1157,6 @@ setIsCableTroughProduct(hasCableTrough);
   </table>
 </div>
     </div>
-  </div>
 
 
 
