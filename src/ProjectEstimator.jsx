@@ -1019,7 +1019,7 @@ setIsCableTroughProduct(hasCableTrough);
 
 {productBreakdowns.length > 0 && (
   <div className="mt-10 bg-white border border-gray-300 rounded shadow p-6">
-    <h2 className="text-lg font-bold text-gray-800 mb-4">📦 Product Breakdown (BoQ)</h2>
+    <h2 className="text-lg font-bold text-gray-800 mb-4">📦 BoQ Breakdown</h2>
 
    <div className="overflow-x-auto">
   <table className="w-full text-xs border">
