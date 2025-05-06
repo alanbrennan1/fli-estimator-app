@@ -924,9 +924,7 @@ setIsCableTroughProduct(hasCableTrough);
 </AccordionSection>
 
 
-        
-
-<AccordionSection title="🎨 Design">
+    <AccordionSection title="🎨 Design">
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
     {[
       { name: 'proposalHours', label: 'Proposal' },
@@ -944,19 +942,22 @@ setIsCableTroughProduct(hasCableTrough);
       { name: 'asBuiltsHours', label: 'As Builts' }
     ].map((item) => (
       <div key={item.name} className="flex flex-col">
-        <label className="text-sm font-medium mb-1">{item.label}</label>
+        <label className="text-xs font-medium mb-1">{item.label}</label>
         <input
           type="number"
           name={item.name}
           value={formData[item.name] || ''}
           onChange={handleChange}
           placeholder="Hours"
-          className="border p-2 rounded"
+          className="border p-2 rounded text-xs"
         />
       </div>
     ))}
   </div>
 </AccordionSection>
+    
+
+
 
         
 <AccordionSection title="🚚 Transport">
