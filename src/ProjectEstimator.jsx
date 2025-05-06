@@ -816,7 +816,6 @@ setIsCableTroughProduct(hasCableTrough);
   <div className="grid grid-cols-2 gap-2">
 
 
-    {/* Hours per Tonne with inline label */}
 <div className="relative">
   <input
     type="number"
@@ -831,9 +830,9 @@ setIsCableTroughProduct(hasCableTrough);
       handleSubInputChange(selectedProduct, 'labourPerTonne', e.target.value)
     }
     placeholder="4.58"
-    className="border p-2 rounded text-xs w-full text-center"
+    className="border p-2 rounded text-xs w-full pr-16 text-left"
   />
-  <span className="absolute inset-y-0 right-2 flex items-left text-gray-400 text-[10px]">
+  <span className="absolute inset-y-0 right-2 flex items-center text-gray-400 text-[10px]">
     Hours/Tonne
   </span>
 </div>
