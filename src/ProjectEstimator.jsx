@@ -1123,28 +1123,41 @@ setIsCableTroughProduct(hasCableTrough);
 </table>
 </div>
 
-{/* 💼 Service Costs */}
-<div className="mt-6 border border-blue-100 rounded-lg overflow-hidden shadow-sm">
-  <div className="bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-800 border-b border-blue-200">
-    Service Costs
-  </div>
-  <div className="divide-y divide-blue-100 text-sm">
-    {breakdown.services?.map((s, i) => (
-      <div key={i} className="flex items-center justify-between px-4 py-2 bg-white">
-        <span className="text-gray-600 italic">{s.label} Cost</span>
-        <span className="font-semibold text-blue-900">€{parseFloat(s.value).toFixed(2)}</span>
-      </div>
-    ))}
+{/* 🛠 Service Costs Table */}
+<div className="mt-6 overflow-x-auto">
+  <table className="w-full text-sm border border-gray-300">
+    <thead className="bg-gray-50 text-gray-700 text-xs uppercase tracking-wider">
+      <tr>
+        <th className="border p-2 text-left">Service</th>
+        <th className="border p-2 text-center">Qty (Unit)</th>
+        <th className="border p-2 text-center">Unit Price</th>
+        <th className="border p-2 text-right">Total (€)</th>
+      </tr>
+    </thead>
+    <tbody className="bg-white">
+      {breakdown.services?.map((s, i) => (
+        <tr key={i} className="text-sm text-gray-800">
+          <td className="border p-2 font-medium">{s.label}</td>
+          <td className="border p-2 text-center">
+            {s.units} {s.unitLabel}
+          </td>
+          <td className="border p-2 text-center">€{parseFloat(s.unitPrice).toFixed(2)}</td>
+          <td className="border p-2 text-right font-semibold">€{parseFloat(s.value).toFixed(2)}</td>
+        </tr>
+      ))}
 
-    {/* Total Row */}
-    <div className="flex items-center justify-between px-4 py-2 bg-blue-50 font-medium border-t border-blue-200">
-      <span className="text-blue-800">Total Services Cost</span>
-      <span className="text-blue-900 font-bold">
-        €{(breakdown.services?.reduce((sum, s) => sum + parseFloat(s.value || 0), 0)).toFixed(2)}
-      </span>
+      {/* Total Row */}
+      <tr className="bg-gray-100 text-gray-900 font-bold border-t border-gray-300">
+        <td className="border p-2 text-right" colSpan={3}>Total Service Costs:</td>
+        <td className="border p-2 text-right">
+          €{(breakdown.services?.reduce((sum, s) => sum + parseFloat(s.value || 0), 0)).toFixed(2)}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
     </div>
   </div>
-</div>
 
 
 
