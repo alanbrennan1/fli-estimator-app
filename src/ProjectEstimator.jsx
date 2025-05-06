@@ -833,7 +833,7 @@ setIsCableTroughProduct(hasCableTrough);
     placeholder="4.58"
     className="border p-2 rounded text-xs w-full text-center"
   />
-  <span className="absolute inset-y-0 right-2 flex items-center text-gray-400 text-[10px]">
+  <span className="absolute inset-y-0 right-2 flex items-left text-gray-400 text-[10px]">
     Hours/Tonne
   </span>
 </div>
