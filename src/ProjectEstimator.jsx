@@ -237,10 +237,16 @@ const handleEstimate = () => {
     'gasHours', 'productionUnitsHours', 'productionCheckingHours', 'siteQueriesHours', 'asBuiltsHours'
   ];
   const totalDesignHours = designFields.reduce((sum, key) => sum + safe(formData[key]), 0);
-  const designCost = totalDesignHours * 61.12;
+  const designRate = 61.12;
+  const designCost = totalDesignHours * designRate;
 
-  const transportCost = safe(formData.transportRate) * safe(formData.transportQuantity);
-  const installationCost = safe(formData.installationDays) * 500;
+  const transportRate = safe(formData.transportRate);
+  const transportQty = safe(formData.transportQuantity);
+  const transportCost = transportRate * transportQty;
+
+  const installationRate = 500;
+  const installationDays = safe(formData.installationDays);
+  const installationCost = installationDays * installationRate;
 
   let grandTotal = 0;
 
@@ -309,14 +315,18 @@ const handleEstimate = () => {
   setBreakdown({
     design: [
       { label: 'Total Design Hours', value: totalDesignHours.toFixed(2), unit: 'hrs', isCurrency: false },
-      { label: 'Design Cost', value: designCost.toFixed(2), isCurrency: true }
+      { label: 'Design Cost', value: designCost.toFixed(2), isCurrency: true },
+      { label: 'Design Rate', value: designRate.toFixed(2), unit: '€/hr', isCurrency: true }
     ],
     transport: [
-      { label: 'Transport Cost', value: transportCost.toFixed(2), isCurrency: true }
+      { label: 'Transport Quantity', value: transportQty, unit: 'loads', isCurrency: false },
+      { label: 'Transport Cost', value: transportCost.toFixed(2), isCurrency: true },
+      { label: 'Transport Rate', value: transportRate.toFixed(2), unit: '€/load', isCurrency: true }
     ],
     installation: [
-      { label: 'Installation Days', value: formData.installationDays || 0, unit: 'days', isCurrency: false },
-      { label: 'Installation Cost', value: installationCost.toFixed(2), isCurrency: true }
+      { label: 'Installation Days', value: installationDays, unit: 'days', isCurrency: false },
+      { label: 'Installation Cost', value: installationCost.toFixed(2), isCurrency: true },
+      { label: 'Installation Rate', value: installationRate.toFixed(2), unit: '€/day', isCurrency: true }
     ],
     subtotals: {
       concrete: { cost: concreteSubtotal, units: concreteUnitTotal },
@@ -325,9 +335,9 @@ const handleEstimate = () => {
       additional: { cost: additionalSubtotal, units: additionalUnitTotal }
     },
     services: [
-      { label: 'Design', value: designCost.toFixed(2) },
-      { label: 'Installation', value: installationCost.toFixed(2) },
-      { label: 'Transport', value: transportCost.toFixed(2) }
+      { label: 'Design', value: designCost.toFixed(2), units: totalDesignHours, unitLabel: 'hrs', unitPrice: designRate },
+      { label: 'Installation', value: installationCost.toFixed(2), units: installationDays, unitLabel: 'days', unitPrice: installationRate },
+      { label: 'Transport', value: transportCost.toFixed(2), units: transportQty, unitLabel: 'loads', unitPrice: transportRate }
     ]
   });
 
