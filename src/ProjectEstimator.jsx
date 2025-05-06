@@ -616,7 +616,7 @@ const handleChange = (e) => {
       const steelCost = steelKg * 0.8;
 
       const unitWeight = volume * 2.6;
-      const labourPerUnit = unitWeight * 4.5;
+      const labourPerUnit = unitWeight * 4.58;
       const totalRowHours = quantity * labourPerUnit;
       const totalRowCost = totalRowHours * 70.11;
 
@@ -811,16 +811,33 @@ setIsCableTroughProduct(hasCableTrough);
                 />
               </div>
 
-              <div className="flex flex-col">
-                <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Labour</h5>
-                <input
-                  type="number"
-                  value={subProductInputs[selectedProduct]?.labourHours || ''}
-                  onChange={(e) => handleSubInputChange(selectedProduct, 'labourHours', e.target.value)}
-                  placeholder="Hours"
-                  className="border p-2 rounded text-xs"
-                />
-              </div>
+          <div className="flex flex-col">
+  <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Labour</h5>
+  <div className="grid grid-cols-2 gap-2">
+    <div className="flex flex-col">
+      <label className="text-[11px] font-medium text-gray-700 mb-1">Hours / Total</label>
+      <input
+        type="number"
+        value={subProductInputs[selectedProduct]?.labourHours || ''}
+        onChange={(e) => handleSubInputChange(selectedProduct, 'labourHours', e.target.value)}
+        placeholder="e.g. 10"
+        className="border p-2 rounded text-xs"
+      />
+    </div>
+    <div className="flex flex-col">
+      <label className="text-[11px] font-medium text-gray-700 mb-1">Hours / Tonne</label>
+      <input
+        type="number"
+        value={subProductInputs[selectedProduct]?.labourPerTonne ?? 4.58}
+        onChange={(e) => handleSubInputChange(selectedProduct, 'labourPerTonne', e.target.value)}
+        placeholder="e.g. 4.58"
+        className="border p-2 rounded text-xs"
+      />
+    </div>
+  </div>
+</div>
+
+              
             </div>
           </div>
 
