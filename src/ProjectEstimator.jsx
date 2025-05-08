@@ -654,14 +654,14 @@ const handleChange = (e) => {
 <AccordionSection title="🏗️ Manufacturing BoQ">
   {/* Toggle SketchUp */}
   <div className="flex justify-start mb-4">
-    <label className="flex items-center gap-2 px-3 py-1 rounded-full border border-blue-300 bg-blue-50 text-xs text-blue-700 font-medium shadow-sm">
+    <label className="flex items-center gap-2 text-xs text-blue-800 font-medium">
       <input
         type="checkbox"
         checked={useSketchup}
         onChange={(e) => setUseSketchup(e.target.checked)}
         className="accent-blue-600"
       />
-      Use SketchUp File
+      <span className="underline decoration-dotted decoration-blue-400 hover:decoration-solid transition">Use SketchUp File</span>
     </label>
   </div>
 
