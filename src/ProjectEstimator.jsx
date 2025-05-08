@@ -650,18 +650,17 @@ const handleChange = (e) => {
 </AccordionSection>
 
 
-        
-<AccordionSection title="🏗️ Manufacturing BoQ">
+  <AccordionSection title="🏗️ Manufacturing BoQ">
   {/* Toggle SketchUp */}
   <div className="flex justify-start mb-4">
-    <label className="flex items-center gap-2 text-xs text-blue-800 font-medium">
+    <label className="flex items-center gap-2 text-xs text-blue-800 font-semibold bg-blue-50 px-3 py-1 border border-blue-300 shadow-sm">
       <input
         type="checkbox"
         checked={useSketchup}
         onChange={(e) => setUseSketchup(e.target.checked)}
         className="accent-blue-600"
       />
-      <span className="underline decoration-dotted decoration-blue-400 hover:decoration-solid transition">Use SketchUp File</span>
+      <span className="tracking-wide">Use SketchUp File</span>
     </label>
   </div>
 
@@ -676,7 +675,7 @@ const handleChange = (e) => {
         className="block w-full text-xs file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
       />
     </div>
-  )}
+  )}     
 
   
   {/* Product/Structure Selector */}
