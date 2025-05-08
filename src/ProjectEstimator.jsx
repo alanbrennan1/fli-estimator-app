@@ -1076,140 +1076,157 @@ setIsCableTroughProduct(hasCableTrough);
 
 
 
-<button onClick={handleEstimate} className="bg-blue-600 text-white px-4 py-2 rounded">Generate Estimate</button>
+{/* ▶ Generate Estimate */}
+<div className="mt-6 text-center">
+  <button
+    onClick={handleEstimate}
+    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded shadow text-sm"
+  >
+    Generate Estimate
+  </button>
+</div>
 
-{estimate && (
-  <div id="quote-preview" className="pt-6 space-y-4">
-    <div className="text-xl font-semibold">Estimated Price: €{estimate}</div>
 
-    <div className="pt-4 space-y-4">
-      {productBreakdowns && productBreakdowns.length > 0 && (
-        <div className="bg-gray-50 border rounded p-4">
-          <h3 className="font-semibold border-b pb-1 mb-4 capitalize text-blue-700 flex items-center gap-2">
-            🭱 Per-Product Breakdown
-          </h3>
+{productBreakdowns.length > 0 && (
+  <div className="mt-10 bg-white border border-gray-300 rounded shadow p-6">
+    <h2 className="text-lg font-bold text-gray-800 mb-4">📦 BoQ Breakdown</h2>
 
-          <div className="overflow-x-auto">
-            <table className="min-w-full text-sm">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="px-3 py-2 text-left">Product</th>
-                  <th className="px-3 py-2 text-right">Qty</th>
-                  <th className="px-3 py-2 text-right">Concrete (m³)</th>
-                  <th className="px-3 py-2 text-right">Steel (kg)</th>
-                  <th className="px-3 py-2 text-right">Labour (hrs)</th>
-                  <th className="px-3 py-2 text-right">Additional Items</th>
-                  <th className="px-3 py-2 text-right">Total (€)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {productBreakdowns.map((product, idx) => {
-                  const labourPerTonne = parseFloat(product.labourPerTonne || 4.58);
-                  const entityVolume = parseFloat(product.entityVolume || 0);
-                  const quantity = parseFloat(product.quantity || 0);
-                  const unitVolume = parseFloat(product.unitVolume || 0);
-                  const usingSketchUp = !!product.entityVolume;
+   <div className="overflow-x-auto">
+  <table className="w-full text-xs border">
+    <thead className="bg-blue-100 text-left text-blue-800 uppercase tracking-wider">
+      <tr>
+        <th className="border p-2">Product</th>
+        <th className="border p-2">Qty</th>
+        <th className="border p-2">Concrete (m³)</th>
+        <th className="border p-2">Steel (kg/m³)</th>
+        <th className="border p-2">Labour (hrs)</th>
+        <th className="border p-2">Add. Items</th>
+        <th className="border p-2 text-right">Total (€)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {productBreakdowns.map((product, idx) => {
+        const { quantity, concrete, steel, labour, additionalItems, total } = product;
+        const concreteVol = parseFloat(concrete?.volume || 0);
+        const steelKg = parseFloat(steel?.kg || 0);
+        const labourHrs = parseFloat(labour?.hours || 0);
+        const concreteCost = product.concreteCost || 0;
+        const steelCost = product.steelCost || 0;
+        const labourCost = product.labourCost || 0;
 
-                  const volume = usingSketchUp ? entityVolume : unitVolume;
-                  const unitWeight = volume * 2.6;
-                  const labourPerUnit = unitWeight * labourPerTonne;
-                  const totalLabourHours = quantity * labourPerUnit;
-                  const labourCost = totalLabourHours * 70.11;
+        return (
+          <tr key={idx} className="border-b">
+            <td className="border p-2 font-medium text-sm">{product.name}</td>
+            <td className="border p-2 text-center">{quantity}</td>
+            <td className="border p-2 text-center">
+              {concreteVol.toFixed(2)}
+              <div className="text-gray-500 text-[10px]">€{concreteCost.toFixed(2)}</div>
+            </td>
+            <td className="border p-2 text-center">
+              {steelKg.toFixed(2)}
+              <div className="text-gray-500 text-[10px]">€{steelCost.toFixed(2)}</div>
+            </td>
+            <td className="border p-2 text-center">
+              {labourHrs.toFixed(2)}
+              <div className="text-gray-500 text-[10px]">€{labourCost.toFixed(2)}</div>
+            </td>
+            <td className="border p-2">
+              {additionalItems.length > 0 ? (
+                <ul className="space-y-1">
+                  {additionalItems.map((item, i) => (
+                    <li key={i}>
+                      <span className="font-semibold">{item.label}</span>: {Math.round(item.qty)}
+                      <div className="text-gray-500 text-[10px]">€{item.cost.toFixed(2)}</div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <span className="text-gray-400 italic">None</span>
+              )}
+            </td>
+            <td className="border p-2 text-right font-bold text-sm">€{total.toFixed(2)}</td>
+          </tr>
+        );
+      })}
 
-                  const additionalItems = product.additionalItems || [];
-                  const additionalTotal = additionalItems.reduce((sum, i) => sum + (parseFloat(i.cost) || 0), 0);
-                  const concreteCost = parseFloat(product.concrete?.cost || 0);
-                  const steelCost = parseFloat(product.steel?.cost || 0);
-
-                  const total = concreteCost + steelCost + labourCost + additionalTotal;
-
-                  return (
-                    <tr key={idx} className="border-t">
-                      <td className="px-3 py-2">{product.name}</td>
-                      <td className="px-3 py-2 text-right">{quantity}</td>
-                      <td className="px-3 py-2 text-right">{product.concrete?.volume}</td>
-                      <td className="px-3 py-2 text-right">{product.steel?.kg}</td>
-                      <td className="px-3 py-2 text-right">{totalLabourHours.toFixed(2)}</td>
-                      <td className="px-3 py-2 text-right">
-                        {additionalItems.map((item, i) => (
-                          <div key={i}>{item.label} ({item.qty}×€{item.unitPrice})</div>
-                        ))}
-                      </td>
-                      <td className="px-3 py-2 text-right font-semibold">€{total.toFixed(2)}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+      {/* ➕ Subtotals Row */}
+      <tr className="bg-blue-100 text-blue-800 font-semibold text-sm border-t-2 border-blue-300">
+        <td className="border p-2 text-right" colSpan={2}>Subtotals:</td>
+        <td className="border p-2 text-center">
+          {breakdown.subtotals?.concrete?.units?.toFixed(2)} m³
+          <div className="text-gray-500 text-[10px]">
+            €{breakdown.subtotals?.concrete?.cost?.toFixed(2)}
           </div>
-        </div>
-      )}
+        </td>
+        <td className="border p-2 text-center">
+          {breakdown.subtotals?.steel?.units?.toFixed(2)} kg/m³
+          <div className="text-gray-500 text-[10px]">
+            €{breakdown.subtotals?.steel?.cost?.toFixed(2)}
+          </div>
+        </td>
+        <td className="border p-2 text-center">
+          {breakdown.subtotals?.labour?.units?.toFixed(2)} hrs
+          <div className="text-gray-500 text-[10px]">
+            €{breakdown.subtotals?.labour?.cost?.toFixed(2)}
+          </div>
+        </td>
+        <td className="border p-2 text-center">
+          {breakdown.subtotals?.additional?.units?.toFixed(0)} items
+          <div className="text-gray-500 text-[10px]">
+            €{breakdown.subtotals?.additional?.cost?.toFixed(2)}
+          </div>
+        </td>
+        <td className="border p-2 text-right font-bold text-sm">—</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-      {/* 🧾 Subtotals */}
-      <div className="mt-6 bg-white border border-gray-300 rounded p-4">
-        <h4 className="text-sm font-semibold text-gray-700 mb-3">Subtotals</h4>
-        <table className="w-full text-xs">
-          <tbody>
-            {['concrete', 'steel', 'labour', 'additional'].map((key) => (
-              <tr key={key} className="border-t">
-                <td className="py-2 font-medium capitalize">{key}</td>
-                <td className="text-right">
-                  {breakdown.subtotals?.[key]?.units?.toFixed(2)} {key === 'labour' ? 'hrs' : key === 'steel' ? 'kg' : key === 'concrete' ? 'm³' : 'items'}
-                </td>
-                <td className="text-right">€{breakdown.subtotals?.[key]?.cost?.toFixed(2)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
 
-      {/* 🛠 Services */}
-      <div className="mt-6 bg-white border border-gray-300 rounded p-4">
-        <h4 className="text-sm font-semibold text-gray-700 mb-3">Service Costs</h4>
-        <table className="w-full text-xs">
-          <thead>
-            <tr className="text-left border-b">
-              <th className="py-1">Service</th>
-              <th className="py-1 text-center">Qty</th>
-              <th className="py-1 text-center">Rate</th>
-              <th className="py-1 text-right">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {breakdown.services?.map((s, idx) => (
-              <tr key={idx} className="border-t">
-                <td className="py-1">{s.label}</td>
-                <td className="text-center">{s.units} {s.unitLabel}</td>
-                <td className="text-center">€{parseFloat(s.unitPrice).toFixed(2)}</td>
-                <td className="text-right">€{parseFloat(s.value).toFixed(2)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+{/* 🛠 Service Costs Table */}
+<div className="mt-6 overflow-x-auto">
+  <table className="w-full text-sm border border-gray-300">
+      <thead className="bg-blue-100 text-left text-blue-800 uppercase tracking-wider">
 
-      {/* 📈 Total Row */}
-      <div className="text-right text-sm font-semibold pt-4 border-t">
-        <span className="text-gray-600 mr-2">Subtotal with Margins:</span>
-        €{(
-          Object.values(breakdown || {}).reduce((total, section) => {
-            if (!Array.isArray(section)) return total;
-            const sectionSum = section.reduce((sum, i) => sum + (i.isCurrency ? parseFloat(i.value) : 0), 0);
-            return total + sectionSum;
-          }, 0)
-          * (1 + (parseFloat(formData.wasteMargin || 5) / 100))
-          * (1 + (parseFloat(formData.groupCost || 2.5) / 100))
-          * (1 + (parseFloat(formData.margin || 0) / 100))
-        ).toFixed(2)}
-      </div>
-    </div>
+      <tr>
+        <th className="border p-2 text-left">Service</th>
+        <th className="border p-2 text-center">Qty (Unit)</th>
+        <th className="border p-2 text-center">Unit Price</th>
+        <th className="border p-2 text-right">Total (€)</th>
+      </tr>
+    </thead>
+    <tbody className="bg-white text-gray-800">
+      {breakdown.services?.map((s, i) => (
+        <tr key={i} className="text-sm">
+          <td className="border p-2 font-medium">{s.label}</td>
+          <td className="border p-2 text-center">
+            {s.units} {s.unitLabel}
+          </td>
+          <td className="border p-2 text-center">€{parseFloat(s.unitPrice).toFixed(2)}</td>
+          <td className="border p-2 text-right font-semibold">€{parseFloat(s.value).toFixed(2)}</td>
+        </tr>
+      ))}
 
-    <div className="text-right text-lg font-bold pt-4 border-t text-blue-900">
+      {/* Total Row */}
+      <tr className="bg-blue-100 text-blue-800 font-semibold text-sm border-t-2 border-blue-300">
+        <td className="border p-2 text-right" colSpan={3}>Total Service Costs:</td>
+        <td className="border p-2 text-right">
+          €{(breakdown.services?.reduce((sum, s) => sum + parseFloat(s.value || 0), 0)).toFixed(2)}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+    {/* 💰 Grand Total */}
+    <div className="mt-6 text-right text-base font-bold text-blue-900">
       Grand Total: €{estimate}
     </div>
   </div>
 )}
-
 
 
         
