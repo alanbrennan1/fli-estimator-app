@@ -660,14 +660,21 @@ const handleChange = (e) => {
         onChange={(e) => setUseSketchup(e.target.checked)}
         className="accent-blue-600"
       />
-      <span className="tracking-wide">Use SketchUp File</span>
+      <span className="tracking-wide">Use SketchUp</span>
     </label>
   </div>
 
   {useSketchup && (
     <div className="mb-6 border border-blue-200 bg-blue-50 rounded p-4 shadow-sm">
       <h4 className="text-sm font-semibold text-blue-800 mb-2">📅 Upload SketchUp CSV</h4>
-      <p className="text-xs text-gray-600 mb-2">Import volume, steel & labour from SketchUp export</p>
+      <p className="text-xs text-gray-600 mb-2">Import product volumes from SketchUp</p>
+      
+       {uploadSuccess && (
+      <div className="mb-3 p-2 rounded bg-green-100 text-green-800 border border-green-300 text-xs">
+        ✅ File uploaded and values extracted successfully!
+      </div>
+    )}
+      
       <input
         type="file"
         accept=".csv"
