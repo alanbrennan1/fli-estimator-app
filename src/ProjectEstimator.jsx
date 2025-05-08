@@ -800,16 +800,21 @@ setIsCableTroughProduct(hasCableTrough);
                 </select>
               </div>
 
-              <div className="flex flex-col">
-                <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Surface Finish</h5>
-                <input
-                  type="text"
-                  value={subProductInputs[selectedProduct]?.surfaceFinish || ''}
-                  onChange={(e) => handleSubInputChange(selectedProduct, 'surfaceFinish', e.target.value)}
-                  placeholder="e.g. Trowelled, Brushed"
-                  className="border p-2 rounded text-xs"
-                />
-              </div>
+<div className="flex flex-col">
+  <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Surface Finish</h5>
+  <select
+    value={subProductInputs[selectedProduct]?.surfaceFinish || ''}
+    onChange={(e) =>
+      handleSubInputChange(selectedProduct, 'surfaceFinish', e.target.value)
+    }
+    className="border p-2 rounded text-xs bg-white"
+  >
+    <option value="">Select Finish</option>
+    <option value="Basic">Basic</option>
+    <option value="High Class">High Class</option>
+  </select>
+</div>
+
 
  <div className="flex flex-col">
   <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Labour</h5>
