@@ -1083,76 +1083,73 @@ setIsCableTroughProduct(hasCableTrough);
 
 {/* ▶ Generate Estimate */}
 <div className="mt-6 text-center">
-  <button
-    onClick={handleEstimate}
-    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded shadow text-sm"
-  >
-    Generate Estimate
-  </button>
-</div>
+
+<button onClick={handleEstimate} className="bg-blue-600 text-white px-4 py-2 rounded">Generate Estimate</button>
+
+{estimate && (
+  <div id="quote-preview" className="pt-6 space-y-4">
+    <div className="text-xl font-semibold">Estimated Price: €{estimate}</div>
+
+    <div className="pt-4 space-y-4">
+      {productBreakdowns && productBreakdowns.length > 0 && (
+        <div className="bg-gray-50 border rounded p-4">
+          <h3 className="font-semibold border-b pb-1 mb-4 capitalize text-blue-700 flex items-center gap-2">
+            🭱 Per-Product Breakdown
+          </h3>
+
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="px-3 py-2 text-left">Product</th>
+                  <th className="px-3 py-2 text-right">Qty</th>
+                  <th className="px-3 py-2 text-right">Concrete (m³)</th>
+                  <th className="px-3 py-2 text-right">Steel (kg)</th>
+                  <th className="px-3 py-2 text-right">Labour (hrs)</th>
+                  <th className="px-3 py-2 text-right">Additional Items</th>
+                  <th className="px-3 py-2 text-right">Total (€)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {productBreakdowns.map((product, idx) => {
+                  const labourPerTonne = parseFloat(product.labourPerTonne || 4.58);
+                  const entityVolume = parseFloat(product.entityVolume || 0); // from SketchUp CSV
+                  const quantity = parseFloat(product.quantity || 0);
+                  const unitVolume = parseFloat(product.unitVolume || 0); // from manual
+                  const usingSketchUp = !!product.entityVolume;
+
+                  const volume = usingSketchUp ? entityVolume : unitVolume;
+                  const unitWeight = volume * 2.6;
+                  const labourPerUnit = unitWeight * labourPerTonne;
+                  const totalLabourHours = quantity * labourPerUnit;
+                  const labourCost = totalLabourHours * 70.11;
+
+                  const additionalItems = product.additionalItems || [];
+                  const additionalTotal = additionalItems.reduce((sum, i) => sum + (parseFloat(i.cost) || 0), 0);
+                  const concreteCost = parseFloat(product.concrete?.cost || 0);
+                  const steelCost = parseFloat(product.steel?.cost || 0);
+
+                  const total = concreteCost + steelCost + labourCost + additionalTotal;
+
+                  return (
+                    <tr key={idx} className="border-t">
+                      <td className="px-3 py-2">{product.name}</td>
+                      <td className="px-3 py-2 text-right">{quantity}</td>
+                      <td className="px-3 py-2 text-right">{product.concrete?.volume}</td>
+                      <td className="px-3 py-2 text-right">{product.steel?.kg}</td>
+                      <td className="px-3 py-2 text-right">{totalLabourHours.toFixed(2)}</td>
+                      <td className="px-3 py-2 text-right">
+                        {additionalItems.map((item, i) => (
+                          <div key={i}>{item.label} ({item.qty}×€{item.unitPrice})</div>
+                        ))}
+                      </td>
+                      <td className="px-3 py-2 text-right font-semibold">€{total.toFixed(2)}</td>
+                    </tr>
+                  );
+                })}
 
 
-{productBreakdowns.length > 0 && (
-  <div className="mt-10 bg-white border border-gray-300 rounded shadow p-6">
-    <h2 className="text-lg font-bold text-gray-800 mb-4">📦 BoQ Breakdown</h2>
-
-   <div className="overflow-x-auto">
-  <table className="w-full text-xs border">
-    <thead className="bg-blue-100 text-left text-blue-800 uppercase tracking-wider">
-      <tr>
-        <th className="border p-2">Product</th>
-        <th className="border p-2">Qty</th>
-        <th className="border p-2">Concrete (m³)</th>
-        <th className="border p-2">Steel (kg/m³)</th>
-        <th className="border p-2">Labour (hrs)</th>
-        <th className="border p-2">Add. Items</th>
-        <th className="border p-2 text-right">Total (€)</th>
-      </tr>
-    </thead>
-    <tbody>
-      {productBreakdowns.map((product, idx) => {
-        const { quantity, concrete, steel, labour, additionalItems, total } = product;
-        const concreteVol = parseFloat(concrete?.volume || 0);
-        const steelKg = parseFloat(steel?.kg || 0);
-        const labourHrs = parseFloat(labour?.hours || 0);
-        const concreteCost = product.concreteCost || 0;
-        const steelCost = product.steelCost || 0;
-        const labourCost = product.labourCost || 0;
-
-        return (
-          <tr key={idx} className="border-b">
-            <td className="border p-2 font-medium text-sm">{product.name}</td>
-            <td className="border p-2 text-center">{quantity}</td>
-            <td className="border p-2 text-center">
-              {concreteVol.toFixed(2)}
-              <div className="text-gray-500 text-[10px]">€{concreteCost.toFixed(2)}</div>
-            </td>
-            <td className="border p-2 text-center">
-              {steelKg.toFixed(2)}
-              <div className="text-gray-500 text-[10px]">€{steelCost.toFixed(2)}</div>
-            </td>
-            <td className="border p-2 text-center">
-              {labourHrs.toFixed(2)}
-              <div className="text-gray-500 text-[10px]">€{labourCost.toFixed(2)}</div>
-            </td>
-            <td className="border p-2">
-              {additionalItems.length > 0 ? (
-                <ul className="space-y-1">
-                  {additionalItems.map((item, i) => (
-                    <li key={i}>
-                      <span className="font-semibold">{item.label}</span>: {Math.round(item.qty)}
-                      <div className="text-gray-500 text-[10px]">€{item.cost.toFixed(2)}</div>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <span className="text-gray-400 italic">None</span>
-              )}
-            </td>
-            <td className="border p-2 text-right font-bold text-sm">€{total.toFixed(2)}</td>
-          </tr>
-        );
-      })}
+  
 
       {/* ➕ Subtotals Row */}
       <tr className="bg-blue-100 text-blue-800 font-semibold text-sm border-t-2 border-blue-300">
