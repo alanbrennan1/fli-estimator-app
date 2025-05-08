@@ -137,10 +137,104 @@ const getUnitPrice = (itemName) => {
   const [productQuantities, setProductQuantities] = useState({});
   const [subProductInputs, setSubProductInputs] = useState({});
   const [useSketchup, setUseSketchup] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState('');
 
 
- const [selectedProduct, setSelectedProduct] = useState('');
+const handleSketchUpUpload = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    const text = event.target.result;
+    const rows = text.split('\n').map(row => row.split(','));
+    const headers = rows[0].map(h => h.trim().toLowerCase());
+
+    const quantityIndex = headers.indexOf("quantity");
+    const volumeIndex = headers.indexOf("entity volume");
+    const definitionIndex = headers.indexOf("definition name");
+
+    if (quantityIndex === -1 || volumeIndex === -1 || definitionIndex === -1) {
+      alert("CSV must include 'Definition Name', 'Quantity', and 'Entity Volume' columns.");
+      return;
+    }
+
+    let totalVolume = 0;
+    let totalLabourHours = 0;
+    let totalLabourCost = 0;
+    const productList = [];
+
+    for (let i = 1; i < rows.length; i++) {
+      const row = rows[i];
+      if (!row.length || row.length < Math.max(quantityIndex, volumeIndex, definitionIndex)) continue;
+
+      const defName = row[definitionIndex]?.trim();
+      const quantityRaw = row[quantityIndex];
+      const volumeRaw = row[volumeIndex];
+
+      if (!defName || !quantityRaw || !volumeRaw) continue;
+
+      const quantity = parseFloat(quantityRaw.trim());
+      const volume = parseFloat(volumeRaw.trim().replace(/[^\d.-]/g, ''));
+
+      if (!isNaN(quantity) && !isNaN(volume)) {
+        const totalRowVolume = quantity * volume;
+        const concreteCost = totalRowVolume * 137.21;
+        const steelKg = totalRowVolume * 120;
+        const steelCost = steelKg * 0.8;
+
+        const unitWeight = volume * 2.6;
+        const labourPerUnit = unitWeight * 4.58;
+        const totalRowHours = quantity * labourPerUnit;
+        const totalRowCost = totalRowHours * 70.11;
+
+        totalVolume += totalRowVolume;
+        totalLabourHours += totalRowHours;
+        totalLabourCost += totalRowCost;
+
+        productList.push({
+          name: defName,
+          quantity,
+          entityVolume: volume,
+          concrete: { volume: totalRowVolume.toFixed(2), cost: concreteCost.toFixed(2) },
+          steel: { kg: steelKg.toFixed(2), cost: steelCost.toFixed(2) },
+          labour: { hours: totalRowHours.toFixed(2), cost: totalRowCost.toFixed(2) }
+        });
+      }
+    }
+
+    const concreteCostTotal = totalVolume * 137.21;
+
+    setFormData(prev => ({
+      ...prev,
+      concreteVolume: totalVolume.toFixed(2),
+      labourHours: totalLabourHours.toFixed(2)
+    }));
+
+    setBreakdown(prev => ({
+      ...prev,
+      concrete: [
+        { label: 'Total Concrete Volume', value: totalVolume.toFixed(2), unit: 'm³', isCurrency: false },
+        { label: 'Concrete Cost', value: concreteCostTotal.toFixed(2), isCurrency: true }
+      ],
+      labour: [
+        { label: 'Labour Hours', value: totalLabourHours.toFixed(2), unit: 'hrs', isCurrency: false },
+        { label: 'Labour Cost', value: totalLabourCost.toFixed(2), isCurrency: true }
+      ]
+    }));
+
+    setPendingImport(productList);
+    setIsCableTroughProduct(productList.some(p => p.name.toUpperCase().startsWith('CT')));
+    setUploadSuccess(true);
+    setTimeout(() => setUploadSuccess(false), 4000);
+  };
+
+  reader.readAsText(file);
+};
+
+
+
+  
   useEffect(() => {
   if (selectedProduct && (!subProductInputs[selectedProduct] || !subProductInputs[selectedProduct].quantity)) {
     setSubProductInputs((prev) => ({
@@ -367,7 +461,6 @@ const handleChange = (e) => {
 
 
   
-
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-white shadow p-4 flex items-center">
@@ -557,101 +650,7 @@ const handleChange = (e) => {
 </AccordionSection>
 
 
-const handleSketchUpUpload = (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = (event) => {
-    const text = event.target.result;
-    const rows = text.split('\n').map(row => row.split(','));
-    const headers = rows[0].map(h => h.trim().toLowerCase());
-
-    const quantityIndex = headers.indexOf("quantity");
-    const volumeIndex = headers.indexOf("entity volume");
-    const definitionIndex = headers.indexOf("definition name");
-
-    if (quantityIndex === -1 || volumeIndex === -1 || definitionIndex === -1) {
-      alert("CSV must include 'Definition Name', 'Quantity', and 'Entity Volume' columns.");
-      return;
-    }
-
-    let totalVolume = 0;
-    let totalLabourHours = 0;
-    let totalLabourCost = 0;
-    const productList = [];
-
-    for (let i = 1; i < rows.length; i++) {
-      const row = rows[i];
-      if (!row.length || row.length < Math.max(quantityIndex, volumeIndex, definitionIndex)) continue;
-
-      const defName = row[definitionIndex]?.trim();
-      const quantityRaw = row[quantityIndex];
-      const volumeRaw = row[volumeIndex];
-
-      if (!defName || !quantityRaw || !volumeRaw) continue;
-
-      const quantity = parseFloat(quantityRaw.trim());
-      const volume = parseFloat(volumeRaw.trim().replace(/[^\d.-]/g, ''));
-
-      if (!isNaN(quantity) && !isNaN(volume)) {
-        const totalRowVolume = quantity * volume;
-        const concreteCost = totalRowVolume * 137.21;
-        const steelKg = totalRowVolume * 120;
-        const steelCost = steelKg * 0.8;
-
-        const unitWeight = volume * 2.6;
-        const labourPerUnit = unitWeight * 4.58;
-        const totalRowHours = quantity * labourPerUnit;
-        const totalRowCost = totalRowHours * 70.11;
-
-        totalVolume += totalRowVolume;
-        totalLabourHours += totalRowHours;
-        totalLabourCost += totalRowCost;
-
-        productList.push({
-          name: defName,
-          quantity,
-          entityVolume: volume,
-          concrete: { volume: totalRowVolume.toFixed(2), cost: concreteCost.toFixed(2) },
-          steel: { kg: steelKg.toFixed(2), cost: steelCost.toFixed(2) },
-          labour: { hours: totalRowHours.toFixed(2), cost: totalRowCost.toFixed(2) }
-        });
-      }
-    }
-
-    const concreteCostTotal = totalVolume * 137.21;
-
-    setFormData(prev => ({
-      ...prev,
-      concreteVolume: totalVolume.toFixed(2),
-      labourHours: totalLabourHours.toFixed(2)
-    }));
-
-    setBreakdown(prev => ({
-      ...prev,
-      concrete: [
-        { label: 'Total Concrete Volume', value: totalVolume.toFixed(2), unit: 'm³', isCurrency: false },
-        { label: 'Concrete Cost', value: concreteCostTotal.toFixed(2), isCurrency: true }
-      ],
-      labour: [
-        { label: 'Labour Hours', value: totalLabourHours.toFixed(2), unit: 'hrs', isCurrency: false },
-        { label: 'Labour Cost', value: totalLabourCost.toFixed(2), isCurrency: true }
-      ]
-    }));
-
-    setPendingImport(productList);
-    setIsCableTroughProduct(productList.some(p => p.name.toUpperCase().startsWith('CT')));
-    setUploadSuccess(true);
-    setTimeout(() => setUploadSuccess(false), 4000);
-  };
-
-  reader.readAsText(file);
-};
-
-         
-
-
+        
   <AccordionSection title="🏗️ Manufacturing BoQ">
   {/* Toggle SketchUp */}
   <div className="flex justify-end mb-4">
