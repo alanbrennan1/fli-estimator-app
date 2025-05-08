@@ -651,10 +651,10 @@ const handleChange = (e) => {
 
 
         
-  <AccordionSection title="🏗️ Manufacturing BoQ">
+<AccordionSection title="🏗️ Manufacturing BoQ">
   {/* Toggle SketchUp */}
-  <div className="flex justify-end mb-4">
-    <label className="flex items-center gap-2 text-xs text-gray-600 font-medium">
+  <div className="flex justify-start mb-4">
+    <label className="flex items-center gap-2 px-3 py-1 rounded-full border border-blue-300 bg-blue-50 text-xs text-blue-700 font-medium shadow-sm">
       <input
         type="checkbox"
         checked={useSketchup}
@@ -665,18 +665,18 @@ const handleChange = (e) => {
     </label>
   </div>
 
-    {useSketchup && (
-  <div className="mb-6 border border-blue-200 bg-blue-50 rounded p-4 shadow-sm">
-    <h4 className="text-sm font-semibold text-blue-800 mb-2">📥 Upload SketchUp CSV</h4>
-    <p className="text-xs text-gray-600 mb-2">Import volume, steel & labour from SketchUp export</p>
-    <input
-      type="file"
-      accept=".csv"
-      onChange={handleSketchUpUpload} // Replace this with your existing CSV handler
-      className="block w-full text-xs file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
-    />
-  </div>
-)}
+  {useSketchup && (
+    <div className="mb-6 border border-blue-200 bg-blue-50 rounded p-4 shadow-sm">
+      <h4 className="text-sm font-semibold text-blue-800 mb-2">📅 Upload SketchUp CSV</h4>
+      <p className="text-xs text-gray-600 mb-2">Import volume, steel & labour from SketchUp export</p>
+      <input
+        type="file"
+        accept=".csv"
+        onChange={handleSketchUpUpload}
+        className="block w-full text-xs file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
+      />
+    </div>
+  )}
 
   
   {/* Product/Structure Selector */}
