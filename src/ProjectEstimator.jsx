@@ -136,6 +136,7 @@ const getUnitPrice = (itemName) => {
   const [isCableTroughProduct, setIsCableTroughProduct] = useState(false);
   const [productQuantities, setProductQuantities] = useState({});
   const [subProductInputs, setSubProductInputs] = useState({});
+  const [useSketchup, setUseSketchup] = useState(false);
 
 
  const [selectedProduct, setSelectedProduct] = useState('');
@@ -556,128 +557,129 @@ const handleChange = (e) => {
 </AccordionSection>
 
 
-  {/* ⬅️ Left: SketchUp Upload Box */}
-  <div className="md:w-1/3 w-full bg-white border border-gray-300 rounded-lg shadow p-4">
-    <h3 className="text-md font-semibold text-gray-700 mb-2">📥 Upload SketchUp CSV</h3>
-    {uploadSuccess && (
-      <div className="mb-4 p-3 rounded bg-green-100 text-green-800 border border-green-300 text-sm">
-        ✅ File uploaded and values extracted successfully!
-      </div>
-    )}
+const handleSketchUpUpload = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
-    <input
-  type="file"
-  accept=".csv"
-  onChange={(e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    const text = event.target.result;
+    const rows = text.split('\n').map(row => row.split(','));
+    const headers = rows[0].map(h => h.trim().toLowerCase());
 
-    const reader = new FileReader();
+    const quantityIndex = headers.indexOf("quantity");
+    const volumeIndex = headers.indexOf("entity volume");
+    const definitionIndex = headers.indexOf("definition name");
 
-    reader.onload = (event) => {
-  const text = event.target.result;
-  const rows = text.split('\n').map(row => row.split(','));
-  const headers = rows[0].map(h => h.trim().toLowerCase());
-
-  const quantityIndex = headers.indexOf("quantity");
-  const volumeIndex = headers.indexOf("entity volume");
-  const definitionIndex = headers.indexOf("definition name"); // Grab Definition Name too
-
-  if (quantityIndex === -1 || volumeIndex === -1 || definitionIndex === -1) {
-    alert("CSV must include 'Definition Name', 'Quantity', and 'Entity Volume' columns.");
-    return;
-  }
-
-  let totalVolume = 0;
-  let totalLabourHours = 0;
-  let totalLabourCost = 0;
-  const productList = [];
-
-  for (let i = 1; i < rows.length; i++) {
-    const row = rows[i];
-    if (!row.length || row.length < Math.max(quantityIndex, volumeIndex, definitionIndex)) continue;
-
-    const defName = row[definitionIndex]?.trim();
-    const quantityRaw = row[quantityIndex];
-    const volumeRaw = row[volumeIndex];
-
-    if (!defName || !quantityRaw || !volumeRaw) continue;
-
-    const quantity = parseFloat(quantityRaw.trim());
-    const volume = parseFloat(volumeRaw.trim().replace(/[^\d.-]/g, ''));
-
-    if (!isNaN(quantity) && !isNaN(volume)) {
-      const totalRowVolume = quantity * volume;
-      totalVolume += totalRowVolume;
-
-      const concreteCost = totalRowVolume * 137.21;
-
-      const steelKg = totalRowVolume * 120;
-      const steelCost = steelKg * 0.8;
-
-      const unitWeight = volume * 2.6;
-      const labourPerUnit = unitWeight * 4.58;
-      const totalRowHours = quantity * labourPerUnit;
-      const totalRowCost = totalRowHours * 70.11;
-
-      totalLabourHours += totalRowHours;
-      totalLabourCost += totalRowCost;
-
-      // 👉 Build each product's line
-      productList.push({
-        name: defName,
-        quantity,
-        concrete: { volume: totalRowVolume.toFixed(2), cost: concreteCost.toFixed(2) },
-        steel: { kg: steelKg.toFixed(2), cost: steelCost.toFixed(2) },
-        labour: { hours: totalRowHours.toFixed(2), cost: totalRowCost.toFixed(2) }
-      });
+    if (quantityIndex === -1 || volumeIndex === -1 || definitionIndex === -1) {
+      alert("CSV must include 'Definition Name', 'Quantity', and 'Entity Volume' columns.");
+      return;
     }
-  }
 
-  const concreteCostTotal = totalVolume * 137.21;
+    let totalVolume = 0;
+    let totalLabourHours = 0;
+    let totalLabourCost = 0;
+    const productList = [];
 
-  // Update form data (populate into Manufacturing section)
-  setFormData(prev => ({
-    ...prev,
-    concreteVolume: totalVolume.toFixed(2),
-    labourHours: totalLabourHours.toFixed(2)
-  }));
+    for (let i = 1; i < rows.length; i++) {
+      const row = rows[i];
+      if (!row.length || row.length < Math.max(quantityIndex, volumeIndex, definitionIndex)) continue;
 
-  // Update BoQ breakdown
-  setBreakdown(prev => ({
-    ...prev,
-    concrete: [
-      { label: 'Total Concrete Volume', value: totalVolume.toFixed(2), unit: 'm³', isCurrency: false },
-      { label: 'Concrete Cost', value: concreteCostTotal.toFixed(2), isCurrency: true }
-    ],
-    labour: [
-      { label: 'Labour Hours', value: totalLabourHours.toFixed(2), unit: 'hrs', isCurrency: false },
-      { label: 'Labour Cost', value: totalLabourCost.toFixed(2), isCurrency: true }
-    ],
-    ...prev
-  }));
+      const defName = row[definitionIndex]?.trim();
+      const quantityRaw = row[quantityIndex];
+      const volumeRaw = row[volumeIndex];
 
-  // ⭐ Now update the product breakdown table
-  setPendingImport(productList); // ✅ HOLD IT HERE until estimate is requested
-      // Detect if any product starts with "CT" (Cable Trough)
-const hasCableTrough = productList.some(p => p.name.toUpperCase().startsWith('CT'));
-setIsCableTroughProduct(hasCableTrough);
+      if (!defName || !quantityRaw || !volumeRaw) continue;
 
+      const quantity = parseFloat(quantityRaw.trim());
+      const volume = parseFloat(volumeRaw.trim().replace(/[^\d.-]/g, ''));
 
-  // ✅ Success message
-  setUploadSuccess(true);
-  setTimeout(() => setUploadSuccess(false), 4000);
+      if (!isNaN(quantity) && !isNaN(volume)) {
+        const totalRowVolume = quantity * volume;
+        const concreteCost = totalRowVolume * 137.21;
+        const steelKg = totalRowVolume * 120;
+        const steelCost = steelKg * 0.8;
+
+        const unitWeight = volume * 2.6;
+        const labourPerUnit = unitWeight * 4.58;
+        const totalRowHours = quantity * labourPerUnit;
+        const totalRowCost = totalRowHours * 70.11;
+
+        totalVolume += totalRowVolume;
+        totalLabourHours += totalRowHours;
+        totalLabourCost += totalRowCost;
+
+        productList.push({
+          name: defName,
+          quantity,
+          entityVolume: volume,
+          concrete: { volume: totalRowVolume.toFixed(2), cost: concreteCost.toFixed(2) },
+          steel: { kg: steelKg.toFixed(2), cost: steelCost.toFixed(2) },
+          labour: { hours: totalRowHours.toFixed(2), cost: totalRowCost.toFixed(2) }
+        });
+      }
+    }
+
+    const concreteCostTotal = totalVolume * 137.21;
+
+    setFormData(prev => ({
+      ...prev,
+      concreteVolume: totalVolume.toFixed(2),
+      labourHours: totalLabourHours.toFixed(2)
+    }));
+
+    setBreakdown(prev => ({
+      ...prev,
+      concrete: [
+        { label: 'Total Concrete Volume', value: totalVolume.toFixed(2), unit: 'm³', isCurrency: false },
+        { label: 'Concrete Cost', value: concreteCostTotal.toFixed(2), isCurrency: true }
+      ],
+      labour: [
+        { label: 'Labour Hours', value: totalLabourHours.toFixed(2), unit: 'hrs', isCurrency: false },
+        { label: 'Labour Cost', value: totalLabourCost.toFixed(2), isCurrency: true }
+      ]
+    }));
+
+    setPendingImport(productList);
+    setIsCableTroughProduct(productList.some(p => p.name.toUpperCase().startsWith('CT')));
+    setUploadSuccess(true);
+    setTimeout(() => setUploadSuccess(false), 4000);
+  };
+
+  reader.readAsText(file);
 };
-    
-    reader.readAsText(file);
-  }}
-      className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-    />
-    
-  </div>
+
          
 
-<AccordionSection title="🏗️ Manufacturing BoQ">
+
+  <AccordionSection title="🏗️ Manufacturing BoQ">
+  {/* Toggle SketchUp */}
+  <div className="flex justify-end mb-4">
+    <label className="flex items-center gap-2 text-xs text-gray-600 font-medium">
+      <input
+        type="checkbox"
+        checked={useSketchup}
+        onChange={(e) => setUseSketchup(e.target.checked)}
+        className="accent-blue-600"
+      />
+      Use SketchUp File
+    </label>
+  </div>
+
+    {useSketchup && (
+  <div className="mb-6 border border-blue-200 bg-blue-50 rounded p-4 shadow-sm">
+    <h4 className="text-sm font-semibold text-blue-800 mb-2">📥 Upload SketchUp CSV</h4>
+    <p className="text-xs text-gray-600 mb-2">Import volume, steel & labour from SketchUp export</p>
+    <input
+      type="file"
+      accept=".csv"
+      onChange={handleSketchUpUpload} // Replace this with your existing CSV handler
+      className="block w-full text-xs file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
+    />
+  </div>
+)}
+
+  
   {/* Product/Structure Selector */}
   <div className="flex justify-center mb-4">
     <div className="flex flex-col w-1/2 rounded shadow border border-gray-300 bg-gray-100 p-4">
