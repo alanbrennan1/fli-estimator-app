@@ -140,7 +140,12 @@ const getUnitPrice = (itemName) => {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [topLevelProduct, setTopLevelProduct] = useState("");
 
+  const subProducts = productOptions[topLevelProduct] || [];
+  const selectedSubProducts = subProducts.filter(
+    ({ code }) => parseInt(subProductInputs[code]?.quantity) > 0
+  );
 
+  
 const handleSketchUpUpload = (e) => {
   const file = e.target.files[0];
   if (!file) return;
