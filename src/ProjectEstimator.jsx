@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Settings } from "lucide-react";
 import './index.css';
 
   const productOptions = {
