@@ -375,7 +375,7 @@ const handleEstimate = () => {
   let additionalSubtotal = 0;
   let additionalUnitTotal = 0;
 
-  const productBreakdowns = sourceBreakdowns.map(product => {
+  const computedBreakdowns = sourceBreakdowns.map(product => {
     const quantity = safe(product.quantity);
     const concreteVol = safe(product.concrete?.volume);
     const steelKg = safe(product.steel?.kg);
@@ -427,7 +427,7 @@ const handleEstimate = () => {
   grandTotal += designCost + transportCost + installationCost;
 
   setEstimate(grandTotal.toFixed(2));
-  setProductBreakdowns(productBreakdowns);
+  setProductBreakdowns(computedBreakdowns);
   setBreakdown({
     design: [
       { label: 'Total Design Hours', value: totalDesignHours.toFixed(2), unit: 'hrs', isCurrency: false },
