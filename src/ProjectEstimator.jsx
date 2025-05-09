@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
 
+  const productOptions = {
+  Troughs: [
+    { name: "Cable Trough", code: "CT" },
+    { name: "Cable Trough Mitre", code: "CTS" },
+    { name: "Cable Trough 45°", code: "CT45" },
+    { name: "Cable Trough Tee", code: "CTT" },
+  ],
+  // Add other top-level product options as needed
+};
+
 function AccordionSection({ title, children }) {
   const [isOpen, setIsOpen] = useState(false); // collapsed by default
   return (
@@ -240,17 +250,6 @@ const handleSketchUpUpload = (e) => {
 
 
  
-  const productOptions = {
-  Troughs: [
-    { name: "Cable Trough", code: "CT" },
-    { name: "Cable Trough Mitre", code: "CTS" },
-    { name: "Cable Trough 45°", code: "CT45" },
-    { name: "Cable Trough Tee", code: "CTT" },
-  ],
-  // Add other top-level product options as needed
-};
-
-
  const handleQuantityChange = (code, value) => {
     setSubProductInputs((prev) => ({
       ...prev,
