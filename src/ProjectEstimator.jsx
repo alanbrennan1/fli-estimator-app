@@ -688,16 +688,16 @@ const handleChange = (e) => {
         </div>
       )}
 
-      {/* Top-Level Product Selector and Sub-Product Grid */}
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="w-full md:w-1/3">
-          <label className="text-xs font-semibold block mb-1">
+   {/* Top-Level Product Selector and Sub-Product Grid */}
+      <div className="flex flex-col lg:flex-row items-start gap-6 border rounded p-4 bg-gray-50 shadow-sm">
+        <div className="w-full lg:w-1/4">
+          <label className="text-xs font-semibold block mb-2 text-gray-700 uppercase tracking-wide">
             Product/Structure Selector
           </label>
           <select
             value={topLevelProduct}
             onChange={(e) => setTopLevelProduct(e.target.value)}
-            className="w-full border p-2 rounded text-sm bg-white"
+            className="w-full border p-2 rounded text-sm bg-white shadow-sm focus:ring-2 focus:ring-blue-400"
           >
             <option value="">Select Structure</option>
             <option value="Troughs">Troughs</option>
@@ -711,19 +711,17 @@ const handleChange = (e) => {
           </select>
         </div>
 
-        <div className="w-full md:w-2/3 grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="w-full lg:w-3/4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
           {subProducts.map(({ name, code }) => (
             <div
               key={code}
-              className="p-3 border rounded shadow-sm bg-white flex flex-col justify-between hover:shadow-md transition"
+              className="p-4 border rounded-lg bg-white shadow-sm hover:shadow-md transition flex flex-col justify-between h-full"
             >
               <div>
-                <h4 className="font-semibold text-sm text-gray-800 mb-1">
-                  {name}
-                </h4>
-                <p className="text-xs text-gray-500 mb-2">{code}</p>
+                <h4 className="font-semibold text-sm text-gray-800 mb-1 truncate">{name}</h4>
+                <p className="text-xs text-gray-500 mb-3 break-words">{code}</p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 mt-auto">
                 <input
                   type="number"
                   min="0"
@@ -735,6 +733,7 @@ const handleChange = (e) => {
                 <button
                   onClick={() => setSelectedProduct(code)}
                   className="text-blue-600 hover:text-blue-800 text-sm"
+                  title={`Configure ${name}`}
                 >
                   ⚙️
                 </button>
