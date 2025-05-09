@@ -688,8 +688,9 @@ const handleChange = (e) => {
         </div>
       )}
 
-   {/* Top-Level Product Selector and Sub-Product Grid */}
-      <div className="flex flex-col lg:flex-row items-start gap-6 border rounded p-4 bg-gray-50 shadow-sm">
+
+ {/* Top-Level Product Selector and Sub-Product Grid */}
+      <div className="flex flex-col lg:flex-row items-start gap-6 border rounded p-4 bg-emerald-50 shadow-sm">
         <div className="w-full lg:w-1/4">
           <label className="text-xs font-semibold block mb-2 text-gray-700 uppercase tracking-wide">
             Product/Structure Selector
@@ -716,6 +717,7 @@ const handleChange = (e) => {
             <div
               key={code}
               className="p-4 border rounded-lg bg-white shadow-sm hover:shadow-md transition flex flex-col justify-between h-full"
+              title={name}
             >
               <div>
                 <h4 className="font-semibold text-sm text-gray-800 mb-1 truncate">{name}</h4>
@@ -732,11 +734,12 @@ const handleChange = (e) => {
                 />
                 <button
                   onClick={() => setSelectedProduct(code)}
-                  className="text-blue-600 hover:text-blue-800 text-sm"
-                  title={`Configure ${name}`}
+                  className="text-green-600 hover:text-green-800 text-sm"
+                  title={`Set Quantity for ${name}`}
                 >
-                  ⚙️
+                  🔢
                 </button>
+      
               </div>
             </div>
           ))}
