@@ -813,7 +813,7 @@ const handleChange = (e) => {
                   type="text"
                   value={subProductInputs[selectedProduct]?.surfaceFinish || ''}
                   onChange={(e) => handleSubInputChange(selectedProduct, 'surfaceFinish', e.target.value)}
-                  placeholder="e.g. Trowelled, Brushed"
+                  placeholder="e.g. Basic, Higher Class"
                   className="border p-2 rounded text-xs"
                 />
               </div>
