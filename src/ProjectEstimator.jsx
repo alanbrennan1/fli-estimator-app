@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Settings } from "lucide-react";
 import './index.css';
 
   const productOptions = {
@@ -735,9 +734,9 @@ const handleChange = (e) => {
                 />
                 <button
                   onClick={() => setSelectedProduct(code)}
-                  className="text-blue-600 hover:text-blue-800"
+                  className="text-blue-600 hover:text-blue-800 text-sm"
                 >
-                  <Settings size={16} />
+                  ⚙️
                 </button>
               </div>
             </div>
