@@ -765,11 +765,11 @@ const handleChange = (e) => {
                 
                {["length", "width", "height", "baseThickness", "wallThickness", "sectionArea"].map((field) => {
   const labelMap = {
-    length: "Length (m)",
-    width: "Width (m)",
-    height: "Height (m)",
-    baseThickness: "Base Thickness (m)",
-    wallThickness: "Wall Thickness (m)",
+    length: "Length (mm)",
+    width: "Width (mm)",
+    height: "Height (mm)",
+    baseThickness: "Base Thickness (mm)",
+    wallThickness: "Wall Thickness (mm)",
     sectionArea: "Area of Section (m²)"
   };
   return (
