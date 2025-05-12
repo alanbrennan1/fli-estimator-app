@@ -8,7 +8,11 @@ import './index.css';
     { name: "Cable Trough 45°", code: "CT45" },
     { name: "Cable Trough Tee", code: "CTT" },
   ],
-  // Add other top-level product options as needed
+  Chambers: [
+  { name: "LV Chamber", code: "CH1" },
+  { name: "MV Chamber", code: "CH2" },
+],
+
 };
 
 function AccordionSection({ title, children }) {
