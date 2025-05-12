@@ -780,7 +780,7 @@ const handleChange = (e) => {
               <div className="mb-4">
                 <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Concrete</h5>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {["length", "width", "height", "baseThickness", "wallThickness", "sectionArea"].map((field) => {
+                  {["length", "width", "height", "baseThickness", "wallThickness"].map((field) => {
                     const labelMap = {
                       length: "Length (mm)",
                       width: "Width (mm)",
