@@ -808,7 +808,7 @@ const handleChange = (e) => {
                       <input
                         type="number"
                         value={subProductInputs[code]?.sectionArea || ''}
-                        onChange={(e) => handleSubInputChange(code, 'sectionArea', e.target.value)}
+                        onChange={(e) => handleSubInputChange(selectedProduct, 'sectionArea', e.target.value)}
                         className="border p-2 rounded text-xs w-24"
                         placeholder="e.g. 0.15"
                       />
@@ -819,7 +819,7 @@ const handleChange = (e) => {
                       <input
                         type="number"
                         value={subProductInputs[code]?.chamberDensity || ''}
-                        onChange={(e) => handleSubInputChange(code, 'chamberDensity', e.target.value)}
+                        onChange={(e) => handleSubInputChange(selectedProduct, 'chamberDensity', e.target.value)}
                         className="border p-2 rounded text-xs w-24"
                         placeholder="e.g. 2400"
                       />
