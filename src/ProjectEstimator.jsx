@@ -795,6 +795,7 @@ const handleChange = (e) => {
                           type="number"
                           value={subProductInputs[selectedProduct]?.[field] || ''}
                           onChange={(e) => handleSubInputChange(selectedProduct, field, e.target.value)}
+                          className="border p-2 rounded text-xs"
                         />
                       </div>
                     );
