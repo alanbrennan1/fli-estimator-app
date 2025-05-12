@@ -787,8 +787,7 @@ const handleChange = (e) => {
                       height: "Height (mm)",
                       baseThickness: "Base Thickness (mm)",
                       wallThickness: "Wall Thickness (mm)",
-                      sectionArea: "Area of Section (m²)"
-                    };
+                       };
                     return (
                       <div key={field} className="flex flex-col">
                         <label className="text-xs font-medium mb-1">{labelMap[field]}</label>
