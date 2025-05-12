@@ -807,7 +807,7 @@ const handleChange = (e) => {
                       <label className="text-xs font-medium mb-1">Area of Section (m²)</label>
                       <input
                         type="number"
-                        value={subProductInputs[code]?.sectionArea || ''}
+                        value={subProductInputs[selectedProduct]?.sectionArea || ''}
                         onChange={(e) => handleSubInputChange(selectedProduct, 'sectionArea', e.target.value)}
                         className="border p-2 rounded text-xs w-24"
                         placeholder="e.g. 0.15"
@@ -821,7 +821,7 @@ const handleChange = (e) => {
                         value={subProductInputs[selectedProduct]?.chamberDensity || ''}
                         onChange={(e) => handleSubInputChange(selectedProduct, 'chamberDensity', e.target.value)}
                         className="border p-2 rounded text-xs w-24"
-                        placeholder="e.g. 2400"
+                        placeholder="e.g. 90"
                       />
                     </div>
 
