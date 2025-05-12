@@ -802,6 +802,30 @@ const handleChange = (e) => {
                       </div>
                     );
                   })}
+
+                    <div className="flex flex-col">
+                      <label className="text-xs font-medium mb-1">Area of Section (m²)</label>
+                      <input
+                        type="number"
+                        value={subProductInputs[code]?.sectionArea || ''}
+                        onChange={(e) => handleSubInputChange(code, 'sectionArea', e.target.value)}
+                        className="border p-2 rounded text-xs w-24"
+                        placeholder="e.g. 0.15"
+                      />
+                    </div>
+
+                    <div className="flex flex-col">
+                      <label className="text-xs font-medium mb-1">Chamber Density (kg/m³)</label>
+                      <input
+                        type="number"
+                        value={subProductInputs[code]?.chamberDensity || ''}
+                        onChange={(e) => handleSubInputChange(code, 'chamberDensity', e.target.value)}
+                        className="border p-2 rounded text-xs w-24"
+                        placeholder="e.g. 2400"
+                      />
+                    </div>
+
+                  
                 </div>
               </div>
 
