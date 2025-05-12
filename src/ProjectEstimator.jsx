@@ -9,8 +9,7 @@ import './index.css';
     { name: "Cable Trough Tee", code: "CTT" },
   ],
   Chambers: [
-  { name: "LV Chamber", code: "CH1" },
-  { name: "MV Chamber", code: "CH2" },
+  { name: "Chamber", code: "CH" },
 ],
 
 };
