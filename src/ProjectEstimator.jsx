@@ -818,7 +818,7 @@ const handleChange = (e) => {
                       <label className="text-xs font-medium mb-1">Chamber Density (kg/m³)</label>
                       <input
                         type="number"
-                        value={subProductInputs[code]?.chamberDensity || ''}
+                        value={subProductInputs[selectedProduct]?.chamberDensity || ''}
                         onChange={(e) => handleSubInputChange(selectedProduct, 'chamberDensity', e.target.value)}
                         className="border p-2 rounded text-xs w-24"
                         placeholder="e.g. 2400"
