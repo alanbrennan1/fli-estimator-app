@@ -470,8 +470,6 @@ const computedBreakdowns = sourceBreakdowns.map(product => {
     subtotal *= 1 + safe(formData.margin) / 100;
 
     grandTotal += subtotal;
-    steelSubtotal += steelCost;
-    steelUnitTotal += steelKg;
     additionalSubtotal += additionalCost;
 
     return {
