@@ -385,7 +385,7 @@ const handleEstimate = () => {
 concrete: {
   volume: concreteVolume.toFixed(2),
   antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0) ? antiVol : undefined
-}
+},
        
         steel: { kg: steelKg.toFixed(2) },
         labour: { hours: labourHrs.toFixed(2) },
