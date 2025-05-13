@@ -32,19 +32,7 @@ function AccordionSection({ title, children }) {
 
 export default function ProjectEstimator() {
 
-    // Load pricing.json
-  const [pricingMap, setPricingMap] = useState({});
-useEffect(() => {
-  fetch('/pricing.json')
-    .then(response => response.json())
-    .then(data => {
-      // ✅ Convert array into a simple key:value object
-      const mappedData = {};
-      data.forEach(entry => {
-        mappedData[entry.item] = parseFloat(entry.price);
-      });
-
-      useEffect(() => {
+          useEffect(() => {
   fetch('/additionalItems.json')
     .then(res => res.json())
     .then(setAdditionalItemsData)
