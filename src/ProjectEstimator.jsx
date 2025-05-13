@@ -395,7 +395,7 @@ concrete: {
   antiVol: (inputs.antiFlotation === 'Yes' && inputs.antiFlotationVolume > 0)
     ? parseFloat(inputs.antiFlotationVolume).toFixed(2)
     : undefined
-}
+},
 
 
         steel: { kg: steelKg.toFixed(2) },
