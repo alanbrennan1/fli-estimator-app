@@ -353,11 +353,13 @@ const handleEstimate = () => {
 
         const chamberVol = (extPlan * extHeight) - (intPlan * height);
 
-        if (inputs.antiFlotation === 'Yes') {
-          const toeLength = safe(inputs.toeLength);
-          const toePlan = (length + wall * 2);
-          antiVol = ((toePlan * toeLength * base) * 2);
-        }
+if (inputs.antiFlotation === 'Yes') {
+  const toeLengthM = safe(inputs.toeLength);
+  const toeLength = toeLengthM * 1000; // convert m → mm
+  const toePlan = (length + wall * 2);
+  antiVol = ((toePlan * toeLength * base) * 2);
+}
+
 
         concreteVolume = chamberVol + antiVol;
         inputs.antiFlotationVolume = antiVol;
@@ -1186,16 +1188,14 @@ const handleChange = (e) => {
             
             <td className="border p-2 text-center">{quantity}</td>
             <td className="border p-2 text-center">
-              {(concreteVol / 1_000_000_000).toFixed(2)} m³
-              <div className="text-gray-500 text-[10px]">€{concreteCost.toFixed(2)}</div>
-             {antiVol !== undefined && antiVol > 0 && (
-  <div className="text-gray-400 text-[10px] italic">
-    (+{(antiVol / 1_000_000_000).toFixed(2)} m³ anti-flotation)
-  </div>
-)}
-
-           
-            </td>
+  {(concreteVol / 1_000_000_000).toFixed(2)} m³
+  <div className="text-gray-500 text-[10px]">€{concreteCost.toFixed(2)}</div>
+  {antiVol && antiVol > 0 && (
+    <div className="text-gray-400 text-[10px] italic">
+      (+{(antiVol / 1_000_000_000).toFixed(2)} m³ anti-flotation)
+    </div>
+  )}
+</td>
             <td className="border p-2 text-center">
               {steelKg.toFixed(2)}
               <div className="text-gray-500 text-[10px]">€{steelCost.toFixed(2)}</div>
