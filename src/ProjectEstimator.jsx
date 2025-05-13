@@ -850,6 +850,8 @@ const handleChange = (e) => {
        
           </div>
 
+      {selectedProduct && (
+      <>
           <div className="p-4 border rounded bg-white">
             <h3 className="text-md font-semibold text-blue-700 mb-2">
               Configure: {selectedProduct}
@@ -1047,8 +1049,8 @@ const handleChange = (e) => {
   </> 
       )}
 
-{selectedSubProducts.length > 0 && selectedProduct && (
-  <>
+    
+  {/* ✅ Inputs - Unique */}
     <div className="mb-6 border border-gray-300 rounded-lg p-4 bg-gray-50">
       <h4 className="text-xs font-bold uppercase text-gray-700 mb-4 tracking-wider border-b pb-2">
         Inputs - Unique
@@ -1137,8 +1139,7 @@ const handleChange = (e) => {
   </>
 )}
 
-
-      
+     
     </AccordionSection>
 
         
