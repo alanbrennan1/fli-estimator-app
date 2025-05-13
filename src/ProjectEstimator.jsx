@@ -472,8 +472,6 @@ const computedBreakdowns = sourceBreakdowns.map(product => {
     grandTotal += subtotal;
     steelSubtotal += steelCost;
     steelUnitTotal += steelKg;
-    labourSubtotal += labourCost;
-    labourUnitTotal += labourHrs;
     additionalSubtotal += additionalCost;
 
     return {
