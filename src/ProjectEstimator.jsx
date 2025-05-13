@@ -389,7 +389,8 @@ if (inputs.antiFlotation === 'Yes') {
         quantity,
 concrete: {
   volume: concreteVolume.toFixed(2),
-  antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0) ? (antiVol * quantity).toFixed(2) : undefined
+  antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0) ? antiVol.toFixed(2) : undefined
+
 
 },
        
