@@ -338,8 +338,29 @@ const handleEstimate = () => {
       const length = safe(inputs.length);
       const width = safe(inputs.width);
       const height = safe(inputs.height);
-      // Placeholder concrete volume, will be overwritten for Chambers if applicable
-      let concreteVolume = length * width * height * quantity; // default fallback
+
+      let concreteVolume = length * width * height; // initial estimate
+      let antiVol = 0;
+
+      if (productName.startsWith('CH')) {
+        const wall = safe(inputs.wallThickness);
+        const base = safe(inputs.baseThickness);
+        const extPlan = (length + wall * 2) * (width + wall * 2);
+        const intPlan = length * width;
+        const extHeight = height + base;
+
+        const chamberVol = (extPlan * extHeight) - (intPlan * height);
+
+        if (inputs.antiFlotation === 'Yes') {
+          const toeLength = safe(inputs.toeLength);
+          const toePlan = (length + wall * 2);
+          antiVol = ((toePlan * toeLength * base) * 2);
+        }
+
+        concreteVolume = chamberVol + antiVol;
+        inputs.antiFlotationVolume = antiVol;
+      }
+
       const steelKg = concreteVolume * 120;
       const labourHrs = safe(inputs.labourHours);
 
@@ -355,56 +376,24 @@ const handleEstimate = () => {
         }
       });
 
-      // 🧮 Custom Chamber Volume Logic
-      let antiVol = 0;
-      let extPlan = 0;
-      let intPlan = 0;
-      let extHeight = 0;
-
-      if (productName.startsWith('CH')) {
-        const wall = safe(inputs.wallThickness);
-        const base = safe(inputs.baseThickness);
-        extPlan = (length + wall * 2) * (width + wall * 2);
-        intPlan = length * width;
-        extHeight = height + base;
-
-        if (inputs.antiFlotation === 'Yes') {
-          const toeLength = safe(inputs.toeLength);
-          const toePlan = (length + wall * 2);
-          antiVol = ((toePlan * toeLength * base) * 2);
-        }
-
-        const chamberVol = (extPlan * extHeight) - (intPlan * height);
-        concreteVolume = chamberVol + antiVol;
-        inputs.antiFlotationVolume = antiVol;
-      }
-
-
-
-      
-      // 💡 Generate Product Code
       const productCode = buildProductCode(productName, inputs);
-      console.log('Generated Product Code:', productCode);
-      
-     sourceBreakdowns.push({
+
+      sourceBreakdowns.push({
         name: productName,
-        productCode: buildProductCode(productName, inputs),
+        productCode,
         quantity,
-concrete: {
-  volume: concreteVolume.toFixed(2),
-  antiVol: (inputs.antiFlotation === 'Yes' && inputs.antiFlotationVolume > 0)
-    ? parseFloat(inputs.antiFlotationVolume).toFixed(2)
-    : undefined
-},
-
-
+        concrete: {
+          volume: concreteVolume.toFixed(2),
+          antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0) ? antiVol.toFixed(2) : undefined
+        },
+        
         steel: { kg: steelKg.toFixed(2) },
         labour: { hours: labourHrs.toFixed(2) },
-        productCode,
         ...additionalMapped
       });
     });
   }
+
 
   const designFields = [
     'proposalHours', 'designMeetingsHours', 'structuralDesignHours', 'revitModelHours',
