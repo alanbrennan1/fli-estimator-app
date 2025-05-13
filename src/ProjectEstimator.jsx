@@ -426,9 +426,6 @@ let additionalSubtotal = 0;
 let additionalUnitTotal = 0;
 let grandTotal = 0;
 
-// 🧮 Fix subtotal unit formatting (convert mm³ → m³)
-concreteUnitTotal = parseFloat((concreteUnitTotal / 1_000_000_000).toFixed(2));
-steelUnitTotal = parseFloat((steelUnitTotal / 1000).toFixed(2));
 concreteSubtotal = parseFloat(concreteSubtotal.toFixed(2));
 steelSubtotal = parseFloat(steelSubtotal.toFixed(2));
 
