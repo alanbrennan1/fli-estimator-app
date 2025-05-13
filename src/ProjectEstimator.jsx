@@ -768,29 +768,29 @@ const handleChange = (e) => {
         </div>
       </div>
 
-      {selectedSubProducts.length > 0 && (
+{selectedSubProducts.length > 0 && (
+  <>
+    {topLevelProduct === 'Chambers' && (
+      <div className="mb-4 text-sm text-blue-800 bg-blue-50 border border-blue-300 rounded p-2 shadow-sm">
+        💡 Tip: You may want to add a <strong>Cover Slab</strong> to your chamber configuration.
+      </div>
+    )}
 
-topLevelProduct === 'Chambers' && (
-  <div className="mb-4 text-sm text-blue-800 bg-blue-50 border border-blue-300 rounded p-2 shadow-sm">
-    💡 Tip: You may want to add a <strong>Cover Slab</strong> to your chamber configuration.
-  </div>
-)
-
-  
-        <div className="mt-6">
-          <div className="flex gap-2 border-b pb-2 mb-4">
-            {selectedSubProducts.map(({ code }) => (
-              <button
-                key={code}
-                onClick={() => setSelectedProduct(code)}
-                className={`px-4 py-1 rounded-t text-sm font-medium transition ${
-                  selectedProduct === code
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                }`}
-              >
-                {code}
-              </button>
+    <div className="mt-6">
+      <div className="flex gap-2 border-b pb-2 mb-4">
+        {selectedSubProducts.map(({ code }) => (
+          <button
+            key={code}
+            onClick={() => setSelectedProduct(code)}
+            className={`px-4 py-1 rounded-t text-sm font-medium transition ${
+              selectedProduct === code
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }`}
+          >
+            {code}
+          </button>
+            
             ))}
           </div>
 
