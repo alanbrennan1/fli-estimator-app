@@ -851,206 +851,179 @@ const handleChange = (e) => {
           </div>
 
       {selectedProduct && (
-      <>
-          <div className="p-4 border rounded bg-white">
-            <h3 className="text-md font-semibold text-blue-700 mb-2">
-              Configure: {selectedProduct}
-            </h3>
+  <>
+    {/* ✅ Inputs - Common */}
+    <div className="p-4 border rounded bg-white">
+      <h3 className="text-md font-semibold text-blue-700 mb-2">
+        Configure: {selectedProduct}
+      </h3>
 
-            <div className="mb-6 border border-gray-300 rounded-lg p-4 bg-gray-50">
-              <h4 className="text-xs font-bold uppercase text-gray-700 mb-4 tracking-wider border-b pb-2 sticky top-[30px] bg-gray-50 z-10">
-                Inputs - Common
-              </h4>
+      <div className="mb-6 border border-gray-300 rounded-lg p-4 bg-gray-50">
+        <h4 className="text-xs font-bold uppercase text-gray-700 mb-4 tracking-wider border-b pb-2 sticky top-[30px] bg-gray-50 z-10">
+          Inputs - Common
+        </h4>
 
-              <div className="mb-4">
-                <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Concrete</h5>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {["length", "width", "height", "baseThickness", "wallThickness"].map((field) => {
-                    const labelMap = {
-                      length: "Length (mm)",
-                      width: "Width (mm)",
-                      height: "Height (mm)",
-                      baseThickness: "Base Thickness (mm)",
-                      wallThickness: "Wall Thickness (mm)",
-                       };
+        {/* Concrete Inputs */}
+        <div className="mb-4">
+          <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Concrete</h5>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {["length", "width", "height", "baseThickness", "wallThickness"].map((field) => {
+              const labelMap = {
+                length: "Length (mm)",
+                width: "Width (mm)",
+                height: "Height (mm)",
+                baseThickness: "Base Thickness (mm)",
+                wallThickness: "Wall Thickness (mm)",
+              };
 
-          
-                    return (
-                      <div key={field} className="flex flex-col">
-                        <label className="text-xs font-medium mb-1">{labelMap[field]}</label>
-                        <input
-                          type="number"
-                          value={subProductInputs[selectedProduct]?.[field] || ''}
-                          onChange={(e) => handleSubInputChange(selectedProduct, field, e.target.value)}
-                          className="border p-2 rounded text-xs"
-                        />
-                      </div>
-                    );
-                  })}
-
-                    <div className="flex flex-col">
-                      <label className="text-xs font-medium mb-1">Area of Section (m²)</label>
-                      <input
-                        type="number"
-                        value={subProductInputs[selectedProduct]?.sectionArea || ''}
-                        onChange={(e) => handleSubInputChange(selectedProduct, 'sectionArea', e.target.value)}
-                        className="border p-2 rounded text-xs w-24"
-                        placeholder="e.g. 0.15"
-                      />
-                    </div>
-
-                    <div className="flex flex-col">
-                      <label className="text-xs font-medium mb-1">Chamber Density (kg/m³)</label>
-                      <input
-                        type="number"
-                        value={subProductInputs[selectedProduct]?.chamberDensity || ''}
-                        onChange={(e) => handleSubInputChange(selectedProduct, 'chamberDensity', e.target.value)}
-                        className="border p-2 rounded text-xs w-24"
-                        placeholder="e.g. 90"
-                      />
-                    </div>
-
-                  
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="flex flex-col">
-                  <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Steel/Fibres</h5>
-                  <select
-                    value={subProductInputs[selectedProduct]?.steelGrade || ''}
-                    onChange={(e) => handleSubInputChange(selectedProduct, 'steelGrade', e.target.value)}
-                    className="border p-2 rounded text-xs"
-                  >
-                    <option value="">Select Steel Grade</option>
-                    <option value="B125">B125</option>
-                    <option value="C250">C250</option>
-                    <option value="D400">D400</option>
-                    <option value="E600">E600</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-                <div className="flex flex-col">
-                  <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Surface Finish</h5>
-                  <select
-                    value={subProductInputs[selectedProduct]?.surfaceFinish || ''}
-                    onChange={(e) => handleSubInputChange(selectedProduct, 'surfaceFinish', e.target.value)}
-                    className="border p-2 rounded text-xs bg-white"
-                  >
-                    <option value="">Select Finish</option>
-                    <option value="F1">F1 (Basic)</option>
-                    <option value="F2">F2 (Higher Class)</option>
-                  </select>
-                </div>
-                <div className="flex flex-col">
-                  <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Labour</h5>
+              return (
+                <div key={field} className="flex flex-col">
+                  <label className="text-xs font-medium mb-1">{labelMap[field]}</label>
                   <input
                     type="number"
-                    name="labourHours"
-                    value={subProductInputs[selectedProduct]?.labourHours || ''}
-                    onChange={(e) => handleSubInputChange(selectedProduct, 'labourHours', e.target.value)}
-                    placeholder="Labour Hrs/Unit"
+                    value={subProductInputs[selectedProduct]?.[field] || ''}
+                    onChange={(e) => handleSubInputChange(selectedProduct, field, e.target.value)}
                     className="border p-2 rounded text-xs"
                   />
                 </div>
+              );
+            })}
 
-{selectedProduct?.startsWith('CH') && (
-  <div className="mt-6">
-    <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
-      Chamber Options
-    </h4>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div className="flex flex-col">
-        <label className="text-xs font-medium mb-1">Anti Flotation</label>
-        <select
-          value={subProductInputs[selectedProduct]?.antiFlotation || ''}
-          onChange={(e) => handleSubInputChange(selectedProduct, 'antiFlotation', e.target.value)}
-          className="border p-2 rounded text-xs"
-        >
-          <option value="">Select</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-      </div>
-      <div className="flex flex-col">
-        <label className="text-xs font-medium mb-1">Toe Length (m)</label>
-        <input
-          type="text"
-          value={subProductInputs[selectedProduct]?.toeLength || ''}
-          onChange={(e) => handleSubInputChange(selectedProduct, 'toeLength', e.target.value)}
-          className="border p-2 rounded text-xs"
-          placeholder="Qty 2"
-        />
-      </div>
-    </div>
-  </div>
-)}
+            <div className="flex flex-col">
+              <label className="text-xs font-medium mb-1">Area of Section (m²)</label>
+              <input
+                type="number"
+                value={subProductInputs[selectedProduct]?.sectionArea || ''}
+                onChange={(e) => handleSubInputChange(selectedProduct, 'sectionArea', e.target.value)}
+                className="border p-2 rounded text-xs w-24"
+                placeholder="e.g. 0.15"
+              />
+            </div>
 
-{selectedProduct === 'CS' && (
-  <div className="mt-6">
-    <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
-      Cover Slab Options
-    </h4>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div className="flex flex-col">
-        <label className="text-xs font-medium mb-1">Opening Length (mm)</label>
-        <input
-          type="number"
-          value={subProductInputs[selectedProduct]?.openingLength || ''}
-          onChange={(e) => handleSubInputChange(selectedProduct, 'openingLength', e.target.value)}
-          className="border p-2 rounded text-xs"
-        />
-      </div>
-      <div className="flex flex-col">
-        <label className="text-xs font-medium mb-1">Opening Width (mm)</label>
-        <input
-          type="number"
-          value={subProductInputs[selectedProduct]?.openingWidth || ''}
-          onChange={(e) => handleSubInputChange(selectedProduct, 'openingWidth', e.target.value)}
-          className="border p-2 rounded text-xs"
-        />
-      </div>
-      <div className="flex flex-col">
-        <label className="text-xs font-medium mb-1">Roof Slab Height (mm)</label>
-        <input
-          type="number"
-          value={subProductInputs[selectedProduct]?.roofHeight || ''}
-          onChange={(e) => handleSubInputChange(selectedProduct, 'roofHeight', e.target.value)}
-          className="border p-2 rounded text-xs"
-        />
-      </div>
-      <div className="flex flex-col">
-        <label className="text-xs font-medium mb-1">Roof Slab Thickness (mm)</label>
-        <input
-          type="number"
-          value={subProductInputs[selectedProduct]?.roofThickness || ''}
-          onChange={(e) => handleSubInputChange(selectedProduct, 'roofThickness', e.target.value)}
-          className="border p-2 rounded text-xs"
-        />
-      </div>
-      <div className="flex flex-col">
-        <label className="text-xs font-medium mb-1">Roof Slab Density (kg/m³)</label>
-        <input
-          type="number"
-          value={subProductInputs[selectedProduct]?.roofDensity || ''}
-          onChange={(e) => handleSubInputChange(selectedProduct, 'roofDensity', e.target.value)}
-          className="border p-2 rounded text-xs"
-        />
-      </div>
-    </div>
-  </div>
-)}
-                
-              </div>
+            <div className="flex flex-col">
+              <label className="text-xs font-medium mb-1">Chamber Density (kg/m³)</label>
+              <input
+                type="number"
+                value={subProductInputs[selectedProduct]?.chamberDensity || ''}
+                onChange={(e) => handleSubInputChange(selectedProduct, 'chamberDensity', e.target.value)}
+                className="border p-2 rounded text-xs w-24"
+                placeholder="e.g. 90"
+              />
             </div>
           </div>
         </div>
 
-  </> 
-      )}
+        {/* Steel / Labour */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="flex flex-col">
+            <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Steel/Fibres</h5>
+            <select
+              value={subProductInputs[selectedProduct]?.steelGrade || ''}
+              onChange={(e) => handleSubInputChange(selectedProduct, 'steelGrade', e.target.value)}
+              className="border p-2 rounded text-xs"
+            >
+              <option value="">Select Steel Grade</option>
+              <option value="B125">B125</option>
+              <option value="C250">C250</option>
+              <option value="D400">D400</option>
+              <option value="E600">E600</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
 
-    
-  {/* ✅ Inputs - Unique */}
+          <div className="flex flex-col">
+            <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Surface Finish</h5>
+            <select
+              value={subProductInputs[selectedProduct]?.surfaceFinish || ''}
+              onChange={(e) => handleSubInputChange(selectedProduct, 'surfaceFinish', e.target.value)}
+              className="border p-2 rounded text-xs bg-white"
+            >
+              <option value="">Select Finish</option>
+              <option value="F1">F1 (Basic)</option>
+              <option value="F2">F2 (Higher Class)</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col">
+            <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Labour</h5>
+            <input
+              type="number"
+              name="labourHours"
+              value={subProductInputs[selectedProduct]?.labourHours || ''}
+              onChange={(e) => handleSubInputChange(selectedProduct, 'labourHours', e.target.value)}
+              placeholder="Labour Hrs/Unit"
+              className="border p-2 rounded text-xs"
+            />
+          </div>
+        </div>
+
+        {/* Chamber Options */}
+        {selectedProduct?.startsWith('CH') && (
+          <div className="mt-6">
+            <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
+              Chamber Options
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="flex flex-col">
+                <label className="text-xs font-medium mb-1">Anti Flotation</label>
+                <select
+                  value={subProductInputs[selectedProduct]?.antiFlotation || ''}
+                  onChange={(e) => handleSubInputChange(selectedProduct, 'antiFlotation', e.target.value)}
+                  className="border p-2 rounded text-xs"
+                >
+                  <option value="">Select</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+              <div className="flex flex-col">
+                <label className="text-xs font-medium mb-1">Toe Length (m)</label>
+                <input
+                  type="text"
+                  value={subProductInputs[selectedProduct]?.toeLength || ''}
+                  onChange={(e) => handleSubInputChange(selectedProduct, 'toeLength', e.target.value)}
+                  className="border p-2 rounded text-xs"
+                  placeholder="Qty 2"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Cover Slab Options */}
+        {selectedProduct === 'CS' && (
+          <div className="mt-6">
+            <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
+              Cover Slab Options
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {["openingLength", "openingWidth", "roofHeight", "roofThickness", "roofDensity"].map((field, idx) => {
+                const labelMap = {
+                  openingLength: "Opening Length (mm)",
+                  openingWidth: "Opening Width (mm)",
+                  roofHeight: "Roof Slab Height (mm)",
+                  roofThickness: "Roof Slab Thickness (mm)",
+                  roofDensity: "Roof Slab Density (kg/m³)",
+                };
+                return (
+                  <div key={idx} className="flex flex-col">
+                    <label className="text-xs font-medium mb-1">{labelMap[field]}</label>
+                    <input
+                      type="number"
+                      value={subProductInputs[selectedProduct]?.[field] || ''}
+                      onChange={(e) => handleSubInputChange(selectedProduct, field, e.target.value)}
+                      className="border p-2 rounded text-xs"
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+
+    {/* ✅ Inputs - Unique */}
     <div className="mb-6 border border-gray-300 rounded-lg p-4 bg-gray-50">
       <h4 className="text-xs font-bold uppercase text-gray-700 mb-4 tracking-wider border-b pb-2">
         Inputs - Unique
@@ -1060,7 +1033,7 @@ const handleChange = (e) => {
         <>
           {(subProductInputs[selectedProduct]?.uniqueItems || [{}]).map((entry, idx) => (
             <div key={idx} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3 p-3 bg-white rounded-lg shadow-sm">
-              {/* Category Selector */}
+              {/* Category */}
               <div className="flex flex-col">
                 <label className="text-xs font-medium mb-1 text-gray-600">Category</label>
                 <select
@@ -1081,7 +1054,7 @@ const handleChange = (e) => {
                 </select>
               </div>
 
-              {/* Item Selector */}
+              {/* Item */}
               <div className="flex flex-col">
                 <label className="text-xs font-medium mb-1 text-gray-600">Item</label>
                 <select
@@ -1101,7 +1074,7 @@ const handleChange = (e) => {
                 </select>
               </div>
 
-              {/* Quantity Input */}
+              {/* Quantity */}
               <div className="flex flex-col">
                 <label className="text-xs font-medium mb-1 text-gray-600">Quantity</label>
                 <input
@@ -1120,7 +1093,7 @@ const handleChange = (e) => {
             </div>
           ))}
 
-          {/* ➕ Add New Line Button */}
+          {/* Add New Item Button */}
           <button
             type="button"
             onClick={() => {
