@@ -792,6 +792,8 @@ const handleChange = (e) => {
           </button>
             
             ))}
+
+       
           </div>
 
           <div className="p-4 border rounded bg-white">
@@ -899,6 +901,8 @@ const handleChange = (e) => {
             </div>
           </div>
         </div>
+
+  </> 
       )}
     </AccordionSection>
 
