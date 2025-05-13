@@ -407,7 +407,6 @@ sourceBreakdowns.push({
   ...additionalMapped
 });
 
-  }
 
 
   const designFields = [
