@@ -355,12 +355,14 @@ const handleEstimate = () => {
       const productCode = buildProductCode(productName, inputs);
       console.log('Generated Product Code:', productCode);
       
-      sourceBreakdowns.push({
+     sourceBreakdowns.push({
         name: productName,
+        productCode,
         quantity,
         concrete: { volume: concreteVolume.toFixed(2) },
         steel: { kg: steelKg.toFixed(2) },
         labour: { hours: labourHrs.toFixed(2) },
+        productCode,
         ...additionalMapped
       });
     });
