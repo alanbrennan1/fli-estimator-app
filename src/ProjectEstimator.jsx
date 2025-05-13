@@ -1193,7 +1193,7 @@ const handleChange = (e) => {
         return (
           <tr key={idx} className="border-b">
 
-<td className="border p-2 fconcreteVolume = (chamberVol ont-medium text-sm">
+<td className="border p-2 concreteVolume = (chamberVol ont-medium text-sm">
   {product.productCode ? (
     <>
       <div className="text-blue-800 font-semibold text-xs">{product.productCode}</div>
