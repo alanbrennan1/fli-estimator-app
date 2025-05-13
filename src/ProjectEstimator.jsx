@@ -361,7 +361,8 @@ if (inputs.antiFlotation === 'Yes') {
 }
 
 
-        concreteVolume = chamberVol + antiVol;
+        concreteVolume = (chamberVol + antiVol) * quantity;
+
         inputs.antiFlotationVolume = antiVol;
       }
 
@@ -388,7 +389,8 @@ if (inputs.antiFlotation === 'Yes') {
         quantity,
 concrete: {
   volume: concreteVolume.toFixed(2),
-  antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0) ? antiVol : undefined
+  antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0) ? (antiVol * quantity).toFixed(2) : undefined
+
 },
        
         steel: { kg: steelKg.toFixed(2) },
@@ -1175,7 +1177,7 @@ const handleChange = (e) => {
         return (
           <tr key={idx} className="border-b">
 
-<td className="border p-2 font-medium text-sm">
+<td className="border p-2 fconcreteVolume = (chamberVol ont-medium text-sm">
   {product.productCode ? (
     <>
       <div className="text-blue-800 font-semibold text-xs">{product.productCode}</div>
@@ -1192,7 +1194,7 @@ const handleChange = (e) => {
   <div className="text-gray-500 text-[10px]">€{concreteCost.toFixed(2)}</div>
   {antiVol && antiVol > 0 && (
     <div className="text-gray-400 text-[10px] italic">
-      (incl.{(antiVol / 1_000_000_000).toFixed(2)} m³ anti-flot.)
+      (incl. {(antiVol / 1_000_000_000).toFixed(2)} m³ anti-flot.)
     </div>
   )}
 </td>
