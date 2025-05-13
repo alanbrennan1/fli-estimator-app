@@ -1192,7 +1192,7 @@ const handleChange = (e) => {
   <div className="text-gray-500 text-[10px]">€{concreteCost.toFixed(2)}</div>
   {antiVol && antiVol > 0 && (
     <div className="text-gray-400 text-[10px] italic">
-      (+{(antiVol / 1_000_000_000).toFixed(2)} m³ anti-flotation)
+      (incl.{(antiVol / 1_000_000_000).toFixed(2)} m³ anti-flot.)
     </div>
   )}
 </td>
