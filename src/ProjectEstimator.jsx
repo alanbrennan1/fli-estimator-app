@@ -360,7 +360,6 @@ if (inputs.antiFlotation === 'Yes') {
   antiVol = ((toePlan * toeLength * base) * 2);
 }
 
-
         concreteVolume = (chamberVol + antiVol) * quantity;
 
         inputs.antiFlotationVolume = antiVol * quantity;
@@ -369,7 +368,6 @@ if (inputs.antiFlotation === 'Yes') {
 
       const steelKg = concreteVolume * 120;
       const labourHrs = safe(inputs.labourHours);
-
       const additionalItems = inputs.additionalItems || {};
       const additionalMapped = {};
 
@@ -383,6 +381,9 @@ if (inputs.antiFlotation === 'Yes') {
       });
 
       const productCode = buildProductCode(productName, inputs);
+      const concreteCost = parseFloat((concreteVolume * 137.21).toFixed(2));
+    const steelCost = parseFloat((steelKg * 0.8).toFixed(2));
+    const labourCost = parseFloat((labourHrs * 70.11).toFixed(2));
 
 sourceBreakdowns.push({
   name: productName,
@@ -405,8 +406,7 @@ sourceBreakdowns.push({
   },
   ...additionalMapped
 });
-      
-    });
+
   }
 
 
@@ -443,10 +443,6 @@ sourceBreakdowns.push({
     const concreteVol = safe(product.concrete?.volume);
     const steelKg = safe(product.steel?.kg);
     const labourHrs = safe(product.labour?.hours);
-
-const concreteCost = parseFloat((concreteVolume * 137.21).toFixed(2));
-const steelCost = parseFloat((steelKg * 0.8).toFixed(2));
-const labourCost = parseFloat((labourHrs * 70.11).toFixed(2));
 
     let additionalCost = 0;
     const additionalItems = [];
