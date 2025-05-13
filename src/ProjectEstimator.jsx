@@ -362,9 +362,7 @@ const handleEstimate = () => {
       let extHeight = 0;
       // removed duplicate declaration of concreteVolume (already declared above)
       if (productName.startsWith('CH')) {
-        const wall = safe(inputs.wallThickness);
-        const base = safe(inputs.baseThickness);
-
+  
         extPlan = (length + wall * 2) * (width + wall * 2);
         intPlan = length * width;
         extHeight = height + base;
