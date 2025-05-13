@@ -354,6 +354,21 @@ const handleEstimate = () => {
         }
       });
 
+      // 🧮 Custom Chamber Volume Logic
+      let concreteVolume = length * width * height; // default fallback
+      if (productName.startsWith('CH')) {
+        const wall = safe(inputs.wallThickness);
+        const base = safe(inputs.baseThickness);
+        const antiVol = safe(inputs.antiFlotationVolume || 0); // default to 0 if not present
+
+        const extPlan = (length + wall * 2) * (width + wall * 2);
+        const intPlan = length * width;
+        const extHeight = height + base;
+
+        const chamberVol = (extPlan * extHeight) - (intPlan * (height));
+        concreteVolume = (chamberVol + antiVol);
+      }
+      
       // 💡 Generate Product Code
       const productCode = buildProductCode(productName, inputs);
       console.log('Generated Product Code:', productCode);
