@@ -383,7 +383,7 @@ if (inputs.antiFlotation === 'Yes') {
       concreteSubtotal += concreteCost;
       concreteUnitTotal += concreteVolume / 1_000_000_000; // convert to m³
       steelSubtotal += steelCost;
-      steelUnitTotal += steelKg / 1000; // convert to tonnes
+      steelUnitTotal += steelKg
       labourSubtotal += labourCost;
       labourUnitTotal += labourHrs;
 
@@ -1242,11 +1242,12 @@ const handleChange = (e) => {
           </div>
         </td>
         <td className="border p-2 text-center">
-          {breakdown.subtotals?.steel?.units?.toFixed(2)} kg/m³
-          <div className="text-gray-500 text-[10px]">
-            €{breakdown.subtotals?.steel?.cost?.toFixed(2)}
-          </div>
-        </td>
+  {breakdown.subtotals?.steel?.units?.toFixed(2)} kg
+  <div className="text-gray-500 text-[10px]">
+    €{breakdown.subtotals?.steel?.cost?.toFixed(2)}
+  </div>
+</td>
+
         <td className="border p-2 text-center">
           {breakdown.subtotals?.labour?.units?.toFixed(2)} hrs
           <div className="text-gray-500 text-[10px]">
