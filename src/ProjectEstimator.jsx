@@ -32,12 +32,24 @@ function AccordionSection({ title, children }) {
 
 export default function ProjectEstimator() {
 
-          useEffect(() => {
+useEffect(() => {
   fetch('/additionalItems.json')
     .then(res => res.json())
-    .then(setAdditionalItemsData)
+    .then(data => {
+      // Normalize keys
+      const normalized = {};
+      for (const category in data) {
+        normalized[category] = data[category].map(entry => ({
+          item: entry["Item"],
+          materialCost: entry["Material Cost"]
+        }));
+      }
+      console.log("Normalized additional items:", normalized);
+      setAdditionalItemsData(normalized);
+    })
     .catch(err => console.error("Failed to load additionalItems.json:", err));
 }, []);
+
 
      
     const sectorProductMap = {
