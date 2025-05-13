@@ -1089,7 +1089,18 @@ function buildProductCode(code, inputs) {
 
         return (
           <tr key={idx} className="border-b">
-            <td className="border p-2 font-medium text-sm">{product.name}</td>
+
+<td className="border p-2 font-medium text-sm">
+  {product.productCode ? (
+    <>
+      <div className="text-blue-800 font-semibold">{product.productCode}</div>
+      <div className="text-gray-500 text-[10px] italic">{product.name}</div>
+    </>
+  ) : (
+    product.name
+  )}
+</td>
+            
             <td className="border p-2 text-center">{quantity}</td>
             <td className="border p-2 text-center">
               {concreteVol.toFixed(2)}
