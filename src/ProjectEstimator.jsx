@@ -445,8 +445,6 @@ steelSubtotal = parseFloat(steelSubtotal.toFixed(2));
   const installationDays = safe(formData.installationDays);
   const installationCost = installationDays * installationRate;
 
-  let grandTotal = 0;
-
 const computedBreakdowns = sourceBreakdowns.map(product => {
   const quantity = safe(product.quantity);
   const concreteVol = safe(product.concrete?.volume);
