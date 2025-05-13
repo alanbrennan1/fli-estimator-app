@@ -152,9 +152,12 @@ const getUnitPrice = (itemName) => {
   const [useSketchup, setUseSketchup] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [topLevelProduct, setTopLevelProduct] = useState("");
+  const [configuredProductTypes, setConfiguredProductTypes] = useState(new Set());
 
+  const allSubProducts = Array.from(configuredProductTypes).flatMap(type => productOptions[type] || []);
   const subProducts = productOptions[topLevelProduct] || [];
-  const selectedSubProducts = subProducts.filter(
+
+const selectedSubProducts = allSubProducts.filter(
     ({ code }) => parseInt(subProductInputs[code]?.quantity) > 0
   );
 
@@ -719,7 +722,12 @@ const handleChange = (e) => {
           </label>
           <select
             value={topLevelProduct}
-            onChange={(e) => setTopLevelProduct(e.target.value)}
+            onChange={(e) => {
+  const newProductType = e.target.value;
+  setTopLevelProduct(newProductType);
+  setConfiguredProductTypes(prev => new Set([...prev, newProductType]));
+}}
+
             className="w-full border p-2 rounded text-sm bg-white shadow-sm focus:ring-2 focus:ring-blue-400"
           >
             <option value="">Select Structure</option>
