@@ -157,6 +157,12 @@ const selectedSubProducts = allSubProducts.filter(
     ({ code }) => parseInt(subProductInputs[code]?.quantity) > 0
   );
 
+  setConfiguredProductTypes(prev => {
+  const newSet = new Set(prev);
+  newSet.add(newProductType);
+  return new Set(newSet); // triggers re-render
+});
+
   
 const handleSketchUpUpload = (e) => {
   const file = e.target.files[0];
@@ -816,6 +822,10 @@ const handleChange = (e) => {
       ))}
     </div>
   </div>
+
+  console.log("Inputs Map", subProductInputs);
+  <p>Debug: topLevelProduct={topLevelProduct}, selected={selectedProduct}, subs={selectedSubProducts.length}</p>
+
 
   {/* Inputs-Common and Inputs-Unique only show after a top-level product is selected */}
   {topLevelProduct && selectedSubProducts.length > 0 && selectedProduct && (
