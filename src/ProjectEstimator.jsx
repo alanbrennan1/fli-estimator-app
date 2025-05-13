@@ -338,6 +338,10 @@ const handleEstimate = () => {
         }
       });
 
+      // 💡 Generate Product Code
+      const productCode = buildProductCode(productName, inputs);
+
+      
       sourceBreakdowns.push({
         name: productName,
         quantity,
