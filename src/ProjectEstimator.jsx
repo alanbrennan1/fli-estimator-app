@@ -381,7 +381,7 @@ if (inputs.antiFlotation === 'Yes') {
       });
 
       const productCode = buildProductCode(productName, inputs);
-      const concreteCost = parseFloat((concreteVolume * 137.21).toFixed(2));
+      const concreteCost = parseFloat(((concreteVolume / 1_000_000_000) * 137.21).toFixed(2));
     const steelCost = parseFloat((steelKg * 0.8).toFixed(2));
     const labourCost = parseFloat((labourHrs * 70.11).toFixed(2));
 
