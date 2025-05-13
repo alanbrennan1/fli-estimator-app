@@ -11,6 +11,9 @@ import './index.css';
   Chambers: [
   { name: "Chamber", code: "CH" },
 ],
+  Slabs: [
+  { name: "Cover Slab", code: "CS" },
+  ],
 
 };
 
@@ -972,6 +975,60 @@ const handleChange = (e) => {
   </div>
 )}
 
+{selectedProduct === 'CS' && (
+  <div className="mt-6">
+    <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
+      Cover Slab Options
+    </h4>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="flex flex-col">
+        <label className="text-xs font-medium mb-1">Opening Length (mm)</label>
+        <input
+          type="number"
+          value={subProductInputs[selectedProduct]?.openingLength || ''}
+          onChange={(e) => handleSubInputChange(selectedProduct, 'openingLength', e.target.value)}
+          className="border p-2 rounded text-xs"
+        />
+      </div>
+      <div className="flex flex-col">
+        <label className="text-xs font-medium mb-1">Opening Width (mm)</label>
+        <input
+          type="number"
+          value={subProductInputs[selectedProduct]?.openingWidth || ''}
+          onChange={(e) => handleSubInputChange(selectedProduct, 'openingWidth', e.target.value)}
+          className="border p-2 rounded text-xs"
+        />
+      </div>
+      <div className="flex flex-col">
+        <label className="text-xs font-medium mb-1">Roof Slab Height (mm)</label>
+        <input
+          type="number"
+          value={subProductInputs[selectedProduct]?.roofHeight || ''}
+          onChange={(e) => handleSubInputChange(selectedProduct, 'roofHeight', e.target.value)}
+          className="border p-2 rounded text-xs"
+        />
+      </div>
+      <div className="flex flex-col">
+        <label className="text-xs font-medium mb-1">Roof Slab Thickness (mm)</label>
+        <input
+          type="number"
+          value={subProductInputs[selectedProduct]?.roofThickness || ''}
+          onChange={(e) => handleSubInputChange(selectedProduct, 'roofThickness', e.target.value)}
+          className="border p-2 rounded text-xs"
+        />
+      </div>
+      <div className="flex flex-col">
+        <label className="text-xs font-medium mb-1">Roof Slab Density (kg/m³)</label>
+        <input
+          type="number"
+          value={subProductInputs[selectedProduct]?.roofDensity || ''}
+          onChange={(e) => handleSubInputChange(selectedProduct, 'roofDensity', e.target.value)}
+          className="border p-2 rounded text-xs"
+        />
+      </div>
+    </div>
+  </div>
+)}
 
                 
               </div>
