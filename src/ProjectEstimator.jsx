@@ -409,11 +409,22 @@ sourceBreakdowns.push({
 }); 
   }
 
-  // 🧮 Fix subtotal unit formatting (convert mm³ → m³)
-  concreteUnitTotal = parseFloat((concreteUnitTotal / 1_000_000_000).toFixed(2));
-  steelUnitTotal = parseFloat((steelUnitTotal / 1000).toFixed(2));
-  concreteSubtotal = parseFloat(concreteSubtotal.toFixed(2));
-  steelSubtotal = parseFloat(steelSubtotal.toFixed(2));
+let concreteSubtotal = 0;
+let concreteUnitTotal = 0;
+let steelSubtotal = 0;
+let steelUnitTotal = 0;
+let labourSubtotal = 0;
+let labourUnitTotal = 0;
+let additionalSubtotal = 0;
+let additionalUnitTotal = 0;
+let grandTotal = 0;
+
+// 🧮 Fix subtotal unit formatting (convert mm³ → m³)
+concreteUnitTotal = parseFloat((concreteUnitTotal / 1_000_000_000).toFixed(2));
+steelUnitTotal = parseFloat((steelUnitTotal / 1000).toFixed(2));
+concreteSubtotal = parseFloat(concreteSubtotal.toFixed(2));
+steelSubtotal = parseFloat(steelSubtotal.toFixed(2));
+
 
   
 
@@ -435,15 +446,6 @@ sourceBreakdowns.push({
   const installationCost = installationDays * installationRate;
 
   let grandTotal = 0;
-
-  let concreteSubtotal = 0;
-  let concreteUnitTotal = 0;
-  let steelSubtotal = 0;
-  let steelUnitTotal = 0;
-  let labourSubtotal = 0;
-  let labourUnitTotal = 0;
-  let additionalSubtotal = 0;
-  let additionalUnitTotal = 0;
 
 const computedBreakdowns = sourceBreakdowns.map(product => {
   const quantity = safe(product.quantity);
