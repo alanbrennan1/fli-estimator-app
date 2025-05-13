@@ -339,7 +339,7 @@ const handleEstimate = () => {
       const width = safe(inputs.width);
       const height = safe(inputs.height);
       // Placeholder concrete volume, will be overwritten for Chambers if applicable
-      let concreteVolume = length * width * height * quantity;
+      let concreteVolume = length * width * height * quantity; // default fallback
       const steelKg = concreteVolume * 120;
       const labourHrs = safe(inputs.labourHours);
 
@@ -356,7 +356,7 @@ const handleEstimate = () => {
       });
 
       // 🧮 Custom Chamber Volume Logic
-      let concreteVolume = length * width * height; // default fallback
+      // removed duplicate declaration of concreteVolume (already declared above)
       if (productName.startsWith('CH')) {
         const wall = safe(inputs.wallThickness);
         const base = safe(inputs.baseThickness);
@@ -369,7 +369,6 @@ const handleEstimate = () => {
         const chamberVol = (extPlan * extHeight) - (intPlan * (height));
         concreteVolume = (chamberVol + antiVol);
       }
-      
       // 💡 Generate Product Code
       const productCode = buildProductCode(productName, inputs);
       console.log('Generated Product Code:', productCode);
