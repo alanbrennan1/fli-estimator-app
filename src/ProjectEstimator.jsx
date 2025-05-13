@@ -894,6 +894,7 @@ const handleChange = (e) => {
                     <option value="Other">Other</option>
                   </select>
                 </div>
+               
                 <div className="flex flex-col">
                   <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Surface Finish</h5>
                   <select
@@ -906,6 +907,7 @@ const handleChange = (e) => {
                     <option value="F2">F2 (Higher Class)</option>
                   </select>
                 </div>
+                
                 <div className="flex flex-col">
                   <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Labour</h5>
                   <input
@@ -916,6 +918,7 @@ const handleChange = (e) => {
                     placeholder="Labour Hrs/Unit"
                     className="border p-2 rounded text-xs"
                   />
+                </div>
                 </div>
 
 {selectedProduct?.startsWith('CH') && (
@@ -948,15 +951,9 @@ const handleChange = (e) => {
       </div>
     </div>
   </div>
-)}
-                
-              </div>
-            </div>
-          </div>
-        </div>
-
-  </> 
-      )}
+)}                
+ </div>
+          
 
       {/* INSERT Inputs - Unique JSX here */}
     </>
