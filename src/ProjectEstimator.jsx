@@ -1047,10 +1047,11 @@ const handleChange = (e) => {
   </> 
       )}
 
-<div className="mb-6 border border-gray-300 rounded-lg p-4 bg-gray-50">
-  <h4 className="text-xs font-bold uppercase text-gray-700 mb-4 tracking-wider border-b pb-2">
-    Inputs - Unique
-  </h4>
+{selectedSubProducts.length > 0 && (
+  <div className="mb-6 border border-gray-300 rounded-lg p-4 bg-gray-50">
+    <h4 className="text-xs font-bold uppercase text-gray-700 mb-4 tracking-wider border-b pb-2">
+      Inputs - Unique
+    </h4>
 
   {(additionalItemsData && Object.keys(additionalItemsData).length > 0) ? (
     <>
