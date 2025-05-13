@@ -297,7 +297,7 @@ const handleSketchUpUpload = (e) => {
   const density = inputs.chamberDensity || '';
   const spec = inputs.surfaceFinish || '';
 
-  return `${code}${length}${width}${height}_${wallThickness}_${steelGrade}_${density} ${spec}`;
+  return `${code} ${length}${width}${height}_${wallThickness}_${steelGrade}_${density} ${spec}`;
 }
 
 const handleEstimate = () => {
@@ -1093,7 +1093,7 @@ const handleChange = (e) => {
 <td className="border p-2 font-medium text-sm">
   {product.productCode ? (
     <>
-      <div className="text-blue-800 font-semibold">{product.productCode}</div>
+      <div className="text-blue-800 font-semibold text-xs">{product.productCode}</div>
       <div className="text-gray-500 text-[10px] italic">{product.name}</div>
     </>
   ) : (
