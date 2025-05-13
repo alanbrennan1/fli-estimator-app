@@ -1167,7 +1167,7 @@ const handleChange = (e) => {
       {productBreakdowns.map((product, idx) => {
         const { quantity, concrete, steel, labour, additionalItems, total, name, productCode } = product;
         const concreteVol = parseFloat(concrete?.volume || 0);
-      const antiVol = parseFloat(product.antiFlotationVolume || 0);
+      const antiVol = parseFloat(product.concrete?.antiVol || 0);
         const steelKg = parseFloat(steel?.kg || 0);
         const labourHrs = parseFloat(labour?.hours || 0);
         const concreteCost = product.concreteCost || 0;
