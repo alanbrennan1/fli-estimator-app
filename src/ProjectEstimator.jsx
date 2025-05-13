@@ -278,6 +278,13 @@ const handleSketchUpUpload = (e) => {
 const safe = (val) => parseFloat(val || 0);
 const safeInt = (val) => parseInt(val || '0', 10);
 
+const getUnitPriceFromAdditionalData = (label) => {
+  for (const category in additionalItemsData) {
+    const match = additionalItemsData[category].find(item => item.item === label);
+    if (match) return parseFloat(match.materialCost || 0);
+  }
+  return 0;
+};
   
 const handleEstimate = () => {
 if (!additionalItemsData || Object.keys(additionalItemsData).length === 0) {
@@ -442,7 +449,7 @@ const computedBreakdowns = sourceBreakdowns.map(product => {
 
     Object.entries(pricingMapKeys).forEach(([normalizedKey, label]) => {
       const unitQty = safe(product[normalizedKey]) * quantity;
-      const unitPrice = pricingMap[label] || 0;
+      const unitPrice = getUnitPriceFromAdditionalData(label);
       const itemCost = unitQty * unitPrice;
       additionalCost += itemCost;
       additionalUnitTotal += unitQty;
