@@ -1077,7 +1077,7 @@ const handleChange = (e) => {
     </thead>
     <tbody>
       {productBreakdowns.map((product, idx) => {
-        const { quantity, concrete, steel, labour, additionalItems, total } = product;
+        const { quantity, concrete, steel, labour, additionalItems, total, name, productCode } = product;
         const concreteVol = parseFloat(concrete?.volume || 0);
         const steelKg = parseFloat(steel?.kg || 0);
         const labourHrs = parseFloat(labour?.hours || 0);
