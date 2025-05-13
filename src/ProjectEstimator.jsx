@@ -147,6 +147,8 @@ const getUnitPrice = (itemName) => {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [topLevelProduct, setTopLevelProduct] = useState("");
   const [configuredProductTypes, setConfiguredProductTypes] = useState(new Set());
+  const [additionalItemsData, setAdditionalItemsData] = useState({});
+
 
   const allSubProducts = Array.from(configuredProductTypes).flatMap(type => productOptions[type] || []);
   const subProducts = productOptions[topLevelProduct] || [];
