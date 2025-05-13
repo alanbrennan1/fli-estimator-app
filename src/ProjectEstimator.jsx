@@ -906,7 +906,7 @@ const handleChange = (e) => {
                   />
                 </div>
 
-{topLevelProduct === 'Chambers' && (
+{selectedProduct?.startsWith('CH') && (
   <div className="mt-6">
     <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
       Chamber Options
