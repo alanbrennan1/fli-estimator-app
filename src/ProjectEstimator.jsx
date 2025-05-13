@@ -355,24 +355,26 @@ const handleEstimate = () => {
         }
       });
 
-       // 🧮 Custom Chamber Volume Logic
+      // 🧮 Custom Chamber Volume Logic
+      const wall = safe(inputs.wallThickness);
+      const base = safe(inputs.baseThickness);
       let antiVol = 0;
       let extPlan = 0;
       let intPlan = 0;
       let extHeight = 0;
-      // removed duplicate declaration of concreteVolume (already declared above)
+
       if (productName.startsWith('CH')) {
-  
+        // wall and base already declared above — removing duplicate
+
         extPlan = (length + wall * 2) * (width + wall * 2);
         intPlan = length * width;
         extHeight = height + base;
-        const wall = safe(inputs.wallThickness);
-        const base = safe(inputs.baseThickness);
         if (inputs.antiFlotation === 'Yes') {
           const toeLength = safe(inputs.toeLength);
           const toePlan = (length + wall * 2);
           antiVol = ((toePlan * toeLength * base) * 2);
         }
+
 
       
       // 💡 Generate Product Code
