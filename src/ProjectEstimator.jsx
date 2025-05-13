@@ -39,17 +39,7 @@ export default function ProjectEstimator() {
     .catch(err => console.error("Failed to load additionalItems.json:", err));
 }, []);
 
-      // ✅ LOG here!
-      console.log("Pricing map loaded:", mappedData);
-
-      setPricingMap(mappedData);
-    })
-    .catch(error => {
-      console.error("Failed to load pricing.json:", error);
-    });
-}, []);
-
-
+     
     const sectorProductMap = {
     Water: ['Baffle Walls', 'Contact Tanks'],
     Energy: ['Cable Troughs', 'Blast Walls'],
