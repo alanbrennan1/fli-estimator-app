@@ -338,7 +338,8 @@ const handleEstimate = () => {
       const length = safe(inputs.length);
       const width = safe(inputs.width);
       const height = safe(inputs.height);
-      const concreteVolume = length * width * height * quantity;
+      // Placeholder concrete volume, will be overwritten for Chambers if applicable
+      let concreteVolume = length * width * height * quantity;
       const steelKg = concreteVolume * 120;
       const labourHrs = safe(inputs.labourHours);
 
