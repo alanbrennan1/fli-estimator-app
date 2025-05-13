@@ -44,6 +44,13 @@ useEffect(() => {
         mappedData[entry.item] = parseFloat(entry.price);
       });
 
+      useEffect(() => {
+  fetch('/additionalItems.json')
+    .then(res => res.json())
+    .then(setAdditionalItemsData)
+    .catch(err => console.error("Failed to load additionalItems.json:", err));
+}, []);
+
       // ✅ LOG here!
       console.log("Pricing map loaded:", mappedData);
 
@@ -140,6 +147,8 @@ const getUnitPrice = (itemName) => {
 
   const allSubProducts = Array.from(configuredProductTypes).flatMap(type => productOptions[type] || []);
   const subProducts = productOptions[topLevelProduct] || [];
+  const [additionalItemsData, setAdditionalItemsData] = useState({});
+
 
 const selectedSubProducts = allSubProducts.filter(
     ({ code }) => parseInt(subProductInputs[code]?.quantity) > 0
