@@ -384,20 +384,28 @@ if (inputs.antiFlotation === 'Yes') {
 
       const productCode = buildProductCode(productName, inputs);
 
-      sourceBreakdowns.push({
-        name: productName,
-        productCode,
-        quantity,
-concrete: {
-  volume: concreteVolume.toFixed(2),
-  antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0) ? (antiVol * quantity).toFixed(2) : undefined
-
-},
-       
-        steel: { kg: steelKg.toFixed(2) },
-        labour: { hours: labourHrs.toFixed(2) },
-        ...additionalMapped
-      });
+sourceBreakdowns.push({
+  name: productName,
+  productCode,
+  quantity,
+  concrete: {
+    volume: concreteVolume.toFixed(2),
+    cost: concreteCost,
+    antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0)
+      ? (antiVol * quantity).toFixed(2)
+      : undefined
+  },
+  steel: {
+    kg: steelKg.toFixed(2),
+    cost: steelCost
+  },
+  labour: {
+    hours: labourHrs.toFixed(2),
+    cost: labourCost
+  },
+  ...additionalMapped
+});
+      
     });
   }
 
@@ -436,9 +444,9 @@ concrete: {
     const steelKg = safe(product.steel?.kg);
     const labourHrs = safe(product.labour?.hours);
 
-    const concreteCost = concreteVol * 137.21;
-    const steelCost = steelKg * 0.8;
-    const labourCost = labourHrs * 70.11;
+const concreteCost = parseFloat((concreteVolume * 137.21).toFixed(2));
+const steelCost = parseFloat((steelKg * 0.8).toFixed(2));
+const labourCost = parseFloat((labourHrs * 70.11).toFixed(2));
 
     let additionalCost = 0;
     const additionalItems = [];
