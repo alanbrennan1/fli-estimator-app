@@ -412,8 +412,7 @@ sourceBreakdowns.push({
   // 🧮 Fix subtotal unit formatting (convert mm³ → m³)
   concreteSubtotal = parseFloat((concreteSubtotal / 1_000_000_000).toFixed(2));
   concreteUnitTotal = parseFloat((concreteUnitTotal / 1_000_000_000).toFixed(2));
-  steelSubtotal = parseFloat((steelSubtotal / 1000).toFixed(2));
-  steelUnitTotal = parseFloat((steelUnitTotal / 1000).toFixed(2));
+
   
 
   const designFields = [
