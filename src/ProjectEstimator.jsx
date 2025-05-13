@@ -406,8 +406,8 @@ sourceBreakdowns.push({
   },
   ...additionalMapped
 });
-      }); 
-
+}); 
+  }
 
   const designFields = [
     'proposalHours', 'designMeetingsHours', 'structuralDesignHours', 'revitModelHours',
