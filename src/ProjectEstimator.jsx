@@ -55,7 +55,14 @@ useEffect(() => {
     .catch(error => {
       console.error("Failed to load pricing.json:", error);
     });
-}, []);
+  
+  // ✅ Fetch additionalItems.json (NEW)
+fetch('/additionalItems.json')
+    .then(res => res.json())
+    .then(setAdditionalItemsData)
+    .catch(err => console.error("Failed to load additionalItems.json:", err));
+
+  }, []);
 
 
     const sectorProductMap = {
