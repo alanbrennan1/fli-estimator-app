@@ -900,7 +900,7 @@ const handleChange = (e) => {
 
 {topLevelProduct === 'Chambers' && (
   <div className="mt-6">
-    <h4 className="text-xs font-bold uppercase text-gray-700 mb-4 tracking-wider border-b pb-2">
+    <h4 className="text-xs font-bold uppercase text-blue-800 mb-4 tracking-wider border-b pb-2">
       Chamber Options
     </h4>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
