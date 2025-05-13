@@ -1199,12 +1199,13 @@ const handleChange = (e) => {
 </td>
             
             <td className="border p-2 text-center">{quantity}</td>
-            <td className="border p-2 text-center">
-  {(concreteVol / 1_000_000_000).toFixed(2)} m³
+           <td className="border p-2 text-center">
+  {concreteVol.toFixed(2)} m³
+
   <div className="text-gray-500 text-[10px]">€{concreteCost.toFixed(2)}</div>
   {antiVol && antiVol > 0 && (
     <div className="text-gray-400 text-[10px] italic">
-      (incl. {(antiVol / 1_000_000_000).toFixed(2)} m³ anti-flot.)
+      (incl. {(antiVol.toFixed(2)} m³ anti-flot.)
     </div>
   )}
 </td>
