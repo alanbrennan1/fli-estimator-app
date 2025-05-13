@@ -390,7 +390,10 @@ const handleEstimate = () => {
         name: productName,
         productCode: buildProductCode(productName, inputs),
         quantity,
-        concrete: { volume: concreteVolume.toFixed(2) },
+        concrete: {
+          volume: concreteVolume.toFixed(2),
+          antiVol: (inputs.antiFlotationVolume || 0).toFixed(2)
+        },
         steel: { kg: steelKg.toFixed(2) },
         labour: { hours: labourHrs.toFixed(2) },
         productCode,
