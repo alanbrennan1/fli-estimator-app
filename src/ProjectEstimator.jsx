@@ -769,6 +769,14 @@ const handleChange = (e) => {
       </div>
 
       {selectedSubProducts.length > 0 && (
+
+topLevelProduct === 'Chambers' && (
+  <div className="mb-4 text-sm text-blue-800 bg-blue-50 border border-blue-300 rounded p-2 shadow-sm">
+    💡 Tip: You may want to add a <strong>Cover Slab</strong> to your chamber configuration.
+  </div>
+)
+
+  
         <div className="mt-6">
           <div className="flex gap-2 border-b pb-2 mb-4">
             {selectedSubProducts.map(({ code }) => (
