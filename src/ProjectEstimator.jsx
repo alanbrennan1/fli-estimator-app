@@ -382,11 +382,11 @@ const handleEstimate = () => {
         name: productName,
         productCode,
         quantity,
-        concrete: {
-          volume: concreteVolume.toFixed(2),
-          antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0) ? antiVol.toFixed(2) : undefined
-        },
-        
+concrete: {
+  volume: concreteVolume.toFixed(2),
+  antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0) ? antiVol : undefined
+}
+       
         steel: { kg: steelKg.toFixed(2) },
         labour: { hours: labourHrs.toFixed(2) },
         ...additionalMapped
@@ -1160,7 +1160,8 @@ const handleChange = (e) => {
       {productBreakdowns.map((product, idx) => {
         const { quantity, concrete, steel, labour, additionalItems, total, name, productCode } = product;
         const concreteVol = parseFloat(concrete?.volume || 0);
-      const antiVol = product.concrete?.antiVol !== undefined ? parseFloat(product.concrete.antiVol) : undefined;
+        const antiVol = product.concrete?.antiVol !== undefined ? safe(product.concrete.antiVol) : undefined;
+
         const steelKg = parseFloat(steel?.kg || 0);
         const labourHrs = parseFloat(labour?.hours || 0);
         const concreteCost = product.concreteCost || 0;
@@ -1185,11 +1186,12 @@ const handleChange = (e) => {
             <td className="border p-2 text-center">
               {(concreteVol / 1_000_000_000).toFixed(2)} m³
               <div className="text-gray-500 text-[10px]">€{concreteCost.toFixed(2)}</div>
-              {antiVol !== undefined && (
+             {antiVol !== undefined && antiVol > 0 && (
   <div className="text-gray-400 text-[10px] italic">
     (+{(antiVol / 1_000_000_000).toFixed(2)} m³ anti-flotation)
   </div>
 )}
+
            
             </td>
             <td className="border p-2 text-center">
