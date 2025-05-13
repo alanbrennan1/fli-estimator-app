@@ -380,10 +380,17 @@ if (inputs.antiFlotation === 'Yes') {
         }
       });
 
-      const productCode = buildProductCode(productName, inputs);
+const productCode = buildProductCode(productName, inputs);
       const concreteCost = parseFloat(((concreteVolume / 1_000_000_000) * 137.21).toFixed(2));
-    const steelCost = parseFloat((steelKg * 0.8).toFixed(2));
-    const labourCost = parseFloat((labourHrs * 70.11).toFixed(2));
+      const steelCost = parseFloat(((steelKg / 1000) * 0.8).toFixed(2));
+      const labourCost = parseFloat((labourHrs * 70.11).toFixed(2));
+
+      concreteSubtotal += concreteCost;
+      concreteUnitTotal += concreteVolume / 1_000_000_000; // convert to m³
+      steelSubtotal += steelCost;
+      steelUnitTotal += steelKg / 1000; // convert to tonnes
+      labourSubtotal += labourCost;
+      labourUnitTotal += labourHrs;
 
 sourceBreakdowns.push({
   name: productName,
