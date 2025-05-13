@@ -437,11 +437,15 @@ sourceBreakdowns.push({
   let additionalSubtotal = 0;
   let additionalUnitTotal = 0;
 
-  const computedBreakdowns = sourceBreakdowns.map(product => {
-    const quantity = safe(product.quantity);
-    const concreteVol = safe(product.concrete?.volume);
-    const steelKg = safe(product.steel?.kg);
-    const labourHrs = safe(product.labour?.hours);
+const computedBreakdowns = sourceBreakdowns.map(product => {
+  const quantity = safe(product.quantity);
+  const concreteVol = safe(product.concrete?.volume);
+  const concreteCost = safe(product.concrete?.cost);
+  const steelKg = safe(product.steel?.kg);
+  const steelCost = safe(product.steel?.cost);
+  const labourHrs = safe(product.labour?.hours);
+  const labourCost = safe(product.labour?.cost);
+
 
     let additionalCost = 0;
     const additionalItems = [];
