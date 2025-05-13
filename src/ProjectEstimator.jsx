@@ -353,7 +353,7 @@ const handleEstimate = () => {
 
       // 💡 Generate Product Code
       const productCode = buildProductCode(productName, inputs);
-
+      console.log('Generated Product Code:', productCode);
       
       sourceBreakdowns.push({
         name: productName,
