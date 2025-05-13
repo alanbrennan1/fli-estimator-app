@@ -357,7 +357,7 @@ const handleEstimate = () => {
       
      sourceBreakdowns.push({
         name: productName,
-        productCode,
+        productCode: buildProductCode(productName, inputs),
         quantity,
         concrete: { volume: concreteVolume.toFixed(2) },
         steel: { kg: steelKg.toFixed(2) },
