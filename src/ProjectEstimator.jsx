@@ -897,6 +897,41 @@ const handleChange = (e) => {
                     className="border p-2 rounded text-xs"
                   />
                 </div>
+
+{topLevelProduct === 'Chambers' && (
+  <div className="mt-6">
+    <h4 className="text-xs font-bold uppercase text-gray-700 mb-4 tracking-wider border-b pb-2">
+      Chamber Options
+    </h4>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="flex flex-col">
+        <label className="text-xs font-medium mb-1">Anti Flotation</label>
+        <select
+          value={subProductInputs[selectedProduct]?.antiFlotation || ''}
+          onChange={(e) => handleSubInputChange(selectedProduct, 'antiFlotation', e.target.value)}
+          className="border p-2 rounded text-xs"
+        >
+          <option value="">Select</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+      <div className="flex flex-col">
+        <label className="text-xs font-medium mb-1">Toe Length</label>
+        <input
+          type="text"
+          value={subProductInputs[selectedProduct]?.toeLength || ''}
+          onChange={(e) => handleSubInputChange(selectedProduct, 'toeLength', e.target.value)}
+          className="border p-2 rounded text-xs"
+          placeholder="Qty 2"
+        />
+      </div>
+    </div>
+  </div>
+)}
+
+
+                
               </div>
             </div>
           </div>
