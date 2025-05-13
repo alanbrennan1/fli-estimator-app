@@ -316,6 +316,16 @@ const handleEstimate = () => {
     polyfleece: 'Polyfleece'
   };
 
+let concreteSubtotal = 0;
+let concreteUnitTotal = 0;
+let steelSubtotal = 0;
+let steelUnitTotal = 0;
+let labourSubtotal = 0;
+let labourUnitTotal = 0;
+let additionalSubtotal = 0;
+let additionalUnitTotal = 0;
+let grandTotal = 0;
+
   if (pendingImport && pendingImport.length > 0) {
     sourceBreakdowns = pendingImport;
   } else {
@@ -343,9 +353,7 @@ if (inputs.antiFlotation === 'Yes') {
   const toePlan = (length + wall * 2);
   antiVol = ((toePlan * toeLength * base) * 2);
 }
-
         concreteVolume = (chamberVol + antiVol) * quantity;
-
         inputs.antiFlotationVolume = antiVol * quantity;
 
       }
@@ -364,10 +372,10 @@ if (inputs.antiFlotation === 'Yes') {
         }
       });
 
-const productCode = buildProductCode(productName, inputs);
-      const concreteCost = parseFloat(((concreteVolume / 1_000_000_000) * 137.21).toFixed(2));
-      const steelCost = parseFloat(((steelKg / 1000) * 0.8).toFixed(2));
-      const labourCost = parseFloat((labourHrs * 70.11).toFixed(2));
+      const productCode = buildProductCode(productName, inputs);
+      const concreteCost = (concreteVolume / 1_000_000_000) * 137.21;
+      const steelCost = (steelKg / 1000) * 0.8;
+      const labourCost = labourHrs * 70.11;
 
       concreteSubtotal += concreteCost;
       concreteUnitTotal += concreteVolume / 1_000_000_000; // convert to m³
@@ -376,39 +384,28 @@ const productCode = buildProductCode(productName, inputs);
       labourSubtotal += labourCost;
       labourUnitTotal += labourHrs;
 
-sourceBreakdowns.push({
-  name: productName,
-  productCode,
-  quantity,
-  concrete: {
-    volume: concreteVolume.toFixed(2),
-    cost: concreteCost,
-    antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0)
-      ? (antiVol * quantity).toFixed(2)
-      : undefined
-  },
-  steel: {
-    kg: steelKg.toFixed(2),
-    cost: steelCost
-  },
-  labour: {
-    hours: labourHrs.toFixed(2),
-    cost: labourCost
-  },
-  ...additionalMapped
+      sourceBreakdowns.push({
+        name: productName,
+        productCode,
+        quantity,
+        concrete: {
+          volume: concreteVolume.toFixed(2),
+          cost: parseFloat(concreteCost.toFixed(2)),
+          antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0) ? (antiVol * quantity).toFixed(2) : undefined
+        },
+        steel: {
+          kg: steelKg.toFixed(2),
+          cost: parseFloat(steelCost.toFixed(2))
+        },
+        labour: {
+          hours: labourHrs.toFixed(2),
+          cost: parseFloat(labourCost.toFixed(2))
+        },
+        ...additionalMapped
 });
 }); 
   }
 
-let concreteSubtotal = 0;
-let concreteUnitTotal = 0;
-let steelSubtotal = 0;
-let steelUnitTotal = 0;
-let labourSubtotal = 0;
-let labourUnitTotal = 0;
-let additionalSubtotal = 0;
-let additionalUnitTotal = 0;
-let grandTotal = 0;
 
 concreteSubtotal = parseFloat(concreteSubtotal.toFixed(2));
 steelSubtotal = parseFloat(steelSubtotal.toFixed(2));
