@@ -303,10 +303,12 @@ const handleSketchUpUpload = (e) => {
   return `${code} ${length}${width}${height}_${wallThickness}_${steelGrade}_${density} ${spec}`;
 }
 
-const handleEstimate = () => {
-  const safe = (val) => parseFloat(val || 0);
-  const safeInt = (val) => parseInt(val || '0', 10);
+// Global helper for safe parsing
+const safe = (val) => parseFloat(val || 0);
+const safeInt = (val) => parseInt(val || '0', 10);
 
+  
+const handleEstimate = () => {
   if (!pricingMap || Object.keys(pricingMap).length === 0) {
     console.error('Pricing data not loaded yet.');
     return;
