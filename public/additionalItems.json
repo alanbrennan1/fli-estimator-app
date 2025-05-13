@@ -1,0 +1,352 @@
+{
+  "Capstans and Lifters": [
+    {
+      "Item": "Halfen DEHA 5T X 95mm A4 SS",
+      "Material Cost": 21.47
+    },
+    {
+      "Item": "Halfen DEHA PIN 20T X500mm CARBON BLK ",
+      "Material Cost": 38.66
+    },
+    {
+      "Item": "Halfen DEHA PIN ANCHOR 15TX400mm ",
+      "Material Cost": 26.54
+    },
+    {
+      "Item": "Halfen DEHA PIN ANCHOR 5TX95mm ",
+      "Material Cost": 2.45
+    },
+    {
+      "Item": "Halfen DEHA PIN ANCHOR 5TX110mm ",
+      "Material Cost": 3.15
+    },
+    {
+      "Item": "RD16 Wavy",
+      "Material Cost": 0.86
+    },
+    {
+      "Item": "RD20 Wavy",
+      "Material Cost": 2.1
+    },
+    {
+      "Item": "RD24 Wavy",
+      "Material Cost": 3.3
+    },
+    {
+      "Item": "RD30 Wavy",
+      "Material Cost": 3.9
+    },
+    {
+      "Item": "RD36 Wavy",
+      "Material Cost": 6.0
+    },
+    {
+      "Item": "RD42 Wavy",
+      "Material Cost": 11.1
+    },
+    {
+      "Item": "RD52 Wavy",
+      "Material Cost": 15.4
+    },
+    {
+      "Item": "120mm Anchor",
+      "Material Cost": 1.42
+    },
+    {
+      "Item": "170mm Anchor",
+      "Material Cost": 2.77
+    },
+    {
+      "Item": "M16 Flat End",
+      "Material Cost": 0.52
+    },
+    {
+      "Item": "M20 Flat End",
+      "Material Cost": 0.82
+    },
+    {
+      "Item": "M24 Flat End",
+      "Material Cost": 1.24
+    },
+    {
+      "Item": "M30 Tubalar",
+      "Material Cost": 1.87
+    },
+    {
+      "Item": "RD20 Straight",
+      "Material Cost": 2.52
+    },
+    {
+      "Item": "RD24 Straight",
+      "Material Cost": 3.32
+    },
+    {
+      "Item": "RD30 Straight",
+      "Material Cost": 5.24
+    }
+  ],
+  "Cover and Frame": [
+    {
+      "Item": "FF4S 100150AHVMCGJ SP 400kN",
+      "Material Cost": 5719.11
+    },
+    {
+      "Item": "FF4S 060060AHVMCGJ SP 400kN",
+      "Material Cost": 1702.35
+    },
+    {
+      "Item": "ER4S090090VCHC D400 NF",
+      "Material Cost": 1150.0
+    },
+    {
+      "Item": "TI4S090090A TR32 D400 NF",
+      "Material Cost": 475.0
+    },
+    {
+      "Item": "TWINO SRL LOCKED UNIT EN124 D400 KM - 600 dia H100 LKD HGD",
+      "Material Cost": 157.5
+    },
+    {
+      "Item": "BRIO PKRL LOCKED D400 KM - 600 dia H100 LKD HGD",
+      "Material Cost": 175.0
+    },
+    {
+      "Item": "MAESTRO PKSR VOTC LOCKED D400 KM - 600 dia H100 LKD HGD",
+      "Material Cost": 245.0
+    },
+    {
+      "Item": "GBRE V6 LOCKED D400 NF - 600 dia H102 LKD WR BOLTED 6 PLACES",
+      "Material Cost": 495.0
+    },
+    {
+      "Item": "FE4S 100 100 AHVMCGE 400KN ",
+      "Material Cost": 4675.0
+    },
+    {
+      "Item": "FE4S150100AHVMCGE 400KN",
+      "Material Cost": 4995.0
+    },
+    {
+      "Item": "FE4S060060AHVMCGE 400KN",
+      "Material Cost": 2695.0
+    }
+  ],
+  "Fixings": [
+    {
+      "Item": "Galvanised Pulling Irons",
+      "Material Cost": 50.0
+    },
+    {
+      "Item": "Galvanised sump cover",
+      "Material Cost": 35.0
+    },
+    {
+      "Item": "Copper Earthing Point",
+      "Material Cost": 50.0
+    },
+    {
+      "Item": "Caswick SS404 Ladder Rungs",
+      "Material Cost": 7.5
+    },
+    {
+      "Item": "P1000T Unistrut",
+      "Material Cost": 5.3
+    },
+    {
+      "Item": "P3270 Cast in Unistrut",
+      "Material Cost": 18.04
+    },
+    {
+      "Item": "M24x400 Sq Sq Holding Down Bolt/Nut 8.8 Galv",
+      "Material Cost": 5.8
+    },
+    {
+      "Item": "M30x450 Sq Sq Holding Down Bolt/Nut 8.8 Galv",
+      "Material Cost": 8.5
+    },
+    {
+      "Item": "100x100x15x25 S/C .Sq. Plate SQ Hole Washers",
+      "Material Cost": 1.48
+    },
+    {
+      "Item": "WAXED BOLT CONES 305",
+      "Material Cost": 0.6
+    },
+    {
+      "Item": "WAXED BOLT CONES 380",
+      "Material Cost": 0.68
+    },
+    {
+      "Item": "HEK Precast Coupler",
+      "Material Cost": 31.25
+    },
+    {
+      "Item": "Hauff HEA IS M12/200 Earthing Point",
+      "Material Cost": 65.0
+    },
+    {
+      "Item": "Innogain LP Scaffolding Plug",
+      "Material Cost": 50.0
+    },
+    {
+      "Item": "Spiral Void Tube PCT FRSVT050",
+      "Material Cost": 2.05
+    },
+    {
+      "Item": "250mm Long M16 Threaded Bar, Nut & Washer",
+      "Material Cost": 1.15
+    },
+    {
+      "Item": "75mm Long M16 Bolt & Washer",
+      "Material Cost": 0.52
+    },
+    {
+      "Item": "MKK Cone",
+      "Material Cost": 12.0
+    }
+  ],
+  "Pipe and Duct Inserts": [
+    {
+      "Item": "110mm Emtelle Coupler Cut",
+      "Material Cost": 6.05
+    },
+    {
+      "Item": "160mm Emtelle Coupler Cut",
+      "Material Cost": 9.75
+    },
+    {
+      "Item": "200mm Emtelle Coupler Cut",
+      "Material Cost": 20.05
+    },
+    {
+      "Item": "250mm Emtelle Coupler Cut",
+      "Material Cost": 40.0
+    },
+    {
+      "Item": "125mm Emtelle Coupler Cut",
+      "Material Cost": 8.85
+    },
+    {
+      "Item": "Green 96.5mm Connector Sleve",
+      "Material Cost": 2.22
+    },
+    {
+      "Item": "Hauff HSI 150 GSM 110/200",
+      "Material Cost": 44.9
+    },
+    {
+      "Item": "Hauff HSI 150 GSM 160/200",
+      "Material Cost": 48.47
+    },
+    {
+      "Item": "Hauff HSI 150 GSM 110/250",
+      "Material Cost": 43.9
+    },
+    {
+      "Item": "Hauff HSI 150 GSM 160/250",
+      "Material Cost": 48.47
+    },
+    {
+      "Item": "250mm OD Hauf ZVR Cement Sleeve",
+      "Material Cost": 64.77
+    },
+    {
+      "Item": "110/94 JFC twinwall Coupler",
+      "Material Cost": 0.6
+    },
+    {
+      "Item": "160mm JFC tiwnwall coupler",
+      "Material Cost": 1.2
+    },
+    {
+      "Item": "110mm JFC belmouth",
+      "Material Cost": 2.9
+    },
+    {
+      "Item": "110mm JFC wavin repair Collars",
+      "Material Cost": 1.85
+    },
+    {
+      "Item": "150mm JFC wavin repair collar",
+      "Material Cost": 5.0
+    },
+    {
+      "Item": "110mm MFP Coupler",
+      "Material Cost": 10.58
+    },
+    {
+      "Item": "160mm MFP Coupler",
+      "Material Cost": 17.67
+    },
+    {
+      "Item": "200mm MFP Coupler",
+      "Material Cost": 95.0
+    },
+    {
+      "Item": "Pipex 6X5 Nest  puddle flange to suit 110mm Emtelle ducts",
+      "Material Cost": 1603.2
+    },
+    {
+      "Item": "Pipex 8x2 Nest  puddle flange to suit 225mm ducts",
+      "Material Cost": 2305.44
+    },
+    {
+      "Item": "160mm ESB PVC Duct Collar",
+      "Material Cost": 8.95
+    },
+    {
+      "Item": "150/178mm Radius Twinwall Duct Coupler",
+      "Material Cost": 7.2
+    },
+    {
+      "Item": "110mm Radius Twinwall Duct Coupler",
+      "Material Cost": 3.98
+    },
+    {
+      "Item": "63mm Radius Twinwall Duct Coupler",
+      "Material Cost": 2.4
+    },
+    {
+      "Item": "178MM Radius SOCKETED BELLMOUTH",
+      "Material Cost": 10.57
+    },
+    {
+      "Item": "110MM Radius SOCKETED BELLMOUTH",
+      "Material Cost": 4.65
+    },
+    {
+      "Item": "100mm 90\u00b0 Bend - Black",
+      "Material Cost": 4.84
+    },
+    {
+      "Item": "75mm PVC Drain Pipe",
+      "Material Cost": 5.32
+    }
+  ],
+  "Waterproof Materials": [
+    {
+      "Item": "Flexproof X1",
+      "Material Cost": 23.5
+    },
+    {
+      "Item": "TOK Strip 25/20",
+      "Material Cost": 50.0
+    },
+    {
+      "Item": "TOK Strip Primer",
+      "Material Cost": 37.5
+    },
+    {
+      "Item": "Backing Cord 20mm",
+      "Material Cost": 150.0
+    },
+    {
+      "Item": "SIKA Watertight Powder per m3 concrete",
+      "Material Cost": 38.3
+    },
+    {
+      "Item": "Hydrotite 25mm x 7mm",
+      "Material Cost": 5.54
+    }
+  ]
+}
