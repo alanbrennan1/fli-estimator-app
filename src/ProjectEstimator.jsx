@@ -286,6 +286,19 @@ const handleSketchUpUpload = (e) => {
   }));
 };
 
+  function buildProductCode(code, inputs) {
+  const pad = (val, len) => String(val || '').padStart(len, '0');
+
+  const length = pad(inputs.length, 4);
+  const width = pad(inputs.width, 4);
+  const height = pad(inputs.height, 4);
+  const wallThickness = pad(inputs.wallThickness, 4);
+  const steelGrade = inputs.steelGrade || '';
+  const density = inputs.chamberDensity || '';
+  const spec = inputs.surfaceFinish || '';
+
+  return `${code}${length}${width}${height}_${wallThickness}_${steelGrade}_${density} ${spec}`;
+}
 
 const handleEstimate = () => {
   const safe = (val) => parseFloat(val || 0);
@@ -792,21 +805,6 @@ const handleChange = (e) => {
                       baseThickness: "Base Thickness (mm)",
                       wallThickness: "Wall Thickness (mm)",
                        };
-
-function buildProductCode(code, inputs) {
-  const pad = (val, len) => String(val || '').padStart(len, '0');
-
-  const length = pad(inputs.length, 4);
-  const width = pad(inputs.width, 4);
-  const height = pad(inputs.height, 4);
-  const wallThickness = pad(inputs.wallThickness, 4);
-  const steelGrade = inputs.steelGrade || '';
-  const density = inputs.chamberDensity || '';
-  const spec = inputs.surfaceFinish || '';
-
-  return `${code}${length}${width}${height}_${wallThickness}_${steelGrade}_${density} ${spec}`;
-}
-
 
           
                     return (
