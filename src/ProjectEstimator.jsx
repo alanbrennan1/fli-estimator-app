@@ -358,8 +358,11 @@ if (inputs.antiFlotation === 'Yes') {
         concreteVolume = concreteVolume * quantity;
       }
 
-      const steelKg = concreteVolume * 120;
+     // Convert mm³ to m³
+      const concreteVolumeM3 = concreteVolume / 1_000_000_000;
+      const steelKg = concreteVolumeM3 * 120; // steel based on m³
       const labourHrs = safe(inputs.labourHours);
+
       const additionalItems = inputs.additionalItems || {};
       const additionalMapped = {};
 
@@ -373,8 +376,8 @@ if (inputs.antiFlotation === 'Yes') {
       });
 
       const productCode = buildProductCode(productName, inputs);
-      const concreteCost = (concreteVolume / 1_000_000_000) * 137.21;
-      const steelCost = (steelKg / 1000) * 0.8;
+      const concreteCost = concreteVolumeM3 * 137.21;
+      const steelCost = steelKg * 0.8;
       const labourCost = labourHrs * 70.11;
 
       concreteSubtotal += concreteCost;
@@ -384,14 +387,14 @@ if (inputs.antiFlotation === 'Yes') {
       labourSubtotal += labourCost;
       labourUnitTotal += labourHrs;
 
-      sourceBreakdowns.push({
+     sourceBreakdowns.push({
         name: productName,
         productCode,
         quantity,
         concrete: {
-          volume: concreteVolume.toFixed(2),
+          volume: concreteVolumeM3.toFixed(2),
           cost: parseFloat(concreteCost.toFixed(2)),
-          antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0) ? (antiVol * quantity).toFixed(2) : undefined
+          antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0) ? (antiVol / 1_000_000_000 * quantity).toFixed(2) : undefined
         },
         steel: {
           kg: steelKg.toFixed(2),
