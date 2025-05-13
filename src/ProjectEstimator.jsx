@@ -355,20 +355,28 @@ const handleEstimate = () => {
         }
       });
 
-      // 🧮 Custom Chamber Volume Logic
+       // 🧮 Custom Chamber Volume Logic
+      let antiVol = 0;
+      let extPlan = 0;
+      let intPlan = 0;
+      let extHeight = 0;
       // removed duplicate declaration of concreteVolume (already declared above)
       if (productName.startsWith('CH')) {
         const wall = safe(inputs.wallThickness);
         const base = safe(inputs.baseThickness);
-        const antiVol = safe(inputs.antiFlotationVolume || 0); // default to 0 if not present
 
-        const extPlan = (length + wall * 2) * (width + wall * 2);
-        const intPlan = length * width;
-        const extHeight = height + base;
+        extPlan = (length + wall * 2) * (width + wall * 2);
+        intPlan = length * width;
+        extHeight = height + base;
+        const wall = safe(inputs.wallThickness);
+        const base = safe(inputs.baseThickness);
+        if (inputs.antiFlotation === 'Yes') {
+          const toeLength = safe(inputs.toeLength);
+          const toePlan = (length + wall * 2);
+          antiVol = ((toePlan * toeLength * base) * 2);
+        }
 
-        const chamberVol = (extPlan * extHeight) - (intPlan * (height));
-        concreteVolume = (chamberVol + antiVol);
-      }
+      
       // 💡 Generate Product Code
       const productCode = buildProductCode(productName, inputs);
       console.log('Generated Product Code:', productCode);
@@ -940,7 +948,7 @@ const handleChange = (e) => {
         </select>
       </div>
       <div className="flex flex-col">
-        <label className="text-xs font-medium mb-1">Toe Length</label>
+        <label className="text-xs font-medium mb-1">Toe Length (m)</label>
         <input
           type="text"
           value={subProductInputs[selectedProduct]?.toeLength || ''}
