@@ -280,10 +280,11 @@ const safeInt = (val) => parseInt(val || '0', 10);
 
   
 const handleEstimate = () => {
-  if (!pricingMap || Object.keys(pricingMap).length === 0) {
-    console.error('Pricing data not loaded yet.');
-    return;
-  }
+if (!additionalItemsData || Object.keys(additionalItemsData).length === 0) {
+  console.error('Additional items data not loaded.');
+  return;
+}
+
 
   let sourceBreakdowns = [];
   const pricingMapKeys = {
