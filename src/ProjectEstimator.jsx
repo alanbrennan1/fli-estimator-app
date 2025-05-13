@@ -344,7 +344,6 @@ let grandTotal = 0;
         const extPlan = (length + wall * 2) * (width + wall * 2);
         const intPlan = length * width;
         const extHeight = height + base;
-
         const chamberVol = (extPlan * extHeight) - (intPlan * height);
 
 if (inputs.antiFlotation === 'Yes') {
@@ -353,9 +352,10 @@ if (inputs.antiFlotation === 'Yes') {
   const toePlan = (length + wall * 2);
   antiVol = ((toePlan * toeLength * base) * 2);
 }
-        concreteVolume = (chamberVol + antiVol) * quantity;
+       concreteVolume = (chamberVol + antiVol) * quantity;
         inputs.antiFlotationVolume = antiVol * quantity;
-
+      } else {
+        concreteVolume = concreteVolume * quantity;
       }
 
       const steelKg = concreteVolume * 120;
@@ -404,11 +404,17 @@ if (inputs.antiFlotation === 'Yes') {
         ...additionalMapped
 });
 }); 
+    
   }
-
-
-concreteSubtotal = parseFloat(concreteSubtotal.toFixed(2));
-steelSubtotal = parseFloat(steelSubtotal.toFixed(2));
+  // Rounding after all accumulation is done
+  concreteSubtotal = parseFloat(concreteSubtotal.toFixed(2));
+  concreteUnitTotal = parseFloat(concreteUnitTotal.toFixed(2));
+  steelSubtotal = parseFloat(steelSubtotal.toFixed(2));
+  steelUnitTotal = parseFloat(steelUnitTotal.toFixed(2));
+  labourSubtotal = parseFloat(labourSubtotal.toFixed(2));
+  labourUnitTotal = parseFloat(labourUnitTotal.toFixed(2));
+  additionalSubtotal = parseFloat(additionalSubtotal.toFixed(2));
+  additionalUnitTotal = parseFloat(additionalUnitTotal.toFixed(2));
 
 
   
