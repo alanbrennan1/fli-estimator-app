@@ -1164,6 +1164,7 @@ const handleChange = (e) => {
       {productBreakdowns.map((product, idx) => {
         const { quantity, concrete, steel, labour, additionalItems, total, name, productCode } = product;
         const concreteVol = parseFloat(concrete?.volume || 0);
+      const antiVol = parseFloat(product.antiFlotationVolume || 0);
         const steelKg = parseFloat(steel?.kg || 0);
         const labourHrs = parseFloat(labour?.hours || 0);
         const concreteCost = product.concreteCost || 0;
@@ -1186,8 +1187,13 @@ const handleChange = (e) => {
             
             <td className="border p-2 text-center">{quantity}</td>
             <td className="border p-2 text-center">
-              {concreteVol.toFixed(2)}
+              {(concreteVol / 1_000_000_000).toFixed(2)} m³
               <div className="text-gray-500 text-[10px]">€{concreteCost.toFixed(2)}</div>
+              {antiVol > 0 && (
+                <div className="text-gray-400 text-[10px] italic">
+                  (+{(antiVol / 1_000_000_000).toFixed(2)} m³ anti-flotation)
+                </div>
+              )}             
             </td>
             <td className="border p-2 text-center">
               {steelKg.toFixed(2)}
