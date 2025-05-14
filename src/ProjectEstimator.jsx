@@ -1027,8 +1027,13 @@ const handleChange = (e) => {
 
                   {/* Quantity Input */}
                   <div className="flex flex-col">
-                    <label className="text-xs font-medium mb-1 text-gray-600">Quantity</label>
-                    <input
+                            <label
+                  className="text-xs font-medium mb-1 text-gray-600"
+                  title="Quantities per unit"
+                >
+                  Quantity
+                </label>
+                            <input
                       type="number"
                       min="0"
                       value={entry.qty || ''}
