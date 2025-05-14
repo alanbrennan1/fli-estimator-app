@@ -1310,20 +1310,31 @@ const handleChange = (e) => {
               {labourHrs.toFixed(2)}
               <div className="text-gray-500 text-[10px]">€{labourCost.toFixed(2)}</div>
             </td>
-            <td className="border p-2">
-              {additionalItems.length > 0 ? (
-                <ul className="space-y-1">
-                  {additionalItems.map((item, i) => (
-                    <li key={i}>
-                      <span className="font-semibold">{item.label}</span>: {Math.round(item.qty)}
-                      <div className="text-gray-500 text-[10px]">€{item.cost.toFixed(2)}</div>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <span className="text-gray-400 italic">None</span>
-              )}
-            </td>
+            
+            <td className="border p-2 text-xs align-top">
+  {additionalItems.length > 0 ? (
+    <ul className="space-y-2">
+      {additionalItems.map((item, i) => (
+        <li key={i} className="pb-2 border-b last:border-b-0">
+          <div className="font-semibold text-gray-800 leading-snug break-words">
+            {item.label}
+          </div>
+          <div className="ml-2 text-gray-600 text-[11px] leading-tight">
+            Qty: {item.qty}
+          </div>
+          <div className="ml-2 text-gray-500 text-[11px] italic leading-tight">
+            €{item.cost.toFixed(2)}
+          </div>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <span className="text-gray-400 italic">None</span>
+  )}
+</td>
+
+
+            
             <td className="border p-2 text-right font-bold text-sm">€{total.toFixed(2)}</td>
           </tr>
         );
