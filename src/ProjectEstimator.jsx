@@ -1328,12 +1328,13 @@ const handleChange = (e) => {
       {/* ➕ Subtotals Row */}
       <tr className="bg-blue-100 text-blue-800 font-semibold text-sm border-t-2 border-blue-300">
         <td className="border p-2 text-right" colSpan={2}>Subtotals:</td>
-        <td className="border p-2 text-center">
-          {breakdown.subtotals?.concrete?.units?.toFixed(2)} m³
-          <div className="text-gray-500 text-[10px]">
-            €{breakdown.subtotals?.concrete?.cost?.toFixed(2)}
-          </div>
-        </td>
+      <td className="border p-2 text-center">
+        <span>{breakdown.subtotals?.concrete?.units?.toFixed(2)} m³</span>
+        <span className="block text-gray-500 text-[10px]">
+          €{breakdown.subtotals?.concrete?.cost?.toFixed(2)}
+        </span>
+      </td>
+
         <td className="border p-2 text-center">
   {breakdown.subtotals?.steel?.units?.toFixed(2)} kg
   <div className="text-gray-500 text-[10px]">
