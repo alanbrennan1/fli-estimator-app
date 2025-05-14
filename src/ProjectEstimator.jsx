@@ -1034,7 +1034,7 @@ const handleChange = (e) => {
     className="ml-1 cursor-help text-blue-500"
   >
     ⓘ
-  </span>
+  </span> 
 </label>
 
                             <input
