@@ -398,7 +398,7 @@ if (inputs.antiFlotation === 'Yes') {
 });
 });  // closes forEach ✅
           
-
+  }
 
   
   // Rounding after all accumulation is done
