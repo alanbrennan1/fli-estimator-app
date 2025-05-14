@@ -840,7 +840,8 @@ const handleChange = (e) => {
               Configure: {selectedProduct}
             </h3>
 
-            <div className="mb-6 border-2 border-gray-300 shadow-md rounded-lg p-4 bg-white">
+  <div className="space-y-6">
+            <div className="border-2 border-gray-300 shadow-md rounded-lg p-4 bg-white">
           <h4 className="text-sm font-bold uppercase text-gray-700 mb-4 tracking-wide border-b border-gray-400 pb-1">
             Inputs – Common
           </h4>
@@ -978,7 +979,7 @@ const handleChange = (e) => {
 <div className="mt-4"></div>
     
     {/* Inputs - Unique */}
-<div className="mb-6 border-2 border-gray-300 shadow-md rounded-lg p-4 bg-white">
+<div className="border-2 border-gray-300 shadow-md rounded-lg p-4 bg-white">
   <h4 className="text-sm font-bold uppercase text-gray-700 mb-4 tracking-wide border-b border-gray-400 pb-1">
     Inputs – Unique
   </h4>
@@ -1072,7 +1073,7 @@ const handleChange = (e) => {
             <div className="text-xs text-gray-500 italic">Loading additional items...</div>
           )}
         </div>
-
+ </div>
 
     
   </> 
