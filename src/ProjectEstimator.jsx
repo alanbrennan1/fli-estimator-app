@@ -976,7 +976,7 @@ const handleChange = (e) => {
         </div>
 
 
-<div className="mt-6"></div>
+<div className="mt-4"></div>
     {/* Inputs - Unique */}
         <div className="mt-10 mb-6 border-2 border-gray-300 shadow-md rounded-lg p-4 bg-white">
           <h4 className="text-sm font-bold uppercase text-gray-700 mb-4 tracking-wide border-b border-gray-400 pb-1">
