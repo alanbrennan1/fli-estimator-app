@@ -393,13 +393,14 @@ if (inputs.antiFlotation === 'Yes') {
     hours: labourHrs.toFixed(2),
     cost: parseFloat(labourCost.toFixed(2))
   },
-  uniqueItems: inputs.uniqueItems || [], // 🧩 ADD THIS LINE
+  uniqueItems: inputs.uniqueItems || []
  
 });
+});  // closes forEach ✅
+          
 
-      
-    
-  }
+
+  
   // Rounding after all accumulation is done
   concreteSubtotal = parseFloat(concreteSubtotal.toFixed(2));
   concreteUnitTotal = parseFloat(concreteUnitTotal.toFixed(2));
