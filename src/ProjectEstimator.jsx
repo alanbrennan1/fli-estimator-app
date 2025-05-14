@@ -306,22 +306,7 @@ if (!additionalItemsData || Object.keys(additionalItemsData).length === 0) {
 
 
   let sourceBreakdowns = [];
-  const pricingMapKeys = {
-    unistrut: 'Unistrut',
-    sikapowder: 'Sika Powder',
-    ducttype1: 'Duct Type 1',
-    ducttype2: 'Duct Type 2',
-    ducttype3: 'Duct Type 3',
-    ducttype4: 'Duct Type 4',
-    lifterscapstans: 'Lifters & Capstans',
-    wbarscabbling: 'W.Bar & Scabbling',
-    mkkcones: 'MKK Cones',
-    ladderrungs: 'Ladder Rungs',
-    pullingirons: 'Pulling Irons',
-    earthingpoints: 'Earthing Points',
-    sumpgrates: 'Sump Grates',
-    polyfleece: 'Polyfleece'
-  };
+
 
 let concreteSubtotal = 0;
 let concreteUnitTotal = 0;
@@ -376,15 +361,6 @@ if (inputs.antiFlotation === 'Yes') {
   console.log("🧪 Product Input to Breakdown:", { productName, inputs });
 
 
-      Object.keys(pricingMapKeys).forEach(normalizedKey => {
-        const label = pricingMapKeys[normalizedKey];
-        const foundKey = Object.keys(additionalItems).find(k => k.toLowerCase() === label.toLowerCase());
-        const val = safe(foundKey ? additionalItems[foundKey] : 0);
-        if (val > 0) {
-          additionalMapped[normalizedKey] = val;
-        }
-      });
-
       const productCode = buildProductCode(productName, inputs);
       const concreteCost = concreteVolumeM3 * 137.21;
       const steelCost = steelKg * 0.8;
@@ -418,7 +394,7 @@ if (inputs.antiFlotation === 'Yes') {
     cost: parseFloat(labourCost.toFixed(2))
   },
   uniqueItems: inputs.uniqueItems || [], // 🧩 ADD THIS LINE
-  ...additionalMapped
+ 
 });
 
       
@@ -467,18 +443,7 @@ const computedBreakdowns = sourceBreakdowns.map(product => {
     let additionalCost = 0;
     let additionalItems = [];
   
-    Object.entries(pricingMapKeys).forEach(([normalizedKey, label]) => {
-      const unitQty = safe(product[normalizedKey]) * quantity;
-      const unitPrice = getUnitPriceFromAdditionalData(label);
-      const itemCost = unitQty * unitPrice;
-      additionalCost += itemCost;
-      additionalUnitTotal += unitQty;
-
-      if (unitQty > 0) {
-        additionalItems.push({ label, qty: unitQty, cost: itemCost });
-      }
-    });
-
+    
   const uniqueList = product.uniqueItems || subProductInputs[product.name]?.uniqueItems || [];
 uniqueList.forEach(entry => {
   if (entry && entry.item && entry.qty > 0) {
