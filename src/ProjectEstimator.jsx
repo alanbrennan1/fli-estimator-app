@@ -373,6 +373,8 @@ if (inputs.antiFlotation === 'Yes') {
       const additionalItems = inputs.additionalItems || {};
       const additionalMapped = {};
 
+      console.log("🧪 Product Input to Breakdown:", product);
+
       Object.keys(pricingMapKeys).forEach(normalizedKey => {
         const label = pricingMapKeys[normalizedKey];
         const foundKey = Object.keys(additionalItems).find(k => k.toLowerCase() === label.toLowerCase());
@@ -1314,9 +1316,9 @@ const handleChange = (e) => {
             </td>
             
 <td className="border p-2 align-top text-xs">
-  {additionalItems.length > 0 ? (
+  {product.additionalItems?.length > 0 ? (
     <ul className="space-y-1">
-      {additionalItems.map((item, i) => (
+      {product.additionalItems.map((item, i) => (
         <li key={i} className="mb-1">
           <div className="font-semibold text-gray-800 truncate">{item.label}</div>
           <div className="text-gray-500 text-[11px] flex justify-between">
