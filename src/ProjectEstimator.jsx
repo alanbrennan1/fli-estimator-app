@@ -457,8 +457,8 @@ const computedBreakdowns = sourceBreakdowns.map(product => {
 
 
     let additionalCost = 0;
-    const additionalItems = [];
-
+    let additionalItems = [];
+  
     Object.entries(pricingMapKeys).forEach(([normalizedKey, label]) => {
       const unitQty = safe(product[normalizedKey]) * quantity;
       const unitPrice = getUnitPriceFromAdditionalData(label);
@@ -470,6 +470,8 @@ const computedBreakdowns = sourceBreakdowns.map(product => {
         additionalItems.push({ label, qty: unitQty, cost: itemCost });
       }
     });
+
+  console.log("➕ Additional Items:", additionalItems);
 
     let subtotal = concreteCost + steelCost + labourCost + additionalCost;
     subtotal *= 1 + safe(formData.wasteMargin) / 100;
@@ -1311,19 +1313,15 @@ const handleChange = (e) => {
               <div className="text-gray-500 text-[10px]">€{labourCost.toFixed(2)}</div>
             </td>
             
-            <td className="border p-2 text-xs align-top">
+<td className="border p-2 align-top text-xs">
   {additionalItems.length > 0 ? (
-    <ul className="space-y-2">
+    <ul className="space-y-1">
       {additionalItems.map((item, i) => (
-        <li key={i} className="pb-2 border-b last:border-b-0">
-          <div className="font-semibold text-gray-800 leading-snug break-words">
-            {item.label}
-          </div>
-          <div className="ml-2 text-gray-600 text-[11px] leading-tight">
-            Qty: {item.qty}
-          </div>
-          <div className="ml-2 text-gray-500 text-[11px] italic leading-tight">
-            €{item.cost.toFixed(2)}
+        <li key={i} className="mb-1">
+          <div className="font-semibold text-gray-800 truncate">{item.label}</div>
+          <div className="text-gray-500 text-[11px] flex justify-between">
+            <span>{Math.round(item.qty)}x</span>
+            <span>€{item.cost.toFixed(2)}</span>
           </div>
         </li>
       ))}
@@ -1332,6 +1330,7 @@ const handleChange = (e) => {
     <span className="text-gray-400 italic">None</span>
   )}
 </td>
+
 
 
             
