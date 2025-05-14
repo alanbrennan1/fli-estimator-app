@@ -396,26 +396,31 @@ if (inputs.antiFlotation === 'Yes') {
       labourSubtotal += labourCost;
       labourUnitTotal += labourHrs;
 
-     sourceBreakdowns.push({
-        name: productName,
-        productCode,
-        quantity,
-        concrete: {
-          volume: concreteVolumeM3.toFixed(2),
-          cost: parseFloat(concreteCost.toFixed(2)),
-          antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0) ? (antiVol / 1_000_000_000 * quantity).toFixed(2) : undefined
-        },
-        steel: {
-          kg: steelKg.toFixed(2),
-          cost: parseFloat(steelCost.toFixed(2))
-        },
-        labour: {
-          hours: labourHrs.toFixed(2),
-          cost: parseFloat(labourCost.toFixed(2))
-        },
-        ...additionalMapped
+
+      sourceBreakdowns.push({
+  name: productName,
+  productCode,
+  quantity,
+  concrete: {
+    volume: concreteVolumeM3.toFixed(2),
+    cost: parseFloat(concreteCost.toFixed(2)),
+    antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0)
+      ? (antiVol / 1_000_000_000 * quantity).toFixed(2)
+      : undefined
+  },
+  steel: {
+    kg: steelKg.toFixed(2),
+    cost: parseFloat(steelCost.toFixed(2))
+  },
+  labour: {
+    hours: labourHrs.toFixed(2),
+    cost: parseFloat(labourCost.toFixed(2))
+  },
+  uniqueItems: inputs.uniqueItems || [], // 🧩 ADD THIS LINE
+  ...additionalMapped
 });
-}); 
+
+      
     
   }
   // Rounding after all accumulation is done
@@ -472,6 +477,18 @@ const computedBreakdowns = sourceBreakdowns.map(product => {
         additionalItems.push({ label, qty: unitQty, cost: itemCost });
       }
     });
+
+  const uniqueList = product.uniqueItems || subProductInputs[product.name]?.uniqueItems || [];
+uniqueList.forEach(entry => {
+  if (entry && entry.item && entry.qty > 0) {
+    const unitPrice = getUnitPriceFromAdditionalData(entry.item);
+    const cost = entry.qty * unitPrice;
+    additionalItems.push({ label: entry.item, qty: entry.qty, cost });
+    additionalCost += cost;
+    additionalUnitTotal += entry.qty;
+  }
+});
+
 
   console.log("➕ Additional Items:", additionalItems);
 
