@@ -373,7 +373,8 @@ if (inputs.antiFlotation === 'Yes') {
       const additionalItems = inputs.additionalItems || {};
       const additionalMapped = {};
 
-      console.log("🧪 Product Input to Breakdown:", product);
+  console.log("🧪 Product Input to Breakdown:", { productName, inputs });
+
 
       Object.keys(pricingMapKeys).forEach(normalizedKey => {
         const label = pricingMapKeys[normalizedKey];
