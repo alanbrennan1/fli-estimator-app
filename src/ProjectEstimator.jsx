@@ -448,13 +448,15 @@ const computedBreakdowns = sourceBreakdowns.map(product => {
   const uniqueList = product.uniqueItems || subProductInputs[product.name]?.uniqueItems || [];
 uniqueList.forEach(entry => {
   if (entry && entry.item && entry.qty > 0) {
+    const unitQty = quantity * entry.qty; // ← Scale by product quantity
     const unitPrice = getUnitPriceFromAdditionalData(entry.item);
-    const cost = entry.qty * unitPrice;
-    additionalItems.push({ label: entry.item, qty: entry.qty, cost });
+    const cost = unitQty * unitPrice;
+    additionalItems.push({ label: entry.item, qty: unitQty, cost });
     additionalCost += cost;
-    additionalUnitTotal += entry.qty;
+    additionalUnitTotal += unitQty;
   }
 });
+
 
 
   console.log("➕ Additional Items:", additionalItems);
