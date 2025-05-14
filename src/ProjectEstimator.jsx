@@ -1315,11 +1315,17 @@ const handleChange = (e) => {
     <ul className="space-y-1">
       {additionalItems.map((item, i) => (
         <li key={i} className="mb-1">
-          <div className="font-semibold text-gray-800 truncate">{item.label}</div>
-          <div className="text-gray-500 text-[11px] flex justify-between">
-            <span>{Math.round(item.qty)}x</span>
-            <span>€{item.cost.toFixed(2)}</span>
-          </div>
+          <div
+  className="font-semibold text-gray-800 truncate"
+  title={item.label}
+>
+  {item.label.length > 20 ? item.label.slice(0, 20) + '…' : item.label}
+</div>
+
+<div className="text-gray-500 text-[11px]">
+  {Math.round(item.qty)}x @ €{(item.cost / item.qty).toFixed(2)} ea
+</div>
+
         </li>
       ))}
     </ul>
