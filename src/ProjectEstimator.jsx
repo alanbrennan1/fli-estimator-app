@@ -1316,9 +1316,9 @@ const handleChange = (e) => {
             </td>
             
 <td className="border p-2 align-top text-xs">
-  {product.additionalItems?.length > 0 ? (
+  {additionalItems?.length > 0 ? (
     <ul className="space-y-1">
-      {product.additionalItems.map((item, i) => (
+      {additionalItems.map((item, i) => (
         <li key={i} className="mb-1">
           <div className="font-semibold text-gray-800 truncate">{item.label}</div>
           <div className="text-gray-500 text-[11px] flex justify-between">
@@ -1332,6 +1332,7 @@ const handleChange = (e) => {
     <span className="text-gray-400 italic">None</span>
   )}
 </td>
+
 
 
 
