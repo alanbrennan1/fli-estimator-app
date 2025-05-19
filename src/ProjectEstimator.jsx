@@ -901,7 +901,7 @@ const handleChange = (e) => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="flex flex-col">
+                <div className="flex flex-col max-w-[160px]">
                   <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Steel/Fibres</h5>
                   <select
                     value={subProductInputs[selectedProduct]?.steelGrade || ''}
@@ -916,6 +916,19 @@ const handleChange = (e) => {
                     <option value="Other">Other</option>
                   </select>
                 </div>
+
+                  {/* Steel Density Input */}
+                  <div className="flex flex-col max-w-[160px]">
+                    <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Steel Density</h5>
+                    <input
+                      type="number"
+                      value={subProductInputs[selectedProduct]?.steelDensity || ''}
+                      onChange={(e) => handleSubInputChange(selectedProduct, 'steelDensity', e.target.value)}
+                      className="border p-2 rounded text-xs"
+                      placeholder="kg/m³"
+                    />
+                  </div>
+                
                 <div className="flex flex-col">
                   <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Surface Finish</h5>
                   <select
