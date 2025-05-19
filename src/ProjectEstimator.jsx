@@ -765,6 +765,7 @@ const handleChange = (e) => {
             <option value="Troughs">Troughs</option>
             <option value="Chambers">Chambers</option>
             <option value="Walls">Walls</option>
+            <option value="Columns">Walls</option>
             <option value="Beams">Beams</option>
             <option value="Slabs">Slabs</option>
             <option value="SATs">SATs</option>
