@@ -903,8 +903,7 @@ const handleChange = (e) => {
   {/* Steel Grade and Density in one column */}
   <div className="flex flex-col">
     <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Steel/Fibres</h5>
-    
-    <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center">
       {/* Dropdown */}
       <select
         value={subProductInputs[selectedProduct]?.steelGrade || ''}
@@ -929,7 +928,6 @@ const handleChange = (e) => {
       />
     </div>
   </div>
-</div>
 
                 
                 <div className="flex flex-col">
@@ -956,6 +954,7 @@ const handleChange = (e) => {
                     className="border p-2 rounded text-xs"
                   />
                 </div>
+    </div>
 
 {selectedProduct?.startsWith('CH') && (
   <div className="mt-6">
