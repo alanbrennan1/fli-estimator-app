@@ -898,7 +898,17 @@ const handleChange = (e) => {
           
                     return (
                       <div key={field} className="flex flex-col">
-                        <label className="text-xs font-medium mb-1">{labelMap[field]}</label>
+                       <label className="text-xs font-medium mb-1 flex items-center gap-1">
+  {labelMap[field]}
+  {selectedProduct?.startsWith('CS') && (field === 'length' || field === 'width') && (
+    <span
+      title={`Auto-filled from Chamber ${field} + 2 × wall thickness`}
+      className="cursor-help text-blue-500 text-xs"
+    >
+      ⓘ
+    </span>
+  )}
+</label>
                         <input
                           type="number"
                           value={subProductInputs[selectedProduct]?.[field] || ''}
