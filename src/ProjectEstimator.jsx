@@ -142,6 +142,39 @@ const getUnitPrice = (itemName) => {
   const [additionalItemsData, setAdditionalItemsData] = useState({});
 
 
+useEffect(() => {
+  // Only run if both Chamber and Cover Slab exist
+  const chamberKey = Object.keys(subProductInputs).find(k => k.startsWith('CH'));
+  const coverSlabKey = Object.keys(subProductInputs).find(k => k.startsWith('CS'));
+
+  if (chamberKey && coverSlabKey) {
+    const chamber = subProductInputs[chamberKey];
+    const coverSlab = subProductInputs[coverSlabKey];
+
+    const chamberLength = parseFloat(chamber.length || 0);
+    const chamberWidth = parseFloat(chamber.width || 0);
+    const wallThickness = parseFloat(chamber.wallThickness || 0);
+
+    const calculatedLength = chamberLength + 2 * wallThickness;
+    const calculatedWidth = chamberWidth + 2 * wallThickness;
+
+    // Only update if values are different to avoid re-renders
+    setSubProductInputs(prev => ({
+      ...prev,
+      [coverSlabKey]: {
+        ...prev[coverSlabKey],
+        length: calculatedLength.toFixed(0),
+        width: calculatedWidth.toFixed(0),
+      }
+    }));
+  }
+}, [subProductInputs]);
+
+
+
+
+
+  
 const selectedSubProducts = allSubProducts.filter(
     ({ code }) => parseInt(subProductInputs[code]?.quantity) > 0
   );
