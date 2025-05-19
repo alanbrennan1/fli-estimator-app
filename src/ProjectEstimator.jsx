@@ -143,7 +143,6 @@ const getUnitPrice = (itemName) => {
 
 
 useEffect(() => {
-  // Only run if both Chamber and Cover Slab exist
   const chamberKey = Object.keys(subProductInputs).find(k => k.startsWith('CH'));
   const coverSlabKey = Object.keys(subProductInputs).find(k => k.startsWith('CS'));
 
@@ -154,21 +153,24 @@ useEffect(() => {
     const chamberLength = parseFloat(chamber.length || 0);
     const chamberWidth = parseFloat(chamber.width || 0);
     const wallThickness = parseFloat(chamber.wallThickness || 0);
+    const baseThickness = parseFloat(chamber.baseThickness || 0);
 
     const calculatedLength = chamberLength + 2 * wallThickness;
     const calculatedWidth = chamberWidth + 2 * wallThickness;
 
-    // Only update if values are different to avoid re-renders
     setSubProductInputs(prev => ({
       ...prev,
       [coverSlabKey]: {
         ...prev[coverSlabKey],
         length: calculatedLength.toFixed(0),
         width: calculatedWidth.toFixed(0),
+        wallThickness: wallThickness.toFixed(0),
+        baseThickness: baseThickness.toFixed(0)
       }
     }));
   }
 }, [subProductInputs]);
+
 
 
 
@@ -898,7 +900,8 @@ const handleChange = (e) => {
           
                     return (
                       <div key={field} className="flex flex-col">
-                       <label className="text-xs font-medium mb-1 flex items-center gap-1">
+                        
+<label className="text-xs font-medium mb-1 flex items-center gap-1">
   {labelMap[field]}
   {selectedProduct?.startsWith('CS') && (field === 'length' || field === 'width') && (
     <span
@@ -908,7 +911,16 @@ const handleChange = (e) => {
       ⓘ
     </span>
   )}
+  {selectedProduct?.startsWith('CS') && (field === 'wallThickness' || field === 'baseThickness') && (
+    <span
+      title={`Auto-filled from Chamber ${field}`}
+      className="cursor-help text-blue-500 text-xs"
+    >
+      ⓘ
+    </span>
+  )}
 </label>
+
                         <input
                           type="number"
                           value={subProductInputs[selectedProduct]?.[field] || ''}
