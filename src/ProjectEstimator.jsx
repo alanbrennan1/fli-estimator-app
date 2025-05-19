@@ -11,7 +11,9 @@ import './index.css';
   Chambers: [
   { name: "Chamber", code: "CH" },
 ],
-
+  Slabs: [
+  { name: "Cover Slab", code: "CS" },
+],
 };
 
 function AccordionSection({ title, children }) {
