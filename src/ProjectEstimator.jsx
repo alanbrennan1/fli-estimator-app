@@ -394,7 +394,7 @@ else {
       const openingLength = safe(inputs.openingLength);
       const openingWidth = safe(inputs.openingWidth);
 
-      const outerVol = (slabLength + 2 * wall) * (slabWidth + 2 * wall) * height;
+      const outerVol = slabLength * slabWidth * height;
       const openingVol = openingLength * openingWidth * height;
 
       concreteVolume = (outerVol - openingVol) * quantity;
