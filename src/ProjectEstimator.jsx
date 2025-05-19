@@ -357,35 +357,53 @@ let grandTotal = 0;
 
   if (pendingImport && pendingImport.length > 0) {
     sourceBreakdowns = pendingImport;
-  } else {
-    Object.entries(subProductInputs).forEach(([productName, inputs]) => {
-      const quantity = safe(inputs.quantity || 1);
-      const length = safe(inputs.length);
-      const width = safe(inputs.width);
-      const height = safe(inputs.height);
+  } 
+else {
+  Object.entries(subProductInputs).forEach(([productName, inputs]) => {
+    const quantity = safe(inputs.quantity || 1);
+    const length = safe(inputs.length);
+    const width = safe(inputs.width);
+    const height = safe(inputs.height);
 
-      let concreteVolume = length * width * height; // initial estimate
-      let antiVol = 0;
+    let concreteVolume = length * width * height; // initial estimate
+    let antiVol = 0;
 
-      if (productName.startsWith('CH')) {
-        const wall = safe(inputs.wallThickness);
-        const base = safe(inputs.baseThickness);
-        const extPlan = (length + wall * 2) * (width + wall * 2);
-        const intPlan = length * width;
-        const extHeight = height + base;
-        const chamberVol = (extPlan * extHeight) - (intPlan * height);
+    if (productName.startsWith('CH')) {
+      const wall = safe(inputs.wallThickness);
+      const base = safe(inputs.baseThickness);
+      const extPlan = (length + wall * 2) * (width + wall * 2);
+      const intPlan = length * width;
+      const extHeight = height + base;
+      const chamberVol = (extPlan * extHeight) - (intPlan * height);
 
-if (inputs.antiFlotation === 'Yes') {
-  const toeLengthM = safe(inputs.toeLength);
-  const toeLength = toeLengthM * 1000; // convert m → mm
-  const toePlan = (length + wall * 2);
-  antiVol = ((toePlan * toeLength * base) * 2);
-}
-       concreteVolume = (chamberVol + antiVol) * quantity;
-        inputs.antiFlotationVolume = antiVol * quantity;
-      } else {
-        concreteVolume = concreteVolume * quantity;
+      if (inputs.antiFlotation === 'Yes') {
+        const toeLengthM = safe(inputs.toeLength);
+        const toeLength = toeLengthM * 1000; // convert m → mm
+        const toePlan = (length + wall * 2);
+        antiVol = ((toePlan * toeLength * base) * 2);
       }
+
+      concreteVolume = (chamberVol + antiVol) * quantity;
+      inputs.antiFlotationVolume = antiVol * quantity;
+
+    } else if (productName.startsWith('CS')) {
+      // ✅ Cover Slab volume logic
+      const wall = safe(inputs.wallThickness);
+      const slabLength = safe(inputs.length);
+      const slabWidth = safe(inputs.width);
+      const openingLength = safe(inputs.openingLength);
+      const openingWidth = safe(inputs.openingWidth);
+
+      const outerVol = (slabLength + 2 * wall) * (slabWidth + 2 * wall) * height;
+      const openingVol = openingLength * openingWidth * height;
+
+      concreteVolume = (outerVol - openingVol) * quantity;
+
+    } else {
+      // Generic precast volume
+      concreteVolume = concreteVolume * quantity;
+    }
+  
 
      // Convert mm³ to m³
       const concreteVolumeM3 = concreteVolume / 1_000_000_000;
