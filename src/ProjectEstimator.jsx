@@ -315,7 +315,7 @@ const handleSketchUpUpload = (e) => {
   const height = pad(inputs.height, 4);
   const wallThickness = pad(inputs.wallThickness, 4);
   const steelGrade = inputs.steelGrade || '';
-  const density = inputs.chamberDensity || '';
+  const density = code.startsWith('CS') ? inputs.roofSlabDensity || '' : inputs.chamberDensity || '';
   const spec = inputs.surfaceFinish || '';
 
   return `${code} ${length}${width}${height}_${wallThickness}_${steelGrade}_${density} ${spec}`;
@@ -1077,7 +1077,7 @@ const handleChange = (e) => {
             handleSubInputChange(selectedProduct, 'roofSlabDensity', e.target.value)
           }
           className="border p-2 rounded text-xs"
-          placeholder="e.g. 2400"
+          placeholder="e.g. 155"
         />
       </div>
     </div>
