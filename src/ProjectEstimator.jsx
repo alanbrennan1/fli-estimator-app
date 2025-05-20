@@ -974,8 +974,8 @@ const handleChange = (e) => {
                 handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
                 handleSubInputChange(uniqueKey, 'labourHours', match['Labour Hrs/Unit']);
                 const additionalItems = [];
-                if (match['Wavy Tail RD20'] && match['Wavy Tail RD20'] > 0) {
-                  additionalItems.push({ item: 'Wavy Tail RD20', qty: match['Wavy Tail RD20'] });
+                if (match['RD20 Wavy'] && match['RD20 Wavy'] > 0) {
+                  additionalItems.push({ item: 'RD20 Wavy', qty: match['RD20 Wavy'] });
                 }
                 if (match['Capstan 7.5A85'] && match['Capstan 7.5A85'] > 0) {
                   additionalItems.push({ item: 'Capstan 7.5A85', qty: match['Capstan 7.5A85'] });
