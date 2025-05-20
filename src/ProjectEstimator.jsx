@@ -1060,10 +1060,6 @@ onChange={(e) => {
           <h4 className="text-sm font-bold uppercase text-gray-700 mb-4 tracking-wide border-b border-gray-400 pb-1">
             Inputs – Common
           </h4>
-              
-<h4 className="text-sm font-bold uppercase text-gray-700 mb-4 tracking-wide border-b border-gray-400 pb-1">
-  Inputs – Common
-</h4>
 
 {console.log('🔍 autoFilled debug', selectedProduct, subProductInputs[selectedProduct]?.autoFilled)}
 
