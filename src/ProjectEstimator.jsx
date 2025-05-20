@@ -977,7 +977,7 @@ const handleChange = (e) => {
                 return next;
               });
               if (match) {
-                
+                handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, length: true, width: true, height: true });
                 handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, steelDensity: true });
                 handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
                 handleSubInputChange(uniqueKey, 'labourHours', match['Labour Hrs/Unit']);
