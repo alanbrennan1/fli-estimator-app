@@ -961,7 +961,7 @@ const handleChange = (e) => {
               setSelectedProduct(uniqueKey);
               setSubProductInputs(prev => {
                 const next = { ...prev };
-                delete next['CT']; // remove placeholder config
+                next['CT'] = { ...next['CT'], wasCleared: true }; // mark placeholder as cleared but preserve tab
                 return next;
               });
               if (match) {
