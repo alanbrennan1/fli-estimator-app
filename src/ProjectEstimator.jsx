@@ -958,6 +958,8 @@ const handleChange = (e) => {
               const height = parseFloat(crossSection?.split('x')[1]) / 1000;
               const match = standardTroughData.find(t => t.Width === width && t.Height === height && t.Length === length);
               const uniqueKey = `CT-${crossSection.replace(/x/, 'x')}-${length}`;
+              setSelectedProduct(uniqueKey);
+              
               handleSubInputChange(uniqueKey, 'productType', 'CT');
               handleSubInputChange(uniqueKey, 'crossSection', crossSection);
               handleSubInputChange(uniqueKey, 'lengthOption', e.target.value);
@@ -970,7 +972,7 @@ const handleChange = (e) => {
               handleSubInputChange(uniqueKey, 'height', parseInt(crossSection.split('x')[1]));
               // Auto-fill flag for height will be set just once below
               handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, height: true });
-              setSelectedProduct(uniqueKey);
+            
               setSubProductInputs(prev => {
                 const next = { ...prev };
                 next['CT'] = { ...next['CT'], wasCleared: true }; // mark placeholder as cleared but preserve tab
