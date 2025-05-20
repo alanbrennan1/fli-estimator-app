@@ -979,6 +979,9 @@ const handleChange = (e) => {
                 return next;
               });
               if (match) {
+                handleSubInputChange(uniqueKey, 'width', parseInt(crossSection.split('x')[0]));
+                handleSubInputChange(uniqueKey, 'height', parseInt(crossSection.split('x')[1]));
+                // Set auto-filled flags for geometry values
                 handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, length: true, width: true, height: true });
                 handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, steelDensity: true });
                 handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
