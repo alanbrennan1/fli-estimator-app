@@ -324,7 +324,10 @@ const handleSketchUpUpload = (e) => {
   const height = pad(inputs.height, 4);
   const wallThickness = pad(inputs.wallThickness, 4);
   const steelGrade = inputs.steelGrade || '';
-  const density = code.startsWith('CS') ? inputs.roofSlabDensity || '' : inputs.chamberDensity || '';
+  const density =
+  code.startsWith('CS')
+    ? inputs.roofSlabDensity || ''
+    : inputs.steelDensity || inputs.chamberDensity || '';
   const spec = inputs.surfaceFinish || '';
 
   return `${code} ${length}${width}${height}_${wallThickness}_${steelGrade}_${density} ${spec}`;
@@ -427,7 +430,7 @@ else {
 
 
       const baseCode = productName.split('-')[0]; // handles CT-900x900-0.75 → CT
-      const productCode = buildProductCode(baseCode, inputs);
+      const productCode = buildProductCode(baseCode, { ...inputs, steelDensity: inputs.steelDensity });
 
       const concreteCost = concreteVolumeM3 * 137.21;
       const steelCost = steelKg * 0.8;
