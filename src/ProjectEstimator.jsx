@@ -960,7 +960,6 @@ const handleChange = (e) => {
                 handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
                 handleSubInputChange(uniqueKey, 'labourHours', match['Labour Hrs/Unit']);
               }
-
             }}
             className="border p-2 rounded text-xs bg-white"
           >
