@@ -153,7 +153,7 @@ const getUnitPrice = (itemName) => {
   }, []);
 
   useEffect(() => {
-  if (shouldResetCT && selectedProduct === 'CT') {
+  if (shouldResetCT) {
     setSubProductInputs(prev => ({
       ...prev,
       CT: {
@@ -163,9 +163,12 @@ const getUnitPrice = (itemName) => {
         autoFilled: {},
       },
     }));
-    setShouldResetCT(false);  // ✅ reset flag
+
+    // Delay resetting the flag slightly to let CT tab mount
+    setTimeout(() => setShouldResetCT(false), 0);
   }
-}, [shouldResetCT, selectedProduct]);
+}, [shouldResetCT]);
+
 
 
   useEffect(() => {
