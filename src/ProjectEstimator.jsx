@@ -141,6 +141,8 @@ const getUnitPrice = (itemName) => {
   const subProducts = productOptions[topLevelProduct] || [];
   const [additionalItemsData, setAdditionalItemsData] = useState({});
   const [standardTroughData, setStandardTroughData] = useState([]);
+  const [shouldResetCT, setShouldResetCT] = useState(false);
+
 
 
   useEffect(() => {
@@ -150,7 +152,23 @@ const getUnitPrice = (itemName) => {
       .catch((err) => console.error('Failed to load standard trough data', err));
   }, []);
 
-useEffect(() => {
+  useEffect(() => {
+  if (shouldResetCT && selectedProduct === 'CT') {
+    setSubProductInputs(prev => ({
+      ...prev,
+      CT: {
+        crossSection: '',
+        lengthOption: '',
+        quantity: '',
+        autoFilled: {},
+      },
+    }));
+    setShouldResetCT(false);  // ✅ reset flag
+  }
+}, [shouldResetCT, selectedProduct]);
+
+
+  useEffect(() => {
   const chamberKey = Object.keys(subProductInputs).find(k => k.startsWith('CH'));
   const coverSlabKey = Object.keys(subProductInputs).find(k => k.startsWith('CS'));
 
@@ -903,8 +921,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
 <button
   onClick={() => {
     if (code === 'CT') {
-      // ✅ Always clear CT inputs
-      setSubProductInputs(prev => ({ ...prev, CT: {} }));
+      setShouldResetCT(true);  // ✅ trigger CT reset via effect
       setSelectedProduct('CT');
     } else {
       setSelectedProduct(code);
@@ -1034,7 +1051,7 @@ handleSubInputChange(key, 'autoFilled', {
       // Mark CT placeholder tab as cleared
       setSubProductInputs(prev => {
         const next = { ...prev };
-       next['CT'] = {}; // or reset the fields you want cleared
+       next['CT'] = { ...next['CT'], wasCleared: true };
         return next;
       });
 
