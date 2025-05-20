@@ -322,12 +322,12 @@ const handleSketchUpUpload = (e) => {
   const length = pad(inputs.length, 4);
   const width = pad(inputs.width, 4);
   const height = pad(inputs.height, 4);
-  const wallThickness = pad(inputs.wallThickness, 4);
+  const wallThickness = code.startsWith('CS') ? '0000' : pad(inputs.wallThickness, 4);
   const steelGrade = inputs.steelGrade || '';
-  const density =
-  code.startsWith('CS')
-    ? inputs.roofSlabDensity || ''
-    : inputs.steelDensity || inputs.chamberDensity || '';
+const density = code.startsWith('CS')
+  ? inputs.roofSlabDensity || ''
+  : inputs.steelDensity || inputs.chamberDensity || '';
+    
   const spec = inputs.surfaceFinish || '';
 
   return `${code} ${length}${width}${height}_${wallThickness}_${steelGrade}_${density} ${spec}`;
