@@ -1034,7 +1034,7 @@ handleSubInputChange(key, 'autoFilled', {
       // Mark CT placeholder tab as cleared
       setSubProductInputs(prev => {
         const next = { ...prev };
-        next['CT'] = { ...next['CT'], wasCleared: true };
+       next['CT'] = {}; // or reset the fields you want cleared
         return next;
       });
 
