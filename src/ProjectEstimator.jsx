@@ -974,9 +974,8 @@ const handleChange = (e) => {
                 handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
                 handleSubInputChange(uniqueKey, 'labourHours', match['Labour Hrs/Unit']);
                 handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, steelDensity: true });
-                $1
                 handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, labourHours: true });
-                $1
+              
                 const additionalItems = [];
                 if ((match['RD20 Wavy'] ?? 0) > 0) {
                   additionalItems.push({ item: 'RD20 Wavy', qty: match['RD20 Wavy'] });
@@ -1240,8 +1239,7 @@ const handleChange = (e) => {
   </div>
 )}
 
-
-              
+             
               </div>
             </div>
       
