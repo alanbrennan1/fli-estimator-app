@@ -917,17 +917,30 @@ const handleChange = (e) => {
         <span title="Quick-fill from standard CT designs" className="ml-2 text-blue-500 cursor-help">ⓘ</span>
       </h4>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
         {/* Cross-Section Selector */}
         <div className="flex flex-col">
           <label className="text-xs font-medium mb-1 text-gray-600">Cross Section (W × H)</label>
           <select
             value={subProductInputs[selectedProduct]?.crossSection || ''}
-            onChange={(e) => {
-              const [width, height] = e.target.value.split('x').map(val => parseInt(val));
-              handleSubInputChange(selectedProduct, 'crossSection', e.target.value);
-              handleSubInputChange(selectedProduct, 'width', width);
-              handleSubInputChange(selectedProduct, 'height', height);
-            }}
+         
+onChange={(e) => {
+  const [width, height] = e.target.value.split('x').map(val => parseInt(val));
+  const crossSection = e.target.value;
+  const uniqueKey = `CT-${crossSection}`;
+  setSelectedProduct(uniqueKey);
+  handleSubInputChange(uniqueKey, 'crossSection', crossSection);
+  handleSubInputChange(uniqueKey, 'width', width);
+  handleSubInputChange(uniqueKey, 'height', height);
+  handleSubInputChange(uniqueKey, 'autoFilled', {
+    ...subProductInputs[uniqueKey]?.autoFilled,
+    width: true,
+    height: true
+  });
+}}
+
+
+            
             className="border p-2 rounded text-xs bg-white"
           >
             <option value="">Select Size</option>
