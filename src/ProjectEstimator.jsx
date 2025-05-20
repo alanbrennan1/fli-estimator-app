@@ -911,8 +911,15 @@ const handleChange = (e) => {
             <option value="">Select Size</option>
             <option value="900x900">0.9m × 0.9m</option>
             <option value="900x600">0.9m × 0.6m</option>
-            <option value="600x450">0.6m × 0.45m</option>
-            <option value="300x300">0.3m × 0.3m</option>
+            <option value="600x450">0.9m × 0.3m</option>
+            <option value="300x300">0.75m × 0.75m</option>
+            <option value="900x900">0.75m × 0.5m</option>
+            <option value="900x600">0.75m × 0.3m</option>
+            <option value="600x450">0.6m × 0.6m</option>
+            <option value="300x300">0.6m × 0.3m</option>
+            <option value="900x600">0.5m × 0.5m</option>
+            <option value="600x450">0.45m × 0.4m</option>
+            <option value="300x300">0.35m × 0.3m</option>
           </select>
         </div>
 
@@ -925,9 +932,10 @@ const handleChange = (e) => {
             className="border p-2 rounded text-xs bg-white"
           >
             <option value="">Select Length</option>
-            <option value="2.5">2.5m</option>
-            <option value="1.5">1.5m</option>
             <option value="0.75">0.75m</option>
+            <option value="1.5">1.5m</option>
+            <option value="2.5">2.5m</option>
+                        
           </select>
         </div>
       </div>
