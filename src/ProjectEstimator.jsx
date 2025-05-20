@@ -609,6 +609,7 @@ uniqueList.forEach(entry => {
   });
 
   setPendingImport(null);
+  setShouldResetCT(true); // ✅ trigger CT tab reset
 };
 
 const handleChange = (e) => {
