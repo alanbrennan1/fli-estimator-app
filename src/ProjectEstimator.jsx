@@ -894,44 +894,45 @@ const handleChange = (e) => {
     Configure: {selectedProduct}
   </h3>
 
-  {/* 🆕 Cross-Section + Length Selector for Troughs */}
-  {topLevelProduct === 'Troughs' && selectedProduct.startsWith('CT') && (
-    <div className="mb-6 border border-gray-300 rounded-lg p-4 bg-gray-50 shadow-sm">
-      <h4 className="text-xs font-bold uppercase text-gray-700 mb-3 tracking-wider border-b pb-1">
-        Select Standard Dimensions
-      </h4>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="flex flex-col">
-          <label className="text-xs font-medium mb-1 text-gray-600">Cross-Section (W × H)</label>
-          <select
-            value={subProductInputs[selectedProduct]?.standardSection || ''}
-            onChange={(e) => handleSubInputChange(selectedProduct, 'standardSection', e.target.value)}
-            className="border rounded p-2 text-xs bg-white"
-          >
-            <option value="">Select</option>
-            {Object.keys(groupedTroughs).map(section => (
-              <option key={section} value={section}>{section}</option>
-            ))}
-          </select>
-        </div>
 
-        <div className="flex flex-col">
-          <label className="text-xs font-medium mb-1 text-gray-600">Available Length</label>
-          <select
-            value={subProductInputs[selectedProduct]?.standardLength || ''}
-            onChange={(e) => handleSubInputChange(selectedProduct, 'standardLength', e.target.value)}
-            className="border rounded p-2 text-xs bg-white"
-            disabled={!subProductInputs[selectedProduct]?.standardSection}
-          >
-            <option value="">Select</option>
-            {(groupedTroughs[subProductInputs[selectedProduct]?.standardSection] || []).map(len => (
-              <option key={len} value={len}>{len} m</option>
-            ))}
-          </select>
-        </div>
-      </div>
+  <div className="mb-6 border border-gray-300 rounded-lg p-4 bg-white shadow-sm">
+  <h4 className="text-sm font-bold uppercase text-gray-700 mb-4 tracking-wide border-b border-gray-400 pb-1">
+    Select Cable Trough Type
+  </h4>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {/* Cross-Section Selector */}
+    <div className="flex flex-col">
+      <label className="text-xs font-medium mb-1 text-gray-600">Cross Section (W × H)</label>
+      <select
+        value={subProductInputs[selectedProduct]?.crossSection || ''}
+        onChange={(e) => handleSubInputChange(selectedProduct, 'crossSection', e.target.value)}
+        className="border p-2 rounded text-xs bg-white"
+      >
+        <option value="">Select Size</option>
+        <option value="900x900">0.9m × 0.9m</option>
+        <option value="900x600">0.9m × 0.6m</option>
+        <option value="600x450">0.6m × 0.45m</option>
+        <option value="300x300">0.3m × 0.3m</option>
+        {/* Add additional cross-sections as needed */}
+      </select>
     </div>
-  )}
+
+    {/* Length Selector */}
+    <div className="flex flex-col">
+      <label className="text-xs font-medium mb-1 text-gray-600">Available Length</label>
+      <select
+        value={subProductInputs[selectedProduct]?.lengthOption || ''}
+        onChange={(e) => handleSubInputChange(selectedProduct, 'lengthOption', e.target.value)}
+        className="border p-2 rounded text-xs bg-white"
+      >
+        <option value="">Select Length</option>
+        <option value="2.5">2.5m</option>
+        <option value="1.5">1.5m</option>
+        <option value="0.75">0.75m</option>
+      </select>
+    </div>
+  </div>
+</div>
 
 
 
