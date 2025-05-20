@@ -372,6 +372,9 @@ else {
     const width = safe(inputs.width);
     const height = safe(inputs.height);
 
+🚫 Skip placeholder CT with no meaningful data
+  if (!quantity || !length || !width || !height) return;
+    
     let concreteVolume = length * width * height; // initial estimate
     let antiVol = 0;
 
@@ -956,6 +959,11 @@ const handleChange = (e) => {
               handleSubInputChange(uniqueKey, 'width', parseInt(crossSection.split('x')[0]));
               handleSubInputChange(uniqueKey, 'height', parseInt(crossSection.split('x')[1]));
               setSelectedProduct(uniqueKey);
+              setSubProductInputs(prev => {
+                const next = { ...prev };
+                delete next['CT']; // remove placeholder config
+                return next;
+              });
               if (match) {
                 handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
                 handleSubInputChange(uniqueKey, 'labourHours', match['Labour Hrs/Unit']);
