@@ -372,7 +372,7 @@ else {
     const width = safe(inputs.width);
     const height = safe(inputs.height);
 
-🚫 Skip placeholder CT with no meaningful data
+// Skip placeholder CT with no meaningful data
   if (!quantity || !length || !width || !height) return;
     
     let concreteVolume = length * width * height; // initial estimate
