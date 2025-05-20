@@ -445,6 +445,7 @@ else {
   name: baseCode,
   productCode,
   quantity,
+  density: inputs.steelDensity || inputs.chamberDensity || undefined,
   concrete: {
     volume: concreteVolumeM3.toFixed(2),
     cost: parseFloat(concreteCost.toFixed(2)),
