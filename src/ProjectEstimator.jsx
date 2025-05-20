@@ -179,14 +179,16 @@ useEffect(() => {
 }, [subProductInputs]);
 
 
-
-
-
-
   
-const selectedSubProducts = allSubProducts.filter(
-    ({ code }) => parseInt(subProductInputs[code]?.quantity) > 0
-  );
+const selectedSubProducts = [
+  ...allSubProducts.filter(({ code }) =>
+    code !== 'CT' && parseInt(subProductInputs[code]?.quantity) > 0
+  ),
+  ...Object.entries(subProductInputs)
+    .filter(([key, val]) => key.startsWith('CT-'))  // Only custom CTs
+    .map(([key]) => ({ code: key, name: key }))
+];
+
 
   
 const handleSketchUpUpload = (e) => {
