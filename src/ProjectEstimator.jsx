@@ -870,14 +870,14 @@ const handleChange = (e) => {
                   />
                 )}
                                
-                
-                <button
-                  onClick={() => setSelectedProduct(code)}
-                  className="text-green-600 hover:text-green-800 text-sm"
-                  title={`Set Quantity for ${name}`}
-                >
-                  🔢
-                </button>
+  {/* Always render the configure button */}
+  <button
+    onClick={() => setSelectedProduct(code)}
+    className="text-green-600 hover:text-green-800 text-sm"
+    title={`Configure ${name}`}
+  >
+    🔧
+  </button>
       
               </div>
             </div>
