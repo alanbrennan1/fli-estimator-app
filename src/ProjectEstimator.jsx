@@ -924,15 +924,15 @@ const handleChange = (e) => {
             <option value="">Select Size</option>
             <option value="900x900">0.9m × 0.9m</option>
             <option value="900x600">0.9m × 0.6m</option>
-            <option value="600x450">0.9m × 0.3m</option>
-            <option value="300x300">0.75m × 0.75m</option>
-            <option value="900x900">0.75m × 0.5m</option>
-            <option value="900x600">0.75m × 0.3m</option>
-            <option value="600x450">0.6m × 0.6m</option>
-            <option value="300x300">0.6m × 0.3m</option>
-            <option value="900x600">0.5m × 0.5m</option>
-            <option value="600x450">0.45m × 0.4m</option>
-            <option value="300x300">0.35m × 0.3m</option>
+            <option value="900x300">0.9m × 0.3m</option>
+            <option value="750x750">0.75m × 0.75m</option>
+            <option value="750x500">0.75m × 0.5m</option>
+            <option value="750x300">0.75m × 0.3m</option>
+            <option value="600x600">0.6m × 0.6m</option>
+            <option value="600x300">0.6m × 0.3m</option>
+            <option value="500x500">0.5m × 0.5m</option>
+            <option value="450x400">0.45m × 0.4m</option>
+            <option value="350x300">0.35m × 0.3m</option>
           </select>
         </div>
 
@@ -948,13 +948,19 @@ const handleChange = (e) => {
               const width = parseFloat(crossSection?.split('x')[0]) / 1000;
               const height = parseFloat(crossSection?.split('x')[1]) / 1000;
               const match = standardTroughData.find(t => t.Width === width && t.Height === height && t.Length === length);
-              handleSubInputChange(selectedProduct, 'lengthOption', e.target.value);
-              handleSubInputChange(selectedProduct, 'length', lengthMm);
+              const uniqueKey = `CT-${crossSection.replace(/x/, 'x')}-${length}`;
+              handleSubInputChange(uniqueKey, 'productType', 'CT');
+              handleSubInputChange(uniqueKey, 'crossSection', crossSection);
+              handleSubInputChange(uniqueKey, 'lengthOption', e.target.value);
+              handleSubInputChange(uniqueKey, 'length', lengthMm);
+              handleSubInputChange(uniqueKey, 'width', parseInt(crossSection.split('x')[0]));
+              handleSubInputChange(uniqueKey, 'height', parseInt(crossSection.split('x')[1]));
+              setSelectedProduct(uniqueKey);
               if (match) {
-                console.log("Steel Density →", match["Steel (kg/m³)"]);
-                handleSubInputChange(selectedProduct, 'steelDensity', match['Steel (kg/m³)']);
-                handleSubInputChange(selectedProduct, 'labourHours', match['Labour Hrs/Unit']);
+                handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
+                handleSubInputChange(uniqueKey, 'labourHours', match['Labour Hrs/Unit']);
               }
+
             }}
             className="border p-2 rounded text-xs bg-white"
           >
