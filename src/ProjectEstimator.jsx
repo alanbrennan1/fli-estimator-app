@@ -143,7 +143,7 @@ const getUnitPrice = (itemName) => {
   const [standardTroughData, setStandardTroughData] = useState([]);
 
   useEffect(() => {
-    fetch('/data/standard_trough_details_clean.json')
+    fetch('/standard_trough_details_clean.json')
       .then((res) => res.json())
       .then((data) => setStandardTroughData(data))
       .catch((err) => console.error('Failed to load standard trough data', err));
