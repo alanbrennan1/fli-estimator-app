@@ -987,7 +987,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
 
           <select
   key={`ct-cross-section-${selectedProduct === 'CT' ? (subProductInputs['CT']?.crossSection || 'reset') : 'variant'}`}
-  value={selectedProduct === 'CT' ? (subProductInputs['CT']?.crossSection || '') : ''}
+  value={subProductInputs[selectedProduct]?.crossSection || ''}
 
          
 onChange={(e) => {
