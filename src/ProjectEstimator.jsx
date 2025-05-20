@@ -973,6 +973,10 @@ const handleChange = (e) => {
               if (match) {
                 handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
                 handleSubInputChange(uniqueKey, 'labourHours', match['Labour Hrs/Unit']);
+                handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, steelDensity: true });
+                $1
+                handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, labourHours: true });
+                $1
                 const additionalItems = [];
                 if ((match['RD20 Wavy'] ?? 0) > 0) {
                   additionalItems.push({ item: 'RD20 Wavy', qty: match['RD20 Wavy'] });
@@ -1060,7 +1064,8 @@ const handleChange = (e) => {
                           type="number"
                           value={subProductInputs[selectedProduct]?.[field] || ''}
                           onChange={(e) => handleSubInputChange(selectedProduct, field, e.target.value)}
-                          className="border p-2 rounded text-xs"
+                          className={`border p-2 rounded text-xs ${
+  subProductInputs[selectedProduct]?.autoFilled?.[field] ? 'bg-blue-50' : ''
                         />
                       </div>
                     );
@@ -1115,7 +1120,7 @@ const handleChange = (e) => {
         type="number"
         value={subProductInputs[selectedProduct]?.steelDensity || ''}
         onChange={(e) => handleSubInputChange(selectedProduct, 'steelDensity', e.target.value)}
-        className="border p-2 rounded text-xs w-[100px]"
+        className={`border p-2 rounded text-xs w-[100px] ${subProductInputs[selectedProduct]?.autoFilled?.steelDensity ? 'bg-blue-50' : ''}`}
         placeholder="kg/m³"
       />
     </div>
@@ -1143,7 +1148,8 @@ const handleChange = (e) => {
                     value={subProductInputs[selectedProduct]?.labourHours || ''}
                     onChange={(e) => handleSubInputChange(selectedProduct, 'labourHours', e.target.value)}
                     placeholder="Labour Hrs/Unit"
-                    className="border p-2 rounded text-xs"
+                    className={`border p-2 rounded text-xs ${subProductInputs[selectedProduct]?.autoFilled?.labourHours ? 'bg-blue-50' : ''}`}
+
                   />
                 </div>
     </div>
