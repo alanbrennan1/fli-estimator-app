@@ -1008,6 +1008,7 @@ onChange={(e) => {
           width: true,
           height: true,
           steelDensity: true
+          labourHours: true
         });
 
 
