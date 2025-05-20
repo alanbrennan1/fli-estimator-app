@@ -960,60 +960,59 @@ onChange={(e) => {
 
 {/* Length Selector */}
 <div className="flex flex-col">
-          <label className="text-xs font-medium mb-1 text-gray-600">Available Length</label>
-          <select
-            value={subProductInputs[selectedProduct]?.lengthOption || ''}
-            onChange={(e) => {
-              const length = parseFloat(e.target.value);
-              const lengthMm = length * 1000;
-              const crossSection = subProductInputs[selectedProduct]?.crossSection;
-              const width = parseFloat(crossSection?.split('x')[0]) / 1000;
-              const height = parseFloat(crossSection?.split('x')[1]) / 1000;
-              const match = standardTroughData.find(t => t.Width === width && t.Height === height && t.Length === length);
-              const uniqueKey = `CT-${crossSection.replace(/x/, 'x')}-${length}`;
-              handleSubInputChange(uniqueKey, 'productType', 'CT');
-              handleSubInputChange(uniqueKey, 'crossSection', crossSection);
-              handleSubInputChange(uniqueKey, 'lengthOption', e.target.value);
-              handleSubInputChange(uniqueKey, 'length', lengthMm);
-handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, length: true });
-              // Auto-fill flag for length will be set just once below
-              
-              
-              setSelectedProduct(uniqueKey);
-              setSubProductInputs(prev => {
-                const next = { ...prev };
-                next['CT'] = { ...next['CT'], wasCleared: true }; // mark placeholder as cleared but preserve tab
-                return next;
-              });
-              if (match) {
-                handleSubInputChange(uniqueKey, 'width', parseInt(crossSection.split('x')[0]));
-handleSubInputChange(uniqueKey, 'autoFilled', {
-  ...subProductInputs[uniqueKey]?.autoFilled,
-  width: true
-});
-                handleSubInputChange(uniqueKey, 'autoFilled', {
-                  ...subProductInputs[uniqueKey]?.autoFilled,
-                  width: true
-                });
-                handleSubInputChange(uniqueKey, 'height', parseInt(crossSection.split('x')[1]));
-handleSubInputChange(uniqueKey, 'autoFilled', {
-  ...subProductInputs[uniqueKey]?.autoFilled,
-  height: true
-});
-                handleSubInputChange(uniqueKey, 'autoFilled', {
-                  ...subProductInputs[uniqueKey]?.autoFilled,
-                  height: true
-                });
+  <label className="text-xs font-medium mb-1 text-gray-600">Available Length</label>
+  <select
+    value={subProductInputs[selectedProduct]?.lengthOption || ''}
+    onChange={(e) => {
+      const length = parseFloat(e.target.value);
+      const lengthMm = length * 1000;
+      const crossSection = subProductInputs[selectedProduct]?.crossSection;
+      const width = parseInt(crossSection?.split('x')[0]);
+      const height = parseInt(crossSection?.split('x')[1]);
+      const widthM = width / 1000;
+      const heightM = height / 1000;
+
+      const match = standardTroughData.find(
+        t => t.Width === widthM && t.Height === heightM && t.Length === length
+      );
+
+      const uniqueKey = `CT-${crossSection}-${length}`;
+      setSelectedProduct(uniqueKey);
+
+      // Assign core values
+      handleSubInputChange(uniqueKey, 'productType', 'CT');
+      handleSubInputChange(uniqueKey, 'crossSection', crossSection);
+      handleSubInputChange(uniqueKey, 'lengthOption', e.target.value);
+      handleSubInputChange(uniqueKey, 'length', lengthMm);
+
+      // Mark CT placeholder tab as cleared
+      setSubProductInputs(prev => {
+        const next = { ...prev };
+        next['CT'] = { ...next['CT'], wasCleared: true };
+        return next;
+      });
+
+      if (match) {
+        // Assign geometry
+        handleSubInputChange(uniqueKey, 'width', width);
+        handleSubInputChange(uniqueKey, 'height', height);
+
+        // Assign additional values
+        handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
+        handleSubInputChange(uniqueKey, 'labourHours', match['Labour Hrs/Unit']);
+
+        // ✅ Consolidated autoFilled update
+        handleSubInputChange(uniqueKey, 'autoFilled', {
+          ...(subProductInputs[uniqueKey]?.autoFilled || {}),
+          length: true,
+          width: true,
+          height: true,
+          steelDensity: true
+        });
 
 
 
-               
-                // Set auto-filled flags for geometry values
-                handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, length: true, width: true, height: true });
-                handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, steelDensity: true });
-                handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
-                handleSubInputChange(uniqueKey, 'labourHours', match['Labour Hrs/Unit']);
-              
+                
                 const additionalItems = [];
                 if ((match['RD20 Wavy'] ?? 0) > 0) {
                   additionalItems.push({ item: 'RD20 Wavy', qty: match['RD20 Wavy'] });
