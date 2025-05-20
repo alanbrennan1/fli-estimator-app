@@ -426,7 +426,9 @@ else {
   console.log("🧪 Product Input to Breakdown:", { productName, inputs });
 
 
-      const productCode = buildProductCode(productName, inputs);
+      const baseCode = productName.split('-')[0]; // handles CT-900x900-0.75 → CT
+      const productCode = buildProductCode(baseCode, inputs);
+
       const concreteCost = concreteVolumeM3 * 137.21;
       const steelCost = steelKg * 0.8;
       const labourCost = labourHrs * 70.11;
@@ -440,7 +442,7 @@ else {
 
 
       sourceBreakdowns.push({
-  name: productName,
+  name: baseCode,
   productCode,
   quantity,
   concrete: {
