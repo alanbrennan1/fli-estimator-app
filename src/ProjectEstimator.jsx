@@ -904,7 +904,7 @@ const handleChange = (e) => {
     Configure: {selectedProduct}
   </h3>
 
-  topLevelProduct === 'Troughs' && selectedProduct?.startsWith('CT')
+  {topLevelProduct === 'Troughs' && selectedProduct?.startsWith('CT') && (
     <div className="mb-6 border border-gray-300 rounded-lg p-4 bg-white shadow-sm">
       <h4 className="text-sm font-bold uppercase text-gray-700 mb-4 tracking-wide border-b border-gray-400 pb-1">
         Select Cable Trough Type
