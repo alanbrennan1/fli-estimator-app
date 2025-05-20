@@ -987,13 +987,19 @@ handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.
               });
               if (match) {
                 handleSubInputChange(uniqueKey, 'width', parseInt(crossSection.split('x')[0]));
-handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, width: true });
+handleSubInputChange(uniqueKey, 'autoFilled', {
+  ...subProductInputs[uniqueKey]?.autoFilled,
+  width: true
+});
                 handleSubInputChange(uniqueKey, 'autoFilled', {
                   ...subProductInputs[uniqueKey]?.autoFilled,
                   width: true
                 });
                 handleSubInputChange(uniqueKey, 'height', parseInt(crossSection.split('x')[1]));
-handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, height: true });
+handleSubInputChange(uniqueKey, 'autoFilled', {
+  ...subProductInputs[uniqueKey]?.autoFilled,
+  height: true
+});
                 handleSubInputChange(uniqueKey, 'autoFilled', {
                   ...subProductInputs[uniqueKey]?.autoFilled,
                   height: true
