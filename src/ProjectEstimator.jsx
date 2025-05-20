@@ -962,13 +962,13 @@ const handleChange = (e) => {
               handleSubInputChange(uniqueKey, 'crossSection', crossSection);
               handleSubInputChange(uniqueKey, 'lengthOption', e.target.value);
               handleSubInputChange(uniqueKey, 'length', lengthMm);
-              handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, length: true });
+              // Auto-fill flag for length will be set just once below
               handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, length: true });
               handleSubInputChange(uniqueKey, 'width', parseInt(crossSection.split('x')[0]));
-              handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, width: true });
+              // Auto-fill flag for width will be set just once below
               handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, width: true });
               handleSubInputChange(uniqueKey, 'height', parseInt(crossSection.split('x')[1]));
-              handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, height: true });
+              // Auto-fill flag for height will be set just once below
               handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, height: true });
               setSelectedProduct(uniqueKey);
               setSubProductInputs(prev => {
