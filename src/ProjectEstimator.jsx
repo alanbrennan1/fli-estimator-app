@@ -185,9 +185,10 @@ const selectedSubProducts = [
     code !== 'CT' && parseInt(subProductInputs[code]?.quantity) > 0
   ),
   ...Object.entries(subProductInputs)
-    .filter(([key, val]) => key.startsWith('CT-'))  // Only custom CTs
+    .filter(([key, val]) => key.startsWith('CT-') || key === 'CT')  // ✅ include base CT tab
     .map(([key]) => ({ code: key, name: key }))
 ];
+
 
 
   
@@ -876,9 +877,10 @@ const handleChange = (e) => {
 <button
   onClick={() => {
     if (code === 'CT') {
-      // Find first configured CT key
-      const ctKey = Object.keys(subProductInputs).find(key => key.startsWith('CT-'));
-      if (ctKey) setSelectedProduct(ctKey);
+      if (!subProductInputs['CT']) {
+        setSubProductInputs(prev => ({ ...prev, CT: {} }));
+      }
+      setSelectedProduct('CT');
     } else {
       setSelectedProduct(code);
     }
@@ -888,6 +890,7 @@ const handleChange = (e) => {
 >
   🔧 Configure
 </button>
+
 
 
       
