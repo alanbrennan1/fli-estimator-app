@@ -12,7 +12,7 @@ import './index.css';
   { name: "Chamber", code: "CH" },
 ],
   Slabs: [
-  { name: "Cover Slab", code: "CS" },
+  { name: "Cover Slab", code: "CS" }, 
 ],
 };
 
