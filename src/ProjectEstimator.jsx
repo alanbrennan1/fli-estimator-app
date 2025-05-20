@@ -141,6 +141,8 @@ const getUnitPrice = (itemName) => {
   const subProducts = productOptions[topLevelProduct] || [];
   const [additionalItemsData, setAdditionalItemsData] = useState({});
   const [standardTroughData, setStandardTroughData] = useState([]);
+  const [showCTToast, setShowCTToast] = useState(false);
+  const [highlightedCTTab, setHighlightedCTTab] = useState(null);
 
   useEffect(() => {
     fetch('/standard_trough_details_clean.json')
@@ -616,6 +618,9 @@ useEffect(() => {
     [variantKey]: { ...ct },
     CT: {}  // Reset the CT tab for the next one
   }));
+setSelectedProduct('CT');  // Auto-return to CT tab
+setShowCTToast(true);
+setTimeout(() => setShowCTToast(false), 4000);
 }, [subProductInputs['CT']]);
 
   
@@ -956,6 +961,14 @@ useEffect(() => {
 
   {topLevelProduct === 'Troughs' && selectedProduct?.startsWith('CT') && (
     <div className="border-2 border-gray-300 shadow-md rounded-lg p-4 bg-white">
+
+{/* ✅ Insert toast here */}
+    {showCTToast && (
+      <div className="mb-4 p-2 text-xs rounded bg-green-100 border border-green-300 text-green-800 shadow-sm animate-fade-in">
+        ✅ CT variant saved
+      </div>
+    )}
+      
       <h4 className="text-sm font-bold uppercase text-gray-700 mb-4 tracking-wide border-b border-gray-400 pb-1">
         Select Cable Trough Type
         <span title="Quick-fill from standard CT designs" className="ml-2 text-blue-500 cursor-help">ⓘ</span>
