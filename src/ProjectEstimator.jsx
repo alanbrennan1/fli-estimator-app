@@ -978,9 +978,17 @@ const handleChange = (e) => {
                 next['CT'] = { ...next['CT'], wasCleared: true }; // mark placeholder as cleared but preserve tab
                 return next;
               });
-              if (match) {
+             if (match) {
                 handleSubInputChange(uniqueKey, 'width', parseInt(crossSection.split('x')[0]));
+                handleSubInputChange(uniqueKey, 'autoFilled', {
+                  ...subProductInputs[uniqueKey]?.autoFilled,
+                  width: true
+                });
                 handleSubInputChange(uniqueKey, 'height', parseInt(crossSection.split('x')[1]));
+                handleSubInputChange(uniqueKey, 'autoFilled', {
+                  ...subProductInputs[uniqueKey]?.autoFilled,
+                  height: true
+                });
                 // Set auto-filled flags for geometry values
                 handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, length: true, width: true, height: true });
                 handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, steelDensity: true });
