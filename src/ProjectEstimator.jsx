@@ -594,6 +594,29 @@ const handleChange = (e) => {
   setFormData(prev => ({ ...prev, [name]: value }));
 };
 
+useEffect(() => {
+  const ct = subProductInputs['CT'];
+  if (!ct) return;
+
+  const crossSection = ct.crossSection;
+  const lengthOption = ct.lengthOption;
+  const quantity = parseInt(ct.quantity);
+
+  // Only save if all required fields are filled
+  if (!crossSection || !lengthOption || !quantity || quantity <= 0) return;
+
+  const variantKey = `CT-${crossSection}-${lengthOption}`;
+
+  // Prevent overwriting an existing variant
+  if (subProductInputs[variantKey]) return;
+
+  // Clone CT config into a new variant and clear CT tab
+  setSubProductInputs(prev => ({
+    ...prev,
+    [variantKey]: { ...ct },
+    CT: {}  // Reset the CT tab for the next one
+  }));
+}, [subProductInputs['CT']]);
 
   
   return (
@@ -948,16 +971,17 @@ const handleChange = (e) => {
 onChange={(e) => {
   const [width, height] = e.target.value.split('x').map(val => parseInt(val));
   const crossSection = e.target.value;
-  const uniqueKey = `CT-${crossSection}`;
-  setSelectedProduct(uniqueKey);
-  handleSubInputChange(uniqueKey, 'crossSection', crossSection);
-  handleSubInputChange(uniqueKey, 'width', width);
-  handleSubInputChange(uniqueKey, 'height', height);
-  handleSubInputChange(uniqueKey, 'autoFilled', {
-    ...subProductInputs[uniqueKey]?.autoFilled,
-    width: true,
-    height: true
-  });
+ 
+const key = 'CT';
+handleSubInputChange(key, 'crossSection', crossSection);
+handleSubInputChange(key, 'width', width);
+handleSubInputChange(key, 'height', height);
+handleSubInputChange(key, 'autoFilled', {
+  ...(subProductInputs[key]?.autoFilled || {}),
+  width: true,
+  height: true
+});
+
 }}
 
 
