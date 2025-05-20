@@ -974,8 +974,8 @@ const handleChange = (e) => {
                 handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
                 handleSubInputChange(uniqueKey, 'labourHours', match['Labour Hrs/Unit']);
                 const additionalItems = [];
-                if (match['RD20 Wavy'] && match['RD20 Wavy'] > 0) {
-                  additionalItems.push({ item: 'RD20 Wavy', qty: match['RD20 Wavy'] });
+                if ((match['Wavy Tail RD20'] ?? 0) > 0) {
+                  additionalItems.push({ item: 'Wavy Tail RD20', qty: match['Wavy Tail RD20'] });
                 }
                 if (match['Capstan 7.5A85'] && match['Capstan 7.5A85'] > 0) {
                   additionalItems.push({ item: 'Capstan 7.5A85', qty: match['Capstan 7.5A85'] });
@@ -984,7 +984,16 @@ const handleChange = (e) => {
                   additionalItems.push({ item: 'Capstan 1.3A85', qty: match['Capstan 1.3A85'] });
                 }
                 if (additionalItems.length > 0) {
-                  handleSubInputChange(uniqueKey, 'uniqueItems', additionalItems);
+                  const enrichedItems = additionalItems.map(entry => {
+                    let category = '';
+                    if (entry.item.includes('Capstan') || entry.item.includes('RD20')) {
+                      category = 'Capstans and Lifters';
+                    }
+                    let item = entry.item;
+                    if (item === 'RD20 Wavy') item = 'Capstan RD20 Wavy';
+                    return { category, item, qty: entry.qty };
+                  });
+                  handleSubInputChange(uniqueKey, 'uniqueItems', enrichedItems);
                 }
               }
             }}
