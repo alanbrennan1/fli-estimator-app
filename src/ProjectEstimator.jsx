@@ -949,19 +949,21 @@ setSelectedProduct('CT');  // Auto-return to CT tab
     )}
 
     <div className="mt-6">
-      <div className="flex gap-2 border-b pb-2 mb-4">
-        {selectedSubProducts.map(({ code }) => (
-          <button
-            key={code}
-            onClick={() => setSelectedProduct(code)}
-            className={`px-4 py-1 rounded-t text-sm font-medium transition ${
-              selectedProduct === code
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
-          >
-            {code}
-          </button>
+<div className="flex gap-2 border-b pb-2 mb-4 flex-wrap">
+  {selectedSubProducts.map(({ code }) => (
+    <button
+      key={code}
+      onClick={() => setSelectedProduct(code)}
+      className={`px-4 py-1 rounded text-sm font-medium transition border ${
+        selectedProduct === code
+          ? 'bg-blue-600 text-white'
+          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+      } ${
+        code.startsWith('CT') ? 'border-blue-400' : 'border-gray-300'
+      }`}
+    >
+      {code}
+    </button>
             
             ))}
        </div>
