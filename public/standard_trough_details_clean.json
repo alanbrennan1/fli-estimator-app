@@ -1,0 +1,332 @@
+[
+  {
+    "Width": 0.9,
+    "Height": 0.9,
+    "Length": 2.5,
+    "Concrete Volume": 1.07,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 6.0
+  },
+  {
+    "Width": 0.9,
+    "Height": 0.6,
+    "Length": 2.5,
+    "Concrete Volume": 0.88,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 6.0
+  },
+  {
+    "Width": 0.9,
+    "Height": 0.3,
+    "Length": 2.5,
+    "Concrete Volume": 0.67,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 6.0
+  },
+  {
+    "Width": 0.75,
+    "Height": 0.75,
+    "Length": 2.5,
+    "Concrete Volume": 0.92,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 6.0
+  },
+  {
+    "Width": 0.75,
+    "Height": 0.5,
+    "Length": 2.5,
+    "Concrete Volume": 0.75,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 6.0
+  },
+  {
+    "Width": 0.75,
+    "Height": 0.3,
+    "Length": 2.5,
+    "Concrete Volume": 0.62,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 6.0
+  },
+  {
+    "Width": 0.6,
+    "Height": 0.6,
+    "Length": 2.5,
+    "Concrete Volume": 0.77,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 6.0
+  },
+  {
+    "Width": 0.6,
+    "Height": 0.3,
+    "Length": 2.5,
+    "Concrete Volume": 0.56,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 1.3A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 6.0
+  },
+  {
+    "Width": 0.5,
+    "Height": 0.5,
+    "Length": 2.5,
+    "Concrete Volume": 0.66,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 6.0
+  },
+  {
+    "Width": 0.45,
+    "Height": 0.4,
+    "Length": 2.5,
+    "Concrete Volume": 0.57,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 1.3A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 6.0
+  },
+  {
+    "Width": 0.35,
+    "Height": 0.3,
+    "Length": 2.5,
+    "Concrete Volume": 0.46,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 1.3A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 6.0
+  },
+  {
+    "Width": 0.9,
+    "Height": 0.9,
+    "Length": 1.5,
+    "Concrete Volume": 0.64,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 4.0
+  },
+  {
+    "Width": 0.9,
+    "Height": 0.6,
+    "Length": 1.5,
+    "Concrete Volume": 0.53,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 4.0
+  },
+  {
+    "Width": 0.9,
+    "Height": 0.3,
+    "Length": 1.5,
+    "Concrete Volume": 0.4,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 4.0
+  },
+  {
+    "Width": 0.75,
+    "Height": 0.75,
+    "Length": 1.5,
+    "Concrete Volume": 0.55,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 4.0
+  },
+  {
+    "Width": 0.75,
+    "Height": 0.5,
+    "Length": 1.5,
+    "Concrete Volume": 0.45,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 4.0
+  },
+  {
+    "Width": 0.75,
+    "Height": 0.3,
+    "Length": 1.5,
+    "Concrete Volume": 0.37,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 4.0
+  },
+  {
+    "Width": 0.6,
+    "Height": 0.6,
+    "Length": 1.5,
+    "Concrete Volume": 0.46,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 4.0
+  },
+  {
+    "Width": 0.6,
+    "Height": 0.3,
+    "Length": 1.5,
+    "Concrete Volume": 0.33,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 1.3A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 4.0
+  },
+  {
+    "Width": 0.5,
+    "Height": 0.5,
+    "Length": 1.5,
+    "Concrete Volume": 0.4,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 4.0
+  },
+  {
+    "Width": 0.45,
+    "Height": 0.4,
+    "Length": 1.5,
+    "Concrete Volume": 0.34,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 1.3A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 4.0
+  },
+  {
+    "Width": 0.35,
+    "Height": 0.3,
+    "Length": 1.5,
+    "Concrete Volume": 0.28,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 1.3A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 4.0
+  },
+  {
+    "Width": 0.9,
+    "Height": 0.9,
+    "Length": 0.75,
+    "Concrete Volume": 0.32,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 2.0
+  },
+  {
+    "Width": 0.9,
+    "Height": 0.6,
+    "Length": 0.75,
+    "Concrete Volume": 0.26,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 2.0
+  },
+  {
+    "Width": 0.9,
+    "Height": 0.3,
+    "Length": 0.75,
+    "Concrete Volume": 0.2,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 2.0
+  },
+  {
+    "Width": 0.75,
+    "Height": 0.75,
+    "Length": 0.75,
+    "Concrete Volume": 0.28,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 2.0
+  },
+  {
+    "Width": 0.75,
+    "Height": 0.5,
+    "Length": 0.75,
+    "Concrete Volume": 0.23,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 2.0
+  },
+  {
+    "Width": 0.75,
+    "Height": 0.3,
+    "Length": 0.75,
+    "Concrete Volume": 0.18,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 2.0
+  },
+  {
+    "Width": 0.6,
+    "Height": 0.6,
+    "Length": 0.75,
+    "Concrete Volume": 0.23,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 2.0
+  },
+  {
+    "Width": 0.6,
+    "Height": 0.3,
+    "Length": 0.75,
+    "Concrete Volume": 0.17,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 1.3A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 2.0
+  },
+  {
+    "Width": 0.5,
+    "Height": 0.5,
+    "Length": 0.75,
+    "Concrete Volume": 0.2,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 7.5A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 2.0
+  },
+  {
+    "Width": 0.45,
+    "Height": 0.4,
+    "Length": 0.75,
+    "Concrete Volume": 0.17,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 1.3A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 2.0
+  },
+  {
+    "Width": 0.35,
+    "Height": 0.3,
+    "Length": 0.75,
+    "Concrete Volume": 0.14,
+    "Wavy Tail RD20": 4.0,
+    "Capstan 1.3A85": 4.0,
+    "Steel (kg/m\u00b3)": 60.0,
+    "Labour Hrs/Unit": 2.0
+  }
+]
