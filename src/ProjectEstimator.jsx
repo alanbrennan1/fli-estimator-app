@@ -156,12 +156,7 @@ const getUnitPrice = (itemName) => {
   if (shouldResetCT) {
     setSubProductInputs(prev => ({
       ...prev,
-      CT: {
-        crossSection: '',
-        lengthOption: '',
-        quantity: '',
-        autoFilled: {},
-      },
+      CT: {}, // reset only the base CT tab, not variants
     }));
 
     // Delay resetting the flag slightly to let CT tab mount
