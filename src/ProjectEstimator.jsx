@@ -988,8 +988,10 @@ setSelectedProduct('CT');  // Auto-return to CT tab
         {/* Cross-Section Selector */}
         <div className="flex flex-col">
           <label className="text-xs font-medium mb-1 text-gray-600">Cross Section (W × H)</label>
+
           <select
-          value={selectedProduct === 'CT' ? (subProductInputs['CT']?.crossSection || '') : ''}
+  key={`ct-cross-section-${selectedProduct === 'CT' ? (subProductInputs['CT']?.crossSection || 'reset') : 'variant'}`}
+  value={selectedProduct === 'CT' ? (subProductInputs['CT']?.crossSection || '') : ''}
 
          
 onChange={(e) => {
