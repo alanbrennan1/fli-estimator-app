@@ -973,6 +973,19 @@ const handleChange = (e) => {
               if (match) {
                 handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
                 handleSubInputChange(uniqueKey, 'labourHours', match['Labour Hrs/Unit']);
+                const additionalItems = [];
+                if (match['Wavy Tail RD20'] && match['Wavy Tail RD20'] > 0) {
+                  additionalItems.push({ item: 'Wavy Tail RD20', qty: match['Wavy Tail RD20'] });
+                }
+                if (match['Capstan 7.5A85'] && match['Capstan 7.5A85'] > 0) {
+                  additionalItems.push({ item: 'Capstan 7.5A85', qty: match['Capstan 7.5A85'] });
+                }
+                if (match['Capstan 1.3A85'] && match['Capstan 1.3A85'] > 0) {
+                  additionalItems.push({ item: 'Capstan 1.3A85', qty: match['Capstan 1.3A85'] });
+                }
+                if (additionalItems.length > 0) {
+                  handleSubInputChange(uniqueKey, 'uniqueItems', additionalItems);
+                }
               }
             }}
             className="border p-2 rounded text-xs bg-white"
