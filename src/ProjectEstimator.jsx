@@ -905,7 +905,12 @@ const handleChange = (e) => {
           <label className="text-xs font-medium mb-1 text-gray-600">Cross Section (W × H)</label>
           <select
             value={subProductInputs[selectedProduct]?.crossSection || ''}
-            onChange={(e) => handleSubInputChange(selectedProduct, 'crossSection', e.target.value)}
+            onChange={(e) => {
+              const [width, height] = e.target.value.split('x').map(val => parseInt(val));
+              handleSubInputChange(selectedProduct, 'crossSection', e.target.value);
+              handleSubInputChange(selectedProduct, 'width', width);
+              handleSubInputChange(selectedProduct, 'height', height);
+            }}
             className="border p-2 rounded text-xs bg-white"
           >
             <option value="">Select Size</option>
@@ -928,7 +933,11 @@ const handleChange = (e) => {
           <label className="text-xs font-medium mb-1 text-gray-600">Available Length</label>
           <select
             value={subProductInputs[selectedProduct]?.lengthOption || ''}
-            onChange={(e) => handleSubInputChange(selectedProduct, 'lengthOption', e.target.value)}
+            onChange={(e) => {
+              const lengthMm = parseFloat(e.target.value) * 1000;
+              handleSubInputChange(selectedProduct, 'lengthOption', e.target.value);
+              handleSubInputChange(selectedProduct, 'length', lengthMm);
+            }}
             className="border p-2 rounded text-xs bg-white"
           >
             <option value="">Select Length</option>
