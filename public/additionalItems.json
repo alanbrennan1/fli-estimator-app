@@ -1,6 +1,14 @@
 {
   "Capstans and Lifters": [
     {
+      "Item": "1.3A85",
+      "Material Cost": 10.00
+    },
+    {
+      "Item": "7.5A85",
+      "Material Cost": 20.00
+    },
+    {
       "Item": "Halfen DEHA 5T X 95mm A4 SS",
       "Material Cost": 21.47
     },
