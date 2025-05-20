@@ -872,12 +872,21 @@ const handleChange = (e) => {
                                
   {/* Always render the configure button */}
 <button
-  onClick={() => setSelectedProduct(code)}
+  onClick={() => {
+    if (code === 'CT') {
+      // Find first configured CT key
+      const ctKey = Object.keys(subProductInputs).find(key => key.startsWith('CT-'));
+      if (ctKey) setSelectedProduct(ctKey);
+    } else {
+      setSelectedProduct(code);
+    }
+  }}
   className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
   title={`Configure ${name || code}`}
 >
   🔧 Configure
 </button>
+
 
       
               </div>
