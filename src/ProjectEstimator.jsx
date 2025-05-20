@@ -946,7 +946,7 @@ const handleChange = (e) => {
         </div>
 
 {/* Length Selector */}
-        <div className="flex flex-col">
+<div className="flex flex-col">
           <label className="text-xs font-medium mb-1 text-gray-600">Available Length</label>
           <select
             value={subProductInputs[selectedProduct]?.lengthOption || ''}
@@ -962,8 +962,14 @@ const handleChange = (e) => {
               handleSubInputChange(uniqueKey, 'crossSection', crossSection);
               handleSubInputChange(uniqueKey, 'lengthOption', e.target.value);
               handleSubInputChange(uniqueKey, 'length', lengthMm);
+              handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, length: true });
+              handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, length: true });
               handleSubInputChange(uniqueKey, 'width', parseInt(crossSection.split('x')[0]));
+              handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, width: true });
+              handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, width: true });
               handleSubInputChange(uniqueKey, 'height', parseInt(crossSection.split('x')[1]));
+              handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, height: true });
+              handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, height: true });
               setSelectedProduct(uniqueKey);
               setSubProductInputs(prev => {
                 const next = { ...prev };
@@ -971,10 +977,9 @@ const handleChange = (e) => {
                 return next;
               });
               if (match) {
+                handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, steelDensity: true });
                 handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
                 handleSubInputChange(uniqueKey, 'labourHours', match['Labour Hrs/Unit']);
-                handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, steelDensity: true });
-                handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, labourHours: true });
               
                 const additionalItems = [];
                 if ((match['RD20 Wavy'] ?? 0) > 0) {
