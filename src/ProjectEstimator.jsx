@@ -905,8 +905,8 @@ setSelectedProduct('CT');  // Auto-return to CT tab
     if (code === 'CT') {
       if (!subProductInputs['CT']) {
         setSubProductInputs(prev => ({ ...prev, CT: {} }));
-      }
-      setSelectedProduct('CT');
+        setSelectedProduct('CT');
+    
     } else {
       setSelectedProduct(code);
     }
