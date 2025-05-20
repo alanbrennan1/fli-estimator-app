@@ -856,15 +856,21 @@ const handleChange = (e) => {
                 <h4 className="font-semibold text-sm text-gray-800 mb-1 truncate">{name}</h4>
                 <p className="text-xs text-gray-500 mb-3 break-words">{code}</p>
               </div>
+              
               <div className="flex items-center gap-2 mt-auto">
-                <input
-                  type="number"
-                  min="0"
-                  value={subProductInputs[code]?.quantity || ""}
-                  onChange={(e) => handleQuantityChange(code, e.target.value)}
-                  className="w-16 text-xs border rounded-full px-2 py-1 text-center"
-                  placeholder="Qty"
-                />
+                {/* ⛔️ Hide quantity input for Cable Troughs (CT) */}
+                {code !== 'CT' && (
+                  <input
+                    type="number"
+                    min="0"
+                    value={subProductInputs[code]?.quantity || ""}
+                    onChange={(e) => handleQuantityChange(code, e.target.value)}
+                    className="w-16 text-xs border rounded-full px-2 py-1 text-center"
+                    placeholder="Qty"
+                  />
+                )}
+                               
+                
                 <button
                   onClick={() => setSelectedProduct(code)}
                   className="text-green-600 hover:text-green-800 text-sm"
