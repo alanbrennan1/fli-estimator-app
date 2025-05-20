@@ -962,14 +962,6 @@ const handleChange = (e) => {
               handleSubInputChange(uniqueKey, 'crossSection', crossSection);
               handleSubInputChange(uniqueKey, 'lengthOption', e.target.value);
               handleSubInputChange(uniqueKey, 'length', lengthMm);
-              // Auto-fill flag for length will be set just once below
-              handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, length: true });
-              handleSubInputChange(uniqueKey, 'width', parseInt(crossSection.split('x')[0]));
-              // Auto-fill flag for width will be set just once below
-              handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, width: true });
-              handleSubInputChange(uniqueKey, 'height', parseInt(crossSection.split('x')[1]));
-              // Auto-fill flag for height will be set just once below
-              handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, height: true });
               setSelectedProduct(uniqueKey);
               setSubProductInputs(prev => {
                 const next = { ...prev };
@@ -977,6 +969,7 @@ const handleChange = (e) => {
                 return next;
               });
               if (match) {
+                handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, length: true, width: true, height: true });
                 handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, steelDensity: true });
                 handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
                 handleSubInputChange(uniqueKey, 'labourHours', match['Labour Hrs/Unit']);
@@ -1072,7 +1065,6 @@ const handleChange = (e) => {
     subProductInputs[selectedProduct]?.autoFilled?.[field] ? 'bg-blue-50' : ''
   }`}
 />
-
                             
                       </div>
                     );
