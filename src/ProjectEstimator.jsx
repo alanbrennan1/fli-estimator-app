@@ -871,13 +871,14 @@ const handleChange = (e) => {
                 )}
                                
   {/* Always render the configure button */}
-  <button
-    onClick={() => setSelectedProduct(code)}
-    className="text-green-600 hover:text-green-800 text-sm"
-    title={`Configure ${name}`}
-  >
-    🔧
-  </button>
+<button
+  onClick={() => setSelectedProduct(code)}
+  className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
+  title={`Configure ${name || code}`}
+>
+  🔧 Configure
+</button>
+
       
               </div>
             </div>
