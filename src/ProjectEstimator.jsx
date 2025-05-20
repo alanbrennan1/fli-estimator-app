@@ -936,7 +936,7 @@ const handleChange = (e) => {
           </select>
         </div>
 
- {/* Length Selector */}
+{/* Length Selector */}
         <div className="flex flex-col">
           <label className="text-xs font-medium mb-1 text-gray-600">Available Length</label>
           <select
@@ -945,10 +945,13 @@ const handleChange = (e) => {
               const length = parseFloat(e.target.value);
               const lengthMm = length * 1000;
               const crossSection = subProductInputs[selectedProduct]?.crossSection;
-              const match = standardTroughData.find(t => t.Width === parseInt(crossSection?.split('x')[0]) && t.Height === parseInt(crossSection?.split('x')[1]) && t.Length === length);
+              const width = parseFloat(crossSection?.split('x')[0]) / 1000;
+              const height = parseFloat(crossSection?.split('x')[1]) / 1000;
+              const match = standardTroughData.find(t => t.Width === width && t.Height === height && t.Length === length);
               handleSubInputChange(selectedProduct, 'lengthOption', e.target.value);
               handleSubInputChange(selectedProduct, 'length', lengthMm);
               if (match) {
+                console.log("Steel Density →", match["Steel (kg/m³)"]);
                 handleSubInputChange(selectedProduct, 'steelDensity', match['Steel (kg/m³)']);
                 handleSubInputChange(selectedProduct, 'labourHours', match['Labour Hrs/Unit']);
               }
