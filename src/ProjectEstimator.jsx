@@ -903,10 +903,9 @@ setSelectedProduct('CT');  // Auto-return to CT tab
 <button
   onClick={() => {
     if (code === 'CT') {
-      if (!subProductInputs['CT']) {
-        setSubProductInputs(prev => ({ ...prev, CT: {} }));
-        setSelectedProduct('CT');
-    
+      // ✅ Always clear CT inputs
+      setSubProductInputs(prev => ({ ...prev, CT: {} }));
+      setSelectedProduct('CT');
     } else {
       setSelectedProduct(code);
     }
@@ -916,7 +915,6 @@ setSelectedProduct('CT');  // Auto-return to CT tab
 >
   🔧 Configure
 </button>
-
 
 
       
