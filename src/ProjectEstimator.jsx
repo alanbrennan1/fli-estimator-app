@@ -1041,6 +1041,12 @@ const handleChange = (e) => {
           <h4 className="text-sm font-bold uppercase text-gray-700 mb-4 tracking-wide border-b border-gray-400 pb-1">
             Inputs – Common
           </h4>
+              
+<h4 className="text-sm font-bold uppercase text-gray-700 mb-4 tracking-wide border-b border-gray-400 pb-1">
+  Inputs – Common
+</h4>
+
+{console.log('🔍 autoFilled debug', selectedProduct, subProductInputs[selectedProduct]?.autoFilled)}
 
               <div className="mb-4">
                                 <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Concrete</h5>
