@@ -971,37 +971,37 @@ onChange={(e) => {
               const height = parseFloat(crossSection?.split('x')[1]) / 1000;
               const match = standardTroughData.find(t => t.Width === width && t.Height === height && t.Length === length);
               const uniqueKey = `CT-${crossSection.replace(/x/, 'x')}-${length}`;
-              setSelectedProduct(uniqueKey);
-              
               handleSubInputChange(uniqueKey, 'productType', 'CT');
               handleSubInputChange(uniqueKey, 'crossSection', crossSection);
               handleSubInputChange(uniqueKey, 'lengthOption', e.target.value);
               handleSubInputChange(uniqueKey, 'length', lengthMm);
+handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, length: true });
               // Auto-fill flag for length will be set just once below
-              handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, length: true });
-              handleSubInputChange(uniqueKey, 'width', parseInt(crossSection.split('x')[0]));
-              // Auto-fill flag for width will be set just once below
-              handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, width: true });
-              handleSubInputChange(uniqueKey, 'height', parseInt(crossSection.split('x')[1]));
-              // Auto-fill flag for height will be set just once below
-              handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, height: true });
-            
+              
+              
+              setSelectedProduct(uniqueKey);
               setSubProductInputs(prev => {
                 const next = { ...prev };
                 next['CT'] = { ...next['CT'], wasCleared: true }; // mark placeholder as cleared but preserve tab
                 return next;
               });
-             if (match) {
+              if (match) {
                 handleSubInputChange(uniqueKey, 'width', parseInt(crossSection.split('x')[0]));
+handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, width: true });
                 handleSubInputChange(uniqueKey, 'autoFilled', {
                   ...subProductInputs[uniqueKey]?.autoFilled,
                   width: true
                 });
                 handleSubInputChange(uniqueKey, 'height', parseInt(crossSection.split('x')[1]));
+handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, height: true });
                 handleSubInputChange(uniqueKey, 'autoFilled', {
                   ...subProductInputs[uniqueKey]?.autoFilled,
                   height: true
                 });
+
+
+
+               
                 // Set auto-filled flags for geometry values
                 handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, length: true, width: true, height: true });
                 handleSubInputChange(uniqueKey, 'autoFilled', { ...subProductInputs[uniqueKey]?.autoFilled, steelDensity: true });
