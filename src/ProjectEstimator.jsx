@@ -969,7 +969,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
         <div className="flex flex-col">
           <label className="text-xs font-medium mb-1 text-gray-600">Cross Section (W × H)</label>
           <select
-            value={subProductInputs[selectedProduct]?.crossSection || ''}
+            value={subProductInputs['CT']?.crossSection || ''}
          
 onChange={(e) => {
   const [width, height] = e.target.value.split('x').map(val => parseInt(val));
@@ -986,8 +986,6 @@ handleSubInputChange(key, 'autoFilled', {
 });
 
 }}
-
-
             
             className="border p-2 rounded text-xs bg-white"
           >
