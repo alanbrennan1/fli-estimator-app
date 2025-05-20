@@ -1060,13 +1060,16 @@ const handleChange = (e) => {
   )}
 </label>
 
-                        <input
-                          type="number"
-                          value={subProductInputs[selectedProduct]?.[field] || ''}
-                          onChange={(e) => handleSubInputChange(selectedProduct, field, e.target.value)}
-                          className={`border p-2 rounded text-xs ${
-  subProductInputs[selectedProduct]?.autoFilled?.[field] ? 'bg-blue-50' : ''
-                        />
+<input
+  type="number"
+  value={subProductInputs[selectedProduct]?.[field] || ''}
+  onChange={(e) => handleSubInputChange(selectedProduct, field, e.target.value)}
+  className={`border p-2 rounded text-xs ${
+    subProductInputs[selectedProduct]?.autoFilled?.[field] ? 'bg-blue-50' : ''
+  }`}
+/>
+
+                            
                       </div>
                     );
                   })}
