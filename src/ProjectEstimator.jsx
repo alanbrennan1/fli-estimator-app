@@ -511,18 +511,21 @@ labourCost = labourHrs * 70.11;
         inputs.antiFlotationVolume = antiVol * quantity;
         
 } else if (productName.startsWith('C')) {
-  const baseHeight = safe(inputs.baseHeight);     // mm
-  const columnHeight = safe(inputs.height);       // mm
-  const length = safe(inputs.length);             // mm
-  const width = safe(inputs.width);               // mm
-  const quantity = safe(inputs.quantity || 1);
-  const paddingM3 = 0.14;
+  const baseHeight = safe(inputs.baseHeight); // in mm
+  const columnHeight = safe(inputs.height);   // in mm
+  const width = safe(inputs.width);           // in mm
+  const length = safe(inputs.length);         // in mm
+
+  const paddingM3 = 0.14; // fixed additive in m³
 
   const effectiveHeight = columnHeight - baseHeight; // mm
   const volumeMm3 = effectiveHeight * width * length;
+  concreteVolumeM3 = (volumeMm3 / 1_000_000_000) + paddingM3;
 
-  // Total volume with padding (in m³)
-  concreteVolume = (volumeMm3 / 1_000_000_000 + paddingM3 ) * quantity;
+  // Optional: for consistency in mm³
+  concreteVolume = concreteVolumeM3 * 1_000_000_000;
+}
+
 
        
       } else if (productName.startsWith('CS')) {
