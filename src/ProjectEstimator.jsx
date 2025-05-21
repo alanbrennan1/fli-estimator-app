@@ -509,6 +509,23 @@ labourCost = labourHrs * 70.11;
 
         concreteVolume = (chamberVol + antiVol) * quantity;
         inputs.antiFlotationVolume = antiVol * quantity;
+        
+} else if (productName.startsWith('C')) {
+  const baseHeight = safe(inputs.baseHeight); // in mm
+  const columnHeight = safe(inputs.height);   // in mm
+  const width = safe(inputs.width);           // in mm
+  const length = safe(inputs.length);         // in mm
+
+  const paddingM3 = 0.14; // fixed additive in m³
+
+  const effectiveHeight = columnHeight - baseHeight; // mm
+  const volumeMm3 = effectiveHeight * width * length;
+  concreteVolumeM3 = (volumeMm3 / 1_000_000_000) + paddingM3;
+
+  // Optional: for consistency in mm³
+  concreteVolume = concreteVolumeM3 * 1_000_000_000;
+
+        
       } else if (productName.startsWith('CS')) {
         const slabLength = safe(inputs.length);
         const slabWidth = safe(inputs.width);
