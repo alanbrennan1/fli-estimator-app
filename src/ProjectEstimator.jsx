@@ -972,22 +972,28 @@ setSelectedProduct('CT');  // Auto-return to CT tab
         </button>
 
         {/* ✅ Inserted Remove Button */}
-        <button
-          onClick={() => {
-            setSubProductInputs(prev => {
-              const next = { ...prev };
-              delete next[code];
-              return next;
-            });
-            if (selectedProduct === code) {
-              setSelectedProduct('');
-            }
-          }}
-          className="absolute top-[-6px] right-[-6px] bg-white border border-gray-300 text-xs w-4 h-4 rounded-full text-gray-700 hover:bg-red-100 hover:text-red-600"
-          title="Remove"
-        >
-          ×
-        </button>
+       <button
+  onClick={() => {
+    setSubProductInputs(prev => {
+      const next = { ...prev };
+      delete next[code];
+      return next;
+    });
+
+    setProductBreakdowns(prev =>
+      prev.filter(item => item.name !== code && item.productCode !== code)
+    );
+
+    if (selectedProduct === code) {
+      setSelectedProduct('');
+    }
+  }}
+  className="absolute top-[-6px] right-[-6px] bg-white border border-gray-300 text-xs w-4 h-4 rounded-full text-gray-700 hover:bg-red-100 hover:text-red-600"
+  title="Remove"
+>
+  ×
+</button>
+
 
         
         {isCT && (
