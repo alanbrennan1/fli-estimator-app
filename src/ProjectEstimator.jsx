@@ -546,7 +546,8 @@ const handleEstimate = () => {
  
 });
 });  // closes forEach ✅
-
+  }      // <<== Add this: closes the else block
+};       // <<== And this: closes the handleEstimate function
   
   // Rounding after all accumulation is done
   concreteSubtotal = parseFloat(concreteSubtotal.toFixed(2));
