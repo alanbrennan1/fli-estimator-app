@@ -543,7 +543,8 @@ const handleEstimate = () => {
     cost: parseFloat(labourCost.toFixed(2))
   },
   uniqueItems: inputs.uniqueItems || []
- 
+ };
+      
 });  // closes forEach ✅
   }      // <<== Add this: closes the else block
 
