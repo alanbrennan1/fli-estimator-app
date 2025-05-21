@@ -465,6 +465,8 @@ labourCost = labourHrs * 70.11;
     const baseCode = productName.split('-')[0];
     const productCode = buildProductCode(baseCode, { ...inputs, steelDensity: inputs.steelDensity });
 
+    const uniqueItems = subProductInputs[productName]?.uniqueItems || [];
+    
     sourceBreakdowns.push({
       name: baseCode,
       productCode,
@@ -481,9 +483,9 @@ labourCost = labourHrs * 70.11;
         hours: labourHrs.toFixed(2),
         cost: parseFloat(labourCost.toFixed(2))
       },
-      additionalItems: [],
+      uniqueItems, // ✅ Ensures they get mapped in computedBreakdowns
       total: concreteCost
-    });
+        });
 
           return;
         }
