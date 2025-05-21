@@ -11,6 +11,9 @@ import './index.css';
   Chambers: [
   { name: "Chamber", code: "CH" },
 ],
+      Columns: [
+  { name: "Column", code: "C" },
+],
   Slabs: [
   { name: "Cover Slab", code: "CS" }, 
 ],
