@@ -11,9 +11,6 @@ import './index.css';
   Chambers: [
   { name: "Chamber", code: "CH" },
 ],
-    Columns: [
-  { name: "Column", code: "C" }
-],
   Slabs: [
   { name: "Cover Slab", code: "CS" }, 
 ],
@@ -492,7 +489,6 @@ labourCost = labourHrs * 70.11;
 
           return;
         }
-        
       } else if (productName.startsWith('CH')) {
         const wall = safe(inputs.wallThickness);
         const base = safe(inputs.baseThickness);
@@ -510,11 +506,6 @@ labourCost = labourHrs * 70.11;
 
         concreteVolume = (chamberVol + antiVol) * quantity;
         inputs.antiFlotationVolume = antiVol * quantity;
-     
-  concreteVolume = (outerVol - innerVol) * quantity;
-}  
-      
-      
       } else if (productName.startsWith('CS')) {
         const slabLength = safe(inputs.length);
         const slabWidth = safe(inputs.width);
@@ -523,8 +514,7 @@ labourCost = labourHrs * 70.11;
         const outerVol = slabLength * slabWidth * height;
         const openingVol = openingLength * openingWidth * height;
         concreteVolume = (outerVol - openingVol) * quantity;
-      
-    } else {
+      } else {
         concreteVolume = concreteVolume * quantity;
       }
 
