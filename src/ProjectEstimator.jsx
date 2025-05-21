@@ -419,6 +419,7 @@ const handleEstimate = () => {
       let steelCost = 0;
       let labourHrs = 0;
       let labourCost = 0;
+      let concreteVolumeM3 = 0; // ✅ move this here
 
       if (productName.startsWith('CT-')) {
         const ctData = standardTroughData.find(t => {
@@ -431,8 +432,7 @@ const handleEstimate = () => {
         if (ctData) {
           const concretePerUnit = parseFloat(ctData['Concrete Volume'] || 0);
           concreteVolume = concretePerUnit * quantity;
-
-         const concreteVolumeM3 = concreteVolume; // already in m³
+          concreteVolumeM3 = concreteVolume; // already in m³
           steelKg = concreteVolumeM3 * 120;
           labourHrs = parseFloat(ctData['Labour Hrs/Unit'] || 0) * quantity;
           steelCost = steelKg * 0.8;
@@ -499,8 +499,8 @@ const handleEstimate = () => {
         concreteVolume = concreteVolume * quantity;
       }
   
-     // Convert mm³ to m³
-      const concreteVolumeM3 = concreteVolume / 1_000_000_000;
+     // Convert mm³ to m³  (applies to CH, CS, generic)
+      concreteVolumeM3 = concreteVolume / 1_000_000_000;
 
       const additionalItems = inputs.additionalItems || {};
       const additionalMapped = {};
