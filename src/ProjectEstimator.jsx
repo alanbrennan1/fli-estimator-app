@@ -431,13 +431,27 @@ const handleEstimate = () => {
         if (ctData) {
           const concretePerUnit = parseFloat(ctData['Concrete Volume'] || 0);
           concreteVolume = concretePerUnit * quantity;
-          concreteCost = concreteVolume * 137.21;
+
+          concreteVolumeM3 = concreteVolume; // already in m³
+          steelKg = concreteVolumeM3 * 120;
+          labourHrs = parseFloat(ctData['Labour Hrs/Unit'] || 0) * quantity;
+          steelCost = steelKg * 0.8;
+          labourCost = labourHrs * 70.11;
+          concreteCost = concreteVolumeM3 * 137.21;
 
           concreteSubtotal += concreteCost;
-          concreteUnitTotal += concreteVolume;
+          concreteUnitTotal += concreteVolumeM3;
+          steelSubtotal += steelCost;
+          steelUnitTotal += steelKg;
+          labourSubtotal += labourCost;
+          labourUnitTotal += labourHrs;
+
+          const baseCode = productName.split('-')[0];
+          const productCode = buildProductCode(baseCode, { ...inputs, steelDensity: inputs.steelDensity });
 
           sourceBreakdowns.push({
-            name: productName,
+            name: baseCode,
+            productCode,
             quantity,
             concrete: {
               volume: concreteVolume.toFixed(2),
@@ -485,7 +499,6 @@ const handleEstimate = () => {
         concreteVolume = concreteVolume * quantity;
       }
   
-
      // Convert mm³ to m³
       const concreteVolumeM3 = concreteVolume / 1_000_000_000;
       const steelKg = concreteVolumeM3 * 120; // steel based on m³
