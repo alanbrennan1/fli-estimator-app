@@ -469,8 +469,8 @@ labourCost = labourHrs * 70.11;
       productCode,
       quantity,
       concrete: {
-        volume: concreteVolume.toFixed(2),
-        cost: parseFloat(concreteCost.toFixed(2))
+        volume: concreteVolumeM3.toFixed(2),
+    cost: parseFloat(concreteCost.toFixed(2))
       },
       steel: {
         kg: steelKg.toFixed(2),
