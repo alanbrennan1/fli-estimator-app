@@ -407,7 +407,18 @@ const handleEstimate = () => {
       const width = safe(inputs.width);
       const height = safe(inputs.height);
 
-      if (!quantity || (!length && !productName.startsWith('CT')) || !width || !height) return;
+      const isPlaceholderCT = productName.startsWith('CT-') && !inputs.crossSection;
+
+        if (
+          !quantity ||
+          !length ||
+          !width ||
+          !height ||
+          isPlaceholderCT
+        ) {
+          return;
+        }
+
 
       let concreteVolume = length * width * height;
       let antiVol = 0;
