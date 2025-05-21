@@ -142,6 +142,7 @@ const getUnitPrice = (itemName) => {
   const [additionalItemsData, setAdditionalItemsData] = useState({});
   const [standardTroughData, setStandardTroughData] = useState([]);
   const [shouldResetCT, setShouldResetCT] = useState(false);
+  const [showCTPulse, setShowCTPulse] = useState(false);
 
 
   useEffect(() => {
@@ -964,12 +965,17 @@ setSelectedProduct('CT');  // Auto-return to CT tab
       <div key={code} className="relative">
         <button
           onClick={() => setSelectedProduct(code)}
-          className={`px-4 py-1 rounded text-sm font-medium transition border
+          className={`px-4 py-1 pr-6 rounded text-sm font-medium transition border relative
             ${selectedProduct === code ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'}
-            ${isCT ? 'border-blue-400' : 'border-gray-300'}`}
+            ${isCT ? 'border-blue-400' : 'border-gray-300'}
+            ${showCTPulse && code === 'CT' ? 'animate-pulse ring-2 ring-blue-300' : ''}`
+          }
         >
-          {code}
+          <span title={code === 'CT' ? 'Configure CT variants from here' : ''}>
+    {code === 'CT' ? '➕ New CT' : code}
+  </span>
         </button>
+
 
         {/* ✅ Inserted Remove Button */}
        <button
@@ -979,7 +985,6 @@ setSelectedProduct('CT');  // Auto-return to CT tab
       delete next[code];
       return next;
     });
-
     setProductBreakdowns(prev =>
       prev.filter(item => item.name !== code && item.productCode !== code)
     );
