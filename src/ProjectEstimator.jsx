@@ -523,7 +523,7 @@ labourCost = labourHrs * 70.11;
   concreteVolumeM3 = (volumeMm3 / 1_000_000_000) + paddingM3;
 
   // Optional: for consistency in mm³
-  concreteVolume = concreteVolumeM3 * 1_000_000_000;
+  concreteVolume = (concreteVolumeM3 * 1_000_000_000) * quantity;
 
 
        
