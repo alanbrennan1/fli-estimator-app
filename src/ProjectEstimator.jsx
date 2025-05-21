@@ -933,23 +933,19 @@ setSelectedProduct('CT');  // Auto-return to CT tab
                   />
                 )}
                                
-  {/* Always render the configure button */}
-<button
-  onClick={() => {
-    if (code === 'CT') {
-      setShouldResetCT(true);  // ✅ trigger CT reset via effect
-      setSelectedProduct('CT');
-    } else {
-      setSelectedProduct(code);
-    }
-  }}
-  className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
-  title={`Configure ${name || code}`}
->
-  🔧 Configure
-</button>
-
-
+{/* Show Configure button ONLY for base CT */}
+      {code === 'CT' && (
+        <button
+          onClick={() => {
+            setShouldResetCT(true);  // trigger reset
+            setSelectedProduct('CT');
+          }}
+          className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
+          title="Configure CT variants"
+        >
+          🔧 Configure
+        </button>
+      )}
       
               </div>
             </div>
