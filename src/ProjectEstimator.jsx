@@ -1125,7 +1125,7 @@ handleSubInputChange(key, 'autoFilled', {
     type="number"
     min="1"
     className="border p-2 rounded text-xs w-[100px]"
-    placeholder="1"
+    placeholder="1" 
     value={subProductInputs[selectedProduct]?.quantity || ''}
     onChange={(e) => handleSubInputChange(selectedProduct, 'quantity', parseInt(e.target.value))}
   />
