@@ -203,7 +203,11 @@ const selectedSubProducts = [
     code !== 'CT' && parseInt(subProductInputs[code]?.quantity) > 0
   ),
   ...Object.entries(subProductInputs)
-    .filter(([key, val]) => key.startsWith('CT-') || key === 'CT')  // ✅ include base CT tab
+    .filter(([key, val]) =>
+  key.startsWith('CT-') || 
+  (key === 'CT' && topLevelProduct === 'Troughs' && Object.keys(val || {}).length > 0)
+)
+
     .map(([key]) => ({ code: key, name: key }))
 ];
 
