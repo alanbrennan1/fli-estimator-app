@@ -157,7 +157,8 @@ const getUnitPrice = (itemName) => {
     setSubProductInputs(prev => ({
       ...prev,
       CT: {
-        quantity: 1, // ✅ default to 1  
+        quantity: 1, // ✅ default to 1
+        placeholder: 1,
         }, // reset only the base CT tab, not variants
     }));
 
