@@ -445,6 +445,7 @@ const handleEstimate = () => {
 
     concreteVolume = concretePerUnit * quantity;
     concreteVolumeM3 = concreteVolume;
+    concreteCost = concreteVolumeM3 * 137.21;
 
     steelKg = concreteVolumeM3 * steelPerM3;
     steelCost = steelKg * steelRate;
