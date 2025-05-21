@@ -401,9 +401,13 @@ const handleEstimate = () => {
   let additionalUnitTotal = 0;
   let grandTotal = 0;
 
-  if (pendingImport && pendingImport.length > 0) {
-    sourceBreakdowns = pendingImport;
-  } else {
+if (pendingImport && pendingImport.length > 0) {
+  // ❗ Only keep non-Column rows
+  sourceBreakdowns = pendingImport.filter(p => !p.name?.startsWith('C'));
+setPendingImport(null);
+}
+
+  else {
     Object.entries(subProductInputs).forEach(([productName, inputs]) => {
       const quantity = safe(inputs.quantity || 1);
       const length = safe(inputs.length);
