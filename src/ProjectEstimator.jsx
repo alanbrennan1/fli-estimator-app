@@ -267,7 +267,7 @@ const handleSketchUpUpload = (e) => {
         const totalRowVolume = quantity * volume;
         const concreteCost = totalRowVolume * 137.21;
         const steelKg = totalRowVolume * 120;
-        const steelCost = steelKg * 0.8;
+        const steelCost = steelKg * 0.86;
 
         const unitWeight = volume * 2.6;
         const labourPerUnit = unitWeight * 4.58;
@@ -525,7 +525,15 @@ labourCost = labourHrs * 70.11;
   // Optional: for consistency in mm³
   concreteVolume = (concreteVolumeM3 * 1_000_000_000) * quantity;
 
-
+    // Steel Pricing Logic
+    let steelDensity = safe(inputs.steelDensity);
+    if (!steelDensity || steelDensity <= 0) {
+      steelDensity = 180; // fallback if input is invalid
+    }
+    
+    const steelRate = 0.86;
+    steelKg = concreteVolumeM3 * steelDensity;
+    steelCost = steelKg * steelRate;
        
       } else if (productName.startsWith('CS')) {
         const slabLength = safe(inputs.length);
@@ -544,7 +552,7 @@ labourCost = labourHrs * 70.11;
       labourHrs = safe(inputs.labourHours);
 
       concreteCost = concreteVolumeM3 * 137.21;
-      steelCost = steelKg * 0.8;
+      steelCost = steelKg * 0.86;
       labourCost = labourHrs * 70.11;
 
       concreteSubtotal += concreteCost;
