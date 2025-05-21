@@ -524,6 +524,8 @@ labourCost = labourHrs * 70.11;
 
   // Optional: for consistency in mm³
   concreteVolume = concreteVolumeM3 * 1_000_000_000;
+  concreteCost = concreteVolumeM3 * 137.21;
+
 
         
       } else if (productName.startsWith('CS')) {
