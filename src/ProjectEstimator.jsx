@@ -521,7 +521,8 @@ labourCost = labourHrs * 70.11;
   const effectiveHeight = columnHeight - baseHeight; // mm
   const volumeMm3 = effectiveHeight * width * length;
   concreteVolumeM3 = (volumeMm3 / 1_000_000_000) + paddingM3;
-
+  concreteCost = concreteVolumeM3 * 137.21;
+        
   // Optional: for consistency in mm³
   concreteVolume = (concreteVolumeM3 * 1_000_000_000) * quantity;
 
