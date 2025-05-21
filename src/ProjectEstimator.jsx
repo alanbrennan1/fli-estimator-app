@@ -617,6 +617,9 @@ useEffect(() => {
   const ct = subProductInputs['CT'];
   if (!ct) return;
 
+  // ✅ Skip if Troughs is not the selected top-level product
+  if (topLevelProduct !== 'Troughs') return;
+
   const crossSection = ct.crossSection;
   const lengthOption = ct.lengthOption;
   const quantity = parseInt(ct.quantity);
