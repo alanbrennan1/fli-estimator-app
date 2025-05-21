@@ -408,16 +408,16 @@ const handleEstimate = () => {
       const width = safe(inputs.width);
       const height = safe(inputs.height);
 
+      // Skip placeholder CT with no meaningful data
       if (!quantity || (!length && !productName.startsWith('CT')) || !width || !height) return;
 
-      let concreteVolume = length * width * height;
+      let concreteVolume = length * width * height; // initial estimate
       let antiVol = 0;
-
-      // Declare once here
-      let steelKg = 0;
-      let labourHrs = 0;
+      
       let concreteCost = 0;
+      let steelKg = 0;
       let steelCost = 0;
+      let labourHrs = 0;
       let labourCost = 0;
 
       if (productName.startsWith('CT-')) {
@@ -432,7 +432,7 @@ const handleEstimate = () => {
           const concretePerUnit = parseFloat(ctData['Concrete Volume'] || 0);
           concreteVolume = concretePerUnit * quantity;
 
-          const concreteVolumeM3 = concreteVolume;
+          concreteVolumeM3 = concreteVolume; // already in m³
           steelKg = concreteVolumeM3 * 120;
           labourHrs = parseFloat(ctData['Labour Hrs/Unit'] || 0) * quantity;
           steelCost = steelKg * 0.8;
@@ -457,20 +457,14 @@ const handleEstimate = () => {
               volume: concreteVolume.toFixed(2),
               cost: parseFloat(concreteCost.toFixed(2))
             },
-            steel: {
-              kg: steelKg.toFixed(2),
-              cost: parseFloat(steelCost.toFixed(2))
-            },
-            labour: {
-              hours: labourHrs.toFixed(2),
-              cost: parseFloat(labourCost.toFixed(2))
-            },
+            steel: { kg: 0, cost: 0 },
+            labour: { hours: 0, cost: 0 },
             additionalItems: [],
             total: concreteCost
           });
-          return;
+          return; // Skip remaining logic for CT variants
         }
-
+        
       } else if (productName.startsWith('CH')) {
         const wall = safe(inputs.wallThickness);
         const base = safe(inputs.baseThickness);
@@ -481,14 +475,14 @@ const handleEstimate = () => {
 
         if (inputs.antiFlotation === 'Yes') {
           const toeLengthM = safe(inputs.toeLength);
-          const toeLength = toeLengthM * 1000;
+          const toeLength = toeLengthM * 1000; // convert m → mm
           const toePlan = (length + wall * 2);
           antiVol = ((toePlan * toeLength * base) * 2);
         }
 
         concreteVolume = (chamberVol + antiVol) * quantity;
         inputs.antiFlotationVolume = antiVol * quantity;
-
+    
       } else if (productName.startsWith('CS')) {
         const wall = safe(inputs.wallThickness);
         const slabLength = safe(inputs.length);
@@ -501,58 +495,57 @@ const handleEstimate = () => {
 
         concreteVolume = (outerVol - openingVol) * quantity;
       } else {
+        // Generic precast volume
         concreteVolume = concreteVolume * quantity;
       }
-
+  
+     // Convert mm³ to m³
       const concreteVolumeM3 = concreteVolume / 1_000_000_000;
-      steelKg = concreteVolumeM3 * 120;
-      labourHrs = safe(inputs.labourHours);
+
+      const additionalItems = inputs.additionalItems || {};
+      const additionalMapped = {};
+
+  console.log("🧪 Product Input to Breakdown:", { productName, inputs });
+
+      const baseCode = productName.split('-')[0]; // handles CT-900x900-0.75 → CT
+      const productCode = buildProductCode(baseCode, { ...inputs, steelDensity: inputs.steelDensity });
 
       concreteCost = concreteVolumeM3 * 137.21;
       steelCost = steelKg * 0.8;
       labourCost = labourHrs * 70.11;
 
       concreteSubtotal += concreteCost;
-      concreteUnitTotal += concreteVolumeM3;
+      concreteUnitTotal += concreteVolume / 1_000_000_000; // convert to m³
       steelSubtotal += steelCost;
-      steelUnitTotal += steelKg;
+      steelUnitTotal += steelKg
       labourSubtotal += labourCost;
       labourUnitTotal += labourHrs;
 
-      const additionalItems = inputs.additionalItems || {};
-      const additionalMapped = {};
 
-      console.log("🧪 Product Input to Breakdown:", { productName, inputs });
-
-      const baseCode = productName.split('-')[0];
-      const productCode = buildProductCode(baseCode, { ...inputs, steelDensity: inputs.steelDensity });
-
-      sourceBreakdowns.push({
-        name: baseCode,
-        productCode,
-        quantity,
-        density: inputs.steelDensity || inputs.chamberDensity || undefined,
-        concrete: {
-          volume: concreteVolumeM3.toFixed(2),
-          cost: parseFloat(concreteCost.toFixed(2)),
-          antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0)
-            ? (antiVol / 1_000_000_000 * quantity).toFixed(2)
-            : undefined
-        },
-        steel: {
-          kg: steelKg.toFixed(2),
-          cost: parseFloat(steelCost.toFixed(2))
-        },
-        labour: {
-          hours: labourHrs.toFixed(2),
-          cost: parseFloat(labourCost.toFixed(2))
-        },
-        uniqueItems: inputs.uniqueItems || []
-      });
-    });
-  }
-};
-
+  sourceBreakdowns.push({
+  name: baseCode, // groups CT variants under "CT"
+  productCode,
+  quantity,
+  density: inputs.steelDensity || inputs.chamberDensity || undefined,
+  concrete: {
+    volume: concreteVolumeM3.toFixed(2),
+    cost: parseFloat(concreteCost.toFixed(2)),
+    antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0)
+      ? (antiVol / 1_000_000_000 * quantity).toFixed(2)
+      : undefined
+  },
+  steel: {
+    kg: steelKg.toFixed(2),
+    cost: parseFloat(steelCost.toFixed(2))
+  },
+  labour: {
+    hours: labourHrs.toFixed(2),
+    cost: parseFloat(labourCost.toFixed(2))
+  },
+  uniqueItems: inputs.uniqueItems || []
+ 
+});
+});  // closes forEach ✅
 
   
   // Rounding after all accumulation is done
