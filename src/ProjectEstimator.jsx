@@ -158,8 +158,7 @@ const getUnitPrice = (itemName) => {
       ...prev,
       CT: {
         quantity: 1, // ✅ default to 1
-        placeholder: 1,
-        }, // reset only the base CT tab, not variants
+         }, // reset only the base CT tab, not variants
     }));
 
     // Delay resetting the flag slightly to let CT tab mount
@@ -1126,7 +1125,7 @@ handleSubInputChange(key, 'autoFilled', {
     type="number"
     min="1"
     className="border p-2 rounded text-xs w-[100px]"
-    placeholder="e.g. 2"
+    placeholder="1"
     value={subProductInputs[selectedProduct]?.quantity || ''}
     onChange={(e) => handleSubInputChange(selectedProduct, 'quantity', parseInt(e.target.value))}
   />
