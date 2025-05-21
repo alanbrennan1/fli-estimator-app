@@ -156,7 +156,9 @@ const getUnitPrice = (itemName) => {
   if (shouldResetCT) {
     setSubProductInputs(prev => ({
       ...prev,
-      CT: {}, // reset only the base CT tab, not variants
+      CT: {
+        quantity: 1, // ✅ default to 1  
+        }, // reset only the base CT tab, not variants
     }));
 
     // Delay resetting the flag slightly to let CT tab mount
