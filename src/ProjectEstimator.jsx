@@ -380,7 +380,6 @@ const getUnitPriceFromAdditionalData = (label) => {
 };
   
 
-
 const handleEstimate = () => {
   if (!additionalItemsData || Object.keys(additionalItemsData).length === 0) {
     console.error('Additional items data not loaded.');
@@ -408,18 +407,17 @@ const handleEstimate = () => {
       const width = safe(inputs.width);
       const height = safe(inputs.height);
 
-      // Skip placeholder CT with no meaningful data
       if (!quantity || (!length && !productName.startsWith('CT')) || !width || !height) return;
 
-      let concreteVolume = length * width * height; // initial estimate
+      let concreteVolume = length * width * height;
       let antiVol = 0;
-      
+      let concreteVolumeM3 = 0;
+
       let concreteCost = 0;
       let steelKg = 0;
       let steelCost = 0;
       let labourHrs = 0;
       let labourCost = 0;
-      let concreteVolumeM3 = 0; // ✅ move this here
 
       if (productName.startsWith('CT-')) {
         const ctData = standardTroughData.find(t => {
@@ -432,7 +430,8 @@ const handleEstimate = () => {
         if (ctData) {
           const concretePerUnit = parseFloat(ctData['Concrete Volume'] || 0);
           concreteVolume = concretePerUnit * quantity;
-          concreteVolumeM3 = concreteVolume; // already in m³
+          concreteVolumeM3 = concreteVolume;
+
           steelKg = concreteVolumeM3 * 120;
           labourHrs = parseFloat(ctData['Labour Hrs/Unit'] || 0) * quantity;
           steelCost = steelKg * 0.8;
@@ -457,14 +456,20 @@ const handleEstimate = () => {
               volume: concreteVolume.toFixed(2),
               cost: parseFloat(concreteCost.toFixed(2))
             },
-            steel: { kg: 0, cost: 0 },
-            labour: { hours: 0, cost: 0 },
+            steel: {
+              kg: steelKg.toFixed(2),
+              cost: parseFloat(steelCost.toFixed(2))
+            },
+            labour: {
+              hours: labourHrs.toFixed(2),
+              cost: parseFloat(labourCost.toFixed(2))
+            },
             additionalItems: [],
             total: concreteCost
           });
-          return; // Skip remaining logic for CT variants
+
+          return;
         }
-        
       } else if (productName.startsWith('CH')) {
         const wall = safe(inputs.wallThickness);
         const base = safe(inputs.baseThickness);
@@ -475,81 +480,74 @@ const handleEstimate = () => {
 
         if (inputs.antiFlotation === 'Yes') {
           const toeLengthM = safe(inputs.toeLength);
-          const toeLength = toeLengthM * 1000; // convert m → mm
+          const toeLength = toeLengthM * 1000;
           const toePlan = (length + wall * 2);
           antiVol = ((toePlan * toeLength * base) * 2);
         }
 
         concreteVolume = (chamberVol + antiVol) * quantity;
         inputs.antiFlotationVolume = antiVol * quantity;
-    
       } else if (productName.startsWith('CS')) {
-        const wall = safe(inputs.wallThickness);
         const slabLength = safe(inputs.length);
         const slabWidth = safe(inputs.width);
         const openingLength = safe(inputs.openingLength);
         const openingWidth = safe(inputs.openingWidth);
-
         const outerVol = slabLength * slabWidth * height;
         const openingVol = openingLength * openingWidth * height;
-
         concreteVolume = (outerVol - openingVol) * quantity;
       } else {
-        // Generic precast volume
         concreteVolume = concreteVolume * quantity;
       }
-  
-     // Convert mm³ to m³  (applies to CH, CS, generic)
+
       concreteVolumeM3 = concreteVolume / 1_000_000_000;
-
-      const additionalItems = inputs.additionalItems || {};
-      const additionalMapped = {};
-
-  console.log("🧪 Product Input to Breakdown:", { productName, inputs });
-
-      const baseCode = productName.split('-')[0]; // handles CT-900x900-0.75 → CT
-      const productCode = buildProductCode(baseCode, { ...inputs, steelDensity: inputs.steelDensity });
+      steelKg = concreteVolumeM3 * 120;
+      labourHrs = safe(inputs.labourHours);
 
       concreteCost = concreteVolumeM3 * 137.21;
       steelCost = steelKg * 0.8;
       labourCost = labourHrs * 70.11;
 
       concreteSubtotal += concreteCost;
-      concreteUnitTotal += concreteVolume / 1_000_000_000; // convert to m³
+      concreteUnitTotal += concreteVolumeM3;
       steelSubtotal += steelCost;
-      steelUnitTotal += steelKg
+      steelUnitTotal += steelKg;
       labourSubtotal += labourCost;
       labourUnitTotal += labourHrs;
 
+      const baseCode = productName.split('-')[0];
+      const productCode = buildProductCode(baseCode, { ...inputs, steelDensity: inputs.steelDensity });
 
-  sourceBreakdowns.push({
-  name: baseCode, // groups CT variants under "CT"
-  productCode,
-  quantity,
-  density: inputs.steelDensity || inputs.chamberDensity || undefined,
-  concrete: {
-    volume: concreteVolumeM3.toFixed(2),
-    cost: parseFloat(concreteCost.toFixed(2)),
-    antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0)
-      ? (antiVol / 1_000_000_000 * quantity).toFixed(2)
-      : undefined
-  },
-  steel: {
-    kg: steelKg.toFixed(2),
-    cost: parseFloat(steelCost.toFixed(2))
-  },
-  labour: {
-    hours: labourHrs.toFixed(2),
-    cost: parseFloat(labourCost.toFixed(2))
-  },
-  uniqueItems: inputs.uniqueItems || []
- };
-      
-});  // closes forEach ✅
-  }      // <<== Add this: closes the else block
+      const additionalItems = inputs.additionalItems || {};
+      const additionalMapped = {};
 
-  
-  // Rounding after all accumulation is done
+      console.log("🧪 Product Input to Breakdown:", { productName, inputs });
+
+      sourceBreakdowns.push({
+        name: baseCode,
+        productCode,
+        quantity,
+        density: inputs.steelDensity || inputs.chamberDensity || undefined,
+        concrete: {
+          volume: concreteVolumeM3.toFixed(2),
+          cost: parseFloat(concreteCost.toFixed(2)),
+          antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0)
+            ? (antiVol / 1_000_000_000 * quantity).toFixed(2)
+            : undefined
+        },
+        steel: {
+          kg: steelKg.toFixed(2),
+          cost: parseFloat(steelCost.toFixed(2))
+        },
+        labour: {
+          hours: labourHrs.toFixed(2),
+          cost: parseFloat(labourCost.toFixed(2))
+        },
+        uniqueItems: inputs.uniqueItems || []
+      });
+    });
+  }
+
+  // Rounding
   concreteSubtotal = parseFloat(concreteSubtotal.toFixed(2));
   concreteUnitTotal = parseFloat(concreteUnitTotal.toFixed(2));
   steelSubtotal = parseFloat(steelSubtotal.toFixed(2));
@@ -559,9 +557,7 @@ const handleEstimate = () => {
   additionalSubtotal = parseFloat(additionalSubtotal.toFixed(2));
   additionalUnitTotal = parseFloat(additionalUnitTotal.toFixed(2));
 
-
-  
-
+  // Design
   const designFields = [
     'proposalHours', 'designMeetingsHours', 'structuralDesignHours', 'revitModelHours',
     'approvalCommentsHours', 'detailingJointsHours', 'detailingFloorsHours', 'detailingScreedHours',
@@ -571,6 +567,7 @@ const handleEstimate = () => {
   const designRate = 61.12;
   const designCost = totalDesignHours * designRate;
 
+  // Transport and Installation
   const transportRate = safe(formData.transportRate);
   const transportQty = safe(formData.transportQuantity);
   const transportCost = transportRate * transportQty;
@@ -579,35 +576,29 @@ const handleEstimate = () => {
   const installationDays = safe(formData.installationDays);
   const installationCost = installationDays * installationRate;
 
-const computedBreakdowns = sourceBreakdowns.map(product => {
-  const quantity = safe(product.quantity);
-  const concreteVol = safe(product.concrete?.volume);
-  const concreteCost = safe(product.concrete?.cost);
-  const steelKg = safe(product.steel?.kg);
-  const steelCost = safe(product.steel?.cost);
-  const labourHrs = safe(product.labour?.hours);
-  const labourCost = safe(product.labour?.cost);
-
+  // Final line-item subtotals
+  const computedBreakdowns = sourceBreakdowns.map(product => {
+    const quantity = safe(product.quantity);
+    const concreteCost = safe(product.concrete?.cost);
+    const steelCost = safe(product.steel?.cost);
+    const labourCost = safe(product.labour?.cost);
 
     let additionalCost = 0;
     let additionalItems = [];
-  
-    
-  const uniqueList = product.uniqueItems || subProductInputs[product.name]?.uniqueItems || [];
-uniqueList.forEach(entry => {
-  if (entry && entry.item && entry.qty > 0) {
-    const unitQty = quantity * entry.qty; // ← Scale by product quantity
-    const unitPrice = getUnitPriceFromAdditionalData(entry.item);
-    const cost = unitQty * unitPrice;
-    additionalItems.push({ label: entry.item, qty: unitQty, cost });
-    additionalCost += cost;
-    additionalUnitTotal += unitQty;
-  }
-});
 
+    const uniqueList = product.uniqueItems || subProductInputs[product.name]?.uniqueItems || [];
+    uniqueList.forEach(entry => {
+      if (entry && entry.item && entry.qty > 0) {
+        const unitQty = quantity * entry.qty;
+        const unitPrice = getUnitPriceFromAdditionalData(entry.item);
+        const cost = unitQty * unitPrice;
+        additionalItems.push({ label: entry.item, qty: unitQty, cost });
+        additionalCost += cost;
+        additionalUnitTotal += unitQty;
+      }
+    });
 
-
-  console.log("➕ Additional Items:", additionalItems);
+    console.log("➕ Additional Items:", additionalItems);
 
     let subtotal = concreteCost + steelCost + labourCost + additionalCost;
     subtotal *= 1 + safe(formData.wasteMargin) / 100;
@@ -627,6 +618,7 @@ uniqueList.forEach(entry => {
     };
   });
 
+  // Final summary setState
   grandTotal += designCost + transportCost + installationCost;
 
   setEstimate(grandTotal.toFixed(2));
@@ -661,8 +653,14 @@ uniqueList.forEach(entry => {
   });
 
   setPendingImport(null);
-  setShouldResetCT(true); // ✅ trigger CT tab reset
+  setShouldResetCT(true);
 };
+
+
+
+
+  
+
 
 const handleChange = (e) => {
   const { name, value } = e.target;
