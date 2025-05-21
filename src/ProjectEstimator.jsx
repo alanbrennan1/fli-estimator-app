@@ -523,8 +523,6 @@ labourCost = labourHrs * 70.11;
 
   // Total volume with padding (in m³)
   concreteVolume = (volumeMm3 / 1_000_000_000 + paddingM3 ) * quantity;
-}
-
 
        
       } else if (productName.startsWith('CS')) {
