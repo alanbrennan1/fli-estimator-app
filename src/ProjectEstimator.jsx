@@ -432,7 +432,7 @@ const handleEstimate = () => {
           const concretePerUnit = parseFloat(ctData['Concrete Volume'] || 0);
           concreteVolume = concretePerUnit * quantity;
 
-          concreteVolumeM3 = concreteVolume; // already in m³
+         const concreteVolumeM3 = concreteVolume; // already in m³
           steelKg = concreteVolumeM3 * 120;
           labourHrs = parseFloat(ctData['Labour Hrs/Unit'] || 0) * quantity;
           steelCost = steelKg * 0.8;
