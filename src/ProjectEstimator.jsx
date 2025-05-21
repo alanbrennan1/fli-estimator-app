@@ -530,10 +530,18 @@ labourCost = labourHrs * 70.11;
     if (!steelDensity || steelDensity <= 0) {
       steelDensity = 180; // fallback if input is invalid
     }
-    
     const steelRate = 0.86;
     steelKg = concreteVolumeM3 * steelDensity;
     steelCost = steelKg * steelRate;
+
+        console.log("🧪 Column Steel Debug", {
+  productName,
+  steelDensity,
+  concreteVolumeM3,
+  steelKg,
+  steelCost
+});
+
        
       } else if (productName.startsWith('CS')) {
         const slabLength = safe(inputs.length);
