@@ -1386,6 +1386,27 @@ handleSubInputChange(key, 'autoFilled', {
                 </div>
     </div>
 
+  {selectedProduct?.startsWith('C') && (
+  <div className="mt-6">
+    <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
+      Column Options
+    </h4>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="flex flex-col">
+        <label className="text-xs font-medium mb-1">Base Height (mm)</label>
+        <input
+          type="number"
+          value={subProductInputs[selectedProduct]?.baseHeight || ''}
+          onChange={(e) => handleSubInputChange(selectedProduct, 'baseHeight', e.target.value)}
+          className="border p-2 rounded text-xs"
+          placeholder="e.g. 200"
+        />
+      </div>
+    </div>
+  </div>
+)}
+
+
 {selectedProduct?.startsWith('CH') && (
   <div className="mt-6">
     <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
