@@ -413,6 +413,12 @@ const handleEstimate = () => {
 
       let concreteVolume = length * width * height; // initial estimate
       let antiVol = 0;
+      
+      let concreteCost = 0;
+      let steelKg = 0;
+      let steelCost = 0;
+      let labourHrs = 0;
+      let labourCost = 0;
 
       if (productName.startsWith('CT-')) {
         const ctData = standardTroughData.find(t => {
@@ -425,7 +431,26 @@ const handleEstimate = () => {
         if (ctData) {
           const concretePerUnit = parseFloat(ctData['Concrete Volume'] || 0);
           concreteVolume = concretePerUnit * quantity;
+          concreteCost = concreteVolume * 137.21;
+
+          concreteSubtotal += concreteCost;
+          concreteUnitTotal += concreteVolume;
+
+          sourceBreakdowns.push({
+            name: productName,
+            quantity,
+            concrete: {
+              volume: concreteVolume.toFixed(2),
+              cost: parseFloat(concreteCost.toFixed(2))
+            },
+            steel: { kg: 0, cost: 0 },
+            labour: { hours: 0, cost: 0 },
+            additionalItems: [],
+            total: concreteCost
+          });
+          return; // Skip remaining logic for CT variants
         }
+        
       } else if (productName.startsWith('CH')) {
         const wall = safe(inputs.wallThickness);
         const base = safe(inputs.baseThickness);
@@ -443,6 +468,7 @@ const handleEstimate = () => {
 
         concreteVolume = (chamberVol + antiVol) * quantity;
         inputs.antiFlotationVolume = antiVol * quantity;
+    
       } else if (productName.startsWith('CS')) {
         const wall = safe(inputs.wallThickness);
         const slabLength = safe(inputs.length);
@@ -470,13 +496,12 @@ const handleEstimate = () => {
 
   console.log("🧪 Product Input to Breakdown:", { productName, inputs });
 
-
       const baseCode = productName.split('-')[0]; // handles CT-900x900-0.75 → CT
       const productCode = buildProductCode(baseCode, { ...inputs, steelDensity: inputs.steelDensity });
 
-      const concreteCost = concreteVolumeM3 * 137.21;
-      const steelCost = steelKg * 0.8;
-      const labourCost = labourHrs * 70.11;
+      concreteCost = concreteVolumeM3 * 137.21;
+      steelCost = steelKg * 0.8;
+      labourCost = labourHrs * 70.11;
 
       concreteSubtotal += concreteCost;
       concreteUnitTotal += concreteVolume / 1_000_000_000; // convert to m³
@@ -486,8 +511,8 @@ const handleEstimate = () => {
       labourUnitTotal += labourHrs;
 
 
-      sourceBreakdowns.push({
-  name: baseCode,
+  sourceBreakdowns.push({
+  name: baseCode, // groups CT variants under "CT"
   productCode,
   quantity,
   density: inputs.steelDensity || inputs.chamberDensity || undefined,
