@@ -544,7 +544,6 @@ const handleEstimate = () => {
   },
   uniqueItems: inputs.uniqueItems || []
  
-});
 });  // closes forEach ✅
   }      // <<== Add this: closes the else block
 };       // <<== And this: closes the handleEstimate function
