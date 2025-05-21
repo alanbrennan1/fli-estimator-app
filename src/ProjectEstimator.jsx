@@ -534,6 +534,43 @@ labourCost = labourHrs * 70.11;
     steelKg = concreteVolumeM3 * steelDensity;
     steelCost = steelKg * steelRate;
 
+// Labour
+  labourHrs = safe(inputs.labourHours);
+  labourCost = labourHrs * 70.11;
+
+  // Accumulate totals
+  concreteSubtotal += concreteCost;
+  concreteUnitTotal += concreteVolumeM3;
+  steelSubtotal += steelCost;
+  steelUnitTotal += steelKg;
+  labourSubtotal += labourCost;
+  labourUnitTotal += labourHrs;
+
+  // Final breakdown push
+  const baseCode = productName.split('-')[0];
+  const productCode = buildProductCode(baseCode, { ...inputs });
+
+  sourceBreakdowns.push({
+    name: baseCode,
+    productCode,
+    quantity,
+    concrete: {
+      volume: concreteVolumeM3.toFixed(2),
+      cost: parseFloat(concreteCost.toFixed(2))
+    },
+    steel: {
+      kg: steelKg.toFixed(2),
+      cost: parseFloat(steelCost.toFixed(2))
+    },
+    labour: {
+      hours: labourHrs.toFixed(2),
+      cost: parseFloat(labourCost.toFixed(2))
+    },
+    uniqueItems: inputs.uniqueItems || []
+  });
+
+        
+
         console.log("🧪 Column Steel Debug", {
   productName,
   steelDensity,
