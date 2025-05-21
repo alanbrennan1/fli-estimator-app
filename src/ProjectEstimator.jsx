@@ -165,7 +165,15 @@ const getUnitPrice = (itemName) => {
     setTimeout(() => setShouldResetCT(false), 0);
   }
 }, [shouldResetCT]);
+  
 
+useEffect(() => {
+  if (topLevelProduct === 'Troughs') {
+    setShowCTPulse(true);
+    const timeout = setTimeout(() => setShowCTPulse(false), 1500);
+    return () => clearTimeout(timeout);
+  }
+}, [topLevelProduct]);
 
 
   useEffect(() => {
