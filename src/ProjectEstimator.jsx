@@ -449,9 +449,10 @@ const handleEstimate = () => {
     steelKg = concreteVolumeM3 * steelPerM3;
     steelCost = steelKg * steelRate;
 
-    labourHrs = parseFloat(ctData['Labour Hrs/Unit'] || 0) * quantity;
-    labourCost = labourHrs * 70.11;
-    concreteCost = concreteVolumeM3 * 137.21;
+const labourPerUnit = safe(inputs.labourHours) || parseFloat(ctData['Labour Hrs/Unit'] || 0);
+labourHrs = labourPerUnit * quantity;
+labourCost = labourHrs * 70.11;
+
 
     concreteSubtotal += concreteCost;
     concreteUnitTotal += concreteVolumeM3;
