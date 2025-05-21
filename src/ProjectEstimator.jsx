@@ -519,10 +519,11 @@ labourCost = labourHrs * 70.11;
   const columnHeight = safe(inputs.height);   // in mm
   const width = safe(inputs.width);           // in mm
   const length = safe(inputs.length);         // in mm
-
+  const quantity = safe(inputs.quantity || 1);
   const paddingM3 = 0.14; // fixed additive in m³
 
   const effectiveHeight = columnHeight - baseHeight; // mm
+  const volumeMm3 = effectiveHeight * width * length;
   
  const volumePerUnitM3 = (volumeMm3 / 1_000_000_000) + paddingM3;
 concreteVolumeM3 = volumePerUnitM3 * quantity;
