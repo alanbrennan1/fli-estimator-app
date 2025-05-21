@@ -144,7 +144,6 @@ const getUnitPrice = (itemName) => {
   const [shouldResetCT, setShouldResetCT] = useState(false);
 
 
-
   useEffect(() => {
     fetch('/standard_trough_details_clean.json')
       .then((res) => res.json())
@@ -157,7 +156,7 @@ const getUnitPrice = (itemName) => {
     setSubProductInputs(prev => ({
       ...prev,
       CT: {
-        quantity: 1, // ✅ default to 1
+        quantity: '', // leave blank
          }, // reset only the base CT tab, not variants
     }));
 
@@ -964,6 +963,26 @@ setSelectedProduct('CT');  // Auto-return to CT tab
         >
           {code}
         </button>
+
+        {/* ✅ Inserted Remove Button */}
+        <button
+          onClick={() => {
+            setSubProductInputs(prev => {
+              const next = { ...prev };
+              delete next[code];
+              return next;
+            });
+            if (selectedProduct === code) {
+              setSelectedProduct('');
+            }
+          }}
+          className="absolute top-[-6px] right-[-6px] bg-white border border-gray-300 text-xs w-4 h-4 rounded-full text-gray-700 hover:bg-red-100 hover:text-red-600"
+          title="Remove"
+        >
+          ×
+        </button>
+
+        
         {isCT && (
           <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 rounded-b" />
         )}
