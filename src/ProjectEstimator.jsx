@@ -523,25 +523,25 @@ labourCost = labourHrs * 70.11;
   const paddingM3 = 0.14; // fixed additive in m³
 
   const effectiveHeight = columnHeight - baseHeight; // mm
-  const volumeMm3 = effectiveHeight * width * length;
-  concreteVolumeM3 = (volumeMm3 / 1_000_000_000) + paddingM3;
-  concreteCost = concreteVolumeM3 * 137.21;
+  
+ const volumePerUnitM3 = (volumeMm3 / 1_000_000_000) + paddingM3;
+concreteVolumeM3 = volumePerUnitM3 * quantity;
+concreteCost = concreteVolumeM3 * 137.21;
         
   // Optional: for consistency in mm³
   concreteVolume = (concreteVolumeM3 * 1_000_000_000) * quantity;
 
-    // Steel Pricing Logic
-    let steelDensity = safe(inputs.steelDensity);
-    if (!steelDensity || steelDensity <= 0) {
-      steelDensity = 180; // fallback if input is invalid
-    }
-    const steelRate = 0.86;
-    steelKg = concreteVolumeM3 * steelDensity;
-    steelCost = steelKg * steelRate;
+   // Steel
+let steelDensity = safe(inputs.steelDensity);
+if (!steelDensity || steelDensity <= 0) steelDensity = 180;
+const steelRate = 0.86;
+steelKg = concreteVolumeM3 * steelDensity;
+steelCost = steelKg * steelRate;
 
 // Labour
-  labourHrs = safe(inputs.labourHours);
-  labourCost = labourHrs * 70.11;
+const labourPerUnit = safe(inputs.labourHours);
+labourHrs = labourPerUnit * quantity;
+labourCost = labourHrs * 70.11;
 
   // Accumulate totals
   concreteSubtotal += concreteCost;
