@@ -583,7 +583,7 @@ labourCost = labourHrs * 70.11;
   steelKg,
   steelCost
 });
-
+return; // ✅ prevents falling into fallback logic
        
       } else if (productName.startsWith('CS')) {
         const slabLength = safe(inputs.length);
