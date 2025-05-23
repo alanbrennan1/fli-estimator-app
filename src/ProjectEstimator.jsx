@@ -8,8 +8,10 @@ const productOptions = {
     { name: "Cable Trough 45°", code: "CT45" },
     { name: "Cable Trough Tee", code: "CTT" },
   ],
-  Chambers: [
+  Chambers: [  // ✅ Updated
     { name: "Chamber", code: "CH" },
+    { name: "Cover Slab", code: "CS" },
+    { name: "Risers", code: "RR" },
   ],
   Columns: [
     { name: "Column", code: "C" },
