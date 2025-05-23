@@ -520,6 +520,13 @@ labourCost = labourHrs * 70.11;
 
 
 } else if (productName.startsWith('CH')) {
+
+let steelKg = 0;
+let steelCost = 0;
+let labourHrs = 0;
+let labourCost = 0;
+
+       
   const wall = safe(inputs.wallThickness);
   const base = safe(inputs.baseThickness);
   const extPlan = (length + wall * 2) * (width + wall * 2);
