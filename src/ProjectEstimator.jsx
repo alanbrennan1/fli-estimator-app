@@ -613,14 +613,6 @@ labourCost = labourHrs * 70.11;
   });
 
         
-
-        console.log("🧪 Column Steel Debug", {
-  productName,
-  steelDensity,
-  concreteVolumeM3,
-  steelKg,
-  steelCost
-});
 return; // ✅ prevents falling into fallback logic
        
       } else if (productName.startsWith('CS')) {
@@ -1582,22 +1574,24 @@ handleSubInputChange(key, 'autoFilled', {
       <div className="flex flex-col md:col-span-3">
         <label className="text-xs font-medium mb-1">Bespoke Types</label>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-          {bespokeChecklistOptions.map(({ label, value }) => (
-            <label key={value} className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={(subProductInputs[selectedProduct]?.bespokeUseTags || []).includes(value)}
-                onChange={(e) => {
-                  const current = subProductInputs[selectedProduct]?.bespokeUseTags || [];
-                  const updated = e.target.checked
-                    ? [...current, value]
-                    : current.filter((v) => v !== value);
-                  handleSubInputChange(selectedProduct, 'bespokeUseTags', updated);
-                }}
-              />
-              <span>{label}</span>
-            </label>
-          ))}
+          {bespokeChecklistOptions.map(({ label, value }) => {
+            return (
+              <label key={value} className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={(subProductInputs[selectedProduct]?.bespokeUseTags || []).includes(value)}
+                  onChange={(e) => {
+                    const current = subProductInputs[selectedProduct]?.bespokeUseTags || [];
+                    const updated = e.target.checked
+                      ? [...current, value]
+                      : current.filter((v) => v !== value);
+                    handleSubInputChange(selectedProduct, 'bespokeUseTags', updated);
+                  }}
+                />
+                <span>{label}</span>
+              </label>
+            );
+          })}
         </div>
       </div>
      
