@@ -88,6 +88,7 @@ const [activeTabs, setActiveTabs] = useState({
   Specials: 'SP-1'
 });
 
+const selectedProduct = activeTabs[topLevelProduct];
 
 
 function AccordionSection({ title, children }) {
@@ -230,7 +231,7 @@ const getUnitPrice = (itemName) => {
   if (shouldResetCT) {
     setSubProductInputs(prev => ({
       ...prev,
-      CT: {
+      [selectedProduct]: {
         quantity: '', // leave blank
          }, // reset only the base CT tab, not variants
     }));
@@ -839,7 +840,7 @@ const handleChange = (e) => {
 };
 
 useEffect(() => {
-  const ct = subProductInputs['CT'];
+  const ct = subProductInputs[selectedProduct];
   if (!ct) return;
 
   // ✅ Skip if Troughs is not the selected top-level product
@@ -861,11 +862,11 @@ useEffect(() => {
   setSubProductInputs(prev => ({
     ...prev,
     [variantKey]: { ...ct },
-    CT: {}  // Reset the CT tab for the next one
+     [selectedProduct]: {}  // Reset the CT tab for the next one
   }));
 setSelectedProduct('CT');  // Auto-return to CT tab
 
-}, [subProductInputs['CT']]);
+}, [subProductInputs[selectedProduct]);
 
   
   return (
@@ -1246,7 +1247,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
           <label className="text-xs font-medium mb-1 text-gray-600">Cross Section (W × H)</label>
 
           <select
-  key={`ct-cross-section-${selectedProduct === 'CT' ? (subProductInputs['CT']?.crossSection || 'reset') : 'variant'}`}
+  key={`ct-cross-section-${selectedProduct === 'CT' ? (subProductInputs[selectedProduct]?.crossSection || 'reset') : 'variant'}`}
   value={subProductInputs[selectedProduct]?.crossSection || ''}
 
          
@@ -1313,9 +1314,10 @@ handleSubInputChange(key, 'autoFilled', {
       // Mark CT placeholder tab as cleared
       setSubProductInputs(prev => {
         const next = { ...prev };
-       next['CT'] = { ...next['CT'], wasCleared: true };
+        next[selectedProduct] = { ...next[selectedProduct], wasCleared: true };
         return next;
       });
+
 
       if (match) {
         // Assign geometry
