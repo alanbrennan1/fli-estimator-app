@@ -1065,7 +1065,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
             <option value="Beams">Beams</option>
             <option value="SATs">SATs</option>
             <option value="Tanks">Tanks</option>
-            <option value="Specials">Specials</option>
+            <option value="Specials">Bespoke</option>
             <option value="Slot Drain">Slot Drain</option>
 
           </select>
