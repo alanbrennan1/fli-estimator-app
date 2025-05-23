@@ -536,11 +536,10 @@ labourCost = labourHrs * 70.11;
         inputs.antiFlotationVolume = antiVol * quantity;
 
 
-       const baseCode = productName.split('-')[0];
-    const productCode = buildProductCode(baseCode, {
+const productCode = buildProductCode(baseCode, {
   ...inputs,
-  chamberUseTags: inputs.chamberUseTags || subProductInputs[productName]?.chamberUseTags || []
-}
+  chamberUseTags: ...
+});
 
         
 } else if (productName.startsWith('C')) {
