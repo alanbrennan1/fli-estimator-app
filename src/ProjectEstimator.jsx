@@ -366,8 +366,6 @@ const handleSketchUpUpload = (e) => {
   }));
 };
 
- console.log("🔍 Building code for:", baseCode, inputs.chamberUseTags);
-
   function buildProductCode(code, inputs) {
   const pad = (val, len) => String(val || '').padStart(len, '0');
 
