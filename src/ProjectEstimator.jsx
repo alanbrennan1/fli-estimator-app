@@ -1573,6 +1573,35 @@ handleSubInputChange(key, 'autoFilled', {
         </div>
       </div>
 
+
+{topLevelProduct === 'Bespoke' && selectedProduct === 'BS' && (
+  <div className="mt-6">
+    <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
+      Bespoke Options
+    </h4>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="flex flex-col md:col-span-3">
+        <label className="text-xs font-medium mb-1">Bespoke Types</label>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+          {bespokeChecklistOptions.map(({ label, value }) => (
+            <label key={value} className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={(subProductInputs[selectedProduct]?.bespokeUseTags || []).includes(value)}
+                onChange={(e) => {
+                  const current = subProductInputs[selectedProduct]?.bespokeUseTags || [];
+                  const updated = e.target.checked
+                    ? [...current, value]
+                    : current.filter((v) => v !== value);
+                  handleSubInputChange(selectedProduct, 'bespokeUseTags', updated);
+                }}
+              />
+              <span>{label}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+     
      
     </div>
   </div>
