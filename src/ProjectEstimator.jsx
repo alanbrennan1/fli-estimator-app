@@ -366,6 +366,8 @@ const handleSketchUpUpload = (e) => {
   }));
 };
 
+ console.log("🔍 Building code for:", baseCode, inputs.chamberUseTags);
+
   function buildProductCode(code, inputs) {
   const pad = (val, len) => String(val || '').padStart(len, '0');
 
@@ -532,6 +534,14 @@ labourCost = labourHrs * 70.11;
 
         concreteVolume = (chamberVol + antiVol) * quantity;
         inputs.antiFlotationVolume = antiVol * quantity;
+
+
+       const baseCode = productName.split('-')[0];
+    const productCode = buildProductCode(baseCode, {
+  ...inputs,
+  chamberUseTags: inputs.chamberUseTags || subProductInputs[productName]?.chamberUseTags || []
+});
+
         
 } else if (productName.startsWith('C')) {
   const baseHeight = safe(inputs.baseHeight); // in mm
