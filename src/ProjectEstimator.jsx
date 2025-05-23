@@ -24,6 +24,9 @@ const productOptions = {
  Bespoke: [
   { name: "Bespoke", code: "BS" }, // ✅ new sub-product
 ],
+Walls: [
+  { name: "Wall", code: "W" },
+],
 
 };
 
