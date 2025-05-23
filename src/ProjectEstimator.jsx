@@ -17,6 +17,11 @@ const productOptions = {
   Slabs: [
     { name: "Cover Slab", code: "CS" },
   ],
+ "Slot Drain": [  // ✅ New Entry
+    { name: "Slot Drain - Standard", code: "SD" },
+    { name: "Slot Drain - Mitre", code: "SDM" },
+    { name: "Slot Drain - Rodding Point", code: "SDR" },
+  ],
 };
 
 
