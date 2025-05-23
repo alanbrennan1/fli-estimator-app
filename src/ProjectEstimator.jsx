@@ -49,6 +49,16 @@ const bespokeChecklistOptions = [
   { label: "Security Barriers", value: "SB" }
 ];
 
+const wallChecklistOptions = [
+  { label: "Baffle Walls", value: "BFW" },
+  { label: "Blast Walls", value: "BLW" },
+  { label: "Fire Walls", value: "FW" },
+  { label: "Bund Walls", value: "BW" },
+  { label: "External Wall", value: "EX" },
+  { label: "External Wall - Corner", value: "EXC" },
+  { label: "External Wall - Tee", value: "EXT" },
+  { label: "Internal Wall", value: "IN" }
+];
 
 function AccordionSection({ title, children }) {
   const [isOpen, setIsOpen] = useState(false); // collapsed by default
@@ -1530,7 +1540,7 @@ handleSubInputChange(key, 'autoFilled', {
       </div>
     )}
 
-    {/* ✅ Bespoke Options (MOVED OUTSIDE chamber block) */}
+   
     {selectedProduct?.startsWith('BS') && (
       <div className="mt-6">
         <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
@@ -1561,6 +1571,37 @@ handleSubInputChange(key, 'autoFilled', {
         </div>
       </div>
     )}
+
+   {topLevelProduct === 'Walls' && selectedProduct?.startsWith('W') && (
+  <div className="mt-6">
+    <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
+      Wall Options
+    </h4>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="flex flex-col md:col-span-3">
+        <label className="text-xs font-medium mb-1">Wall Types</label>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+          {wallChecklistOptions.map(({ label, value }) => (
+            <label key={value} className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={(subProductInputs[selectedProduct]?.wallUseTags || []).includes(value)}
+                onChange={(e) => {
+                  const current = subProductInputs[selectedProduct]?.wallUseTags || [];
+                  const updated = e.target.checked
+                    ? [...current, value]
+                    : current.filter((v) => v !== value);
+                  handleSubInputChange(selectedProduct, 'wallUseTags', updated);
+                }}
+              />
+              <span>{label}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+)}
 
 
 {selectedProduct?.startsWith('CS') && (
