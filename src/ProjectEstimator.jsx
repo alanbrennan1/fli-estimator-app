@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './index.css';
 
   const productOptions = {
- Troughs: [
+ Cable Troughs: [
     { name: "Cable Trough", code: "CT" },
     { name: "Cable Trough Mitre", code: "CTS" },
     { name: "Cable Trough 45°", code: "CT45" },
@@ -64,7 +64,7 @@ useEffect(() => {
   };
 
   const subProductMap = {
-  Troughs: [
+  Cable Troughs: [
     'CT45 182809600410_0000_065_D400',
     'CTT_250009600410_0000_065_D400',
     'CT_25609600410_0000_065_D400'
@@ -171,7 +171,7 @@ const getUnitPrice = (itemName) => {
   
 
 useEffect(() => {
-  if (topLevelProduct === 'Troughs') {
+  if (topLevelProduct === 'Cable Troughs') {
     setShowCTPulse(true);
     const timeout = setTimeout(() => setShowCTPulse(false), 1500);
     return () => clearTimeout(timeout);
@@ -217,7 +217,7 @@ const selectedSubProducts = [
   ...Object.entries(subProductInputs)
     .filter(([key, val]) =>
   key.startsWith('CT-') || 
-  (key === 'CT' && topLevelProduct === 'Troughs' && Object.keys(val || {}).length > 0)
+  (key === 'CT' && topLevelProduct === 'Cable Troughs' && Object.keys(val || {}).length > 0)
 )
 
     .map(([key]) => ({ code: key, name: key }))
@@ -771,7 +771,7 @@ useEffect(() => {
   if (!ct) return;
 
   // ✅ Skip if Troughs is not the selected top-level product
-  if (topLevelProduct !== 'Troughs') return;
+  if (topLevelProduct !== 'Cable Troughs') return;
 
   const crossSection = ct.crossSection;
   const lengthOption = ct.lengthOption;
@@ -1036,7 +1036,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
             className="w-full border p-2 rounded text-sm bg-white shadow-sm focus:ring-2 focus:ring-blue-400"
           >
             <option value="">Select Structure</option>
-            <option value="Troughs">Troughs</option>
+            <option value="Cable Troughs">Cable Troughs</option>
             <option value="Chambers">Chambers</option>
             <option value="Walls">Walls</option>
             <option value="Columns">Columns</option>
@@ -1158,7 +1158,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
     Configure: {selectedProduct}
   </h3>
 
-  {topLevelProduct === 'Troughs' && selectedProduct?.startsWith('CT') && (
+  {topLevelProduct === 'Cable Troughs' && selectedProduct?.startsWith('CT') && (
     <div className="border-2 border-gray-300 shadow-md rounded-lg p-4 bg-white">
 
      
