@@ -27,7 +27,9 @@ const productOptions = {
 Walls: [
   { name: "Wall", code: "W" },
 ],
-
+Beams: [
+  { name: "Beam", code: "B" },
+],
 };
 
 const chamberChecklistOptions = [
