@@ -374,12 +374,18 @@ const handleSketchUpUpload = (e) => {
   const height = pad(inputs.height, 4);
   const wallThickness = code.startsWith('CS') ? '0000' : pad(inputs.wallThickness, 4);
   const steelGrade = inputs.steelGrade || '';
-const density = code.startsWith('CS')
+  const density = code.startsWith('CS')
   ? inputs.roofSlabDensity || ''
   : inputs.steelDensity || inputs.chamberDensity || '';
     
   const spec = inputs.surfaceFinish || '';
 
+// ✅ Check for chamber use tags
+  let chamberSuffix = '';
+  if (code === 'CH' && Array.isArray(inputs.chamberUseTags) && inputs.chamberUseTags.length > 0) {
+    chamberSuffix = `_${inputs.chamberUseTags[0]}`; // only append first selected
+  }
+   
   return `${code} ${length}${width}${height}_${wallThickness}_${steelGrade}_${density} ${spec}`;
 }
 
