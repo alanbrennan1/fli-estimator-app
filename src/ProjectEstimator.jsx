@@ -2,18 +2,12 @@ import React, { useState, useEffect } from 'react';
 import './index.css';
 
   const productOptions = {
- Cable Troughs: [
+ Troughs: [
     { name: "Cable Trough", code: "CT" },
     { name: "Cable Trough Mitre", code: "CTS" },
     { name: "Cable Trough 45°", code: "CT45" },
     { name: "Cable Trough Tee", code: "CTT" },
-  ],
- Slot Drain: [
-    { name: "Slot Drain - Standard", code: "SD" },
-    { name: "Slot Drain - Mitre", code: "SDM" },
-    { name: "Slot Drain - Rodding Point°", code: "SDR" },
-  ],
-    
+  ],    
     Chambers: [
   { name: "Chamber", code: "CH" },
 ],
