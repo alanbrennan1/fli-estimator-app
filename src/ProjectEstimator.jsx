@@ -1573,8 +1573,7 @@ handleSubInputChange(key, 'autoFilled', {
         </div>
       </div>
 
-
-{topLevelProduct === 'Bespoke' && selectedProduct === 'BS' && (
+{selectedProduct?.startsWith('BS') && (
   <div className="mt-6">
     <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
       Bespoke Options
