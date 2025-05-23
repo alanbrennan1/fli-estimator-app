@@ -517,29 +517,55 @@ labourCost = labourHrs * 70.11;
 
           return;
         }
-      } else if (productName.startsWith('CH')) {
-        const wall = safe(inputs.wallThickness);
-        const base = safe(inputs.baseThickness);
-        const extPlan = (length + wall * 2) * (width + wall * 2);
-        const intPlan = length * width;
-        const extHeight = height + base;
-        const chamberVol = (extPlan * extHeight) - (intPlan * height);
-
-        if (inputs.antiFlotation === 'Yes') {
-          const toeLengthM = safe(inputs.toeLength);
-          const toeLength = toeLengthM * 1000;
-          const toePlan = (length + wall * 2);
-          antiVol = ((toePlan * toeLength * base) * 2);
-        }
-
-        concreteVolume = (chamberVol + antiVol) * quantity;
-        inputs.antiFlotationVolume = antiVol * quantity;
 
 
-const productCode = buildProductCode(baseCode, {
-  ...inputs,
-  chamberUseTags: ...
-});
+} else if (productName.startsWith('CH')) {
+  const wall = safe(inputs.wallThickness);
+  const base = safe(inputs.baseThickness);
+  const extPlan = (length + wall * 2) * (width + wall * 2);
+  const intPlan = length * width;
+  const extHeight = height + base;
+  const chamberVol = (extPlan * extHeight) - (intPlan * height);
+
+  if (inputs.antiFlotation === 'Yes') {
+    const toeLengthM = safe(inputs.toeLength);
+    const toeLength = toeLengthM * 1000;
+    const toePlan = (length + wall * 2);
+    antiVol = ((toePlan * toeLength * base) * 2);
+  }
+
+  concreteVolume = (chamberVol + antiVol) * quantity;
+  inputs.antiFlotationVolume = antiVol * quantity;
+
+  const baseCode = productName.split('-')[0];
+  const productCode = buildProductCode(baseCode, {
+    ...inputs,
+    chamberUseTags: inputs.chamberUseTags || subProductInputs[productName]?.chamberUseTags || []
+  });
+
+  sourceBreakdowns.push({
+    name: baseCode,
+    productCode,
+    quantity,
+    concrete: {
+      volume: (concreteVolume / 1_000_000_000).toFixed(2),
+      cost: parseFloat((concreteVolume / 1_000_000_000 * 137.21).toFixed(2)),
+      antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0)
+        ? (antiVol / 1_000_000_000 * quantity).toFixed(2)
+        : undefined
+    },
+   steel: {
+      kg: steelKg.toFixed(2),
+      cost: parseFloat(steelCost.toFixed(2))
+    },
+    labour: {
+      hours: labourHrs.toFixed(2),
+      cost: parseFloat(labourCost.toFixed(2))
+    },
+    uniqueItems: inputs.uniqueItems || []
+  });
+
+      
 
         
 } else if (productName.startsWith('C')) {
