@@ -16,9 +16,6 @@ const productOptions = {
   Columns: [
     { name: "Column", code: "C" },
   ],
-  Slabs: [
-    { name: "Cover Slab", code: "CS" },
-  ],
  "Slot Drain": [  // ✅ New Entry
     { name: "Slot Drain - Standard", code: "SD" },
     { name: "Slot Drain - Mitre", code: "SDM" },
@@ -1049,7 +1046,6 @@ setSelectedProduct('CT');  // Auto-return to CT tab
             <option value="Walls">Walls</option>
             <option value="Columns">Columns</option>
             <option value="Beams">Beams</option>
-            <option value="Slabs">Slabs</option>
             <option value="SATs">SATs</option>
             <option value="Tanks">Tanks</option>
             <option value="Specials">Specials</option>
