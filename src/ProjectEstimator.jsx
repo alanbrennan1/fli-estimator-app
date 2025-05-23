@@ -21,6 +21,10 @@ const productOptions = {
     { name: "Slot Drain - Mitre", code: "SDM" },
     { name: "Slot Drain - Rodding Point", code: "SDR" },
   ],
+ Bespoke: [
+  { name: "Bespoke", code: "BS" }, // ✅ new sub-product
+],
+
 };
 
 const chamberChecklistOptions = [
@@ -29,6 +33,17 @@ const chamberChecklistOptions = [
   { label: "Drawpit", value: "DP" },
   { label: "LV Chambers", value: "LV" },
   { label: "MV Chambers", value: "MV" },
+];
+
+const bespokeChecklistOptions = [
+  { label: "Bespoke/Special", value: "SP" },
+  { label: "Bespoke Culverts", value: "CU" },
+  { label: "Bespoke Precast Plinths", value: "PL" },
+  { label: "Bund", value: "BU" },
+  { label: "Equipment Pads", value: "EP" },
+  { label: "Foundation Bases", value: "FB" },
+  { label: "Retaining Walls", value: "RW" },
+  { label: "Security Barriers", value: "SB" }
 ];
 
 
@@ -1612,9 +1627,7 @@ handleSubInputChange(key, 'autoFilled', {
       </div>
     </div>
   </div>
-)}
-
-             
+)}                  
               </div>
             </div>
       
