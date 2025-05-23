@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from 'react';  
 import './index.css';
 
-  const productOptions = {
- "Cable Troughs": [
+const productOptions = {
+  "Cable Troughs": [
     { name: "Cable Trough", code: "CT" },
     { name: "Cable Trough Mitre", code: "CTS" },
     { name: "Cable Trough 45°", code: "CT45" },
     { name: "Cable Trough Tee", code: "CTT" },
-  ],    
-    Chambers: [
-  { name: "Chamber", code: "CH" },
-],
-      Columns: [
-  { name: "Column", code: "C" },
-],
+  ],
+  Chambers: [
+    { name: "Chamber", code: "CH" },
+  ],
+  Columns: [
+    { name: "Column", code: "C" },
+  ],
   Slabs: [
-  { name: "Cover Slab", code: "CS" }, 
-],
+    { name: "Cover Slab", code: "CS" },
+  ],
 };
+
 
 function AccordionSection({ title, children }) {
   const [isOpen, setIsOpen] = useState(false); // collapsed by default
