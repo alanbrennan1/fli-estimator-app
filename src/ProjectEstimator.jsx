@@ -23,6 +23,14 @@ const productOptions = {
   ],
 };
 
+const chamberChecklistOptions = [
+  { label: "Communication / CV", value: "CV" },
+  { label: "Fibre Vault", value: "FV" },
+  { label: "Drawpit", value: "DP" },
+  { label: "LV Chambers", value: "LV" },
+  { label: "MV Chambers", value: "MV" },
+];
+
 
 function AccordionSection({ title, children }) {
   const [isOpen, setIsOpen] = useState(false); // collapsed by default
@@ -1518,6 +1526,30 @@ handleSubInputChange(key, 'autoFilled', {
           placeholder="Qty 2"
         />
       </div>
+
+        <div className="flex flex-col md:col-span-3">
+        <label className="text-xs font-medium mb-2 text-gray-700">Chamber Use Tags</label>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+          {chamberChecklistOptions.map(({ label, value }) => (
+            <label key={value} className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={(subProductInputs[selectedProduct]?.chamberUseTags || []).includes(value)}
+                onChange={(e) => {
+                  const current = subProductInputs[selectedProduct]?.chamberUseTags || [];
+                  const updated = e.target.checked
+                    ? [...current, value]
+                    : current.filter((v) => v !== value);
+                  handleSubInputChange(selectedProduct, 'chamberUseTags', updated);
+                }}
+              />
+              <span>{label}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+     
     </div>
   </div>
 )}
