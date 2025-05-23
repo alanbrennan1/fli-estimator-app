@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './index.css';
 
 const productOptions = {
-  "Cable Troughs": [
+ Troughs: [
     { name: "Cable Trough", code: "CT" },
     { name: "Cable Trough Mitre", code: "CTS" },
     { name: "Cable Trough 45°", code: "CT45" },
