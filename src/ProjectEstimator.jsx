@@ -1528,7 +1528,7 @@ handleSubInputChange(key, 'autoFilled', {
       </div>
 
         <div className="flex flex-col md:col-span-3">
-        <label className="text-xs font-medium mb-1 text-gray-700">Chamber Types</label>
+        <label className="text-xs font-medium mb-1">Chamber Types</label>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
           {chamberChecklistOptions.map(({ label, value }) => (
             <label key={value} className="flex items-center gap-2">
