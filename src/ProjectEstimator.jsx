@@ -540,7 +540,7 @@ labourCost = labourHrs * 70.11;
     const productCode = buildProductCode(baseCode, {
   ...inputs,
   chamberUseTags: inputs.chamberUseTags || subProductInputs[productName]?.chamberUseTags || []
-});
+}
 
         
 } else if (productName.startsWith('C')) {
