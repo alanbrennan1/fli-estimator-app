@@ -1352,253 +1352,213 @@ handleSubInputChange(key, 'autoFilled', {
 <div className="mt-4"></div>
 
 
-  <div className="space-y-6">
-    {/* Inputs – Common */}
-            <div className="border-2 border-gray-300 shadow-md rounded-lg p-4 bg-white">
-          <h4 className="text-sm font-bold uppercase text-gray-700 mb-4 tracking-wide border-b border-gray-400 pb-1">
-            Inputs – Common
-          </h4>
-
-{console.log('🔍 autoFilled debug', selectedProduct, subProductInputs[selectedProduct]?.autoFilled)}
-
-              <div className="mb-4">
-                                <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Concrete</h5>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {["length", "width", "height", "baseThickness", "wallThickness"].map((field) => {
-                    const labelMap = {
-                      length: "Length (mm)",
-                      width: "Width (mm)",
-                      height: "Height (mm)",
-                      baseThickness: "Base Thickness (mm)",
-                      wallThickness: "Wall Thickness (mm)",
-                       };
-
-          
-                    return (
-                      <div key={field} className="flex flex-col">
-                        
-<label className="text-xs font-medium mb-1 flex items-center gap-1">
-  {labelMap[field]}
-  {selectedProduct?.startsWith('CS') && (field === 'length' || field === 'width') && (
-    <span
-      title={`Auto-filled from Chamber ${field} + 2 × wall thickness`}
-      className="cursor-help text-blue-500 text-xs"
-    >
-      ⓘ
-    </span>
-  )}
-  {selectedProduct?.startsWith('CS') && (field === 'wallThickness' || field === 'baseThickness') && (
-    <span
-      title={`Auto-filled from Chamber ${field}`}
-      className="cursor-help text-blue-500 text-xs"
-    >
-      ⓘ
-    </span>
-  )}
-</label>
-
-<input
-  type="number"
-  value={subProductInputs[selectedProduct]?.[field] || ''}
-  onChange={(e) => handleSubInputChange(selectedProduct, field, e.target.value)}
-  className={`border p-2 rounded text-xs ${
-    subProductInputs[selectedProduct]?.autoFilled?.[field] ? 'bg-blue-50' : ''
-  }`}
-/>
-                            
-                      </div>
-                    );
-                  })}
-
-                    <div className="flex flex-col">
-                      <label className="text-xs font-medium mb-1">Area of Section (m²)</label>
-                      <input
-                        type="number"
-                        value={subProductInputs[selectedProduct]?.sectionArea || ''}
-                        onChange={(e) => handleSubInputChange(selectedProduct, 'sectionArea', e.target.value)}
-                        className="border p-2 rounded text-xs w-24"
-                        placeholder="e.g. 0.15"
-                      />
-                    </div>
-
-                    <div className="flex flex-col">
-                      <label className="text-xs font-medium mb-1">Chamber Density (kg/m³)</label>
-                      <input
-                        type="number"
-                        value={subProductInputs[selectedProduct]?.chamberDensity || ''}
-                        onChange={(e) => handleSubInputChange(selectedProduct, 'chamberDensity', e.target.value)}
-                        className="border p-2 rounded text-xs w-24"
-                        placeholder="e.g. 90"
-                      />
-                    </div>
-
-                  </div>
-              </div>
-
-<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-  {/* Steel Grade and Density in one column */}
-  <div className="flex flex-col">
-    <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Steel/Fibres</h5>
-        <div className="flex gap-2 items-center">
-      {/* Dropdown */}
-      <select
-        value={subProductInputs[selectedProduct]?.steelGrade || ''}
-        onChange={(e) => handleSubInputChange(selectedProduct, 'steelGrade', e.target.value)}
-        className="border p-2 rounded text-xs bg-white w-[100px]"
-      >
-        <option value="">Grade</option>
-        <option value="B125">B125</option>
-        <option value="C250">C250</option>
-        <option value="D400">D400</option>
-        <option value="E600">E600</option>
-        <option value="Other">Other</option>
-      </select>
-
-      {/* Steel Density */}
-      <input
-        type="number"
-        value={subProductInputs[selectedProduct]?.steelDensity || ''}
-        onChange={(e) => handleSubInputChange(selectedProduct, 'steelDensity', e.target.value)}
-        className={`border p-2 rounded text-xs w-[100px] ${subProductInputs[selectedProduct]?.autoFilled?.steelDensity ? 'bg-blue-50' : ''}`}
-        placeholder="kg/m³"
-      />
-    </div>
-  </div>
-
-                
-                <div className="flex flex-col">
-                  <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Surface Finish</h5>
-                  <select
-                    value={subProductInputs[selectedProduct]?.surfaceFinish || ''}
-                    onChange={(e) => handleSubInputChange(selectedProduct, 'surfaceFinish', e.target.value)}
-                    className="border p-2 rounded text-xs bg-white"
-                  >
-                    <option value="">Select Finish</option>
-                    <option value="F1">F1 (Basic)</option>
-                    <option value="F2">F2 (Higher Class)</option>
-                  </select>
-                </div>
-                
-                <div className="flex flex-col">
-                  <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Labour</h5>
-                  <input
-                    type="number"
-                    name="labourHours"
-                    value={subProductInputs[selectedProduct]?.labourHours || ''}
-                    onChange={(e) => handleSubInputChange(selectedProduct, 'labourHours', e.target.value)}
-                    placeholder="Labour Hrs/Unit"
-                    className={`border p-2 rounded text-xs ${subProductInputs[selectedProduct]?.autoFilled?.labourHours ? 'bg-blue-50' : ''}`}
-
-                  />
-                </div>
-    </div>
-
-  {selectedProduct?.startsWith('C') && (
-  <div className="mt-6">
-    <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
-      Column Options
+<div className="space-y-6">
+  {/* Inputs – Common */}
+  <div className="border-2 border-gray-300 shadow-md rounded-lg p-4 bg-white">
+    <h4 className="text-sm font-bold uppercase text-gray-700 mb-4 tracking-wide border-b border-gray-400 pb-1">
+      Inputs – Common
     </h4>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div className="flex flex-col">
-        <label className="text-xs font-medium mb-1">Base Height (mm)</label>
-        <input
-          type="number"
-          value={subProductInputs[selectedProduct]?.baseHeight || ''}
-          onChange={(e) => handleSubInputChange(selectedProduct, 'baseHeight', e.target.value)}
-          className="border p-2 rounded text-xs"
-          placeholder="e.g. 200"
-        />
+
+    {/* Concrete Inputs */}
+    <div className="mb-4">
+      <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Concrete</h5>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {["length", "width", "height", "baseThickness", "wallThickness"].map((field) => {
+          const labelMap = {
+            length: "Length (mm)",
+            width: "Width (mm)",
+            height: "Height (mm)",
+            baseThickness: "Base Thickness (mm)",
+            wallThickness: "Wall Thickness (mm)",
+          };
+
+          return (
+            <div key={field} className="flex flex-col">
+              <label className="text-xs font-medium mb-1 flex items-center gap-1">
+                {labelMap[field]}
+                {/* Auto-fill tooltips */}
+                {selectedProduct?.startsWith('CS') && (field === 'length' || field === 'width') && (
+                  <span title={`Auto-filled from Chamber ${field} + 2 × wall thickness`} className="cursor-help text-blue-500 text-xs">ⓘ</span>
+                )}
+                {selectedProduct?.startsWith('CS') && (field === 'wallThickness' || field === 'baseThickness') && (
+                  <span title={`Auto-filled from Chamber ${field}`} className="cursor-help text-blue-500 text-xs">ⓘ</span>
+                )}
+              </label>
+
+              <input
+                type="number"
+                value={subProductInputs[selectedProduct]?.[field] || ''}
+                onChange={(e) => handleSubInputChange(selectedProduct, field, e.target.value)}
+                className={`border p-2 rounded text-xs ${subProductInputs[selectedProduct]?.autoFilled?.[field] ? 'bg-blue-50' : ''}`}
+              />
+            </div>
+          );
+        })}
+
+        <div className="flex flex-col">
+          <label className="text-xs font-medium mb-1">Area of Section (m²)</label>
+          <input
+            type="number"
+            value={subProductInputs[selectedProduct]?.sectionArea || ''}
+            onChange={(e) => handleSubInputChange(selectedProduct, 'sectionArea', e.target.value)}
+            className="border p-2 rounded text-xs w-24"
+            placeholder="e.g. 0.15"
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <label className="text-xs font-medium mb-1">Chamber Density (kg/m³)</label>
+          <input
+            type="number"
+            value={subProductInputs[selectedProduct]?.chamberDensity || ''}
+            onChange={(e) => handleSubInputChange(selectedProduct, 'chamberDensity', e.target.value)}
+            className="border p-2 rounded text-xs w-24"
+            placeholder="e.g. 90"
+          />
+        </div>
       </div>
     </div>
-  </div>
-)}
 
-
-{selectedProduct?.startsWith('CH') && (
-  <div className="mt-6">
-    <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
-      Chamber Options
-    </h4>
+    {/* Steel/Fibres, Surface Finish, Labour */}
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div className="flex flex-col">
-        <label className="text-xs font-medium mb-1">Anti Flotation</label>
+        <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Steel/Fibres</h5>
+        <div className="flex gap-2 items-center">
+          <select
+            value={subProductInputs[selectedProduct]?.steelGrade || ''}
+            onChange={(e) => handleSubInputChange(selectedProduct, 'steelGrade', e.target.value)}
+            className="border p-2 rounded text-xs bg-white w-[100px]"
+          >
+            <option value="">Grade</option>
+            <option value="B125">B125</option>
+            <option value="C250">C250</option>
+            <option value="D400">D400</option>
+            <option value="E600">E600</option>
+            <option value="Other">Other</option>
+          </select>
+
+          <input
+            type="number"
+            value={subProductInputs[selectedProduct]?.steelDensity || ''}
+            onChange={(e) => handleSubInputChange(selectedProduct, 'steelDensity', e.target.value)}
+            className={`border p-2 rounded text-xs w-[100px] ${subProductInputs[selectedProduct]?.autoFilled?.steelDensity ? 'bg-blue-50' : ''}`}
+            placeholder="kg/m³"
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-col">
+        <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Surface Finish</h5>
         <select
-          value={subProductInputs[selectedProduct]?.antiFlotation || ''}
-          onChange={(e) => handleSubInputChange(selectedProduct, 'antiFlotation', e.target.value)}
-          className="border p-2 rounded text-xs"
+          value={subProductInputs[selectedProduct]?.surfaceFinish || ''}
+          onChange={(e) => handleSubInputChange(selectedProduct, 'surfaceFinish', e.target.value)}
+          className="border p-2 rounded text-xs bg-white"
         >
-          <option value="">Select</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
+          <option value="">Select Finish</option>
+          <option value="F1">F1 (Basic)</option>
+          <option value="F2">F2 (Higher Class)</option>
         </select>
       </div>
+
       <div className="flex flex-col">
-        <label className="text-xs font-medium mb-1">Toe Length (m)</label>
+        <h5 className="text-xs font-semibold text-blue-800 uppercase mb-2 border-b pb-1">Labour</h5>
         <input
-          type="text"
-          value={subProductInputs[selectedProduct]?.toeLength || ''}
-          onChange={(e) => handleSubInputChange(selectedProduct, 'toeLength', e.target.value)}
-          className="border p-2 rounded text-xs"
-          placeholder="Qty 2"
+          type="number"
+          name="labourHours"
+          value={subProductInputs[selectedProduct]?.labourHours || ''}
+          onChange={(e) => handleSubInputChange(selectedProduct, 'labourHours', e.target.value)}
+          placeholder="Labour Hrs/Unit"
+          className={`border p-2 rounded text-xs ${subProductInputs[selectedProduct]?.autoFilled?.labourHours ? 'bg-blue-50' : ''}`}
         />
       </div>
-
-        <div className="flex flex-col md:col-span-3">
-        <label className="text-xs font-medium mb-1">Chamber Types</label>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-          {chamberChecklistOptions.map(({ label, value }) => (
-            <label key={value} className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={(subProductInputs[selectedProduct]?.chamberUseTags || []).includes(value)}
-                onChange={(e) => {
-                  const current = subProductInputs[selectedProduct]?.chamberUseTags || [];
-                  const updated = e.target.checked
-                    ? [...current, value]
-                    : current.filter((v) => v !== value);
-                  handleSubInputChange(selectedProduct, 'chamberUseTags', updated);
-                }}
-              />
-              <span>{label}</span>
-            </label>
-          ))}
-        </div>
-      </div>
-
-{selectedProduct?.startsWith('BS') && (
-  <div className="mt-6">
-    <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
-      Bespoke Options
-    </h4>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div className="flex flex-col md:col-span-3">
-        <label className="text-xs font-medium mb-1">Bespoke Types</label>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-          {bespokeChecklistOptions.map(({ label, value }) => {
-            return (
-              <label key={value} className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={(subProductInputs[selectedProduct]?.bespokeUseTags || []).includes(value)}
-                  onChange={(e) => {
-                    const current = subProductInputs[selectedProduct]?.bespokeUseTags || [];
-                    const updated = e.target.checked
-                      ? [...current, value]
-                      : current.filter((v) => v !== value);
-                    handleSubInputChange(selectedProduct, 'bespokeUseTags', updated);
-                  }}
-                />
-                <span>{label}</span>
-              </label>
-            );
-          })}
-        </div>
-      </div>
-     
-     
     </div>
-  </div>
-)}
+
+    {/* Chamber Options */}
+    {selectedProduct?.startsWith('CH') && (
+      <div className="mt-6">
+        <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">Chamber Options</h4>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="flex flex-col">
+            <label className="text-xs font-medium mb-1">Anti Flotation</label>
+            <select
+              value={subProductInputs[selectedProduct]?.antiFlotation || ''}
+              onChange={(e) => handleSubInputChange(selectedProduct, 'antiFlotation', e.target.value)}
+              className="border p-2 rounded text-xs"
+            >
+              <option value="">Select</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col">
+            <label className="text-xs font-medium mb-1">Toe Length (m)</label>
+            <input
+              type="text"
+              value={subProductInputs[selectedProduct]?.toeLength || ''}
+              onChange={(e) => handleSubInputChange(selectedProduct, 'toeLength', e.target.value)}
+              className="border p-2 rounded text-xs"
+              placeholder="Qty 2"
+            />
+          </div>
+
+          <div className="flex flex-col md:col-span-3">
+            <label className="text-xs font-medium mb-1">Chamber Types</label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+              {chamberChecklistOptions.map(({ label, value }) => (
+                <label key={value} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={(subProductInputs[selectedProduct]?.chamberUseTags || []).includes(value)}
+                    onChange={(e) => {
+                      const current = subProductInputs[selectedProduct]?.chamberUseTags || [];
+                      const updated = e.target.checked
+                        ? [...current, value]
+                        : current.filter((v) => v !== value);
+                      handleSubInputChange(selectedProduct, 'chamberUseTags', updated);
+                    }}
+                  />
+                  <span>{label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {/* ✅ Bespoke Options (MOVED OUTSIDE chamber block) */}
+    {selectedProduct?.startsWith('BS') && (
+      <div className="mt-6">
+        <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
+          Bespoke Options
+        </h4>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="flex flex-col md:col-span-3">
+            <label className="text-xs font-medium mb-1">Bespoke Types</label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+              {bespokeChecklistOptions.map(({ label, value }) => (
+                <label key={value} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={(subProductInputs[selectedProduct]?.bespokeUseTags || []).includes(value)}
+                    onChange={(e) => {
+                      const current = subProductInputs[selectedProduct]?.bespokeUseTags || [];
+                      const updated = e.target.checked
+                        ? [...current, value]
+                        : current.filter((v) => v !== value);
+                      handleSubInputChange(selectedProduct, 'bespokeUseTags', updated);
+                    }}
+                  />
+                  <span>{label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+
 
 {selectedProduct?.startsWith('CS') && (
   <div className="mt-6">
