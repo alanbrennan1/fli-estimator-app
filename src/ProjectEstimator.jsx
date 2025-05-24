@@ -62,6 +62,33 @@ const wallChecklistOptions = [
   { label: "Internal Wall", value: "IN" }
 ];
 
+const [tabStacks, setTabStacks] = useState({
+  Chambers: ['CH-1'],
+  Troughs: ['CT-1'],
+  Walls: ['W-1'],
+  Bespoke: ['BS-1'],
+  Columns: ['C-1'],
+  SlotDrain: ['SD-1'],
+  Tanks: ['TK-1'],
+  Beams: ['BM-1'],
+  SATs: ['SAT-1'],
+  Specials: ['SP-1'] // if you still support this
+});
+
+const [activeTabs, setActiveTabs] = useState({
+  Chambers: 'CH-1',
+  Troughs: 'CT-1',
+  Walls: 'W-1',
+  Bespoke: 'BS-1',
+  Columns: 'C-1',
+  SlotDrain: 'SD-1',
+  Tanks: 'TK-1',
+  Beams: 'BM-1',
+  SATs: 'SAT-1',
+  Specials: 'SP-1'
+});
+
+
 
 function AccordionSection({ title, children }) {
   const [isOpen, setIsOpen] = useState(false); // collapsed by default
@@ -80,36 +107,6 @@ function AccordionSection({ title, children }) {
 }
 
 export default function ProjectEstimator() {
- 
- const [topLevelProduct, setTopLevelProduct] = useState("");
-
-  const [tabStacks, setTabStacks] = useState({
-    Chambers: ['CH-1'],
-    Troughs: ['CT-1'],
-    Walls: ['W-1'],
-    Bespoke: ['BS-1'],
-    Columns: ['C-1'],
-    SlotDrain: ['SD-1'],
-    Tanks: ['TK-1'],
-    Beams: ['BM-1'],
-    SATs: ['SAT-1'],
-    Specials: ['SP-1']
-  });
-
-  const [activeTabs, setActiveTabs] = useState({
-    Chambers: 'CH-1',
-    Troughs: 'CT-1',
-    Walls: 'W-1',
-    Bespoke: 'BS-1',
-    Columns: 'C-1',
-    SlotDrain: 'SD-1',
-    Tanks: 'TK-1',
-    Beams: 'BM-1',
-    SATs: 'SAT-1',
-    Specials: 'SP-1'
-  });
-
-  const selectedProduct = activeTabs[topLevelProduct];
 
 useEffect(() => {
   fetch('/additionalItems.json')
@@ -210,7 +207,8 @@ const getUnitPrice = (itemName) => {
   const [productQuantities, setProductQuantities] = useState({});
   const [subProductInputs, setSubProductInputs] = useState({});
   const [useSketchup, setUseSketchup] = useState(false);
-
+  const [selectedProduct, setSelectedProduct] = useState("");
+  const [topLevelProduct, setTopLevelProduct] = useState("");
   const [configuredProductTypes, setConfiguredProductTypes] = useState(new Set());
 
   const allSubProducts = Array.from(configuredProductTypes).flatMap(type => productOptions[type] || []);
@@ -232,7 +230,7 @@ const getUnitPrice = (itemName) => {
   if (shouldResetCT) {
     setSubProductInputs(prev => ({
       ...prev,
-      [selectedProduct]: {
+      CT: {
         quantity: '', // leave blank
          }, // reset only the base CT tab, not variants
     }));
@@ -841,7 +839,7 @@ const handleChange = (e) => {
 };
 
 useEffect(() => {
-  const ct = subProductInputs[selectedProduct];
+  const ct = subProductInputs['CT'];
   if (!ct) return;
 
   // ✅ Skip if Troughs is not the selected top-level product
@@ -863,12 +861,11 @@ useEffect(() => {
   setSubProductInputs(prev => ({
     ...prev,
     [variantKey]: { ...ct },
-     [selectedProduct]: {}  // Reset the CT tab for the next one
+    CT: {}  // Reset the CT tab for the next one
   }));
+setSelectedProduct('CT');  // Auto-return to CT tab
 
- setActiveTabs(prev => ({ ...prev, Troughs: 'CT' }));
-
-}, [subProductInputs[selectedProduct]);
+}, [subProductInputs['CT']]);
 
   
   return (
@@ -1154,8 +1151,7 @@ useEffect(() => {
         <button
           onClick={() => {
             setShouldResetCT(true);  // trigger reset
-            setActiveTabs(prev => ({ ...prev, Troughs: 'CT' }));
-
+            setSelectedProduct('CT');
           }}
           className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
           title="Configure CT variants"
@@ -1250,7 +1246,7 @@ useEffect(() => {
           <label className="text-xs font-medium mb-1 text-gray-600">Cross Section (W × H)</label>
 
           <select
-  key={`ct-cross-section-${selectedProduct === 'CT' ? (subProductInputs[selectedProduct]?.crossSection || 'reset') : 'variant'}`}
+  key={`ct-cross-section-${selectedProduct === 'CT' ? (subProductInputs['CT']?.crossSection || 'reset') : 'variant'}`}
   value={subProductInputs[selectedProduct]?.crossSection || ''}
 
          
@@ -1317,10 +1313,9 @@ handleSubInputChange(key, 'autoFilled', {
       // Mark CT placeholder tab as cleared
       setSubProductInputs(prev => {
         const next = { ...prev };
-        next[selectedProduct] = { ...next[selectedProduct], wasCleared: true };
+       next['CT'] = { ...next['CT'], wasCleared: true };
         return next;
       });
-
 
       if (match) {
         // Assign geometry
