@@ -62,34 +62,6 @@ const wallChecklistOptions = [
   { label: "Internal Wall", value: "IN" }
 ];
 
-const [tabStacks, setTabStacks] = useState({
-  Chambers: ['CH-1'],
-  Troughs: ['CT-1'],
-  Walls: ['W-1'],
-  Bespoke: ['BS-1'],
-  Columns: ['C-1'],
-  SlotDrain: ['SD-1'],
-  Tanks: ['TK-1'],
-  Beams: ['BM-1'],
-  SATs: ['SAT-1'],
-  Specials: ['SP-1'] // if you still support this
-});
-
-const [activeTabs, setActiveTabs] = useState({
-  Chambers: 'CH-1',
-  Troughs: 'CT-1',
-  Walls: 'W-1',
-  Bespoke: 'BS-1',
-  Columns: 'C-1',
-  SlotDrain: 'SD-1',
-  Tanks: 'TK-1',
-  Beams: 'BM-1',
-  SATs: 'SAT-1',
-  Specials: 'SP-1'
-});
-
-const selectedProduct = activeTabs[topLevelProduct];
-
 
 function AccordionSection({ title, children }) {
   const [isOpen, setIsOpen] = useState(false); // collapsed by default
@@ -108,6 +80,36 @@ function AccordionSection({ title, children }) {
 }
 
 export default function ProjectEstimator() {
+ 
+ const [topLevelProduct, setTopLevelProduct] = useState("");
+
+  const [tabStacks, setTabStacks] = useState({
+    Chambers: ['CH-1'],
+    Troughs: ['CT-1'],
+    Walls: ['W-1'],
+    Bespoke: ['BS-1'],
+    Columns: ['C-1'],
+    SlotDrain: ['SD-1'],
+    Tanks: ['TK-1'],
+    Beams: ['BM-1'],
+    SATs: ['SAT-1'],
+    Specials: ['SP-1']
+  });
+
+  const [activeTabs, setActiveTabs] = useState({
+    Chambers: 'CH-1',
+    Troughs: 'CT-1',
+    Walls: 'W-1',
+    Bespoke: 'BS-1',
+    Columns: 'C-1',
+    SlotDrain: 'SD-1',
+    Tanks: 'TK-1',
+    Beams: 'BM-1',
+    SATs: 'SAT-1',
+    Specials: 'SP-1'
+  });
+
+  const selectedProduct = activeTabs[topLevelProduct];
 
 useEffect(() => {
   fetch('/additionalItems.json')
@@ -208,7 +210,7 @@ const getUnitPrice = (itemName) => {
   const [productQuantities, setProductQuantities] = useState({});
   const [subProductInputs, setSubProductInputs] = useState({});
   const [useSketchup, setUseSketchup] = useState(false);
-  const [topLevelProduct, setTopLevelProduct] = useState("");
+
   const [configuredProductTypes, setConfiguredProductTypes] = useState(new Set());
 
   const allSubProducts = Array.from(configuredProductTypes).flatMap(type => productOptions[type] || []);
