@@ -208,7 +208,6 @@ const getUnitPrice = (itemName) => {
   const [productQuantities, setProductQuantities] = useState({});
   const [subProductInputs, setSubProductInputs] = useState({});
   const [useSketchup, setUseSketchup] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState("");
   const [topLevelProduct, setTopLevelProduct] = useState("");
   const [configuredProductTypes, setConfiguredProductTypes] = useState(new Set());
 
@@ -864,7 +863,8 @@ useEffect(() => {
     [variantKey]: { ...ct },
      [selectedProduct]: {}  // Reset the CT tab for the next one
   }));
-setSelectedProduct('CT');  // Auto-return to CT tab
+
+ setActiveTabs(prev => ({ ...prev, Troughs: 'CT' }));
 
 }, [subProductInputs[selectedProduct]);
 
@@ -1152,7 +1152,8 @@ setSelectedProduct('CT');  // Auto-return to CT tab
         <button
           onClick={() => {
             setShouldResetCT(true);  // trigger reset
-            setSelectedProduct('CT');
+            setActiveTabs(prev => ({ ...prev, Troughs: 'CT' }));
+
           }}
           className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
           title="Configure CT variants"
