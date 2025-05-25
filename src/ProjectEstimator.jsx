@@ -1314,6 +1314,37 @@ handleSubInputChange(key, 'autoFilled', {
 
       const uniqueKey = `CT-${crossSection}-${length}`;
       setSelectedProduct(uniqueKey);
+     setSubProductInputs(prev => {
+  const baseCT = prev['CT'] || {};
+  const next = { ...prev };
+
+  // 1. Spawn the new variant
+  next[uniqueKey] = {
+    ...baseCT,
+    crossSection,
+    lengthOption: e.target.value,
+    length: lengthMm,
+    width,
+    height,
+    autoFilled: {
+      ...(baseCT.autoFilled || {}),
+      length: true,
+      width: true,
+      height: true
+    }
+  };
+
+  // 2. Re-initialize `CT` as blank
+  next['CT'] = {
+    quantity: '',
+    wasCleared: false
+  };
+
+  return next;
+});
+// 🔁 Immediately refocus and pulse the New CT tab
+setSelectedProduct('CT');
+setShowCTPulse(true);
 
       // Assign core values
       handleSubInputChange(uniqueKey, 'productType', 'CT');
