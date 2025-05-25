@@ -81,6 +81,21 @@ function AccordionSection({ title, children }) {
 
 export default function ProjectEstimator() {
 
+  const [tabStacks, setTabStacks] = useState({});
+  const [activeTabs, setActiveTabs] = useState({});
+
+  const selectedProduct = activeTabs[topLevelProduct];
+
+  useEffect(() => {
+    if (topLevelProduct && !tabStacks[topLevelProduct]) {
+      const defaultKey = `${topLevelProduct.slice(0, 2).toUpperCase()}-1`;
+      setTabStacks(prev => ({ ...prev, [topLevelProduct]: [defaultKey] }));
+      setActiveTabs(prev => ({ ...prev, [topLevelProduct]: defaultKey }));
+    }
+  }, [topLevelProduct]);
+
+
+ 
 useEffect(() => {
   fetch('/additionalItems.json')
     .then(res => res.json())
