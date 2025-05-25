@@ -1722,7 +1722,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
                     <select
                       className="border rounded p-2 text-xs"
                       value={entry.item || ''}
-                      
+                      onChange={(e) => {
                         const updated = [...(subProductInputs[selectedProduct]?.uniqueItems || [])];
                         updated[idx] = { ...updated[idx], item: e.target.value };
                         handleSubInputChange(selectedProduct, 'uniqueItems', updated);
