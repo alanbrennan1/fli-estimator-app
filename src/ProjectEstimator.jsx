@@ -84,7 +84,7 @@ export default function ProjectEstimator() {
   const [tabStacks, setTabStacks] = useState({});
   const [activeTabs, setActiveTabs] = useState({});
 
-  const selectedProduct = activeTabs[topLevelProduct];
+const selectedProduct = topLevelProduct && activeTabs[topLevelProduct];
 
   useEffect(() => {
     if (topLevelProduct && !tabStacks[topLevelProduct]) {
