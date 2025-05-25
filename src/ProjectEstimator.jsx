@@ -80,21 +80,7 @@ function AccordionSection({ title, children }) {
 }
 
 export default function ProjectEstimator() {
- useEffect(() => {
-  console.log("Initial state →", { topLevelProduct, tabStacks, activeTabs });
-}, []);
 
-
-  useEffect(() => {
-    if (topLevelProduct && !tabStacks[topLevelProduct]) {
-      const defaultKey = `${topLevelProduct.slice(0, 2).toUpperCase()}-1`;
-      setTabStacks(prev => ({ ...prev, [topLevelProduct]: [defaultKey] }));
-      setActiveTabs(prev => ({ ...prev, [topLevelProduct]: defaultKey }));
-    }
-  }, [topLevelProduct]);
-
-
- 
 useEffect(() => {
   fetch('/additionalItems.json')
     .then(res => res.json())
@@ -194,7 +180,7 @@ const getUnitPrice = (itemName) => {
   const [productQuantities, setProductQuantities] = useState({});
   const [subProductInputs, setSubProductInputs] = useState({});
   const [useSketchup, setUseSketchup] = useState(false);
- 
+  const [selectedProduct, setSelectedProduct] = useState("");
   const [topLevelProduct, setTopLevelProduct] = useState("");
   const [configuredProductTypes, setConfiguredProductTypes] = useState(new Set());
 
@@ -205,12 +191,7 @@ const getUnitPrice = (itemName) => {
   const [shouldResetCT, setShouldResetCT] = useState(false);
   const [showCTPulse, setShowCTPulse] = useState(false);
 
-  const [tabStacks, setTabStacks] = useState({});
-  const [activeTabs, setActiveTabs] = useState({});
 
-  const selectedProduct = topLevelProduct && activeTabs?.[topLevelProduct] ? activeTabs[topLevelProduct] : null;
-
- 
   useEffect(() => {
     fetch('/standard_trough_details_clean.json')
       .then((res) => res.json())
