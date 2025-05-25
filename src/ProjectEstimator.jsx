@@ -1108,29 +1108,30 @@ setSelectedProduct('CT');  // Auto-return to CT tab
           <label className="text-xs font-semibold block mb-2 text-gray-700 uppercase tracking-wide">
             Product/Structure Selector
           </label>
-          <select
-            value={topLevelProduct}
-            
-  const newProductType = e.target.value;
-  setTopLevelProduct(newProductType);
-  setConfiguredProductTypes(prev => new Set([...prev, newProductType]));
-}}
+<select
+  value={topLevelProduct}
+  onChange={(e) => {
+    const newProductType = e.target.value;
+    setTopLevelProduct(newProductType);
+    setConfiguredProductTypes(prev => new Set([...prev, newProductType]));
+  }}
+  className="w-full border p-2 rounded text-sm bg-white shadow-sm focus:ring-2 focus:ring-blue-400"
+>
+  <option value="">Select Structure</option>
+  <option value="Troughs">Troughs</option>
+  <option value="Chambers">Chambers</option>
+  <option value="Walls">Walls</option>
+  <option value="Columns">Columns</option>
+  <option value="Beams">Beams</option>
+  <option value="SATs">SATs</option>
+  <option value="Tanks">Tanks</option>
+  <option value="Bespoke">Bespoke</option>
+  <option value="Slot Drain">Slot Drain</option>
+</select>
 
-            className="w-full border p-2 rounded text-sm bg-white shadow-sm focus:ring-2 focus:ring-blue-400"
-          >
-            <option value="">Select Structure</option>
-            <option value="Troughs">Troughs</option>
-            <option value="Chambers">Chambers</option>
-            <option value="Walls">Walls</option>
-            <option value="Columns">Columns</option>
-            <option value="Beams">Beams</option>
-            <option value="SATs">SATs</option>
-            <option value="Tanks">Tanks</option>
-            <option value="Bespoke">Bespoke</option>
-            <option value="Slot Drain">Slot Drain</option>
-
-          </select>
-        </div>
+       
+      
+      </div>
 
         <div className="w-full lg:w-3/4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
           {subProducts.map(({ name, code }) => (
