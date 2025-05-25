@@ -1297,10 +1297,10 @@ setSelectedProduct('CT');  // Auto-return to CT tab
 {/* Length Selector */}
 <div className="flex flex-col">
   <label className="text-xs font-medium mb-1 text-gray-600">Available Length</label>
-  <select
+
+<select
     value={subProductInputs[selectedProduct]?.lengthOption || ''}
-    
-   
+    onChange={(e) => {
       const length = parseFloat(e.target.value);
       const lengthMm = length * 1000;
       const crossSection = subProductInputs[selectedProduct]?.crossSection;
@@ -1315,41 +1315,6 @@ setSelectedProduct('CT');  // Auto-return to CT tab
 
       const uniqueKey = `CT-${crossSection}-${length}`;
       setSelectedProduct(uniqueKey);
-     setSubProductInputs(prev => {
-  const baseCT = prev['CT'] || {};
-  const next = { ...prev };
-
-  // 1. Spawn the new variant
-  next[uniqueKey] = {
-    ...baseCT,
-    crossSection,
-    lengthOption: e.target.value,
-    length: lengthMm,
-    width,
-    height,
-    autoFilled: {
-      ...(baseCT.autoFilled || {}),
-      length: true,
-      width: true,
-      height: true
-    }
-  };
-
-  next['CT'] = { wasCleared: true };
-
-
-  return next;
-});
-
-// Wait a moment, then reinsert New CT tab
-setTimeout(() => {
-  setSubProductInputs(prev => ({
-    ...prev,
-    CT: { quantity: '', wasCleared: false }
-  }));
-  setSelectedProduct('CT');       // bring focus back to it
-  setShowCTPulse(true);           // highlight
-}, 500);
 
       // Assign core values
       handleSubInputChange(uniqueKey, 'productType', 'CT');
@@ -1360,7 +1325,7 @@ setTimeout(() => {
       // Mark CT placeholder tab as cleared
       setSubProductInputs(prev => {
         const next = { ...prev };
-        next['CT'] = { ...next['CT'], wasCleared: true };
+       next['CT'] = { ...next['CT'], wasCleared: true };
         return next;
       });
 
@@ -1382,8 +1347,6 @@ setTimeout(() => {
           steelDensity: true,
           labourHours: true
         });
-
-
 
                 
                 const additionalItems = [];
