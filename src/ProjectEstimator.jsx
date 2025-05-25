@@ -1257,42 +1257,41 @@ setSelectedProduct('CT');  // Auto-return to CT tab
         <div className="flex flex-col">
           <label className="text-xs font-medium mb-1 text-gray-600">Cross Section (W × H)</label>
 
-          <select
+<select
   key={`ct-cross-section-${selectedProduct === 'CT' ? (subProductInputs['CT']?.crossSection || 'reset') : 'variant'}`}
   value={subProductInputs[selectedProduct]?.crossSection || ''}
+  onChange={(e) => {
+    const [width, height] = e.target.value.split('x').map(val => parseInt(val));
+    const crossSection = e.target.value;
 
-         
+    const key = 'CT';
+    handleSubInputChange(key, 'crossSection', crossSection);
+    handleSubInputChange(key, 'width', width);
+    handleSubInputChange(key, 'height', height);
+    handleSubInputChange(key, 'autoFilled', {
+      ...(subProductInputs[key]?.autoFilled || {}),
+      width: true,
+      height: true
+    });
+  }}
+  className="border p-2 rounded text-xs bg-white"
+>
+  <option value="">Select Size</option>
+  <option value="900x900">0.9m × 0.9m</option>
+  <option value="900x600">0.9m × 0.6m</option>
+  <option value="900x300">0.9m × 0.3m</option>
+  <option value="750x750">0.75m × 0.75m</option>
+  <option value="750x500">0.75m × 0.5m</option>
+  <option value="750x300">0.75m × 0.3m</option>
+  <option value="600x600">0.6m × 0.6m</option>
+  <option value="600x300">0.6m × 0.3m</option>
+  <option value="500x500">0.5m × 0.5m</option>
+  <option value="450x400">0.45m × 0.4m</option>
+  <option value="350x300">0.35m × 0.3m</option>
+</select>
 
-  const [width, height] = e.target.value.split('x').map(val => parseInt(val));
-  const crossSection = e.target.value;
- 
-const key = 'CT';
-handleSubInputChange(key, 'crossSection', crossSection);
-handleSubInputChange(key, 'width', width);
-handleSubInputChange(key, 'height', height);
-handleSubInputChange(key, 'autoFilled', {
-  ...(subProductInputs[key]?.autoFilled || {}),
-  width: true,
-  height: true
-});
 
-}}
-            
-            className="border p-2 rounded text-xs bg-white"
-          >
-            <option value="">Select Size</option>
-            <option value="900x900">0.9m × 0.9m</option>
-            <option value="900x600">0.9m × 0.6m</option>
-            <option value="900x300">0.9m × 0.3m</option>
-            <option value="750x750">0.75m × 0.75m</option>
-            <option value="750x500">0.75m × 0.5m</option>
-            <option value="750x300">0.75m × 0.3m</option>
-            <option value="600x600">0.6m × 0.6m</option>
-            <option value="600x300">0.6m × 0.3m</option>
-            <option value="500x500">0.5m × 0.5m</option>
-            <option value="450x400">0.45m × 0.4m</option>
-            <option value="350x300">0.35m × 0.3m</option>
-          </select>
+       
         </div>
 
 {/* Length Selector */}
