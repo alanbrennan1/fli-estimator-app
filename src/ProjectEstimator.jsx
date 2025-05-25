@@ -1546,7 +1546,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
                   <input
                     type="checkbox"
                     checked={(subProductInputs[selectedProduct]?.chamberUseTags || []).includes(value)}
-                    
+                    onChange={(e) => {
                       const current = subProductInputs[selectedProduct]?.chamberUseTags || [];
                       const updated = e.target.checked
                         ? [...current, value]
