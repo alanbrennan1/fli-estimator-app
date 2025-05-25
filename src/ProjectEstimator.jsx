@@ -84,12 +84,6 @@ export default function ProjectEstimator() {
   console.log("Initial state →", { topLevelProduct, tabStacks, activeTabs });
 }, []);
 
- 
-
-  const [tabStacks, setTabStacks] = useState({});
-  const [activeTabs, setActiveTabs] = useState({});
-
-const selectedProduct = topLevelProduct && activeTabs?.[topLevelProduct] ? activeTabs[topLevelProduct] : null;
 
   useEffect(() => {
     if (topLevelProduct && !tabStacks[topLevelProduct]) {
@@ -211,7 +205,12 @@ const getUnitPrice = (itemName) => {
   const [shouldResetCT, setShouldResetCT] = useState(false);
   const [showCTPulse, setShowCTPulse] = useState(false);
 
+  const [tabStacks, setTabStacks] = useState({});
+  const [activeTabs, setActiveTabs] = useState({});
 
+  const selectedProduct = topLevelProduct && activeTabs?.[topLevelProduct] ? activeTabs[topLevelProduct] : null;
+
+ 
   useEffect(() => {
     fetch('/standard_trough_details_clean.json')
       .then((res) => res.json())
