@@ -1299,87 +1299,76 @@ setSelectedProduct('CT');  // Auto-return to CT tab
   <label className="text-xs font-medium mb-1 text-gray-600">Available Length</label>
 
 <select
-    value={subProductInputs[selectedProduct]?.lengthOption || ''}
-    onChange={(e) => {
-      const length = parseFloat(e.target.value);
-      const lengthMm = length * 1000;
-      const crossSection = subProductInputs[selectedProduct]?.crossSection;
-      const width = parseInt(crossSection?.split('x')[0]);
-      const height = parseInt(crossSection?.split('x')[1]);
-      const widthM = width / 1000;
-      const heightM = height / 1000;
+  value={subProductInputs[selectedProduct]?.lengthOption || ''}
+  onChange={(e) => {
+    const length = parseFloat(e.target.value);
+    const lengthMm = length * 1000;
+    const crossSection = subProductInputs[selectedProduct]?.crossSection;
+    const width = parseInt(crossSection?.split('x')[0]);
+    const height = parseInt(crossSection?.split('x')[1]);
+    const widthM = width / 1000;
+    const heightM = height / 1000;
 
-      const match = standardTroughData.find(
-        t => t.Width === widthM && t.Height === heightM && t.Length === length
-      );
+    const match = standardTroughData.find(
+      t => t.Width === widthM && t.Height === heightM && t.Length === length
+    );
 
-      const uniqueKey = `CT-${crossSection}-${length}`;
-      setSelectedProduct(uniqueKey);
+    const uniqueKey = `CT-${crossSection}-${length}`;
+    setSelectedProduct(uniqueKey);
 
-      // Assign core values
-      handleSubInputChange(uniqueKey, 'productType', 'CT');
-      handleSubInputChange(uniqueKey, 'crossSection', crossSection);
-      handleSubInputChange(uniqueKey, 'lengthOption', e.target.value);
-      handleSubInputChange(uniqueKey, 'length', lengthMm);
+    handleSubInputChange(uniqueKey, 'productType', 'CT');
+    handleSubInputChange(uniqueKey, 'crossSection', crossSection);
+    handleSubInputChange(uniqueKey, 'lengthOption', e.target.value);
+    handleSubInputChange(uniqueKey, 'length', lengthMm);
 
-      // Mark CT placeholder tab as cleared
-      setSubProductInputs(prev => {
-        const next = { ...prev };
-       next['CT'] = { ...next['CT'], wasCleared: true };
-        return next;
+    setSubProductInputs(prev => {
+      const next = { ...prev };
+      next['CT'] = { ...next['CT'], wasCleared: true };
+      return next;
+    });
+
+    if (match) {
+      handleSubInputChange(uniqueKey, 'width', width);
+      handleSubInputChange(uniqueKey, 'height', height);
+      handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
+      handleSubInputChange(uniqueKey, 'labourHours', match['Labour Hrs/Unit']);
+      handleSubInputChange(uniqueKey, 'autoFilled', {
+        ...(subProductInputs[uniqueKey]?.autoFilled || {}),
+        length: true,
+        width: true,
+        height: true,
+        steelDensity: true,
+        labourHours: true
       });
 
-      if (match) {
-        // Assign geometry
-        handleSubInputChange(uniqueKey, 'width', width);
-        handleSubInputChange(uniqueKey, 'height', height);
+      const additionalItems = [];
+      if ((match['RD20 Wavy'] ?? 0) > 0) {
+        additionalItems.push({ item: 'RD20 Wavy', qty: match['RD20 Wavy'] });
+      }
+      if (match['Capstan 7.5A85'] > 0) {
+        additionalItems.push({ item: 'Capstan 7.5A85', qty: match['Capstan 7.5A85'] });
+      }
+      if (match['Capstan 1.3A85'] > 0) {
+        additionalItems.push({ item: 'Capstan 1.3A85', qty: match['Capstan 1.3A85'] });
+      }
 
-        // Assign additional values
-        handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
-        handleSubInputChange(uniqueKey, 'labourHours', match['Labour Hrs/Unit']);
-
-        // ✅ Consolidated autoFilled update
-        handleSubInputChange(uniqueKey, 'autoFilled', {
-          ...(subProductInputs[uniqueKey]?.autoFilled || {}),
-          length: true,
-          width: true,
-          height: true,
-          steelDensity: true,
-          labourHours: true
+      if (additionalItems.length > 0) {
+        const enrichedItems = additionalItems.map(entry => {
+          const category = (entry.item.includes('Capstan') || entry.item.includes('RD20')) ? 'Capstans and Lifters' : '';
+          return { category, item: entry.item, qty: entry.qty };
         });
+        handleSubInputChange(uniqueKey, 'uniqueItems', enrichedItems);
+      }
+    }
+  }}
+  className="border p-2 rounded text-xs bg-white"
+>
+  <option value="">Select Length</option>
+  <option value="0.75">0.75m</option>
+  <option value="1.5">1.5m</option>
+  <option value="2.5">2.5m</option>     
+</select>
 
-                
-                const additionalItems = [];
-                if ((match['RD20 Wavy'] ?? 0) > 0) {
-                  additionalItems.push({ item: 'RD20 Wavy', qty: match['RD20 Wavy'] });
-                }
-                if (match['Capstan 7.5A85'] && match['Capstan 7.5A85'] > 0) {
-                  additionalItems.push({ item: 'Capstan 7.5A85', qty: match['Capstan 7.5A85'] });
-                }
-                if (match['Capstan 1.3A85'] && match['Capstan 1.3A85'] > 0) {
-                  additionalItems.push({ item: 'Capstan 1.3A85', qty: match['Capstan 1.3A85'] });
-                }
-                if (additionalItems.length > 0) {
-                  const enrichedItems = additionalItems.map(entry => {
-                    let category = '';
-                    if (entry.item.includes('Capstan') || entry.item.includes('RD20 Wavy')) {
-                      category = 'Capstans and Lifters';
-                    }
-                    let item = entry.item;
-                    if (item === 'RD20 Wavy') item = 'RD20 Wavy';
-                    return { category, item, qty: entry.qty };
-                  });
-                  handleSubInputChange(uniqueKey, 'uniqueItems', enrichedItems);
-                }
-              }
-            }}
-            className="border p-2 rounded text-xs bg-white"
-          >
-            <option value="">Select Length</option>
-            <option value="0.75">0.75m</option>
-            <option value="1.5">1.5m</option>
-            <option value="2.5">2.5m</option>     
-          </select>
         </div>
         
 {/* Quantity for selected CT configuration */}
