@@ -1303,11 +1303,10 @@ setSelectedProduct('CT');  // Auto-return to CT tab
   onChange={(e) => {
     const length = parseFloat(e.target.value);
     const lengthMm = length * 1000;
-    const crossSection = subProductInputs[selectedProduct]?.crossSection;
-    const width = parseInt(crossSection?.split('x')[0]);
-    const height = parseInt(crossSection?.split('x')[1]);
-    const widthM = width / 1000;
-    const heightM = height / 1000;
+    const crossSection = subProductInputs[selectedProduct]?.crossSection || '';
+    const [w, h] = crossSection.split('x').map(val => parseInt(val));
+    const widthM = w / 1000;
+    const heightM = h / 1000;
 
     const match = standardTroughData.find(
       t => t.Width === widthM && t.Height === heightM && t.Length === length
@@ -1328,36 +1327,32 @@ setSelectedProduct('CT');  // Auto-return to CT tab
     });
 
     if (match) {
-      handleSubInputChange(uniqueKey, 'width', width);
-      handleSubInputChange(uniqueKey, 'height', height);
+      handleSubInputChange(uniqueKey, 'width', w);
+      handleSubInputChange(uniqueKey, 'height', h);
       handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
       handleSubInputChange(uniqueKey, 'labourHours', match['Labour Hrs/Unit']);
+
       handleSubInputChange(uniqueKey, 'autoFilled', {
         ...(subProductInputs[uniqueKey]?.autoFilled || {}),
         length: true,
         width: true,
         height: true,
         steelDensity: true,
-        labourHours: true
+        labourHours: true,
       });
 
       const additionalItems = [];
-      if ((match['RD20 Wavy'] ?? 0) > 0) {
-        additionalItems.push({ item: 'RD20 Wavy', qty: match['RD20 Wavy'] });
-      }
-      if (match['Capstan 7.5A85'] > 0) {
-        additionalItems.push({ item: 'Capstan 7.5A85', qty: match['Capstan 7.5A85'] });
-      }
-      if (match['Capstan 1.3A85'] > 0) {
-        additionalItems.push({ item: 'Capstan 1.3A85', qty: match['Capstan 1.3A85'] });
-      }
+      if (match['RD20 Wavy']) additionalItems.push({ item: 'RD20 Wavy', qty: match['RD20 Wavy'] });
+      if (match['Capstan 7.5A85']) additionalItems.push({ item: 'Capstan 7.5A85', qty: match['Capstan 7.5A85'] });
+      if (match['Capstan 1.3A85']) additionalItems.push({ item: 'Capstan 1.3A85', qty: match['Capstan 1.3A85'] });
 
       if (additionalItems.length > 0) {
-        const enrichedItems = additionalItems.map(entry => {
-          const category = (entry.item.includes('Capstan') || entry.item.includes('RD20')) ? 'Capstans and Lifters' : '';
-          return { category, item: entry.item, qty: entry.qty };
-        });
-        handleSubInputChange(uniqueKey, 'uniqueItems', enrichedItems);
+        const enriched = additionalItems.map(entry => ({
+          item: entry.item,
+          qty: entry.qty,
+          category: entry.item.includes('Capstan') || entry.item.includes('RD20') ? 'Capstans and Lifters' : ''
+        }));
+        handleSubInputChange(uniqueKey, 'uniqueItems', enriched);
       }
     }
   }}
@@ -1366,8 +1361,9 @@ setSelectedProduct('CT');  // Auto-return to CT tab
   <option value="">Select Length</option>
   <option value="0.75">0.75m</option>
   <option value="1.5">1.5m</option>
-  <option value="2.5">2.5m</option>     
+  <option value="2.5">2.5m</option>
 </select>
+
 
         </div>
         
