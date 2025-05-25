@@ -80,11 +80,16 @@ function AccordionSection({ title, children }) {
 }
 
 export default function ProjectEstimator() {
+ useEffect(() => {
+  console.log("Initial state →", { topLevelProduct, tabStacks, activeTabs });
+}, []);
+
+ 
 
   const [tabStacks, setTabStacks] = useState({});
   const [activeTabs, setActiveTabs] = useState({});
 
-const selectedProduct = topLevelProduct && activeTabs[topLevelProduct];
+const selectedProduct = topLevelProduct && activeTabs?.[topLevelProduct] ? activeTabs[topLevelProduct] : null;
 
   useEffect(() => {
     if (topLevelProduct && !tabStacks[topLevelProduct]) {
