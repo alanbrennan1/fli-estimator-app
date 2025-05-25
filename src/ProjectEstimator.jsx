@@ -1289,8 +1289,6 @@ setSelectedProduct('CT');  // Auto-return to CT tab
   <option value="450x400">0.45m × 0.4m</option>
   <option value="350x300">0.35m × 0.3m</option>
 </select>
-
-
        
         </div>
 
@@ -1309,7 +1307,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
     const heightM = h / 1000;
 
     const match = standardTroughData.find(
-      t => t.Width === widthM && t.Height === heightM && t.Length === length
+      (t) => t.Width === widthM && t.Height === heightM && t.Length === length
     );
 
     const uniqueKey = `CT-${crossSection}-${length}`;
@@ -1320,7 +1318,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
     handleSubInputChange(uniqueKey, 'lengthOption', e.target.value);
     handleSubInputChange(uniqueKey, 'length', lengthMm);
 
-    setSubProductInputs(prev => {
+    setSubProductInputs((prev) => {
       const next = { ...prev };
       next['CT'] = { ...next['CT'], wasCleared: true };
       return next;
@@ -1338,21 +1336,21 @@ setSelectedProduct('CT');  // Auto-return to CT tab
         width: true,
         height: true,
         steelDensity: true,
-        labourHours: true,
+        labourHours: true
       });
 
       const additionalItems = [];
-      if (match['RD20 Wavy']) additionalItems.push({ item: 'RD20 Wavy', qty: match['RD20 Wavy'] });
-      if (match['Capstan 7.5A85']) additionalItems.push({ item: 'Capstan 7.5A85', qty: match['Capstan 7.5A85'] });
-      if (match['Capstan 1.3A85']) additionalItems.push({ item: 'Capstan 1.3A85', qty: match['Capstan 1.3A85'] });
+      if ((match['RD20 Wavy'] ?? 0) > 0) additionalItems.push({ item: 'RD20 Wavy', qty: match['RD20 Wavy'] });
+      if ((match['Capstan 7.5A85'] ?? 0) > 0) additionalItems.push({ item: 'Capstan 7.5A85', qty: match['Capstan 7.5A85'] });
+      if ((match['Capstan 1.3A85'] ?? 0) > 0) additionalItems.push({ item: 'Capstan 1.3A85', qty: match['Capstan 1.3A85'] });
 
       if (additionalItems.length > 0) {
-        const enriched = additionalItems.map(entry => ({
+        const enrichedItems = additionalItems.map(entry => ({
           item: entry.item,
           qty: entry.qty,
           category: entry.item.includes('Capstan') || entry.item.includes('RD20') ? 'Capstans and Lifters' : ''
         }));
-        handleSubInputChange(uniqueKey, 'uniqueItems', enriched);
+        handleSubInputChange(uniqueKey, 'uniqueItems', enrichedItems);
       }
     }
   }}
