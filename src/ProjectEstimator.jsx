@@ -265,12 +265,16 @@ const selectedSubProducts = Object.entries(subProductInputs)
     const otherKeys = Object.keys(subProductInputs).filter(k =>
       k.startsWith(`${base}-`)
     );
-    const isBaseWithTabs = key === base && otherKeys.length > 0;
+   const isBaseWithTabs = key === base && otherKeys.length > 0;
+   const wasCleared = val?.wasCleared === true;
+
+   if (key === 'CT' && wasCleared && Object.keys(subProductInputs).some(k => k.startsWith('CT-'))) {
+      return false; // hide CT if it was cleared
+    }
 
     return !isBaseWithTabs && (isCT || isIndexed || hasQty);
   })
   .map(([key]) => ({ code: key, name: key }));
-
 
 
   
@@ -831,7 +835,7 @@ return; // ✅ prevents falling into fallback logic
   });
 
   setPendingImport(null);
-  setShouldResetCT(true);
+  
 };
 
 
@@ -1320,7 +1324,7 @@ handleSubInputChange(key, 'autoFilled', {
       // Mark CT placeholder tab as cleared
       setSubProductInputs(prev => {
         const next = { ...prev };
-       next['CT'] = { ...next['CT'], wasCleared: true };
+        next['CT'] = { ...next['CT'], wasCleared: true };
         return next;
       });
 
