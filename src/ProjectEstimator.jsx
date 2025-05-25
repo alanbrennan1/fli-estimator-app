@@ -1701,7 +1701,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
                     <select
                       className="border rounded p-2 text-xs bg-blue-50"
                       value={entry.category || ''}
-                      
+                      onChange={(e) => {
                         const newCategory = e.target.value;
                         const defaultItem = additionalItemsData[newCategory]?.[0]?.item || '';
                         const updated = [...(subProductInputs[selectedProduct]?.uniqueItems || [])];
