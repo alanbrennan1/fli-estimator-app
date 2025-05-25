@@ -256,11 +256,18 @@ useEffect(() => {
   
 const selectedSubProducts = Object.entries(subProductInputs)
   .filter(([key, val]) => {
-    // Include: CT base and variants, CH-1, CH-2, etc., any named key with config
-    const hasValidQty = parseInt(val?.quantity) > 0;
+    const hasQty = parseInt(val?.quantity) > 0;
     const isCT = key.startsWith('CT') && (key === 'CT' || key.startsWith('CT-'));
-    const isIndexed = /^[A-Z]+-\d+$/.test(key); // e.g. CH-1
-    return isCT || isIndexed || hasValidQty;
+    const isIndexed = /^[A-Z]+-\d+$/.test(key); // e.g., CH-1
+
+    // Get base (e.g., CH) and check if other CH-1, CH-2 exist
+    const base = key.split('-')[0];
+    const otherKeys = Object.keys(subProductInputs).filter(k =>
+      k.startsWith(`${base}-`)
+    );
+    const isBaseWithTabs = key === base && otherKeys.length > 0;
+
+    return !isBaseWithTabs && (isCT || isIndexed || hasQty);
   })
   .map(([key]) => ({ code: key, name: key }));
 
