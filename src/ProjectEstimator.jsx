@@ -368,32 +368,37 @@ const handleQuantityChange = (code, value) => {
   const qty = parseInt(value);
   const validQty = isNaN(qty) || qty <= 0 ? 0 : qty;
 
-  // Clone current inputs
-  const updatedInputs = { ...subProductInputs };
+  setSubProductInputs(prev => {
+    const updated = { ...prev };
 
-  // Remove old instance tabs like CH-1, CH-2, etc.
-  Object.keys(updatedInputs).forEach(k => {
-    if (k === code) return;
-    if (k.startsWith(`${code}-`)) {
-      delete updatedInputs[k];
+    // 1. Always store the latest quantity on the base key (for display/control)
+    updated[code] = {
+      ...updated[code],
+      quantity: validQty
+    };
+
+    // 2. Track existing tabs
+    const existingKeys = Object.keys(prev).filter(k => k.startsWith(`${code}-`));
+
+    // 3. Remove extra tabs if reducing quantity
+    existingKeys.forEach(k => {
+      const suffix = parseInt(k.split('-')[1]);
+      if (suffix > validQty) {
+        delete updated[k];
+      }
+    });
+
+    // 4. Add new tabs if increasing quantity
+    for (let i = 1; i <= validQty; i++) {
+      const tabKey = `${code}-${i}`;
+      if (!updated[tabKey]) {
+        updated[tabKey] = { quantity: 1 }; // Empty new tab
+      }
     }
+
+    return updated;
   });
 
-  // Set base quantity (for reference or fallback)
-  updatedInputs[code] = { quantity: validQty };
-
-  // Add new instance tabs
-  for (let i = 1; i <= validQty; i++) {
-    const key = `${code}-${i}`;
-    if (!updatedInputs[key]) {
-      updatedInputs[key] = { quantity: 1 };
-    }
-  }
-
-  // Update state
-  setSubProductInputs(updatedInputs);
-
-  // Auto-focus first instance tab
   if (validQty > 0) {
     setSelectedProduct(`${code}-1`);
   }
