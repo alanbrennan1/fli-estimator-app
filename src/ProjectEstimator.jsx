@@ -1578,7 +1578,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
                   <input
                     type="checkbox"
                     checked={(subProductInputs[selectedProduct]?.bespokeUseTags || []).includes(value)}
-                    
+                    onChange={(e) => {
                       const current = subProductInputs[selectedProduct]?.bespokeUseTags || [];
                       const updated = e.target.checked
                         ? [...current, value]
@@ -1609,7 +1609,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
               <input
                 type="checkbox"
                 checked={(subProductInputs[selectedProduct]?.wallUseTags || []).includes(value)}
-                
+                onChange={(e) => {
                   const current = subProductInputs[selectedProduct]?.wallUseTags || [];
                   const updated = e.target.checked
                     ? [...current, value]
