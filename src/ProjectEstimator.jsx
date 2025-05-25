@@ -195,7 +195,7 @@ const getUnitPrice = (itemName) => {
   const [productQuantities, setProductQuantities] = useState({});
   const [subProductInputs, setSubProductInputs] = useState({});
   const [useSketchup, setUseSketchup] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState("");
+ 
   const [topLevelProduct, setTopLevelProduct] = useState("");
   const [configuredProductTypes, setConfiguredProductTypes] = useState(new Set());
 
