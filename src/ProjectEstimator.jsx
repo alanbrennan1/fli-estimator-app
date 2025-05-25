@@ -1334,17 +1334,23 @@ handleSubInputChange(key, 'autoFilled', {
     }
   };
 
-  // 2. Re-initialize `CT` as blank
-  next['CT'] = {
-    quantity: '',
-    wasCleared: false
-  };
+  // Clear out the CT base tab
+  delete next['CT']; // this is better than setting wasCleared
 
   return next;
 });
-// 🔁 Immediately refocus and pulse the New CT tab
-setSelectedProduct('CT');
-setShowCTPulse(true);
+
+  return next;
+});
+// Wait a moment, then reinsert New CT tab
+setTimeout(() => {
+  setSubProductInputs(prev => ({
+    ...prev,
+    CT: { quantity: '', wasCleared: false }
+  }));
+  setSelectedProduct('CT');       // bring focus back to it
+  setShowCTPulse(true);           // highlight
+}, 500);
 
       // Assign core values
       handleSubInputChange(uniqueKey, 'productType', 'CT');
