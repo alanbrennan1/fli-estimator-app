@@ -1340,8 +1340,6 @@ handleSubInputChange(key, 'autoFilled', {
   return next;
 });
 
-  return next;
-});
 // Wait a moment, then reinsert New CT tab
 setTimeout(() => {
   setSubProductInputs(prev => ({
