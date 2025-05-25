@@ -1752,7 +1752,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
                       type="number"
                       min="0"
                       value={entry.qty || ''}
-                      
+                      onChange={(e) => {
                         const updated = [...(subProductInputs[selectedProduct]?.uniqueItems || [])];
                         updated[idx] = { ...updated[idx], qty: parseFloat(e.target.value) || 0 };
                         handleSubInputChange(selectedProduct, 'uniqueItems', updated);
