@@ -254,18 +254,15 @@ useEffect(() => {
 
 
   
-const selectedSubProducts = [
-  ...allSubProducts.filter(({ code }) =>
-    code !== 'CT' && parseInt(subProductInputs[code]?.quantity) > 0
-  ),
-  ...Object.entries(subProductInputs)
-    .filter(([key, val]) =>
-  key.startsWith('CT-') || 
-  (key === 'CT' && topLevelProduct === 'Troughs' && Object.keys(val || {}).length > 0)
-)
-
-    .map(([key]) => ({ code: key, name: key }))
-];
+const selectedSubProducts = Object.entries(subProductInputs)
+  .filter(([key, val]) => {
+    // Include: CT base and variants, CH-1, CH-2, etc., any named key with config
+    const hasValidQty = parseInt(val?.quantity) > 0;
+    const isCT = key.startsWith('CT') && (key === 'CT' || key.startsWith('CT-'));
+    const isIndexed = /^[A-Z]+-\d+$/.test(key); // e.g. CH-1
+    return isCT || isIndexed || hasValidQty;
+  })
+  .map(([key]) => ({ code: key, name: key }));
 
 
 
