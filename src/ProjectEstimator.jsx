@@ -364,15 +364,41 @@ const handleSketchUpUpload = (e) => {
 
 
  
- const handleQuantityChange = (code, value) => {
-    setSubProductInputs((prev) => ({
-      ...prev,
-      [code]: {
-        ...prev[code],
-        quantity: value,
-      },
-    }));
-  };
+const handleQuantityChange = (code, value) => {
+  const qty = parseInt(value);
+  const validQty = isNaN(qty) || qty <= 0 ? 0 : qty;
+
+  // Clone current inputs
+  const updatedInputs = { ...subProductInputs };
+
+  // Remove old instance tabs like CH-1, CH-2, etc.
+  Object.keys(updatedInputs).forEach(k => {
+    if (k === code) return;
+    if (k.startsWith(`${code}-`)) {
+      delete updatedInputs[k];
+    }
+  });
+
+  // Set base quantity (for reference or fallback)
+  updatedInputs[code] = { quantity: validQty };
+
+  // Add new instance tabs
+  for (let i = 1; i <= validQty; i++) {
+    const key = `${code}-${i}`;
+    if (!updatedInputs[key]) {
+      updatedInputs[key] = { quantity: 1 };
+    }
+  }
+
+  // Update state
+  setSubProductInputs(updatedInputs);
+
+  // Auto-focus first instance tab
+  if (validQty > 0) {
+    setSelectedProduct(`${code}-1`);
+  }
+};
+
 
   const handleSubInputChange = (productName, field, value) => {
   setSubProductInputs(prev => ({
@@ -519,13 +545,12 @@ labourCost = labourHrs * 70.11;
     labourSubtotal += labourCost;
     labourUnitTotal += labourHrs;
 
-    const baseCode = productName.split('-')[0];
-    const productCode = buildProductCode(baseCode, { ...inputs, steelDensity: inputs.steelDensity });
+    const productCode = buildProductCode(productName, { ...inputs }); // pass full key
 
     const uniqueItems = subProductInputs[productName]?.uniqueItems || [];
     
     sourceBreakdowns.push({
-      name: baseCode,
+      name: productName,
       productCode,
       quantity,
       concrete: {
@@ -610,7 +635,7 @@ labourCost = labourHrs * 70.11;
   const productCode = buildProductCode(baseCode, { ...inputs });
 
   sourceBreakdowns.push({
-    name: baseCode,
+    name: productName,
     productCode,
     quantity,
     concrete: {
@@ -667,7 +692,7 @@ return; // ✅ prevents falling into fallback logic
       console.log("🧪 Product Input to Breakdown:", { productName, inputs });
 
       sourceBreakdowns.push({
-        name: baseCode,
+        name: productName,
         productCode,
         quantity,
         density: inputs.steelDensity || inputs.chamberDensity || undefined,
