@@ -269,8 +269,8 @@ const selectedSubProducts = Object.entries(subProductInputs)
    const wasCleared = val?.wasCleared === true;
 
    if (key === 'CT' && wasCleared && Object.keys(subProductInputs).some(k => k.startsWith('CT-'))) {
-      return false; // hide CT if it was cleared
-    }
+     return false; // hide CT if it was cleared
+   }
 
     return !isBaseWithTabs && (isCT || isIndexed || hasQty);
   })
@@ -1110,7 +1110,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
           </label>
           <select
             value={topLevelProduct}
-            onChange={(e) => {
+            
   const newProductType = e.target.value;
   setTopLevelProduct(newProductType);
   setConfiguredProductTypes(prev => new Set([...prev, newProductType]));
@@ -1261,7 +1261,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
   value={subProductInputs[selectedProduct]?.crossSection || ''}
 
          
-onChange={(e) => {
+
   const [width, height] = e.target.value.split('x').map(val => parseInt(val));
   const crossSection = e.target.value;
  
@@ -1299,7 +1299,8 @@ handleSubInputChange(key, 'autoFilled', {
   <label className="text-xs font-medium mb-1 text-gray-600">Available Length</label>
   <select
     value={subProductInputs[selectedProduct]?.lengthOption || ''}
-    onChange={(e) => {
+    
+   
       const length = parseFloat(e.target.value);
       const lengthMm = length * 1000;
       const crossSection = subProductInputs[selectedProduct]?.crossSection;
@@ -1334,8 +1335,8 @@ handleSubInputChange(key, 'autoFilled', {
     }
   };
 
-  // Clear out the CT base tab
-  delete next['CT']; // this is better than setting wasCleared
+  next['CT'] = { wasCleared: true };
+
 
   return next;
 });
@@ -1599,7 +1600,7 @@ setTimeout(() => {
                   <input
                     type="checkbox"
                     checked={(subProductInputs[selectedProduct]?.chamberUseTags || []).includes(value)}
-                    onChange={(e) => {
+                    
                       const current = subProductInputs[selectedProduct]?.chamberUseTags || [];
                       const updated = e.target.checked
                         ? [...current, value]
@@ -1631,7 +1632,7 @@ setTimeout(() => {
                   <input
                     type="checkbox"
                     checked={(subProductInputs[selectedProduct]?.bespokeUseTags || []).includes(value)}
-                    onChange={(e) => {
+                    
                       const current = subProductInputs[selectedProduct]?.bespokeUseTags || [];
                       const updated = e.target.checked
                         ? [...current, value]
@@ -1662,7 +1663,7 @@ setTimeout(() => {
               <input
                 type="checkbox"
                 checked={(subProductInputs[selectedProduct]?.wallUseTags || []).includes(value)}
-                onChange={(e) => {
+                
                   const current = subProductInputs[selectedProduct]?.wallUseTags || [];
                   const updated = e.target.checked
                     ? [...current, value]
@@ -1754,7 +1755,7 @@ setTimeout(() => {
                     <select
                       className="border rounded p-2 text-xs bg-blue-50"
                       value={entry.category || ''}
-                      onChange={(e) => {
+                      
                         const newCategory = e.target.value;
                         const defaultItem = additionalItemsData[newCategory]?.[0]?.item || '';
                         const updated = [...(subProductInputs[selectedProduct]?.uniqueItems || [])];
@@ -1775,7 +1776,7 @@ setTimeout(() => {
                     <select
                       className="border rounded p-2 text-xs"
                       value={entry.item || ''}
-                      onChange={(e) => {
+                      
                         const updated = [...(subProductInputs[selectedProduct]?.uniqueItems || [])];
                         updated[idx] = { ...updated[idx], item: e.target.value };
                         handleSubInputChange(selectedProduct, 'uniqueItems', updated);
@@ -1805,7 +1806,7 @@ setTimeout(() => {
                       type="number"
                       min="0"
                       value={entry.qty || ''}
-                      onChange={(e) => {
+                      
                         const updated = [...(subProductInputs[selectedProduct]?.uniqueItems || [])];
                         updated[idx] = { ...updated[idx], qty: parseFloat(e.target.value) || 0 };
                         handleSubInputChange(selectedProduct, 'uniqueItems', updated);
