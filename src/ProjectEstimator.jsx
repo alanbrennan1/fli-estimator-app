@@ -452,9 +452,13 @@ const handleQuantityChange = (code, value) => {
 
 // ✅ Chamber tag suffix (append multiple like "CV-DP")
   let chamberSuffix = '';
-  if (code === 'CH' && Array.isArray(inputs.chamberUseTags) && inputs.chamberUseTags.length > 0) {
-    chamberSuffix = ' ' + inputs.chamberUseTags.join('-'); // e.g., " CV-DP"
-  }
+  if (code === 'CH' && Array.isArray(inputs.chamberUseTags)) {
+  suffix = inputs.chamberUseTags.join('-');
+} else if (code === 'W' && Array.isArray(inputs.wallUseTags)) {
+  suffix = inputs.wallUseTags.join('-');
+} else if (code === 'BS' && Array.isArray(inputs.bespokeUseTags)) {
+  suffix = inputs.bespokeUseTags.join('-');
+}
 
   return `${code} ${length}${width}${height}_${wallThickness}_${steelGrade}_${density} ${spec}${chamberSuffix}`;
 }
