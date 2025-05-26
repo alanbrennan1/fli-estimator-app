@@ -868,9 +868,13 @@ return; // ✅ prevents falling into fallback logic
   // Final summary setState
   grandTotal += designCost + transportCost + installationCost;
 
+console.log("✅ computedBreakdowns", computedBreakdowns);
+
+ 
   setEstimate(grandTotal.toFixed(2));
   setProductBreakdowns(computedBreakdowns);
   setBreakdown({
+   productBreakdowns: computedBreakdowns,
     design: [
       { label: 'Total Design Hours', value: totalDesignHours.toFixed(2), unit: 'hrs', isCurrency: false },
       { label: 'Design Cost', value: designCost.toFixed(2), isCurrency: true },
