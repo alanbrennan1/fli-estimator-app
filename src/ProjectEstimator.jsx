@@ -2079,7 +2079,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
   )}
 </td>
             
-            <td className="border p-2 text-center">{quantity}</td>
+<td className="border p-2 text-center">{quantity}</td>
 <td className="border p-2 text-center">
   {concreteVol.toFixed(2)} m³
 
@@ -2127,7 +2127,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
          
             <td className="border p-2 text-right font-bold text-sm">€{total.toFixed(2)}</td>
 {/* Hrs/Tn column */}
-<td className="border p-2 text-center text-xs">
+<td className="border p-2 text-center text-xs bg-orange-100 font-medium">
   {(() => {
     const volumePerUnit = concreteVol / quantity;
     const unitWeightTn = volumePerUnit * 2.6;
@@ -2136,6 +2136,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
     return isFinite(hrsPerTn) ? hrsPerTn.toFixed(2) : '—';
   })()}
 </td>
+
           
           </tr>
         );
