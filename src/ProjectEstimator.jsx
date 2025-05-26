@@ -629,6 +629,15 @@ labourCost = labourHrs * 70.11;
         
         const baseCode = productName.split('-')[0];
         const productCode = buildProductCode(baseCode, { ...inputs });
+
+       // 🔍 🧪 Add this log here:
+  console.log('🧪 CH steel check', {
+    productName,
+    steelDensityUsed: steelDensity,
+    concreteVolumeM3,
+    steelKg,
+    steelCost
+  });
         
         sourceBreakdowns.push({
           name: productName,
