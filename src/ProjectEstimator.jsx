@@ -1969,6 +1969,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
         <th className="border p-2">Labour (hrs)</th>
         <th className="border p-2">Add. Items</th>
         <th className="border p-2 text-right">Total (€)</th>
+       <th className="border p-2 text-right">Total (€)</th>
       </tr>
     </thead>
     <tbody>
@@ -2042,12 +2043,19 @@ setSelectedProduct('CT');  // Auto-return to CT tab
     <span className="text-gray-400 italic">None</span>
   )}
 </td>
-
-
-
-
-            
+         
             <td className="border p-2 text-right font-bold text-sm">€{total.toFixed(2)}</td>
+{/* Hrs/Tn column */}
+<td className="border p-2 text-center text-xs">
+  {(() => {
+    const volumePerUnit = concreteVol / quantity;
+    const unitWeightTn = volumePerUnit * 2.6;
+    const labourPerUnit = labourHrs / quantity;
+    const hrsPerTn = labourPerUnit / unitWeightTn;
+    return isFinite(hrsPerTn) ? hrsPerTn.toFixed(2) : '—';
+  })()}
+</td>
+          
           </tr>
         );
       })}
