@@ -651,7 +651,7 @@ labourCost = labourHrs * 70.11;
           },
           uniqueItems: inputs.uniqueItems || []
         });
-        
+   return;
               
 
         
