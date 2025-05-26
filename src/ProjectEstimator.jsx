@@ -602,7 +602,57 @@ labourCost = labourHrs * 70.11;
 
         concreteVolume = (chamberVol + antiVol) * quantity;
         inputs.antiFlotationVolume = antiVol * quantity;
-      
+
+        // ✅ Convert volume to m³
+        concreteVolumeM3 = concreteVolume / 1_000_000_000;
+        
+        // ✅ Steel Calculation (default fallback to 120 if not entered)
+        let steelDensity = safe(inputs.steelDensity);
+        if (!steelDensity || steelDensity <= 0) steelDensity = 120;
+        const steelRate = 0.86;
+        steelKg = concreteVolumeM3 * steelDensity;
+        steelCost = steelKg * steelRate;
+        
+        // ✅ Labour
+        const labourPerUnit = safe(inputs.labourHours);
+        labourHrs = labourPerUnit * quantity;
+        labourCost = labourHrs * 70.11;
+        
+        // ✅ Add to totals
+        concreteCost = concreteVolumeM3 * 137.21;
+        concreteSubtotal += concreteCost;
+        concreteUnitTotal += concreteVolumeM3;
+        steelSubtotal += steelCost;
+        steelUnitTotal += steelKg;
+        labourSubtotal += labourCost;
+        labourUnitTotal += labourHrs;
+        
+        const baseCode = productName.split('-')[0];
+        const productCode = buildProductCode(baseCode, { ...inputs });
+        
+        sourceBreakdowns.push({
+          name: productName,
+          productCode,
+          quantity,
+          concrete: {
+            volume: concreteVolumeM3.toFixed(2),
+            cost: parseFloat(concreteCost.toFixed(2)),
+            antiVol: (inputs.antiFlotation === 'Yes' && antiVol > 0)
+              ? (antiVol / 1_000_000_000 * quantity).toFixed(2)
+              : undefined
+          },
+          steel: {
+            kg: steelKg.toFixed(2),
+            cost: parseFloat(steelCost.toFixed(2))
+          },
+          labour: {
+            hours: labourHrs.toFixed(2),
+            cost: parseFloat(labourCost.toFixed(2))
+          },
+          uniqueItems: inputs.uniqueItems || []
+        });
+        
+              
 
         
 } else if (productName.startsWith('C')) {
