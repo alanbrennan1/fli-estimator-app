@@ -2219,17 +2219,40 @@ setSelectedProduct('CT');  // Auto-return to CT tab
       </tr>
     </thead>
     <tbody className="bg-white text-gray-800">
-      {breakdown.services?.map((s, i) => (
-        <tr key={i} className="text-sm">
-          <td className="border p-2 font-medium">{s.label}</td>
-          <td className="border p-2 text-center">
-            {s.units} {s.unitLabel}
-          </td>
-          <td className="border p-2 text-center">€{parseFloat(s.unitPrice).toFixed(2)}</td>
-          <td className="border p-2 text-right font-semibold">€{parseFloat(s.value).toFixed(2)}</td>
-        </tr>
-      ))}
+{breakdown.services?.map((s, i) => (
+  <tr key={i} className="text-sm">
+    <td className="border p-2 font-medium">{s.label}</td>
+    <td className="border p-2 text-center">
+      {s.units} {s.unitLabel}
+    </td>
+    <td className="border p-2 text-center">
+      €{parseFloat(s.unitPrice).toFixed(2)}
+    </td>
+    <td className="border p-2 text-right font-semibold">
+      €{parseFloat(s.value).toFixed(2)}
 
+      {/* Only show breakdown for Transport row */}
+      {s.label === "Transport" && breakdown?.productBreakdowns && (
+        <div className="mt-2 text-[10px] text-gray-500 text-left space-y-1">
+          {breakdown.productBreakdowns.map((prod, idx) => {
+            const vol = parseFloat(prod.concrete?.volume || 0);
+            const totalVol = breakdown.subtotals?.concrete?.units || 1;
+            const share = (vol / totalVol) * parseFloat(s.value || 0);
+            return (
+              <div key={idx}>
+                {prod.name}: €{share.toFixed(2)}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </td>
+  </tr>
+))}
+
+
+
+     
       {/* Total Row */}
       <tr className="bg-blue-100 text-blue-800 font-semibold text-sm border-t-2 border-blue-300">
         <td className="border p-2 text-right" colSpan={3}>Total Service Costs:</td>
