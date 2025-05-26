@@ -436,7 +436,7 @@ const handleQuantityChange = (code, value) => {
   }));
 };
 
-  function buildProductCode(code, inputs) {
+function buildProductCode(code, inputs) {
   const pad = (val, len) => String(val || '').padStart(len, '0');
 
   const length = pad(inputs.length, 4);
@@ -445,23 +445,25 @@ const handleQuantityChange = (code, value) => {
   const wallThickness = code.startsWith('CS') ? '0000' : pad(inputs.wallThickness, 4);
   const steelGrade = inputs.steelGrade || '';
   const density = code.startsWith('CS')
-  ? inputs.roofSlabDensity || ''
-  : inputs.steelDensity || inputs.chamberDensity || '';
-    
+    ? inputs.roofSlabDensity || ''
+    : inputs.steelDensity || inputs.chamberDensity || '';
+
   const spec = inputs.surfaceFinish || '';
 
-// ✅ Chamber tag suffix (append multiple like "CV-DP")
-  let chamberSuffix = '';
-  if (code === 'CH' && Array.isArray(inputs.chamberUseTags)) {
-  suffix = inputs.chamberUseTags.join('-');
-} else if (code === 'W' && Array.isArray(inputs.wallUseTags)) {
-  suffix = inputs.wallUseTags.join('-');
-} else if (code === 'BS' && Array.isArray(inputs.bespokeUseTags)) {
-  suffix = inputs.bespokeUseTags.join('-');
+  // ✅ Unified suffix logic based on product type
+  let suffix = '';
+
+  if (code === 'CH' && Array.isArray(inputs.chamberUseTags) && inputs.chamberUseTags.length > 0) {
+    suffix = `_${inputs.chamberUseTags.join('-')}`;
+  } else if (code === 'W' && Array.isArray(inputs.wallUseTags) && inputs.wallUseTags.length > 0) {
+    suffix = `_${inputs.wallUseTags.join('-')}`;
+  } else if (code === 'BS' && Array.isArray(inputs.bespokeUseTags) && inputs.bespokeUseTags.length > 0) {
+    suffix = `_${inputs.bespokeUseTags.join('-')}`;
+  }
+
+  return `${code} ${length}${width}${height}_${wallThickness}_${steelGrade}_${density} ${spec}${suffix}`;
 }
 
-  return `${code} ${length}${width}${height}_${wallThickness}_${steelGrade}_${density} ${spec}${chamberSuffix}`;
-}
 
 // Global helper for safe parsing
 const safe = (val) => parseFloat(val || 0);
