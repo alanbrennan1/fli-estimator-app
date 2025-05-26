@@ -607,7 +607,7 @@ labourCost = labourHrs * 70.11;
         concreteVolumeM3 = concreteVolume / 1_000_000_000;
         
         // ✅ Steel Calculation (default fallback to 120 if not entered)
-        let steelDensity = safe(inputs.steelDensity);
+        let steelDensity = safe(inputs.chamberDensity);
         if (!steelDensity || steelDensity <= 0) steelDensity = 120;
         const steelRate = 0.86;
         steelKg = concreteVolumeM3 * steelDensity;
