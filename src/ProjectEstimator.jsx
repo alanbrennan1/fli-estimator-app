@@ -450,13 +450,13 @@ const handleQuantityChange = (code, value) => {
     
   const spec = inputs.surfaceFinish || '';
 
-// ✅ Check for chamber use tags
+// ✅ Chamber tag suffix (append multiple like "CV-DP")
   let chamberSuffix = '';
   if (code === 'CH' && Array.isArray(inputs.chamberUseTags) && inputs.chamberUseTags.length > 0) {
-    chamberSuffix = `_${inputs.chamberUseTags[0]}`; // only append first selected
+    chamberSuffix = ' ' + inputs.chamberUseTags.join('-'); // e.g., " CV-DP"
   }
-   
-  return `${code} ${length}${width}${height}_${wallThickness}_${steelGrade}_${density} ${spec}`;
+
+  return `${code} ${length}${width}${height}_${wallThickness}_${steelGrade}_${density} ${spec}${chamberSuffix}`;
 }
 
 // Global helper for safe parsing
