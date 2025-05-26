@@ -1569,7 +1569,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
     </div>
 
     {/* Column Options */}
- {topLevelProduct === 'Columns' && /^C(-\d+)?$/.test(selectedProduct || '') && (
+ {configuredProductTypes.has("Columns") && /^C(-\d+)?$/.test(selectedProduct || '') && (
   <div className="mt-6">
     <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
       Column Options
