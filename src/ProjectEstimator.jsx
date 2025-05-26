@@ -2237,7 +2237,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
 
       {/* Only show breakdown for Transport row */}
       {s.label === "Transport" && breakdown?.productBreakdowns && (
-        <div className="mt-2 text-[10px] text-gray-500 text-left space-y-1">
+        <div className="mt-2 text-[10px] text-gray-500 text-left space-y-1 text-right">
           {breakdown.productBreakdowns.map((prod, idx) => {
             const vol = parseFloat(prod.concrete?.volume || 0);
             const totalVol = breakdown.subtotals?.concrete?.units || 1;
