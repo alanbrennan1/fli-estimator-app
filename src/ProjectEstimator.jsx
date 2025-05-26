@@ -2050,7 +2050,10 @@ setSelectedProduct('CT');  // Auto-return to CT tab
         <th className="border p-2">Labour (hrs)</th>
         <th className="border p-2">Add. Items</th>
         <th className="border p-2 text-right">Total (€)</th>
-       <th className="border p-2 text-center text-xs bg-orange-100 font-semibold">
+       <th
+  className="border p-2 bg-orange-100 text-center text-xs font-semibold"
+  title="Avg. Hours/Tn across all products"
+>
   Hrs/Tn
 </th>
       </tr>
@@ -2167,13 +2170,30 @@ setSelectedProduct('CT');  // Auto-return to CT tab
             €{breakdown.subtotals?.labour?.cost?.toFixed(2)}
           </div>
         </td>
+       
         <td className="border p-2 text-center">
           {breakdown.subtotals?.additional?.units?.toFixed(0)} items
           <div className="text-gray-500 text-[10px]">
             €{breakdown.subtotals?.additional?.cost?.toFixed(2)}
           </div>
         </td>
+       
         <td className="border p-2 text-right font-bold text-sm">—</td>
+
+{/* ➕ New Hrs/Tn column */}
+  <td className="border p-2 text-center bg-orange-100 font-semibold text-sm">
+    {(() => {
+      const totalLabourHrs = breakdown.subtotals?.labour?.units || 0;
+      const totalConcreteVol = breakdown.subtotals?.concrete?.units || 0;
+      const totalConcreteWeight = totalConcreteVol * 2.6;
+      const avgHrsPerTn =
+        totalConcreteWeight > 0
+          ? (totalLabourHrs / totalConcreteWeight).toFixed(2)
+          : '—';
+      return avgHrsPerTn;
+    })()}
+  </td>
+       
       </tr>
     </tbody>
   </table>
