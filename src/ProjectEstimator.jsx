@@ -1969,7 +1969,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
         <th className="border p-2">Labour (hrs)</th>
         <th className="border p-2">Add. Items</th>
         <th className="border p-2 text-right">Total (€)</th>
-       <th className="border p-2 text-right">Total (€)</th>
+       <th className="border p-2 text-right">Hrs/Tn</th>
       </tr>
     </thead>
     <tbody>
