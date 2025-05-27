@@ -743,28 +743,33 @@ labourCost = labourHrs * 70.11;
 return; // ✅ prevents falling into fallback logic
 
        // Cover Slab logic
-   } else if (/^CS(-\d+)?$/.test(productName)) {
-  const slabLength = safe(inputs.length);       // in mm
-  const slabWidth = safe(inputs.width);         // in mm
-  const height = safe(inputs.height);           // in mm
-  const openingLength = safe(inputs.openingLength);
-  const openingWidth = safe(inputs.openingWidth);
+  else if (/^CS(-\d+)?$/.test(productName)) {
+  const slabLength = safe(inputs.length);        // mm
+  const slabWidth = safe(inputs.width);          // mm
+  const height = safe(inputs.height);            // mm
+  const openingLength = safe(inputs.openingLength || 0);  // mm
+  const openingWidth = safe(inputs.openingWidth || 0);    // mm
+  const quantity = safe(inputs.quantity || 1);
 
+  // Calculate slab and opening volumes (mm³)
   const outerVolMm3 = slabLength * slabWidth * height;
-  const openingVolMm3 = openingLength * openingWidth * height;
+  const safeOpeningLength = Math.min(openingLength, slabLength);
+  const safeOpeningWidth = Math.min(openingWidth, slabWidth);
+  const openingVolMm3 = safeOpeningLength * safeOpeningWidth * height;
+
   const netVolMm3 = Math.max(outerVolMm3 - openingVolMm3, 0);
-  const netVolM3 = netVolMm3 / 1_000_000_000;
-  concreteVolume = netVolM3 * quantity;
+  const concreteVolumeM3 = (netVolMm3 / 1_000_000_000) * quantity;
 
-  const concreteCost = concreteVolume * 137.21;
-  const steelKg = concreteVolume * 120;
+  // Final costs
+  const concreteCost = concreteVolumeM3 * 137.21;
+  const steelKg = concreteVolumeM3 * 120;
   const steelCost = steelKg * 0.86;
-
   const labourHrs = safe(inputs.labourHours);
   const labourCost = labourHrs * 70.11;
 
+  // Push to totals
   concreteSubtotal += concreteCost;
-  concreteUnitTotal += concreteVolume;
+  concreteUnitTotal += concreteVolumeM3;
   steelSubtotal += steelCost;
   steelUnitTotal += steelKg;
   labourSubtotal += labourCost;
@@ -778,7 +783,7 @@ return; // ✅ prevents falling into fallback logic
     productCode,
     quantity,
     concrete: {
-      volume: concreteVolume.toFixed(2),
+      volume: concreteVolumeM3.toFixed(2),
       cost: parseFloat(concreteCost.toFixed(2))
     },
     steel: {
@@ -792,8 +797,9 @@ return; // ✅ prevents falling into fallback logic
     uniqueItems: inputs.uniqueItems || []
   });
 
-  return; // ✅ Prevent fallback calculation from executing
+  return;
 }
+
         
 
   
