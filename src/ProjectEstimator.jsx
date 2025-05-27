@@ -1327,7 +1327,7 @@ onClick={() => {
   <input
     type="number"
     min="1"
-    className="appearance-none text-center w-20 px-3 py-1 rounded-full bg-white/80 backdrop-blur-md border border-blue-200 text-blue-800 font-semibold shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-blue-300 transition-all"
+    className="text-center w-[72px] h-[30px] px-2 py-1 rounded-full bg-blue-100 text-blue-800 text-[11px] font-semibold border border-blue-300 shadow-sm placeholder:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
     placeholder="Enter Qty"
     value={subProductInputs[selectedProduct]?.quantity || ''}
     onChange={(e) =>
