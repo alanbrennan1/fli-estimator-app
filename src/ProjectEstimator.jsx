@@ -215,6 +215,19 @@ const getUnitPrice = (itemName) => {
  const installationGroupCost = ((installationCost + installationProfit) * groupCostRate) / 100;
  const installationGross = installationCost + installationProfit + installationGroupCost;
 
+ // Set manufacturing figures to 0 for now
+const manufacturingCost = 0;
+const manufacturingProfit = 0;
+const manufacturingGroupCost = 0;
+const manufacturingGross = 0;
+
+// Sum only Transport, Design, Installation for now
+const totalNet = transportCost + designCost + installationCost;
+const totalProfit = transportProfit + designProfit + installationProfit;
+const totalGroupCost = transportGroupCost + designGroupCost + installationGroupCost;
+const totalGross = totalNet + totalProfit + totalGroupCost;
+
+
 
   useEffect(() => {
     fetch('/standard_trough_details_clean.json')
@@ -2356,7 +2369,7 @@ onClick={() => {
 </div>
 
    
-<div className="mt-6">
+<div className="mt-8">
   
 <h2 className="text-lg font-bold text-gray-800 mb-1">🗂️ Job Totals</h2>
 <div className="mt-2 overflow-x-auto">
@@ -2409,7 +2422,7 @@ onClick={() => {
 
 </div>
 
-   <div className="mt-6">
+   <div className="mt-8">
 
 {/* 🛠 Service Costs Table */}
 <h2 className="text-lg font-bold text-gray-800 mb-1">🛠️ Services Breakdown</h2>
@@ -2468,7 +2481,7 @@ onClick={() => {
 </div>
 </div>
 
-<div className="mt-6">
+<div className="mt-8">
   
 {/* 💼 Commercial Summary Table */}
 <h2 className="text-lg font-bold text-gray-800 mb-1">📊 Commercial Summary</h2>
@@ -2478,8 +2491,19 @@ onClick={() => {
       <tr>
         <th className="border p-2 text-left"></th>
         <th className="border p-2 text-center">Net</th>
-        <th className="border p-2 text-center">Profit</th>
-        <th className="border p-2 text-center">Group Cost</th>
+        <th
+  className="border p-2 text-center"
+  title="Adjust profit margin in Quote Controls above"
+>
+  Profit
+</th>
+       <th
+  className="border p-2 text-center"
+  title="Adjust Group Cost margin in Quote Controls above"
+>
+  Group Cost
+</th>
+
         <th className="border p-2 text-center">Gross</th>
         <th className="border p-2 text-center">Price per Tn</th>
       </tr>
@@ -2487,11 +2511,11 @@ onClick={() => {
     <tbody className="bg-white text-gray-800">
       <tr className="text-xs">
         <td className="border p-2 font-semibold">Manufacturing</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center"></td>
+        <td className="border p-2 text-center"></td>
+        <td className="border p-2 text-center"></td>
+        <td className="border p-2 text-center"></td>
+        <td className="border p-2 text-center"></td>
       </tr>
       <tr className="text-xs">
         <td className="border p-2 font-semibold">Logistics / Transport</td>
@@ -2544,14 +2568,15 @@ onClick={() => {
           <td className="border p-2 text-center">€—</td>
      </tr>
 
-      <tr className="text-xs font-bold bg-blue-50 text-blue-900">
-        <td className="border p-2 text-right">Total Price:</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-      </tr>
+<tr className="bg-blue-100 text-blue-800 font-semibold text-xs border-t-2 border-blue-300">
+  <td className="border p-2 text-right">Total Price:</td>
+  <td className="border p-2 text-center">€{totalNet.toFixed(2)}</td>
+  <td className="border p-2 text-center">€{totalProfit.toFixed(2)}</td>
+  <td className="border p-2 text-center">€{totalGroupCost.toFixed(2)}</td>
+  <td className="border p-2 text-center">€{totalGross.toFixed(2)}</td>
+  <td className="border p-2 text-center"></td>
+</tr>
+
     </tbody>
   </table>
 </div>
