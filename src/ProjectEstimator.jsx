@@ -2331,9 +2331,9 @@ onClick={() => {
   </table>
 </div>
 
-<div className="mt-10">
-
    
+<div className="mt-10">
+  
 {/* 🧱 Jobs Totals Table */}
 <h2 className="text-lg font-bold text-gray-800 mb-4">🗂️ Jobs Total</h2>
 <div className="mt-6 overflow-x-auto">
@@ -2366,6 +2366,7 @@ onClick={() => {
     </tbody>
   </table>
 </div>
+ </div>
 
 
 
