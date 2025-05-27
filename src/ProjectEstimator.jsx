@@ -1325,8 +1325,23 @@ onClick={() => {
   <button
     className="text-xs font-medium text-blue-600 bg-blue-100 px-3 py-1 rounded-full shadow hover:bg-blue-200 transition"
     onClick={() => {
-      // We'll fill this logic in Step 2
-      console.log("➕ Another Variant clicked");
+      const baseCode = selectedProduct?.split('-')[0];
+      const existingVariants = Object.keys(subProductInputs).filter(key => key.startsWith(`${baseCode}-`));
+      
+      // Find the next available variant number
+      const variantNumbers = existingVariants.map(key => parseInt(key.split('-')[1], 10)).filter(n => !isNaN(n));
+      const nextVariantNumber = variantNumbers.length > 0 ? Math.max(...variantNumbers) + 1 : 1;
+      const newVariantKey = `${baseCode}-${nextVariantNumber}`;
+      
+      // Add new variant tab with default quantity = 1
+      setSubProductInputs(prev => ({
+        ...prev,
+        [newVariantKey]: { quantity: 1 }
+      }));
+      
+      // Switch to the new tab
+      setSelectedProduct(newVariantKey);
+
     }}
   >
     ➕ Another Variant
