@@ -1316,6 +1316,21 @@ setSelectedProduct('CT');  // Auto-return to CT tab
     Configure: {selectedProduct}
   </h3>
 
+ <div className="mb-4">
+  <label className="text-xs font-medium text-gray-700">Quantity</label>
+  <input
+    type="number"
+    min="1"
+    className="border p-2 rounded text-xs w-[100px]"
+    placeholder="Enter quantity"
+    value={subProductInputs[selectedProduct]?.quantity || ''}
+    onChange={(e) =>
+      handleSubInputChange(selectedProduct, 'quantity', parseInt(e.target.value))
+    }
+  />
+</div>
+
+
   {topLevelProduct === 'Troughs' && selectedProduct?.startsWith('CT') && (
     <div className="border-2 border-gray-300 shadow-md rounded-lg p-4 bg-white">
 
