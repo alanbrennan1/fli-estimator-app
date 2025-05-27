@@ -749,7 +749,10 @@ return; // ✅ prevents falling into fallback logic
         const openingWidth = safe(inputs.openingWidth);
         const outerVol = slabLength * slabWidth * height;
         const openingVol = openingLength * openingWidth * height;
-        concreteVolume = (outerVol - openingVol) * quantity;
+      // Avoid negative volumes
+        const netVol = Math.max(outerVol - openingVol, 0);
+        concreteVolume = netVol * quantity;
+       
       } else {
         concreteVolume = concreteVolume * quantity;
       }
