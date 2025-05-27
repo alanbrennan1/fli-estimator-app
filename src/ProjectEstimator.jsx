@@ -247,8 +247,8 @@ useEffect(() => {
         ...prev,
         [csKey]: {
           ...prev[csKey],
-          length: calculatedLength.toFixed(0),
-          width: calculatedWidth.toFixed(0),
+          length: parseFloat(calculatedLength.toFixed(0)),
+          width: parseFloat(calculatedWidth.toFixed(0)),
           wallThickness: wallThickness.toFixed(0),
           baseThickness: baseThickness.toFixed(0),
         }
@@ -750,6 +750,19 @@ return; // ✅ prevents falling into fallback logic
   const openingWidth = safe(inputs.openingWidth || 0);    // mm
   const quantity = safe(inputs.quantity || 1);
 
+console.log("🧪 CS INPUTS DEBUG", {
+  productName,
+  inputs,
+  parsed: {
+    slabLength: safe(inputs.length),
+    slabWidth: safe(inputs.width),
+    height: safe(inputs.height),
+    openingLength: safe(inputs.openingLength),
+    openingWidth: safe(inputs.openingWidth)
+  }
+});
+
+   
   // Calculate slab and opening volumes (mm³)
   const outerVolMm3 = slabLength * slabWidth * height;
   const safeOpeningLength = Math.min(openingLength, slabLength);
