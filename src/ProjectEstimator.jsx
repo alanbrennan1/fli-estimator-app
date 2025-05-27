@@ -1213,36 +1213,43 @@ setSelectedProduct('CT');  // Auto-return to CT tab
                 <p className="text-xs text-gray-500 mb-3 break-words">{code}</p>
               </div>
               
-              <div className="flex items-center gap-2 mt-auto">
-                                               
-     {code !== 'CT' ? (
-  // Generic Configure button for all non-CT sub-products
-  <button
-    onClick={() => {
-      setSubProductInputs(prev => ({
-        ...prev,
-        [code]: prev[code] || { quantity: 1 }
-      }));
-      setSelectedProduct(code);
-    }}
-    className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
-    title="Configure product"
-  >
-    🔧 Configure
-  </button>
-) : (
-  // Special CT logic
-  <button
-    onClick={() => {
-      setShouldResetCT(true);
-      setSelectedProduct('CT');
-    }}
-    className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
-    title="Configure CT variants"
-  >
-    🔧 Configure
-  </button>
-)}
+ <div className="flex items-center gap-2 mt-auto">
+  {code !== 'CT' ? (
+    // Generic Configure button for all non-CT products
+    <button
+      onClick={() => {
+        const existing = Object.keys(subProductInputs).filter(k =>
+          k.startsWith(`${code}-`)
+        );
+        const nextKey = `${code}-1`;
+        if (!existing.length) {
+          setSubProductInputs(prev => ({
+            ...prev,
+            [nextKey]: { quantity: 1 }
+          }));
+          setSelectedProduct(nextKey);
+        } else {
+          setSelectedProduct(existing[0]);
+        }
+      }}
+      className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
+      title="Configure product"
+    >
+      🔧 Configure
+    </button>
+  ) : (
+    // CT-specific variant spawn logic
+    <button
+      onClick={() => {
+        setShouldResetCT(true);  // Resets CT base tab
+        setSelectedProduct('CT'); // Opens base tab
+      }}
+      className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
+      title="Configure CT variants"
+    >
+      🔧 Configure
+    </button>
+  )}
 
       
               </div>
