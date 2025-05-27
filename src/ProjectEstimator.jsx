@@ -2332,6 +2332,49 @@ onClick={() => {
 </div>
 
 
+{/* 🧱 Jobs Totals Table */}
+<div className="mt-6 overflow-x-auto">
+  <table className="w-full text-sm border border-gray-300">
+    <thead className="bg-gray-100 text-left text-gray-800 uppercase tracking-wider">
+      <tr>
+        <th className="border p-2"></th>
+        <th className="border p-2 text-center">Concrete (tonnes)</th>
+        <th className="border p-2 text-center">Steel (tonnes)</th>
+        <th className="border p-2 text-center">Labour (hrs)</th>
+        <th className="border p-2 text-center">Additional items</th>
+      </tr>
+    </thead>
+    <tbody className="bg-white text-gray-800">
+      <tr className="text-sm">
+        <td className="border p-2 font-bold">Manufacturing</td>
+        <td className="border p-2 text-center">
+          {(breakdown?.subtotals?.concrete?.units * 2.6).toFixed(2)}
+        </td>
+        <td className="border p-2 text-center">
+          {(breakdown?.subtotals?.steel?.units / 1000).toFixed(2)}
+        </td>
+        <td className="border p-2 text-center">
+          {breakdown?.subtotals?.labour?.units?.toFixed(2)}
+        </td>
+        <td className="border p-2 text-center">
+          {breakdown?.subtotals?.additional?.units?.toFixed(0)}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+   
+
 {/* 🛠 Service Costs Table */}
 <div className="mt-6 overflow-x-auto">
   <table className="w-full text-sm border border-gray-300">
