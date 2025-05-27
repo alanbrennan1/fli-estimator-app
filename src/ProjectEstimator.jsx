@@ -750,19 +750,7 @@ return; // ✅ prevents falling into fallback logic
        // Cover Slab logic
   else if (/^CS(-\d+)?$/.test(productName)) {
 
-console.log("🧪 CS INPUTS DEBUG", {
-  productName,
-  inputs,
-  parsed: {
-    slabLength: safe(inputs.length),
-    slabWidth: safe(inputs.width),
-    height: safe(inputs.height),
-    openingLength: safe(inputs.openingLength),
-    openingWidth: safe(inputs.openingWidth)
-  }
-});
-
-   
+  
   const slabLength = safe(inputs.length);        // mm
   const slabWidth = safe(inputs.width);          // mm
   const height = safe(inputs.height);            // mm
@@ -781,7 +769,8 @@ console.log("🧪 CS INPUTS DEBUG", {
 
   // Final costs
   const concreteCost = concreteVolumeM3 * 137.21;
-  const steelKg = concreteVolumeM3 * 120;
+  const steelDensity = safe(inputs.roofSlabDensity); // 👈 pull from Roof Slab field
+  const steelKg = concreteVolumeM3 * steelDensity;
   const steelCost = steelKg * 0.86;
   const labourHrs = safe(inputs.labourHours);
   const labourCost = labourHrs * 70.11;
