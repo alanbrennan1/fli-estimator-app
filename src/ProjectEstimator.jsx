@@ -1586,13 +1586,14 @@ setSelectedProduct('CT');  // Auto-return to CT tab
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div className="flex flex-col">
         <label className="text-xs font-medium mb-1">Base Height (mm)</label>
-        <input
-          type="number"
-          value={subProductInputs[selectedProduct]?.baseHeight || ''}
-          onChange={(e) => handleSubInputChange(selectedProduct, 'baseHeight', e.target.value)}
-          className="border p-2 rounded text-xs"
-          placeholder="e.g. 200"
-        />
+     <input
+       type="number"
+       value={367}
+       readOnly
+       disabled
+       className="border p-2 rounded text-xs bg-gray-100 text-gray-600 cursor-not-allowed"
+     />
+
       </div>
     </div>
   </div>
