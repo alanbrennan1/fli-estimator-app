@@ -1218,13 +1218,19 @@ setSelectedProduct('CT');  // Auto-return to CT tab
      {code !== 'CT' ? (
   // Generic Configure button for all non-CT sub-products
   <button
-    onClick={() => {
-      setSubProductInputs(prev => ({
-        ...prev,
-        [code]: prev[code] || { quantity: 1 }
-      }));
-      setSelectedProduct(code);
-    }}
+onClick={() => {
+  const baseKey = `${code}`;
+  const variantKey = `${code}-1`;
+
+  setSubProductInputs(prev => ({
+    ...prev,
+    [baseKey]: { quantity: 1 }, // still used to track overall count
+    [variantKey]: prev[variantKey] || { quantity: 1 } // create CH-1 if not already there
+  }));
+
+  setSelectedProduct(variantKey);
+}}
+   
     className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
     title="Configure product"
   >
@@ -1317,7 +1323,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
   </h3>
 
  <div className="mb-4">
-  <label className="text-xs font-medium text-gray-700">Quantity</label>
+  <label className="text-xs font-medium text-gray-700">Qty</label>
   <input
     type="number"
     min="1"
