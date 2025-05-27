@@ -2137,7 +2137,7 @@ onClick={() => {
     <div className="flex flex-col gap-2">
       <label className="text-xs font-medium text-green-700">
         Profit Margin
-        <span className="ml-2 font-mono bg-green-100 text-green-800 px-2 py-0.5 rounded text-xs">
+        <span className="ml-2 font-mono bg-green-100 text-green-800 px-2 py-0.1 rounded text-xs">
           {formData.margin}%
         </span>
       </label>
@@ -2390,8 +2390,8 @@ onClick={() => {
 {/* 🛠 Service Costs Table */}
 <h2 className="text-lg font-bold text-gray-800 mb-1">🛠️ Services Breakdown</h2>
 <div className="mt-6 overflow-x-auto">
-  <table className="w-full text-sm border border-gray-300">
-      <thead className="bg-blue-100 text-left text-blue-800 uppercase tracking-wider">
+  <table className="w-full text-xs border border-gray-300">
+   <thead className="bg-blue-100 text-left text-blue-800 uppercase tracking-wider">
 
       <tr>
         <th className="border p-2 text-left">Service</th>
@@ -2444,7 +2444,7 @@ onClick={() => {
 </div>
 </div>
 
-
+<div className="mt-6">
   
 {/* 💼 Commercial Summary Table */}
 <h2 className="text-lg font-bold text-gray-800 mb-1">📊 Commercial Summary</h2>
@@ -2504,9 +2504,7 @@ onClick={() => {
     </tbody>
   </table>
 </div>
-
-
-
+</div>
 
    
     {/* 💰 Grand Total */}
