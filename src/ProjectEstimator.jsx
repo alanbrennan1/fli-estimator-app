@@ -2349,6 +2349,7 @@ onClick={() => {
     </thead>
     <tbody className="bg-white text-gray-800">
       <tr className="text-sm align-top">
+       
         <td className="border p-2 font-semibold">Manufacturing</td>
         <td className="border p-2 text-center">
           {(breakdown?.subtotals?.concrete?.units * 2.6).toFixed(2)}
@@ -2359,10 +2360,20 @@ onClick={() => {
         <td className="border p-2 text-center">
           {breakdown?.subtotals?.labour?.units?.toFixed(2)}
         </td>
-        <td className="border p-2 text-center font-medium">
-         {breakdown?.subtotals?.additional?.units || 0} items – €
-         {parseFloat(breakdown?.subtotals?.additional?.value || 0).toFixed(2)}
-       </td>
+<td className="border p-2 text-center font-medium">
+  <span className="text-[10px]">
+    {breakdown?.subtotals?.additional?.units || 0} items – €
+    {(() => {
+      const total = breakdown?.productBreakdowns?.reduce((sum, p) => {
+        return sum + (p.additionalCost || 0);
+      }, 0);
+      return total ? total.toFixed(2) : "0.00";
+    })()}
+  </span>
+</td>
+
+
+       
        <td className="border p-2 text-center bg-orange-50 text-orange-800 font-semibold">
           {(() => {
             const tonnes = breakdown?.subtotals?.concrete?.units * 2.6;
