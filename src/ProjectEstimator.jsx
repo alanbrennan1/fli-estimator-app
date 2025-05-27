@@ -742,24 +742,35 @@ labourCost = labourHrs * 70.11;
         
 return; // ✅ prevents falling into fallback logic
 
-console.log(`CS ${productName}: outer=${outerVolMm3}, opening=${openingVolMm3}, net=${netVolMm3}, m³=${netVolM3}`);
-
-       
-      } else if (productName.startsWith('CS')) {
+   } else if (productName.startsWith('CS')) {
   const slabLength = safe(inputs.length);       // in mm
   const slabWidth = safe(inputs.width);         // in mm
   const height = safe(inputs.height);           // in mm
-  const openingLength = safe(inputs.openingLength); // in mm
-  const openingWidth = safe(inputs.openingWidth);   // in mm
+  const openingLength = safe(inputs.openingLength);
+  const openingWidth = safe(inputs.openingWidth);
 
   const outerVolMm3 = slabLength * slabWidth * height;
   const openingVolMm3 = openingLength * openingWidth * height;
-
   const netVolMm3 = Math.max(outerVolMm3 - openingVolMm3, 0);
   const netVolM3 = netVolMm3 / 1_000_000_000;
-
   concreteVolume = netVolM3 * quantity;
-}     
+
+  console.log("🔎 CS Volume Debug", {
+    productName,
+    slabLength,
+    slabWidth,
+    height,
+    openingLength,
+    openingWidth,
+    outerVolMm3,
+    openingVolMm3,
+    netVolMm3,
+    netVolM3,
+    concreteVolume
+  });
+}
+    
+     
       
       else {
         concreteVolume = concreteVolume * quantity;
