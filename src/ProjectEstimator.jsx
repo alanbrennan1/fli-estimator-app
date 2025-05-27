@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';  
 import './index.css';
 
-const productOptions = {
+const productOptions = { 
  Troughs: [
     { name: "Cable Trough", code: "CT" },
     { name: "Cable Trough Mitre", code: "CTS" },
