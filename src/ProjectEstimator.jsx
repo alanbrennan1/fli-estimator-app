@@ -198,7 +198,7 @@ const getUnitPrice = (itemName) => {
  const groupCostRate = parseFloat(formData.groupCost || 2.5);
 
  const transportProfit = (transportCost * profitMargin) / 100;
- const transportGroupCost = (transportCost * groupCostRate) / 100;
+ const transportGroupCost = ((transportCost + transportProfit) * groupCostRate) / 100;
  const transportGross = transportCost + transportProfit + transportGroupCost;
 
 
