@@ -742,7 +742,7 @@ labourCost = labourHrs * 70.11;
         
 return; // ✅ prevents falling into fallback logic
 
-   } else if (productName.startsWith('CS')) {
+   } else if (/^CS(-\d+)?$/.test(productName)) {
   const slabLength = safe(inputs.length);       // in mm
   const slabWidth = safe(inputs.width);         // in mm
   const height = safe(inputs.height);           // in mm
@@ -793,9 +793,12 @@ return; // ✅ prevents falling into fallback logic
 
   return; // ✅ Prevent fallback calculation from executing
 }
-    
-     
-      
+        
+    else {
+  console.warn("🚨 Fallback logic hit for:", productName);
+  // ...
+        }
+  
       else {
         concreteVolume = concreteVolume * quantity;
       }
