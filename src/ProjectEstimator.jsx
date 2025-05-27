@@ -742,6 +742,7 @@ labourCost = labourHrs * 70.11;
         
 return; // ✅ prevents falling into fallback logic
 
+       // Cover Slab logic
    } else if (/^CS(-\d+)?$/.test(productName)) {
   const slabLength = safe(inputs.length);       // in mm
   const slabWidth = safe(inputs.width);         // in mm
@@ -797,6 +798,7 @@ return; // ✅ prevents falling into fallback logic
 
   
       else {
+       console.warn("🚨 Fallback logic hit for:", productName);
         concreteVolume = concreteVolume * quantity;
       }
 
