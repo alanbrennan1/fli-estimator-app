@@ -1230,18 +1230,35 @@ setSelectedProduct('CT');  // Auto-return to CT tab
                 </button>
 
                                
-      {code === 'CT' && (
-        <button
-          onClick={() => {
-            setShouldResetCT(true);  // trigger reset
-            setSelectedProduct('CT');
-          }}
-          className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
-          title="Configure CT variants"
-        >
-          🔧 Configure
-        </button>
-      )}
+     {code !== 'CT' ? (
+  // Generic Configure button for all non-CT sub-products
+  <button
+    onClick={() => {
+      setSubProductInputs(prev => ({
+        ...prev,
+        [code]: prev[code] || { quantity: 1 }
+      }));
+      setSelectedProduct(code);
+    }}
+    className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
+    title="Configure product"
+  >
+    🔧 Configure
+  </button>
+) : (
+  // Special CT logic
+  <button
+    onClick={() => {
+      setShouldResetCT(true);
+      setSelectedProduct('CT');
+    }}
+    className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
+    title="Configure CT variants"
+  >
+    🔧 Configure
+  </button>
+)}
+
       
               </div>
             </div>
