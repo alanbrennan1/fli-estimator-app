@@ -602,7 +602,9 @@ labourCost = labourHrs * 70.11;
           return;
         }
 
-   else if (productName.startsWith('CH')) {
+
+
+} else if (productName.startsWith('CH')) {
         const wall = safe(inputs.wallThickness);
         const base = safe(inputs.baseThickness);
         const extPlan = (length + wall * 2) * (width + wall * 2);
@@ -678,10 +680,10 @@ labourCost = labourHrs * 70.11;
           uniqueItems: inputs.uniqueItems || []
         });
    return;
-   }       
+              
 
-
-     else if (productName.startsWith('C')) {
+        
+} else if (productName.startsWith('C')) {
   const baseHeight = 367; // hardcoded base height for Columns
   const columnHeight = safe(inputs.height);   // in mm
   const width = safe(inputs.width);           // in mm
@@ -744,11 +746,9 @@ labourCost = labourHrs * 70.11;
         
 return; // ✅ prevents falling into fallback logic
       }
-
-    
-          
+       
        // Cover Slab logic
-  else if (/^CS(-\d+)?$/.test(productName.trim())) {
+  else if (/^CS(-\d+)?$/.test(productName)) {
 
 console.log("🧪 CS INPUTS DEBUG", {
   productName,
@@ -818,6 +818,8 @@ console.log("🧪 CS INPUTS DEBUG", {
 
   return;
 }
+
+   
 
             
       else {
