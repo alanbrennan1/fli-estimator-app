@@ -148,7 +148,7 @@ const getUnitPrice = (itemName) => {
     pipeOpeningsUnits: 0,
     ladderRungsUnits: 0,
     ductType: '',
-    margin: 20,
+    margin: 10,
     wasteMargin: 5, // Default 5%
     groupCost: 2.5, // FLI Group cost 2.5%
     steelGrade: '',
@@ -2137,7 +2137,7 @@ onClick={() => {
     <div className="flex flex-col gap-2">
       <label className="text-xs font-medium text-green-700">
         Profit Margin
-        <span className="ml-2 font-mono bg-green-100 text-green-800 px-2 py-0.1 rounded text-xs">
+        <span className="ml-2 font-mono bg-green-100 text-green-800 px-2 py-0.5 rounded text-xs">
           {formData.margin}%
         </span>
       </label>
