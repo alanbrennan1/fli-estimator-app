@@ -2332,7 +2332,7 @@ onClick={() => {
 </div>
 
    
-<div className="mt-10">
+<div className="mt-6">
   
 <h2 className="text-lg font-bold text-gray-800 mb-1">🗂️ Job Totals</h2>
 <div className="mt-2 overflow-x-auto">
@@ -2343,8 +2343,12 @@ onClick={() => {
         <th className="border p-2 text-center">Concrete (tonnes)</th>
         <th className="border p-2 text-center">Steel (tonnes)</th>
         <th className="border p-2 text-center">Labour (hrs)</th>
-        <th className="border p-2 text-center">Additional items</th>
-        <th className="border p-2 text-center bg-orange-100 text-orange-800">Hrs/Tn</th>
+        <th className="border p-2 text-center">Add. items</th>
+        <th className="border p-2 text-center bg-orange-100 text-orange-800 relative group"
+           title="Avg. Hrs/Tn across all products"
+         >
+           Hrs/Tn
+         </th>
       </tr>
     </thead>
     <tbody className="bg-white text-gray-800">
@@ -2361,10 +2365,9 @@ onClick={() => {
           {breakdown?.subtotals?.labour?.units?.toFixed(2)}
         </td>
 <td className="border p-2 text-center font-medium">
-  <span className="text-[10px]">
     {breakdown?.subtotals?.additional?.units || 0} items – €
     {parseFloat(breakdown?.subtotals?.additional?.cost || 0).toFixed(2)}
-  </span>
+  
 </td>
 
        
@@ -2384,6 +2387,7 @@ onClick={() => {
   
 
 {/* 🛠 Service Costs Table */}
+<h2 className="text-lg font-bold text-gray-800 mb-1">🛠️ Services Breakdown</h2>
 <div className="mt-6 overflow-x-auto">
   <table className="w-full text-sm border border-gray-300">
       <thead className="bg-blue-100 text-left text-blue-800 uppercase tracking-wider">
@@ -2444,6 +2448,9 @@ onClick={() => {
 
 
 
+
+
+   
     {/* 💰 Grand Total */}
     <div className="mt-6 text-right text-base font-bold text-blue-900">
       Grand Total: €{estimate}
