@@ -1322,10 +1322,48 @@ setSelectedProduct('CT');  // Auto-return to CT tab
   })}
 </div>
 
-<div className="p-4 border rounded bg-white">
-  <h3 className="text-md font-semibold text-blue-700 mb-2">
-    Configure: {selectedProduct}
-  </h3>
+{isVariantProduct && (
+  <div className="flex justify-between items-center border-b pb-2 mb-4">
+    {/* Tabs */}
+    <div className="flex gap-2 flex-wrap">
+      {Object.keys(subProductInputs)
+        .filter(key => key.startsWith(`${baseProductCode}-`))
+        .map(key => (
+          <button
+            key={key}
+            onClick={() => setSelectedProduct(key)}
+            className={`px-4 py-1 rounded text-sm font-medium transition border ${
+              selectedProduct === key
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 text-gray-700'
+            }`}
+          >
+            {key}
+          </button>
+        ))}
+    </div>
+
+    {/* ➕ Add Variant */}
+    <button
+      onClick={() => {
+        const existing = Object.keys(subProductInputs).filter(k =>
+          k.startsWith(`${baseProductCode}-`)
+        );
+        const nextIdx = existing.length + 1;
+        const nextKey = `${baseProductCode}-${nextIdx}`;
+        setSubProductInputs(prev => ({
+          ...prev,
+          [nextKey]: { quantity: 1 }
+        }));
+        setSelectedProduct(nextKey);
+      }}
+      className="text-xs px-3 py-1 bg-green-100 text-green-800 rounded hover:bg-green-200 whitespace-nowrap"
+    >
+      ➕ Add Another Variant
+    </button>
+  </div>
+)}
+
 
   {topLevelProduct === 'Troughs' && selectedProduct?.startsWith('CT') && (
     <div className="border-2 border-gray-300 shadow-md rounded-lg p-4 bg-white">
