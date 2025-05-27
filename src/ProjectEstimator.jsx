@@ -2334,7 +2334,7 @@ onClick={() => {
    
 <div className="mt-10">
   
-<h2 className="text-lg font-bold text-gray-800 mb-1">🗂️ Jobs Total</h2>
+<h2 className="text-lg font-bold text-gray-800 mb-1">🗂️ Job Totals</h2>
 <div className="mt-2 overflow-x-auto">
   <table className="w-full text-xs border border-gray-300">
     <thead className="bg-blue-100 text-left text-blue-800 uppercase tracking-wider">
@@ -2363,15 +2363,9 @@ onClick={() => {
 <td className="border p-2 text-center font-medium">
   <span className="text-[10px]">
     {breakdown?.subtotals?.additional?.units || 0} items – €
-    {(() => {
-      const total = breakdown?.productBreakdowns?.reduce((sum, p) => {
-        return sum + (p.additionalCost || 0);
-      }, 0);
-      return total ? total.toFixed(2) : "0.00";
-    })()}
+    {parseFloat(breakdown?.subtotals?.additional?.cost || 0).toFixed(2)}
   </span>
 </td>
-
 
        
        <td className="border p-2 text-center bg-orange-50 text-orange-800 font-semibold">
