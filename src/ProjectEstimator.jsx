@@ -1318,9 +1318,21 @@ onClick={() => {
 </div>
 
 <div className="p-4 border rounded bg-white">
-  <h3 className="text-md font-semibold text-blue-700 mb-2">
+<div className="flex justify-between items-center mb-2">
+  <h3 className="text-md font-semibold text-blue-700">
     Configure: {selectedProduct}
   </h3>
+  <button
+    className="text-xs font-medium text-blue-600 bg-blue-100 px-3 py-1 rounded-full shadow hover:bg-blue-200 transition"
+    onClick={() => {
+      // We'll fill this logic in Step 2
+      console.log("➕ Another Variant clicked");
+    }}
+  >
+    ➕ Another Variant
+  </button>
+</div>
+
 
  <label className="text-xs font-medium text-blue-700 mb-1">Qty  </label>
 <input
