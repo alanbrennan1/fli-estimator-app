@@ -2223,7 +2223,7 @@ onClick={() => {
         <th className="border p-2">Labour (hrs)</th>
         <th className="border p-2">Add. Items</th>
         <th className="border p-2 text-right">Total (€)</th>
-      <th className="border p-2 text-center text-red-700 font-semibold text-xs uppercase tracking-wider">
+<th className="border p-2 text-center bg-orange-100 text-orange-800 font-semibold text-xs uppercase tracking-wider">
   Hrs/Tn
 </th>
       </tr>
