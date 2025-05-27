@@ -191,10 +191,6 @@ const getUnitPrice = (itemName) => {
   const [shouldResetCT, setShouldResetCT] = useState(false);
   const [showCTPulse, setShowCTPulse] = useState(false);
 
- const isVariantProduct = selectedProduct && !selectedProduct.startsWith('CT');
- const baseProductCode = selectedProduct?.split('-')[0]; // e.g., "CH", "W", etc.
-
-
 
   useEffect(() => {
     fetch('/standard_trough_details_clean.json')
@@ -1201,7 +1197,8 @@ setSelectedProduct('CT');  // Auto-return to CT tab
   <option value="Slot Drain">Slot Drain</option>
 </select>
 
-         
+       
+      
       </div>
 
         <div className="w-full lg:w-3/4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
@@ -1216,43 +1213,37 @@ setSelectedProduct('CT');  // Auto-return to CT tab
                 <p className="text-xs text-gray-500 mb-3 break-words">{code}</p>
               </div>
               
- <div className="flex items-center gap-2 mt-auto">
-  {code !== 'CT' ? (
-    // Generic Configure button for all non-CT products
-    <button
-      onClick={() => {
-        const existing = Object.keys(subProductInputs).filter(k =>
-          k.startsWith(`${code}-`)
-        );
-        const nextKey = `${code}-1`;
-        if (!existing.length) {
-          setSubProductInputs(prev => ({
-            ...prev,
-            [nextKey]: { quantity: 1 }
-          }));
-          setSelectedProduct(nextKey);
-        } else {
-          setSelectedProduct(existing[0]);
-        }
-      }}
-      className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
-      title="Configure product"
-    >
-      🔧 Configure
-    </button>
-  ) : (
-    // CT-specific variant spawn logic
-    <button
-      onClick={() => {
-        setShouldResetCT(true);  // Resets CT base tab
-        setSelectedProduct('CT'); // Opens base tab
-      }}
-      className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
-      title="Configure CT variants"
-    >
-      🔧 Configure
-    </button>
-  )}
+              <div className="flex items-center gap-2 mt-auto">
+                                               
+     {code !== 'CT' ? (
+  // Generic Configure button for all non-CT sub-products
+  <button
+    onClick={() => {
+      setSubProductInputs(prev => ({
+        ...prev,
+        [code]: prev[code] || { quantity: 1 }
+      }));
+      setSelectedProduct(code);
+    }}
+    className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
+    title="Configure product"
+  >
+    🔧 Configure
+  </button>
+) : (
+  // Special CT logic
+  <button
+    onClick={() => {
+      setShouldResetCT(true);
+      setSelectedProduct('CT');
+    }}
+    className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
+    title="Configure CT variants"
+  >
+    🔧 Configure
+  </button>
+)}
+
       
               </div>
             </div>
@@ -1268,11 +1259,62 @@ setSelectedProduct('CT');  // Auto-return to CT tab
       </div>
     )}
 
+    <div className="mt-6">
+<div className="flex gap-2 border-b pb-2 mb-4 flex-wrap">
+  {selectedSubProducts.map(({ code }) => {
+    const isCT = code.startsWith('CT');
+    return (
+      <div key={code} className="relative">
+        <button
+          onClick={() => setSelectedProduct(code)}
+          className={`px-4 py-1 pr-6 rounded text-sm font-medium transition border relative
+            ${selectedProduct === code ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'}
+            ${isCT ? 'border-blue-400' : 'border-gray-300'}
+            ${showCTPulse && code === 'CT' ? 'animate-pulse ring-2 ring-blue-300' : ''}`
+          }
+        >
+          <span title={code === 'CT' ? 'Configure CT variants from here' : ''}>
+    {code === 'CT' ? '➕ New CT' : code}
+  </span>
+        </button>
 
 
+        {/* ✅ Inserted Remove Button */}
+       <button
+  onClick={() => {
+    setSubProductInputs(prev => {
+      const next = { ...prev };
+      delete next[code];
+      return next;
+    });
+    setProductBreakdowns(prev =>
+      prev.filter(item => item.name !== code && item.productCode !== code)
+    );
+
+    if (selectedProduct === code) {
+      setSelectedProduct('');
+    }
+  }}
+  className="absolute top-[-6px] right-[-6px] bg-white border border-gray-300 text-xs w-4 h-4 rounded-full text-gray-700 hover:bg-red-100 hover:text-red-600"
+  title="Remove"
+>
+  ×
+</button>
 
 
-   
+        
+        {isCT && (
+          <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 rounded-b" />
+        )}
+      </div>
+    );
+  })}
+</div>
+
+<div className="p-4 border rounded bg-white">
+  <h3 className="text-md font-semibold text-blue-700 mb-2">
+    Configure: {selectedProduct}
+  </h3>
 
   {topLevelProduct === 'Troughs' && selectedProduct?.startsWith('CT') && (
     <div className="border-2 border-gray-300 shadow-md rounded-lg p-4 bg-white">
