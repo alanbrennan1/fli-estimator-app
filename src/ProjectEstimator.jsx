@@ -1382,7 +1382,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
     </div>
   </div>
 )}
-
+</div>    {/* ✅ this closes the outermost .mt-6 wrapper */}
      
 
   {topLevelProduct === 'Troughs' && selectedProduct?.startsWith('CT') && (
