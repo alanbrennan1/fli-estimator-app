@@ -201,6 +201,14 @@ const getUnitPrice = (itemName) => {
  const transportGroupCost = ((transportCost + transportProfit) * groupCostRate) / 100;
  const transportGross = transportCost + transportProfit + transportGroupCost;
 
+ const designService = breakdown?.services?.find(s => s.label === 'Design');
+ const designCost = parseFloat(designService?.value || 0);
+
+ const designProfit = (designCost * profitMargin) / 100;
+ const designGroupCost = ((designCost + designProfit) * groupCostRate) / 100;
+ const designGross = designCost + designProfit + designGroupCost;
+
+
 
   useEffect(() => {
     fetch('/standard_trough_details_clean.json')
@@ -2497,13 +2505,22 @@ onClick={() => {
 </tr>
 
       <tr className="text-xs">
-        <td className="border p-2 font-semibold">Design</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-      </tr>
+         <td className="border p-2 font-semibold">Design</td>
+         <td className="border p-2 text-center">
+           €{designCost.toFixed(2)}
+         </td>
+         <td className="border p-2 text-center">
+           €{designProfit.toFixed(2)}
+         </td>
+         <td className="border p-2 text-center">
+           €{designGroupCost.toFixed(2)}
+         </td>
+         <td className="border p-2 text-center">
+           €{designGross.toFixed(2)}
+         </td>
+         <td className="border p-2 text-center">€—</td>
+     </tr>
+
       <tr className="text-xs">
         <td className="border p-2 font-semibold">Installation</td>
         <td className="border p-2 text-center">€—</td>
