@@ -602,7 +602,8 @@ labourCost = labourHrs * 70.11;
           return;
         }
 
-} else if (productName.startsWith('C')) {
+} else if (/^C(-\d+)?$/.test(productName.trim())) {
+
   const baseHeight = 367; // hardcoded base height for Columns
   const columnHeight = safe(inputs.height);   // in mm
   const width = safe(inputs.width);           // in mm
