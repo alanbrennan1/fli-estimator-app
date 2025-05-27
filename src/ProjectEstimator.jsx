@@ -738,10 +738,9 @@ labourCost = labourHrs * 70.11;
     },
     uniqueItems: inputs.uniqueItems || []
   });
-
         
 return; // ✅ prevents falling into fallback logic
-
+      }
        // Cover Slab logic
   else if (/^CS(-\d+)?$/.test(productName)) {
   const slabLength = safe(inputs.length);        // mm
