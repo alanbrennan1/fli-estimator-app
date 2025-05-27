@@ -1214,22 +1214,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
               </div>
               
               <div className="flex items-center gap-2 mt-auto">
-                {/* ⛔️ Hide quantity input for Cable Troughs (CT) */}
-                <button
-                  onClick={() => {
-                    setSubProductInputs(prev => ({
-                      ...prev,
-                      [code]: prev[code] || { quantity: 1 }  // Default to 1 if not already configured
-                    }));
-                    setSelectedProduct(code);
-                  }}
-                  className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
-                  title="Configure product"
-                >
-                  🔧 Configure
-                </button>
-
-                               
+                                               
      {code !== 'CT' ? (
   // Generic Configure button for all non-CT sub-products
   <button
