@@ -1381,7 +1381,6 @@ setSelectedProduct('CT');  // Auto-return to CT tab
       />
     </div>
   </div>
- </div>
 )}
 
      
