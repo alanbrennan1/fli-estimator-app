@@ -1271,54 +1271,80 @@ setSelectedProduct('CT');  // Auto-return to CT tab
     )}
 
     <div className="mt-6">
-<div className="flex gap-2 border-b pb-2 mb-4 flex-wrap">
-  {selectedSubProducts.map(({ code }) => {
-    const isCT = code.startsWith('CT');
-    return (
-      <div key={code} className="relative">
+
+
+{/* ✅ Tabs for non-CT variant products */}
+{isVariantProduct && (
+  <div className="flex gap-2 border-b pb-2 mb-4 flex-wrap">
+    {Object.keys(subProductInputs)
+      .filter(key => key.startsWith(`${baseProductCode}-`))
+      .map(key => (
         <button
-          onClick={() => setSelectedProduct(code)}
-          className={`px-4 py-1 pr-6 rounded text-sm font-medium transition border relative
-            ${selectedProduct === code ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'}
-            ${isCT ? 'border-blue-400' : 'border-gray-300'}
-            ${showCTPulse && code === 'CT' ? 'animate-pulse ring-2 ring-blue-300' : ''}`
-          }
+          key={key}
+          onClick={() => setSelectedProduct(key)}
+          className={`px-4 py-1 rounded text-sm font-medium transition border ${
+            selectedProduct === key
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-100 text-gray-700'
+          }`}
         >
-          <span title={code === 'CT' ? 'Configure CT variants from here' : ''}>
-    {code === 'CT' ? '➕ New CT' : code}
-  </span>
+          {key}
         </button>
+      ))}
+  </div>
+)}
+
+{/* ✅ Preserve CT-specific visual tabs */}
+{topLevelProduct === 'Troughs' && (
+  <div className="flex gap-2 border-b pb-2 mb-4 flex-wrap">
+    {selectedSubProducts
+      .filter(({ code }) => code === 'CT' || code.startsWith('CT-'))
+      .map(({ code }) => {
+        const isCT = code.startsWith('CT');
+        return (
+          <div key={code} className="relative">
+            <button
+              onClick={() => setSelectedProduct(code)}
+              className={`px-4 py-1 pr-6 rounded text-sm font-medium transition border relative
+                ${selectedProduct === code ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'}
+                ${isCT ? 'border-blue-400' : 'border-gray-300'}
+                ${showCTPulse && code === 'CT' ? 'animate-pulse ring-2 ring-blue-300' : ''}`}
+            >
+              <span title={code === 'CT' ? 'Configure CT variants from here' : ''}>
+                {code === 'CT' ? '➕ New CT' : code}
+              </span>
+            </button>
+
+            {/* Remove button for CT variants */}
+            <button
+              onClick={() => {
+                setSubProductInputs(prev => {
+                  const next = { ...prev };
+                  delete next[code];
+                  return next;
+                });
+                setProductBreakdowns(prev =>
+                  prev.filter(item => item.name !== code && item.productCode !== code)
+                );
+                if (selectedProduct === code) setSelectedProduct('');
+              }}
+              className="absolute top-[-6px] right-[-6px] bg-white border border-gray-300 text-xs w-4 h-4 rounded-full text-gray-700 hover:bg-red-100 hover:text-red-600"
+              title="Remove"
+            >
+              ×
+            </button>
+
+            {isCT && (
+              <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 rounded-b" />
+            )}
+          </div>
+        );
+      })}
+  </div>
+)}
 
 
-        {/* ✅ Inserted Remove Button */}
-       <button
-  onClick={() => {
-    setSubProductInputs(prev => {
-      const next = { ...prev };
-      delete next[code];
-      return next;
-    });
-    setProductBreakdowns(prev =>
-      prev.filter(item => item.name !== code && item.productCode !== code)
-    );
-
-    if (selectedProduct === code) {
-      setSelectedProduct('');
-    }
-  }}
-  className="absolute top-[-6px] right-[-6px] bg-white border border-gray-300 text-xs w-4 h-4 rounded-full text-gray-700 hover:bg-red-100 hover:text-red-600"
-  title="Remove"
->
-  ×
-</button>
-        
-        {isCT && (
-          <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 rounded-b" />
-        )}
-      </div>
-    );
-  })}
-</div>
+     
 
 {isVariantProduct && (
   <div className="mb-4">
