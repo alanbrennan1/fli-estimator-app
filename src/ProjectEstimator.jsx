@@ -2334,7 +2334,6 @@ onClick={() => {
    
 <div className="mt-10">
   
-{/* 🧱 Jobs Totals Table */}
 <h2 className="text-lg font-bold text-gray-800 mb-1">🗂️ Jobs Total</h2>
 <div className="mt-2 overflow-x-auto">
   <table className="w-full text-xs border border-gray-300">
@@ -2344,12 +2343,12 @@ onClick={() => {
         <th className="border p-2 text-center">Concrete (tonnes)</th>
         <th className="border p-2 text-center">Steel (tonnes)</th>
         <th className="border p-2 text-center">Labour (hrs)</th>
-        <th className="border p-2 text-center">Add. items</th>
+        <th className="border p-2 text-center">Additional items</th>
         <th className="border p-2 text-center bg-orange-100 text-orange-800">Hrs/Tn</th>
       </tr>
     </thead>
     <tbody className="bg-white text-gray-800">
-      <tr className="text-sm">
+      <tr className="text-sm align-top">
         <td className="border p-2 font-semibold">Manufacturing</td>
         <td className="border p-2 text-center">
           {(breakdown?.subtotals?.concrete?.units * 2.6).toFixed(2)}
@@ -2359,7 +2358,8 @@ onClick={() => {
         </td>
         <td className="border p-2 text-center">
           {breakdown?.subtotals?.labour?.units?.toFixed(2)}
-       <td className="border p-2 text-left">
+        </td>
+        <td className="border p-2 text-left">
           <div className="text-sm font-semibold mb-1">
             {breakdown?.subtotals?.additional?.units || 0} items – €{parseFloat(breakdown?.subtotals?.additional?.value || 0).toFixed(2)}
           </div>
