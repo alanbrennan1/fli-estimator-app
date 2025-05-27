@@ -227,6 +227,10 @@ const totalProfit = transportProfit + designProfit + installationProfit;
 const totalGroupCost = transportGroupCost + designGroupCost + installationGroupCost;
 const totalGross = totalNet + totalProfit + totalGroupCost;
 
+const totalConcreteTonnes = (breakdown?.subtotals?.concrete?.units || 0) * 2.6;
+const pricePerTonne = totalConcreteTonnes > 0
+  ? manufacturingGross / totalConcreteTonnes
+  : 0;
 
 
   useEffect(() => {
@@ -2491,18 +2495,26 @@ onClick={() => {
       <tr>
         <th className="border p-2 text-left"></th>
         <th className="border p-2 text-center">Net</th>
-        <th
-  className="border p-2 text-center"
-  title="Adjust profit margin in Quote Controls above"
->
+        <th className="border p-2 text-center">
   Profit
+  <span
+    className="ml-1 cursor-help text-blue-600"
+    title="Adjust profit margin in Quote Controls above"
+  >
+    ℹ️
+  </span>
 </th>
-       <th
-  className="border p-2 text-center"
-  title="Adjust Group Cost margin in Quote Controls above"
->
+
+<th className="border p-2 text-center">
   Group Cost
+  <span
+    className="ml-1 cursor-help text-blue-600"
+    title="Adjust Group Cost margin in Quote Controls above"
+  >
+    ℹ️
+  </span>
 </th>
+
 
         <th className="border p-2 text-center">Gross</th>
         <th className="border p-2 text-center bg-orange-100 text-orange-800 text-xs uppercase tracking-wider">
@@ -2577,9 +2589,9 @@ onClick={() => {
   <td className="border p-2 text-center">€{totalProfit.toFixed(2)}</td>
   <td className="border p-2 text-center">€{totalGroupCost.toFixed(2)}</td>
   <td className="border p-2 text-center">€{totalGross.toFixed(2)}</td>
-  <th className="border p-2 text-center bg-orange-100 text-orange-800 text-xs uppercase tracking-wider">
-  Price per Tn
-</th>
+  <td className="border p-2 text-center bg-orange-100 text-orange-800 font-semibold">
+  €{pricePerTonne.toFixed(2)}
+</td>
 
 </tr>
 
