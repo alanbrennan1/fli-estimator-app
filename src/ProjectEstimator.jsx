@@ -191,6 +191,16 @@ const getUnitPrice = (itemName) => {
   const [shouldResetCT, setShouldResetCT] = useState(false);
   const [showCTPulse, setShowCTPulse] = useState(false);
 
+ const transportService = breakdown?.services?.find(s => s.label === 'Transport');
+ const transportCost = parseFloat(transportService?.value || 0);
+
+ const profitMargin = parseFloat(formData.margin || 10);
+ const groupCostRate = parseFloat(formData.groupCost || 2.5);
+
+ const transportProfit = (transportCost * profitMargin) / 100;
+ const transportGroupCost = (transportCost * groupCostRate) / 100;
+ const transportGross = transportCost + transportProfit + transportGroupCost;
+
 
   useEffect(() => {
     fetch('/standard_trough_details_clean.json')
@@ -2471,12 +2481,21 @@ onClick={() => {
       </tr>
       <tr className="text-xs">
         <td className="border p-2 font-semibold">Logistics / Transport</td>
+        <td className="border p-2 text-center">
+          €{transportCost.toFixed(2)}
+        </td>
+        <td className="border p-2 text-center">
+          €{transportProfit.toFixed(2)}
+        </td>
+        <td className="border p-2 text-center">
+          €{transportGroupCost.toFixed(2)}
+        </td>
+        <td className="border p-2 text-center">
+          €{transportGross.toFixed(2)}
+        </td>
         <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-      </tr>
+</tr>
+
       <tr className="text-xs">
         <td className="border p-2 font-semibold">Design</td>
         <td className="border p-2 text-center">€—</td>
