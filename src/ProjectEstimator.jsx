@@ -2362,6 +2362,13 @@ onClick={() => {
         <td className="border p-2 text-center">
           {breakdown?.subtotals?.additional?.units?.toFixed(0)}
         </td>
+        <td className="border p-2 text-center">
+          {(() => {
+            const tonnes = breakdown?.subtotals?.concrete?.units * 2.6;
+            const hrs = breakdown?.subtotals?.labour?.units;
+            return tonnes && hrs ? (hrs / tonnes).toFixed(2) : "0.00";
+          })()}
+        </td>      
       </tr>
     </tbody>
   </table>
