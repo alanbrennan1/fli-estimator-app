@@ -2441,7 +2441,7 @@ onClick={() => {
     <tbody className="bg-white text-gray-800">
 {breakdown.services?.map((s, i) => (
   <tr key={i} className="text-xs">
-    <td className="border p-2 font-medium">{s.label}</td>
+    <td className="border p-2 font-medium font-semibold">{s.label}</td>
     <td className="border p-2 text-center">
       {s.units} {s.unitLabel}
     </td>
