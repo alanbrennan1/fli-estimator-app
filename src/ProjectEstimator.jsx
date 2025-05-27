@@ -2384,7 +2384,8 @@ onClick={() => {
 </div>
 
 </div>
-  
+
+   <div className="mt-6">
 
 {/* 🛠 Service Costs Table */}
 <h2 className="text-lg font-bold text-gray-800 mb-1">🛠️ Services Breakdown</h2>
@@ -2430,9 +2431,6 @@ onClick={() => {
     </td>
   </tr>
 ))}
-
-
-
      
       {/* Total Row */}
       <tr className="bg-blue-100 text-blue-800 font-semibold text-sm border-t-2 border-blue-300">
@@ -2444,14 +2442,13 @@ onClick={() => {
     </tbody>
   </table>
 </div>
+</div>
 
 
+  
 {/* 💼 Commercial Summary Table */}
-<h2 className="flex items-center gap-2 text-md font-semibold text-blue-800 mb-2 uppercase tracking-wide mt-8">
-  📊 Commercial Summary
-</h2>
-
-<div className="overflow-x-auto">
+<h2 className="text-lg font-bold text-gray-800 mb-1">📊 Commercial Summary</h2>
+<div className="mt-6 overflow-x-auto">
   <table className="w-full text-xs border border-gray-300">
     <thead className="bg-blue-100 text-left text-blue-800 uppercase tracking-wider">
       <tr>
