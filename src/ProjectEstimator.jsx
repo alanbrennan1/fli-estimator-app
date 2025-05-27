@@ -2383,10 +2383,7 @@ onClick={() => {
   </table>
 </div>
 
-
-
-
-
+</div>
   
 
 {/* 🛠 Service Costs Table */}
