@@ -671,7 +671,7 @@ labourCost = labourHrs * 70.11;
 
         
 } else if (productName.startsWith('C')) {
-  const baseHeight = safe(inputs.baseHeight); // in mm
+  const baseHeight = 367; // hardcoded base height for Columns
   const columnHeight = safe(inputs.height);   // in mm
   const width = safe(inputs.width);           // in mm
   const length = safe(inputs.length);         // in mm
