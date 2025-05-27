@@ -208,6 +208,12 @@ const getUnitPrice = (itemName) => {
  const designGroupCost = ((designCost + designProfit) * groupCostRate) / 100;
  const designGross = designCost + designProfit + designGroupCost;
 
+ const installationService = breakdown?.services?.find(s => s.label === 'Installation');
+ const installationCost = parseFloat(installationService?.value || 0);
+ 
+ const installationProfit = (installationCost * profitMargin) / 100;
+ const installationGroupCost = ((installationCost + installationProfit) * groupCostRate) / 100;
+ const installationGross = installationCost + installationProfit + installationGroupCost;
 
 
   useEffect(() => {
@@ -2521,14 +2527,23 @@ onClick={() => {
          <td className="border p-2 text-center">€—</td>
      </tr>
 
-      <tr className="text-xs">
-        <td className="border p-2 font-semibold">Installation</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-        <td className="border p-2 text-center">€—</td>
-      </tr>
+     <tr className="text-xs">
+          <td className="border p-2 font-semibold">Installation</td>
+          <td className="border p-2 text-center">
+            €{installationCost.toFixed(2)}
+          </td>
+          <td className="border p-2 text-center">
+            €{installationProfit.toFixed(2)}
+          </td>
+          <td className="border p-2 text-center">
+            €{installationGroupCost.toFixed(2)}
+          </td>
+          <td className="border p-2 text-center">
+            €{installationGross.toFixed(2)}
+          </td>
+          <td className="border p-2 text-center">€—</td>
+     </tr>
+
       <tr className="text-xs font-bold bg-blue-50 text-blue-900">
         <td className="border p-2 text-right">Total Price:</td>
         <td className="border p-2 text-center">€—</td>
