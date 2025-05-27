@@ -2223,10 +2223,7 @@ onClick={() => {
         <th className="border p-2">Labour (hrs)</th>
         <th className="border p-2">Add. Items</th>
         <th className="border p-2 text-right">Total (€)</th>
-       <th
-  className="border p-2 bg-orange-100 text-center text-xs font-semibold"
-  title="Avg. Hours/Tn across all products"
->
+      <th className="border p-2 text-center text-red-700 font-semibold text-xs uppercase tracking-wider">
   Hrs/Tn
 </th>
       </tr>
@@ -2434,7 +2431,7 @@ onClick={() => {
   <table className="w-full text-xs border border-gray-300">
    <thead className="bg-blue-100 text-left text-blue-800 uppercase tracking-wider">
 
-      <tr>
+      <tr className="text-xs">
         <th className="border p-2 text-left">Service</th>
         <th className="border p-2 text-center">Qty (Unit)</th>
         <th className="border p-2 text-center">Unit Price</th>
@@ -2443,7 +2440,7 @@ onClick={() => {
     </thead>
     <tbody className="bg-white text-gray-800">
 {breakdown.services?.map((s, i) => (
-  <tr key={i} className="text-sm">
+  <tr key={i} className="text-xs">
     <td className="border p-2 font-medium">{s.label}</td>
     <td className="border p-2 text-center">
       {s.units} {s.unitLabel}
@@ -2518,7 +2515,7 @@ onClick={() => {
 
         <th className="border p-2 text-center">Gross</th>
         <th className="border p-2 text-center bg-orange-100 text-orange-800 text-xs uppercase tracking-wider">
-  Price per Tn
+  Price/Tn
 </th>
 
       </tr>
@@ -2546,7 +2543,7 @@ onClick={() => {
         <td className="border p-2 text-center">
           €{transportGross.toFixed(2)}
         </td>
-        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center"></td>
 </tr>
 
       <tr className="text-xs">
