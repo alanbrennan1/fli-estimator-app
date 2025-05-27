@@ -2446,6 +2446,67 @@ onClick={() => {
 </div>
 
 
+{/* 💼 Commercial Summary Table */}
+<h2 className="flex items-center gap-2 text-md font-semibold text-blue-800 mb-2 uppercase tracking-wide mt-8">
+  📊 Commercial Summary
+</h2>
+
+<div className="overflow-x-auto">
+  <table className="w-full text-xs border border-gray-300">
+    <thead className="bg-blue-100 text-left text-blue-800 uppercase tracking-wider">
+      <tr>
+        <th className="border p-2 text-left"></th>
+        <th className="border p-2 text-center">Net</th>
+        <th className="border p-2 text-center">Profit</th>
+        <th className="border p-2 text-center">Group Cost</th>
+        <th className="border p-2 text-center">Gross</th>
+        <th className="border p-2 text-center">Price per Tn</th>
+      </tr>
+    </thead>
+    <tbody className="bg-white text-gray-800">
+      <tr className="text-xs">
+        <td className="border p-2 font-semibold">Manufacturing</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+      </tr>
+      <tr className="text-xs">
+        <td className="border p-2 font-semibold">Logistics / Transport</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+      </tr>
+      <tr className="text-xs">
+        <td className="border p-2 font-semibold">Design</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+      </tr>
+      <tr className="text-xs">
+        <td className="border p-2 font-semibold">Installation</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+      </tr>
+      <tr className="text-xs font-bold bg-blue-50 text-blue-900">
+        <td className="border p-2 text-right">Total Price:</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+        <td className="border p-2 text-center">€—</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 
 
