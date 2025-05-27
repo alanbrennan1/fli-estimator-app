@@ -2335,9 +2335,9 @@ onClick={() => {
 {/* 🧱 Jobs Totals Table */}
 <div className="mt-6 overflow-x-auto">
   <table className="w-full text-sm border border-gray-300">
-    <thead className="bg-gray-100 text-left text-gray-800 uppercase tracking-wider">
+    <thead className="bg-blue-100 text-left text-blue-800 uppercase tracking-wider">
       <tr>
-        <th className="border p-2"></th>
+        <th className="border p-2 text-left"></th>
         <th className="border p-2 text-center">Concrete (tonnes)</th>
         <th className="border p-2 text-center">Steel (tonnes)</th>
         <th className="border p-2 text-center">Labour (hrs)</th>
@@ -2346,7 +2346,7 @@ onClick={() => {
     </thead>
     <tbody className="bg-white text-gray-800">
       <tr className="text-sm">
-        <td className="border p-2 font-bold">Manufacturing</td>
+        <td className="border p-2 font-semibold">Manufacturing</td>
         <td className="border p-2 text-center">
           {(breakdown?.subtotals?.concrete?.units * 2.6).toFixed(2)}
         </td>
@@ -2363,8 +2363,6 @@ onClick={() => {
     </tbody>
   </table>
 </div>
-
-
 
 
 
