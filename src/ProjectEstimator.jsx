@@ -741,14 +741,9 @@ labourCost = labourHrs * 70.11;
         
 return; // ✅ prevents falling into fallback logic
       }
+       
        // Cover Slab logic
   else if (/^CS(-\d+)?$/.test(productName)) {
-  const slabLength = safe(inputs.length);        // mm
-  const slabWidth = safe(inputs.width);          // mm
-  const height = safe(inputs.height);            // mm
-  const openingLength = safe(inputs.openingLength || 0);  // mm
-  const openingWidth = safe(inputs.openingWidth || 0);    // mm
-  const quantity = safe(inputs.quantity || 1);
 
 console.log("🧪 CS INPUTS DEBUG", {
   productName,
@@ -763,6 +758,13 @@ console.log("🧪 CS INPUTS DEBUG", {
 });
 
    
+  const slabLength = safe(inputs.length);        // mm
+  const slabWidth = safe(inputs.width);          // mm
+  const height = safe(inputs.height);            // mm
+  const openingLength = safe(inputs.openingLength || 0);  // mm
+  const openingWidth = safe(inputs.openingWidth || 0);    // mm
+  const quantity = safe(inputs.quantity || 1);
+ 
   // Calculate slab and opening volumes (mm³)
   const outerVolMm3 = slabLength * slabWidth * height;
   const safeOpeningLength = Math.min(openingLength, slabLength);
