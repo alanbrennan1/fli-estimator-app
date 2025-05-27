@@ -1381,10 +1381,10 @@ setSelectedProduct('CT');  // Auto-return to CT tab
       />
     </div>
   </div>
+ </div>
 )}
 
      
-
 
   {topLevelProduct === 'Troughs' && selectedProduct?.startsWith('CT') && (
     <div className="border-2 border-gray-300 shadow-md rounded-lg p-4 bg-white">
