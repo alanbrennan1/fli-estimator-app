@@ -1327,8 +1327,8 @@ onClick={() => {
   <input
     type="number"
     min="1"
-    className="px-4 py-1 rounded-full border border-blue-300 text-sm bg-blue-50 text-blue-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 w-24 text-center"
-    placeholder="Enter quantity"
+    className="appearance-none text-center w-20 px-3 py-1 rounded-full bg-white/80 backdrop-blur-md border border-blue-200 text-blue-800 font-semibold shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-blue-300 transition-all"
+    placeholder="Enter Qty"
     value={subProductInputs[selectedProduct]?.quantity || ''}
     onChange={(e) =>
       handleSubInputChange(selectedProduct, 'quantity', parseInt(e.target.value))
