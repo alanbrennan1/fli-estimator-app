@@ -1254,7 +1254,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
       🔧 Configure
     </button>
   )}
-
+</div>
       
               </div>
             </div>
