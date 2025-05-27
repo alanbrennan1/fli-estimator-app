@@ -1322,6 +1322,7 @@ onClick={() => {
     Configure: {selectedProduct}
   </h3>
 
+ <label className="text-xs font-medium text-blue-700 mb-1">Qty  </label>
 <input
   type="number"
   min="1"
