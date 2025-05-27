@@ -223,34 +223,42 @@ useEffect(() => {
 }, [topLevelProduct]);
 
 
-  useEffect(() => {
-  const chamberKey = Object.keys(subProductInputs).find(k => k.startsWith('CH'));
-  const coverSlabKey = Object.keys(subProductInputs).find(k => k.startsWith('CS'));
+useEffect(() => {
+  const chamberKeys = Object.keys(subProductInputs).filter(k => k.startsWith('CH-'));
+  const coverSlabKeys = Object.keys(subProductInputs).filter(k => k.startsWith('CS-'));
 
-  if (chamberKey && coverSlabKey) {
-    const chamber = subProductInputs[chamberKey];
-    const coverSlab = subProductInputs[coverSlabKey];
+  chamberKeys.forEach((chKey) => {
+    const index = chKey.split('-')[1]; // e.g. '1'
+    const csKey = `CS-${index}`;
 
-    const chamberLength = parseFloat(chamber.length || 0);
-    const chamberWidth = parseFloat(chamber.width || 0);
-    const wallThickness = parseFloat(chamber.wallThickness || 0);
-    const baseThickness = parseFloat(chamber.baseThickness || 0);
+    if (coverSlabKeys.includes(csKey)) {
+      const chamber = subProductInputs[chKey];
+      const coverSlab = subProductInputs[csKey];
 
-    const calculatedLength = chamberLength + 2 * wallThickness;
-    const calculatedWidth = chamberWidth + 2 * wallThickness;
+      const chamberLength = parseFloat(chamber.length || 0);
+      const chamberWidth = parseFloat(chamber.width || 0);
+      const wallThickness = parseFloat(chamber.wallThickness || 0);
+      const baseThickness = parseFloat(chamber.baseThickness || 0);
 
-    setSubProductInputs(prev => ({
-      ...prev,
-      [coverSlabKey]: {
-        ...prev[coverSlabKey],
-        length: calculatedLength.toFixed(0),
-        width: calculatedWidth.toFixed(0),
-        wallThickness: wallThickness.toFixed(0),
-        baseThickness: baseThickness.toFixed(0)
-      }
-    }));
-  }
+      const calculatedLength = chamberLength + 2 * wallThickness;
+      const calculatedWidth = chamberWidth + 2 * wallThickness;
+
+      setSubProductInputs(prev => ({
+        ...prev,
+        [csKey]: {
+          ...prev[csKey],
+          length: calculatedLength.toFixed(0),
+          width: calculatedWidth.toFixed(0),
+          wallThickness: wallThickness.toFixed(0),
+          baseThickness: baseThickness.toFixed(0),
+        }
+      }));
+    }
+  });
 }, [subProductInputs]);
+
+
+ 
 
 
   
