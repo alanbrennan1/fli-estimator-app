@@ -1322,19 +1322,20 @@ onClick={() => {
     Configure: {selectedProduct}
   </h3>
 
- <div className="mb-4">
-  <label className="text-xs font-medium text-gray-700">Qty</label>
+<div className="flex flex-col items-start text-xs font-medium text-blue-800">
+  <label className="">Qty</label>
   <input
     type="number"
     min="1"
-    className="text-center w-[72px] h-[30px] px-2 py-1 rounded-full bg-blue-100 text-blue-800 text-[11px] font-semibold border border-blue-300 shadow-sm placeholder:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
-    placeholder="Enter Qty"
+    className="mt-1 text-center w-[72px] h-[30px] px-2 py-1 rounded-full bg-blue-100 text-blue-800 text-[11px] font-semibold border border-blue-300 shadow-sm placeholder:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
+    placeholder="Qty"
     value={subProductInputs[selectedProduct]?.quantity || ''}
     onChange={(e) =>
       handleSubInputChange(selectedProduct, 'quantity', parseInt(e.target.value))
     }
   />
 </div>
+
 
 
   {topLevelProduct === 'Troughs' && selectedProduct?.startsWith('CT') && (
