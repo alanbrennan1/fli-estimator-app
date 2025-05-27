@@ -794,10 +794,7 @@ return; // ✅ prevents falling into fallback logic
   return; // ✅ Prevent fallback calculation from executing
 }
         
-    else {
-  console.warn("🚨 Fallback logic hit for:", productName);
-  // ...
-        }
+
   
       else {
         concreteVolume = concreteVolume * quantity;
