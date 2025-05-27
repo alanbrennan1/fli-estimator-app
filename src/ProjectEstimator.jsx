@@ -512,6 +512,9 @@ setPendingImport(null);
 
   else {
     Object.entries(subProductInputs).forEach(([productName, inputs]) => {
+  console.log("🧪 RAW PRODUCT NAME:", JSON.stringify(productName));
+
+     
       const quantity = safe(inputs.quantity || 1);
       const length = safe(inputs.length);
       const width = safe(inputs.width);
@@ -814,11 +817,9 @@ console.log("🧪 CS INPUTS DEBUG", {
   return;
 }
 
-        
-
-  
+          
       else {
-       console.warn("🚨 Fallback logic hit for:", productName);
+       console.warn("🚨 UNMATCHED PRODUCT TYPE:", productName);
         concreteVolume = concreteVolume * quantity;
       }
 
