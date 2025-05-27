@@ -1201,8 +1201,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
   <option value="Slot Drain">Slot Drain</option>
 </select>
 
-       
-      
+         
       </div>
 
         <div className="w-full lg:w-3/4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
@@ -1254,7 +1253,6 @@ setSelectedProduct('CT');  // Auto-return to CT tab
       🔧 Configure
     </button>
   )}
-</div>
       
               </div>
             </div>
@@ -1273,7 +1271,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
     <div className="mt-6">
 
 
-{/* ✅ Tabs for non-CT variant products */}
+{/* Tabs for non-CT variant products */}
 {isVariantProduct && (
   <div className="flex gap-2 border-b pb-2 mb-4 flex-wrap">
     {Object.keys(subProductInputs)
@@ -1294,7 +1292,8 @@ setSelectedProduct('CT');  // Auto-return to CT tab
   </div>
 )}
 
-{/* ✅ Preserve CT-specific visual tabs */}
+
+{/* CT-specific visual tabs */}
 {topLevelProduct === 'Troughs' && (
   <div className="flex gap-2 border-b pb-2 mb-4 flex-wrap">
     {selectedSubProducts
@@ -1315,7 +1314,6 @@ setSelectedProduct('CT');  // Auto-return to CT tab
               </span>
             </button>
 
-            {/* Remove button for CT variants */}
             <button
               onClick={() => {
                 setSubProductInputs(prev => {
@@ -1344,15 +1342,12 @@ setSelectedProduct('CT');  // Auto-return to CT tab
 )}
 
 
-     
-
 {isVariantProduct && (
   <div className="mb-4">
     <div className="flex justify-between items-center">
       <h3 className="text-md font-semibold text-blue-700">
         Configure: {selectedProduct}
       </h3>
-
       <button
         onClick={() => {
           const existing = Object.keys(subProductInputs).filter(k =>
@@ -1372,7 +1367,6 @@ setSelectedProduct('CT');  // Auto-return to CT tab
       </button>
     </div>
 
-    {/* Qty Field */}
     <div className="mt-2 flex items-center gap-2">
       <label className="text-xs font-medium text-gray-700">Qty:</label>
       <input
@@ -1389,7 +1383,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
   </div>
 )}
 
-
+     
 
 
   {topLevelProduct === 'Troughs' && selectedProduct?.startsWith('CT') && (
