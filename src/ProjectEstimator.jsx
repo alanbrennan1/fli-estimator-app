@@ -2359,18 +2359,24 @@ onClick={() => {
         <td className="border p-2 text-center">
           {breakdown?.subtotals?.labour?.units?.toFixed(2)}
         </td>
-        <td className="border p-2 text-left">
-          <div className="text-sm font-semibold mb-1">
-            {breakdown?.subtotals?.additional?.units || 0} items – €{parseFloat(breakdown?.subtotals?.additional?.value || 0).toFixed(2)}
+        <td className="border p-2 text-left align-top">
+  <div className="text-sm font-semibold mb-1">
+    {breakdown?.subtotals?.additional?.units || 0} items – €
+    {parseFloat(breakdown?.subtotals?.additional?.value || 0).toFixed(2)}
+  </div>
+  {Array.isArray(breakdown?.subtotals?.additional?.items) &&
+    breakdown.subtotals.additional.items.length > 0 && (
+      <div className="text-[10px] space-y-1 text-gray-600">
+        {breakdown.subtotals.additional.items.map((item, idx) => (
+          <div key={idx}>
+            {item.quantity} × {item.label}: €
+            {parseFloat(item.total || 0).toFixed(2)}
           </div>
-          <div className="text-[10px] space-y-1 text-gray-600">
-            {breakdown?.subtotals?.additional?.items?.map((item, idx) => (
-              <div key={idx}>
-                {item.quantity} × {item.label}: €{parseFloat(item.total || 0).toFixed(2)}
-              </div>
-            ))}
-          </div>
-        </td>
+        ))}
+      </div>
+  )}
+</td>
+
         <td className="border p-2 text-center bg-orange-50 text-orange-800 font-semibold">
           {(() => {
             const tonnes = breakdown?.subtotals?.concrete?.units * 2.6;
