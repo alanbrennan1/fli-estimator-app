@@ -191,6 +191,10 @@ const getUnitPrice = (itemName) => {
   const [shouldResetCT, setShouldResetCT] = useState(false);
   const [showCTPulse, setShowCTPulse] = useState(false);
 
+ const isVariantProduct = selectedProduct && !selectedProduct.startsWith('CT');
+ const baseProductCode = selectedProduct?.split('-')[0]; // e.g., "CH", "W", etc.
+
+
 
   useEffect(() => {
     fetch('/standard_trough_details_clean.json')
