@@ -680,73 +680,9 @@ labourCost = labourHrs * 70.11;
    return;
               
 
-        
-} else if (productName.startsWith('C')) {
-  const baseHeight = 367; // hardcoded base height for Columns
-  const columnHeight = safe(inputs.height);   // in mm
-  const width = safe(inputs.width);           // in mm
-  const length = safe(inputs.length);         // in mm
-  const quantity = safe(inputs.quantity || 1);
-  const paddingM3 = 0.14; // fixed additive in m³
-
-  const effectiveHeight = columnHeight - baseHeight; // mm
-  const volumeMm3 = effectiveHeight * width * length;
-  
- const volumePerUnitM3 = (volumeMm3 / 1_000_000_000) + paddingM3;
-concreteVolumeM3 = volumePerUnitM3 * quantity;
-concreteCost = concreteVolumeM3 * 137.21;
-        
-  // Optional: for consistency in mm³
-  concreteVolume = (concreteVolumeM3 * 1_000_000_000) * quantity;
-
-   // Steel
-let steelDensity = safe(inputs.steelDensity);
-if (!steelDensity || steelDensity <= 0) steelDensity = 180;
-const steelRate = 0.86;
-steelKg = concreteVolumeM3 * steelDensity;
-steelCost = steelKg * steelRate;
-
-// Labour
-const labourPerUnit = safe(inputs.labourHours);
-labourHrs = labourPerUnit * quantity;
-labourCost = labourHrs * 70.11;
-
-  // Accumulate totals
-  concreteSubtotal += concreteCost;
-  concreteUnitTotal += concreteVolumeM3;
-  steelSubtotal += steelCost;
-  steelUnitTotal += steelKg;
-  labourSubtotal += labourCost;
-  labourUnitTotal += labourHrs;
-
-  // Final breakdown push
-  const baseCode = productName.split('-')[0];
-  const productCode = buildProductCode(baseCode, { ...inputs });
-
-  sourceBreakdowns.push({
-    name: productName,
-    productCode,
-    quantity,
-    concrete: {
-      volume: concreteVolumeM3.toFixed(2),
-      cost: parseFloat(concreteCost.toFixed(2))
-    },
-    steel: {
-      kg: steelKg.toFixed(2),
-      cost: parseFloat(steelCost.toFixed(2))
-    },
-    labour: {
-      hours: labourHrs.toFixed(2),
-      cost: parseFloat(labourCost.toFixed(2))
-    },
-    uniqueItems: inputs.uniqueItems || []
-  });
-        
-return; // ✅ prevents falling into fallback logic
-      }
-       
+          
        // Cover Slab logic
-  else if (/^CS(-\d+)?$/.test(productName)) {
+  else if (/^CS(-\d+)?$/.test(productName.trim())) {
 
 console.log("🧪 CS INPUTS DEBUG", {
   productName,
@@ -817,6 +753,69 @@ console.log("🧪 CS INPUTS DEBUG", {
   return;
 }
 
+       } else if (productName.startsWith('C')) {
+  const baseHeight = 367; // hardcoded base height for Columns
+  const columnHeight = safe(inputs.height);   // in mm
+  const width = safe(inputs.width);           // in mm
+  const length = safe(inputs.length);         // in mm
+  const quantity = safe(inputs.quantity || 1);
+  const paddingM3 = 0.14; // fixed additive in m³
+
+  const effectiveHeight = columnHeight - baseHeight; // mm
+  const volumeMm3 = effectiveHeight * width * length;
+  
+ const volumePerUnitM3 = (volumeMm3 / 1_000_000_000) + paddingM3;
+concreteVolumeM3 = volumePerUnitM3 * quantity;
+concreteCost = concreteVolumeM3 * 137.21;
+        
+  // Optional: for consistency in mm³
+  concreteVolume = (concreteVolumeM3 * 1_000_000_000) * quantity;
+
+   // Steel
+let steelDensity = safe(inputs.steelDensity);
+if (!steelDensity || steelDensity <= 0) steelDensity = 180;
+const steelRate = 0.86;
+steelKg = concreteVolumeM3 * steelDensity;
+steelCost = steelKg * steelRate;
+
+// Labour
+const labourPerUnit = safe(inputs.labourHours);
+labourHrs = labourPerUnit * quantity;
+labourCost = labourHrs * 70.11;
+
+  // Accumulate totals
+  concreteSubtotal += concreteCost;
+  concreteUnitTotal += concreteVolumeM3;
+  steelSubtotal += steelCost;
+  steelUnitTotal += steelKg;
+  labourSubtotal += labourCost;
+  labourUnitTotal += labourHrs;
+
+  // Final breakdown push
+  const baseCode = productName.split('-')[0];
+  const productCode = buildProductCode(baseCode, { ...inputs });
+
+  sourceBreakdowns.push({
+    name: productName,
+    productCode,
+    quantity,
+    concrete: {
+      volume: concreteVolumeM3.toFixed(2),
+      cost: parseFloat(concreteCost.toFixed(2))
+    },
+    steel: {
+      kg: steelKg.toFixed(2),
+      cost: parseFloat(steelCost.toFixed(2))
+    },
+    labour: {
+      hours: labourHrs.toFixed(2),
+      cost: parseFloat(labourCost.toFixed(2))
+    },
+    uniqueItems: inputs.uniqueItems || []
+  });
+        
+return; // ✅ prevents falling into fallback logic
+      }
           
       else {
        console.warn("🚨 UNMATCHED PRODUCT TYPE:", productName);
