@@ -2505,7 +2505,10 @@ onClick={() => {
 </th>
 
         <th className="border p-2 text-center">Gross</th>
-        <th className="border p-2 text-center">Price per Tn</th>
+        <th className="border p-2 text-center bg-orange-100 text-orange-800 text-xs uppercase tracking-wider">
+  Price per Tn
+</th>
+
       </tr>
     </thead>
     <tbody className="bg-white text-gray-800">
@@ -2574,7 +2577,10 @@ onClick={() => {
   <td className="border p-2 text-center">€{totalProfit.toFixed(2)}</td>
   <td className="border p-2 text-center">€{totalGroupCost.toFixed(2)}</td>
   <td className="border p-2 text-center">€{totalGross.toFixed(2)}</td>
-  <td className="border p-2 text-center"></td>
+  <th className="border p-2 text-center bg-orange-100 text-orange-800 text-xs uppercase tracking-wider">
+  Price per Tn
+</th>
+
 </tr>
 
     </tbody>
