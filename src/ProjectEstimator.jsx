@@ -755,19 +755,43 @@ return; // ✅ prevents falling into fallback logic
   const netVolM3 = netVolMm3 / 1_000_000_000;
   concreteVolume = netVolM3 * quantity;
 
-  console.log("🔎 CS Volume Debug", {
-    productName,
-    slabLength,
-    slabWidth,
-    height,
-    openingLength,
-    openingWidth,
-    outerVolMm3,
-    openingVolMm3,
-    netVolMm3,
-    netVolM3,
-    concreteVolume
+  const concreteCost = concreteVolume * 137.21;
+  const steelKg = concreteVolume * 120;
+  const steelCost = steelKg * 0.86;
+
+  const labourHrs = safe(inputs.labourHours);
+  const labourCost = labourHrs * 70.11;
+
+  concreteSubtotal += concreteCost;
+  concreteUnitTotal += concreteVolume;
+  steelSubtotal += steelCost;
+  steelUnitTotal += steelKg;
+  labourSubtotal += labourCost;
+  labourUnitTotal += labourHrs;
+
+  const baseCode = productName.split('-')[0];
+  const productCode = buildProductCode(baseCode, { ...inputs });
+
+  sourceBreakdowns.push({
+    name: productName,
+    productCode,
+    quantity,
+    concrete: {
+      volume: concreteVolume.toFixed(2),
+      cost: parseFloat(concreteCost.toFixed(2))
+    },
+    steel: {
+      kg: steelKg.toFixed(2),
+      cost: parseFloat(steelCost.toFixed(2))
+    },
+    labour: {
+      hours: labourHrs.toFixed(2),
+      cost: parseFloat(labourCost.toFixed(2))
+    },
+    uniqueItems: inputs.uniqueItems || []
   });
+
+  return; // ✅ Prevent fallback calculation from executing
 }
     
      
