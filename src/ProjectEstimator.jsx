@@ -1311,8 +1311,6 @@ setSelectedProduct('CT');  // Auto-return to CT tab
 >
   ×
 </button>
-
-
         
         {isCT && (
           <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 rounded-b" />
@@ -1323,46 +1321,49 @@ setSelectedProduct('CT');  // Auto-return to CT tab
 </div>
 
 {isVariantProduct && (
-  <div className="flex justify-between items-center border-b pb-2 mb-4">
-    {/* Tabs */}
-    <div className="flex gap-2 flex-wrap">
-      {Object.keys(subProductInputs)
-        .filter(key => key.startsWith(`${baseProductCode}-`))
-        .map(key => (
-          <button
-            key={key}
-            onClick={() => setSelectedProduct(key)}
-            className={`px-4 py-1 rounded text-sm font-medium transition border ${
-              selectedProduct === key
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-100 text-gray-700'
-            }`}
-          >
-            {key}
-          </button>
-        ))}
+  <div className="mb-4">
+    <div className="flex justify-between items-center">
+      <h3 className="text-md font-semibold text-blue-700">
+        Configure: {selectedProduct}
+      </h3>
+
+      <button
+        onClick={() => {
+          const existing = Object.keys(subProductInputs).filter(k =>
+            k.startsWith(`${baseProductCode}-`)
+          );
+          const nextIdx = existing.length + 1;
+          const nextKey = `${baseProductCode}-${nextIdx}`;
+          setSubProductInputs(prev => ({
+            ...prev,
+            [nextKey]: { quantity: 1 }
+          }));
+          setSelectedProduct(nextKey);
+        }}
+        className="text-xs px-3 py-1 bg-green-100 text-green-800 rounded hover:bg-green-200"
+      >
+        ➕ Add Another Variant
+      </button>
     </div>
 
-    {/* ➕ Add Variant */}
-    <button
-      onClick={() => {
-        const existing = Object.keys(subProductInputs).filter(k =>
-          k.startsWith(`${baseProductCode}-`)
-        );
-        const nextIdx = existing.length + 1;
-        const nextKey = `${baseProductCode}-${nextIdx}`;
-        setSubProductInputs(prev => ({
-          ...prev,
-          [nextKey]: { quantity: 1 }
-        }));
-        setSelectedProduct(nextKey);
-      }}
-      className="text-xs px-3 py-1 bg-green-100 text-green-800 rounded hover:bg-green-200 whitespace-nowrap"
-    >
-      ➕ Add Another Variant
-    </button>
+    {/* Qty Field */}
+    <div className="mt-2 flex items-center gap-2">
+      <label className="text-xs font-medium text-gray-700">Qty:</label>
+      <input
+        type="number"
+        min="1"
+        value={subProductInputs[selectedProduct]?.quantity || ''}
+        onChange={(e) =>
+          handleSubInputChange(selectedProduct, 'quantity', parseInt(e.target.value))
+        }
+        className="w-20 border p-1 rounded text-xs"
+        placeholder="e.g. 2"
+      />
+    </div>
   </div>
 )}
+
+
 
 
   {topLevelProduct === 'Troughs' && selectedProduct?.startsWith('CT') && (
