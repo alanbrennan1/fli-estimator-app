@@ -221,11 +221,6 @@ const totalProfit = transportProfit + designProfit + installationProfit;
 const totalGroupCost = transportGroupCost + designGroupCost + installationGroupCost;
 const totalGross = totalNet + totalProfit + totalGroupCost;
 
-const totalConcreteTonnes = (breakdown?.subtotals?.concrete?.units || 0) * 2.6;
-const pricePerTonne = totalConcreteTonnes > 0
-  ? manufacturingGross / totalConcreteTonnes
-  : 0;
-
  // 🧱 BoQ Subtotals
 const concreteCost = breakdown?.subtotals?.concrete?.cost || 0;
 const steelCost = breakdown?.subtotals?.steel?.cost || 0;
@@ -242,7 +237,6 @@ const wasteAmount = (materialCost * wasteMargin) / 100;
 // 💰 Manufacturing Net = all costs + waste
 const manufacturingNet = concreteCost + steelCost + labourCost + additionalItemsCost + wasteAmount;
 
-
 // 💰 Profit = manufacturingNet × margin%
 const manufacturingProfit = (manufacturingNet * profitMargin) / 100;
 
@@ -251,6 +245,12 @@ const manufacturingGroupCost = ((manufacturingNet + manufacturingProfit) * group
 
 // 🧾 Gross = Net + Profit + Group Cost
 const manufacturingGross = manufacturingNet + manufacturingProfit + manufacturingGroupCost;
+
+
+const totalConcreteTonnes = (breakdown?.subtotals?.concrete?.units || 0) * 2.6;
+const pricePerTonne = totalConcreteTonnes > 0
+  ? manufacturingGross / totalConcreteTonnes
+  : 0;
 
  
 
