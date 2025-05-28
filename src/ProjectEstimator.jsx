@@ -232,6 +232,36 @@ const pricePerTonne = totalConcreteTonnes > 0
   ? manufacturingGross / totalConcreteTonnes
   : 0;
 
+ // 🧱 BoQ Subtotals
+const concreteCost = breakdown?.subtotals?.concrete?.cost || 0;
+const steelCost = breakdown?.subtotals?.steel?.cost || 0;
+const labourCost = breakdown?.subtotals?.labour?.cost || 0;
+const additionalItemsCost = breakdown?.subtotals?.additional?.cost || 0;
+
+// 🧮 Waste % from form (default to 0)
+const wasteMargin = parseFloat(formData?.wasteMargin || 0);
+
+// 🧠 Apply waste only to concrete + steel + additional items
+const materialCost = concreteCost + steelCost + additionalItemsCost;
+const wasteAmount = (materialCost * wasteMargin) / 100;
+
+// 💰 Manufacturing Net = all costs + waste
+const manufacturingNet = concreteCost + steelCost + labourCost + additionalItemsCost + wasteAmount;
+
+ // 🟢 From sliders
+const profitMargin = parseFloat(formData?.margin || 10);
+const groupCostRate = parseFloat(formData?.groupCost || 2.5);
+
+// 💰 Profit = manufacturingNet × margin%
+const manufacturingProfit = (manufacturingNet * profitMargin) / 100;
+
+// 💸 Group Cost = (Net + Profit) × groupCost%
+const manufacturingGroupCost = ((manufacturingNet + manufacturingProfit) * groupCostRate) / 100;
+
+// 🧾 Gross = Net + Profit + Group Cost
+const manufacturingGross = manufacturingNet + manufacturingProfit + manufacturingGroupCost;
+
+ 
 
   useEffect(() => {
     fetch('/standard_trough_details_clean.json')
@@ -2521,14 +2551,25 @@ onClick={() => {
       </tr>
     </thead>
     <tbody className="bg-white text-gray-800">
-      <tr className="text-xs">
-        <td className="border p-2 font-semibold">Manufacturing</td>
-        <td className="border p-2 text-center"></td>
-        <td className="border p-2 text-center"></td>
-        <td className="border p-2 text-center"></td>
-        <td className="border p-2 text-center"></td>
-        <td className="border p-2 text-center"></td>
-      </tr>
+<tr className="text-xs">
+  <td className="border p-2 font-semibold">Manufacturing</td>
+  <td className="border p-2 text-center">
+    €{manufacturingNet.toFixed(2)}
+  </td>
+  <td className="border p-2 text-center">
+    €{manufacturingProfit.toFixed(2)}
+  </td>
+  <td className="border p-2 text-center">
+    €{manufacturingGroupCost.toFixed(2)}
+  </td>
+  <td className="border p-2 text-center">
+    €{manufacturingGross.toFixed(2)}
+  </td>
+  <td className="border p-2 text-center bg-orange-100 text-orange-800 font-semibold">
+    {pricePerTonne > 0 ? `€${pricePerTonne.toFixed(2)}` : ''}
+  </td>
+</tr>
+     
       <tr className="text-xs">
         <td className="border p-2 font-semibold">Logistics / Transport</td>
         <td className="border p-2 text-center">
