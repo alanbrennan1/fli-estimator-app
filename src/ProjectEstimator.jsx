@@ -215,12 +215,6 @@ const getUnitPrice = (itemName) => {
  const installationGroupCost = ((installationCost + installationProfit) * groupCostRate) / 100;
  const installationGross = installationCost + installationProfit + installationGroupCost;
 
- // Set manufacturing figures to 0 for now
-const manufacturingCost = 0;
-const manufacturingProfit = 0;
-const manufacturingGroupCost = 0;
-const manufacturingGross = 0;
-
 // Sum only Transport, Design, Installation for now
 const totalNet = transportCost + designCost + installationCost;
 const totalProfit = transportProfit + designProfit + installationProfit;
@@ -248,9 +242,6 @@ const wasteAmount = (materialCost * wasteMargin) / 100;
 // 💰 Manufacturing Net = all costs + waste
 const manufacturingNet = concreteCost + steelCost + labourCost + additionalItemsCost + wasteAmount;
 
- // 🟢 From sliders
-const profitMargin = parseFloat(formData?.margin || 10);
-const groupCostRate = parseFloat(formData?.groupCost || 2.5);
 
 // 💰 Profit = manufacturingNet × margin%
 const manufacturingProfit = (manufacturingNet * profitMargin) / 100;
