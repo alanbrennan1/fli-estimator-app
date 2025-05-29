@@ -1100,7 +1100,7 @@ setSelectedProduct('CT');  // Auto-return to CT tab
     name="opportunityNumber"
     value={formData.opportunityNumber || ""}
     onChange={handleChange}
-    className="border p-2 rounded text-xs"
+    className="border p-2 rounded text-xs bg-green-100"
     placeholder="Enter Opportunity Number"
   />
 </div>
