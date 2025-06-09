@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';  
 import './index.css';
+import { saveQuoteToSupabase } from './saveQuoteToSupabase'; // 👈 INSERT HERE
 
 const productOptions = { 
  Troughs: [
