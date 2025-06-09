@@ -1066,6 +1066,7 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
     created_at: new Date().toISOString()
   };
 
+  console.log("🧾 Quote payload about to save:", quotePayload);
   const result = await saveQuoteToSupabase(quotePayload);
 
   if (result.success) {
