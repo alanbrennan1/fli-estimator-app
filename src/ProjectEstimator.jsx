@@ -1050,7 +1050,7 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
     price_per_tonne: formData.pricePerTonne || 0,
     total_price: estimate || 0,
     total_labour_hours: breakdown?.subtotals?.labour?.units?.toFixed(2) || '0.00',
-    hrs_per_tonne_product: someValue !== '—' ? parseFloat(someValue).toFixed(2) : null,
+   
     hrs_per_tonne_job: (() => {
       const t = breakdown?.subtotals?.concrete?.units * 2.6;
       const h = breakdown?.subtotals?.labour?.units;
