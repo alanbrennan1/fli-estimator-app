@@ -1042,33 +1042,38 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
 
  // 👇 Save to Supabase
  const handleSaveToSupabase = async () => {
-  const quotePayload = {
-    project_name: formData.projectName || 'Unnamed Project',
-    product_type: productBreakdowns.map(p => p.productCode).join(', '),
-    concrete_tonnage: (breakdown?.subtotals?.concrete?.units * 2.6).toFixed(2),
-    steel_tonnage: (breakdown?.subtotals?.steel?.units / 1000).toFixed(2),
-    price_per_tonne: formData.pricePerTonne || 0,
-    total_price: estimate || 0,
-    total_labour_hours: breakdown?.subtotals?.labour?.units?.toFixed(2) || '0.00',
-   
-    hrs_per_tonne_job: (() => {
-      const t = breakdown?.subtotals?.concrete?.units * 2.6;
-      const h = breakdown?.subtotals?.labour?.units;
-      return t && h ? (h / t).toFixed(2) : "0.00";
-    })(),
-    client: 'test',
-    profit_margin: formData.margin || 0,
-    created_at: new Date().toISOString()
-  };
+  try {
+    const concreteUnits = breakdown?.subtotals?.concrete?.units || 0;
+    const steelUnits = breakdown?.subtotals?.steel?.units || 0;
+    const labourHours = breakdown?.subtotals?.labour?.units || 0;
 
-  console.log("🧾 Quote payload about to save:", quotePayload);
-  const result = await saveQuoteToSupabase(quotePayload);
+    const quotePayload = {
+      project_name: formData.projectName?.trim() || 'Unnamed Project',
+      product_type: productBreakdowns.map(p => p.productCode).join(', '),
+      concrete_tonnage: (concreteUnits * 2.6).toFixed(2),
+      steel_tonnage: (steelUnits / 1000).toFixed(2),
+      price_per_tonne: formData.pricePerTonne || 0,
+      total_price: estimate || 0,
+      total_labour_hours: labourHours.toFixed(2),
+      hrs_per_tonne_job: concreteUnits > 0 ? (labourHours / (concreteUnits * 2.6)).toFixed(2) : '0.00',
+      client: 'test',
+      profit_margin: formData.margin || 0,
+      created_at: new Date().toISOString()
+    };
 
-  if (result.success) {
-    alert('✅ Quote saved to Supabase!');
-  } else {
-    alert('❌ Failed to save quote.');
-    console.error(result.error);
+    console.log('🟠 Quote payload about to save:', quotePayload);
+
+    const result = await saveQuoteToSupabase(quotePayload);
+
+    if (result.success) {
+      alert('✅ Quote saved!');
+    } else {
+      alert('❌ Failed to save quote.');
+      console.error(result.error);
+    }
+  } catch (err) {
+    alert('❌ Unexpected error saving quote.');
+    console.error('❌ Save error:', err);
   }
 };
 
