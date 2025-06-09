@@ -1049,7 +1049,6 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
     steel_tonnage: (breakdown?.subtotals?.steel?.units / 1000).toFixed(2),
     price_per_tonne: formData.pricePerTonne || 0,
     total_price: estimate || 0,
-    labour_hours_per_unit: parseFloat(labourHoursMap[product.productCode]) || 0,
     total_labour_hours: breakdown?.subtotals?.labour?.units?.toFixed(2) || '0.00',
     hrs_per_tonne_product: someValue !== '—' ? parseFloat(someValue).toFixed(2) : null,
     hrs_per_tonne_job: (() => {
