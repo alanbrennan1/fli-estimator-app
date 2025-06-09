@@ -548,7 +548,7 @@ const getUnitPriceFromAdditionalData = (label) => {
 };
   
 
-const handleEstimate = () => {
+const handleEstimate = async () => {
   if (!additionalItemsData || Object.keys(additionalItemsData).length === 0) {
     console.error('Additional items data not loaded.');
     return;
@@ -1037,8 +1037,43 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
 
   setPendingImport(null);
   
-};
+}; // 👈 This is the closing of handleEstimate
 
+ // 👇 Save to Supabase
+ const handleSaveToSupabase = async () => {
+  const quotePayload = {
+    project_name: formData.projectName || 'Unnamed Project',
+    product_type: productBreakdowns.map(p => p.productCode).join(', '),
+    concrete_tonnage: (breakdown?.subtotals?.concrete?.units * 2.6).toFixed(2),
+    steel_tonnage: (breakdown?.subtotals?.steel?.units / 1000).toFixed(2),
+    price_per_tonne: formData.pricePerTonne || 0,
+    total_price: estimate || 0,
+    labour_hours_per_unit: productBreakdowns
+      .map(p => `${p.productCode}: ${(p.labour?.hours / p.quantity || 0).toFixed(2)}`)
+      .join(', '),
+    total_labour_hours: breakdown?.subtotals?.labour?.units?.toFixed(2) || '0.00',
+    hrs_per_tonne_product: productBreakdowns
+      .map(p => `${p.productCode}: ${p.hrsPerTonne || '—'}`)
+      .join(', '),
+    hrs_per_tonne_job: (() => {
+      const t = breakdown?.subtotals?.concrete?.units * 2.6;
+      const h = breakdown?.subtotals?.labour?.units;
+      return t && h ? (h / t).toFixed(2) : "0.00";
+    })(),
+    client: 'test',
+    profit_margin: formData.margin || 0,
+    created_at: new Date().toISOString()
+  };
+
+  const result = await saveQuoteToSupabase(quotePayload);
+
+  if (result.success) {
+    alert('✅ Quote saved to Supabase!');
+  } else {
+    alert('❌ Failed to save quote.');
+    console.error(result.error);
+  }
+};
 
 
 
