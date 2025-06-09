@@ -1052,7 +1052,7 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
       product_type: productBreakdowns.map(p => p.productCode).join(', '),
       concrete_tonnage: (concreteUnits * 2.6).toFixed(2),
       steel_tonnage: (steelUnits / 1000).toFixed(2),
-      price_per_tonne: pricePerTonne || 0,
+      price_per_tonne: pricePerTonne ? parseFloat(pricePerTonne).toFixed(2) : '0.00',
       total_price: estimate || 0,
       total_labour_hours: labourHours.toFixed(2),
       hrs_per_tonne_job: concreteUnits > 0 ? (labourHours / (concreteUnits * 2.6)).toFixed(2) : '0.00',
