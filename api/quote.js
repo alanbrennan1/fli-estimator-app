@@ -1,11 +1,6 @@
 // Updated quote.js to use chamberDensity and fetch additional item pricing from data map
 
-try {
-  import additionalItemsData from '../data/additionalItems.json';
-} catch (error) {
-  console.error("Error loading additionalItems.json:", error);
-}
-
+import additionalItemsData from '../data/additionalItems.json';
 
 export default function handler(req, res) {
   if (req.method !== 'POST') {
@@ -21,6 +16,7 @@ export default function handler(req, res) {
     }
     return 0;
   };
+  
   const {
     margin,
     wasteMargin,
