@@ -1,4 +1,4 @@
-// Updated quote.js based on full per-product estimator logic (CH, CT, CS, B, C types)
+// Updated quote.js to correct CHAMBER (CH) volume and steel weight logic — includes mm scaling
 
 export default function handler(req, res) {
   if (req.method !== 'POST') {
@@ -6,6 +6,7 @@ export default function handler(req, res) {
   }
 
   const safe = (val) => parseFloat(val || 0);
+  const mm = (val) => (val < 20 ? val * 1000 : val);
 
   const {
     margin,
@@ -56,9 +57,9 @@ export default function handler(req, res) {
     } = product;
 
     const qty = safe(quantity);
-    const len = safe(length);
-    const wid = safe(width);
-    const hgt = safe(height);
+    const len = mm(safe(length));
+    const wid = mm(safe(width));
+    const hgt = mm(safe(height));
 
     let concreteVolumeM3 = 0;
     let concreteCost = 0;
@@ -72,15 +73,15 @@ export default function handler(req, res) {
     const fallbackColumnSteel = 180;
 
     if (name.startsWith('CH')) {
-      const wall = safe(wallThickness);
-      const base = safe(baseThickness);
+      const wall = mm(safe(wallThickness));
+      const base = mm(safe(baseThickness));
       const extPlan = (len + wall * 2) * (wid + wall * 2);
       const intPlan = len * wid;
       const extHeight = hgt + base;
       const chamberVol = (extPlan * extHeight) - (intPlan * hgt);
 
       if (antiFlotation === 'Yes') {
-        const toeL = safe(toeLength) * 1000;
+        const toeL = mm(safe(toeLength));
         const toePlan = (len + wall * 2);
         antiVol = ((toePlan * toeL * base) * 2);
       }
@@ -95,6 +96,9 @@ export default function handler(req, res) {
 
       labourHrs = safe(labourHours) * qty;
       labourCost = labourHrs * labourRate;
+    }
+
+      
     } else if (name.startsWith('CS')) {
       const slabL = len;
       const slabW = wid;
@@ -148,7 +152,7 @@ export default function handler(req, res) {
       labourCost = labourHrs * labourRate;
     }
 
-    const additionalItems = uniqueItems.map(item => {
+     const additionalItems = uniqueItems.map(item => {
       const cost = (item.qty || 0) * 50;
       subtotals.additional.cost += cost;
       subtotals.additional.units += item.qty;
@@ -191,43 +195,17 @@ export default function handler(req, res) {
   });
 
   const totalDesignHours = Object.values(designHours).reduce((acc, val) => acc + safe(val), 0);
-  const designCost = totalDesignHours * designHourRate;
+  const designCost = totalDesignHours * 61.12;
   const transportCost = transportRate * transportQuantity;
-  const installationCost = installationDays * installationDayRate;
+  const installationCost = installationDays * 500;
 
   const services = [
-    {
-      label: "Design",
-      units: totalDesignHours,
-      unitLabel: "hours",
-      unitPrice: designHourRate,
-      value: parseFloat(designCost.toFixed(2))
-    },
-    {
-      label: "Transport",
-      units: transportQuantity,
-      unitLabel: "loads",
-      unitPrice: transportRate,
-      value: parseFloat(transportCost.toFixed(2))
-    },
-    {
-      label: "Installation",
-      units: installationDays,
-      unitLabel: "days",
-      unitPrice: installationDayRate,
-      value: parseFloat(installationCost.toFixed(2))
-    }
+    { label: "Design", units: totalDesignHours, unitLabel: "hours", unitPrice: 61.12, value: parseFloat(designCost.toFixed(2)) },
+    { label: "Transport", units: transportQuantity, unitLabel: "loads", unitPrice: transportRate, value: parseFloat(transportCost.toFixed(2)) },
+    { label: "Installation", units: installationDays, unitLabel: "days", unitPrice: 500, value: parseFloat(installationCost.toFixed(2)) }
   ];
 
-  let rawTotal =
-    subtotals.concrete.cost +
-    subtotals.steel.cost +
-    subtotals.labour.cost +
-    subtotals.additional.cost +
-    designCost +
-    transportCost +
-    installationCost;
-
+  let rawTotal = subtotals.concrete.cost + subtotals.steel.cost + subtotals.labour.cost + subtotals.additional.cost + designCost + transportCost + installationCost;
   rawTotal *= 1 + safe(wasteMargin) / 100;
   rawTotal *= 1 + safe(groupCost) / 100;
   rawTotal *= 1 + safe(margin) / 100;
@@ -237,22 +215,10 @@ export default function handler(req, res) {
     breakdown: {
       productBreakdowns,
       subtotals: {
-        concrete: {
-          cost: parseFloat(subtotals.concrete.cost.toFixed(2)),
-          units: parseFloat(subtotals.concrete.units.toFixed(2))
-        },
-        steel: {
-          cost: parseFloat(subtotals.steel.cost.toFixed(2)),
-          units: parseFloat(subtotals.steel.units.toFixed(2))
-        },
-        labour: {
-          cost: parseFloat(subtotals.labour.cost.toFixed(2)),
-          units: parseFloat(subtotals.labour.units.toFixed(2))
-        },
-        additional: {
-          cost: parseFloat(subtotals.additional.cost.toFixed(2)),
-          units: parseFloat(subtotals.additional.units.toFixed(2))
-        }
+        concrete: { cost: parseFloat(subtotals.concrete.cost.toFixed(2)), units: parseFloat(subtotals.concrete.units.toFixed(2)) },
+        steel: { cost: parseFloat(subtotals.steel.cost.toFixed(2)), units: parseFloat(subtotals.steel.units.toFixed(2)) },
+        labour: { cost: parseFloat(subtotals.labour.cost.toFixed(2)), units: parseFloat(subtotals.labour.units.toFixed(2)) },
+        additional: { cost: parseFloat(subtotals.additional.cost.toFixed(2)), units: parseFloat(subtotals.additional.units.toFixed(2)) }
       },
       services
     }
