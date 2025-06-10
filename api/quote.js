@@ -92,6 +92,16 @@ export default function handler(req, res) {
 
       const density = safe(chamberDensity);
       steelKg = concreteVolumeM3 * (density > 0 ? density : fallbackDensity);
+     
+      console.log('📦 CH calc:', {
+        name,
+        quantity: qty,
+        chamberDensity: density,
+        concreteVolumeM3,
+        steelKg,
+        steelCost
+      });
+
       steelCost = steelKg * steelRate;
 
       labourHrs = safe(labourHours) * qty;
