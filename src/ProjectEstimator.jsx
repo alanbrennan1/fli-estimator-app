@@ -871,8 +871,66 @@ return; // ✅ prevents falling into fallback logic
   return;
 }
 
-   
 
+
+   
+// ▶️ Beams logic
+else if (/^B(-\d+)?$/.test(productName.trim())) {
+  const length = safe(inputs.length);  // mm
+  const quantity = safe(inputs.quantity || 1);
+
+  // 🧮 Concrete volume = 0.27 × length (in mm → m)
+  const concretePerUnitM3 = 0.27 * (length / 1000);  // Convert mm to m
+  concreteVolumeM3 = concretePerUnitM3 * quantity;
+  concreteCost = concreteVolumeM3 * 137.21;
+
+  // 🧮 Steel = use steelDensity from Steel/Fibres input
+  let steelDensity = safe(inputs.steelDensity);
+  if (!steelDensity || steelDensity <= 0) steelDensity = 180;  // same as Column fallback
+  const steelKg = concreteVolumeM3 * steelDensity;
+  const steelCost = steelKg * 0.86;
+
+  // 🧮 Labour
+  const labourPerUnit = safe(inputs.labourHours);
+  const labourHrs = labourPerUnit * quantity;
+  const labourCost = labourHrs * 70.11;
+
+  // Accumulate to totals
+  concreteSubtotal += concreteCost;
+  concreteUnitTotal += concreteVolumeM3;
+  steelSubtotal += steelCost;
+  steelUnitTotal += steelKg;
+  labourSubtotal += labourCost;
+  labourUnitTotal += labourHrs;
+
+  const baseCode = productName.split('-')[0];
+  const productCode = buildProductCode(baseCode, { ...inputs });
+
+  sourceBreakdowns.push({
+    name: productName,
+    productCode,
+    quantity,
+    concrete: {
+      volume: concreteVolumeM3.toFixed(2),
+      cost: parseFloat(concreteCost.toFixed(2))
+    },
+    steel: {
+      kg: steelKg.toFixed(2),
+      cost: parseFloat(steelCost.toFixed(2))
+    },
+    labour: {
+      hours: labourHrs.toFixed(2),
+      cost: parseFloat(labourCost.toFixed(2))
+    },
+    uniqueItems: inputs.uniqueItems || []
+  });
+
+  return;
+}
+
+
+
+  
             
       else {
        console.warn("🚨 UNMATCHED PRODUCT TYPE:", productName);
