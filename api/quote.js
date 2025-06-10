@@ -1,4 +1,6 @@
-// Updated quote.js to correct CHAMBER (CH) volume and steel weight logic — includes mm scaling
+// Updated quote.js to use chamberDensity and fetch additional item pricing from data map
+
+import additionalItemsData from '../data/additionalItems.json';
 
 export default function handler(req, res) {
   if (req.method !== 'POST') {
@@ -7,7 +9,13 @@ export default function handler(req, res) {
 
   const safe = (val) => parseFloat(val || 0);
   const mm = (val) => (val < 20 ? val * 1000 : val);
-
+  const getUnitPriceFromAdditionalData = (label) => {
+    for (const category in additionalItemsData) {
+      const match = additionalItemsData[category].find(item => item.item === label);
+      if (match) return parseFloat(match.materialCost || 0);
+    }
+    return 0;
+  };
   const {
     margin,
     wasteMargin,
