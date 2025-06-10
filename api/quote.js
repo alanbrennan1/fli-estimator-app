@@ -23,7 +23,7 @@ export default function handler(req, res) {
   const concreteRate = 137.21;
   const steelRate = 0.86;
   const labourRate = 70.11;
-  const labourHoursPerTon = 4.2;
+  const labourHoursPerTon = 4.58;
   const concreteDensity = 2.6;
   const steelKgPerM3 = 120;
   const installationDayRate = 500;
