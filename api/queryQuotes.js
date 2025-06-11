@@ -6,15 +6,17 @@ const supabase = createClient(
 );
 
 export default async function handler(req, res) {
+  // 🔐 Auth check — place this block here
   const authHeader = req.headers.authorization;
   const expectedToken = process.env.GPT_SECRET;
 
-  if (authHeader !== `Bearer ${expectedToken}`) {
+  // ✅ Allow unauthenticated access only for GPT schema testing
+  if (process.env.NODE_ENV !== 'development' && authHeader !== `Bearer ${expectedToken}`) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  const { product_type, limit = 5 } = req.query;
 
+  const { product_type, limit = 5 } = req.query;
   const limitNum = Number(limit) || 5;
 
 let query = supabase
