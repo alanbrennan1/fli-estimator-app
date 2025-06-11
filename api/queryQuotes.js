@@ -19,7 +19,7 @@ export default async function handler(req, res) {
 
 let query = supabase
   .from('quotes')
-  .select('product_type, price_per_tonne, profit_margin')
+  .select('product_type, price_per_tonne, profit_margin, hrs_per_tonne_job')
   .order('created_at', { ascending: false })
   .limit(limitNum);
 
