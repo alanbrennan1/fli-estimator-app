@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   const { data, error } = await supabase
     .from('quotes')
     .select('product_type, price_per_tonne, profit_margin')
-    .eq('product_type', product_type)
+    .ilike('product_type', `%${product_type}%`)
     .order('created_at', { ascending: false })
     .limit(Number(limit));
 
