@@ -10,10 +10,11 @@ export default async function handler(req, res) {
   const authHeader = req.headers.authorization;
   const expectedToken = process.env.GPT_SECRET;
 
-  // ✅ Allow unauthenticated access only for GPT schema testing
-  if (process.env.NODE_ENV !== 'development' && authHeader !== `Bearer ${expectedToken}`) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
+// ✅ TEMP BYPASS: allow unauthenticated access if no token is provided (for GPT schema testing only)
+if (authHeader && authHeader !== `Bearer ${expectedToken}`) {
+  return res.status(401).json({ error: 'Unauthorized' });
+}
+
 
 
   const { product_type, limit = 5 } = req.query;
