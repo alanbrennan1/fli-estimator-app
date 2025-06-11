@@ -112,10 +112,8 @@ module.exports = function handler(req, res) {
       });
 
       steelCost = steelKg * steelRate;
-
       labourHrs = safe(labourHours) * qty;
       labourCost = labourHrs * labourRate;
-    }
 
       
     } else if (name.startsWith('CS')) {
@@ -149,6 +147,7 @@ module.exports = function handler(req, res) {
 
       labourHrs = safe(labourHours) * qty;
       labourCost = labourHrs * labourRate;
+    
     } else if (name.startsWith('B')) {
       concreteVolumeM3 = 0.27 * (len / 1000) * qty;
       concreteCost = concreteVolumeM3 * concreteRate;
@@ -159,6 +158,8 @@ module.exports = function handler(req, res) {
 
       labourHrs = safe(labourHours) * qty;
       labourCost = labourHrs * labourRate;
+
+    
     } else {
       const volume = len * wid * hgt * qty;
       concreteVolumeM3 = volume / 1_000_000_000;
