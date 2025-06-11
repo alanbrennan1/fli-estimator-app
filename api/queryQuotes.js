@@ -22,7 +22,7 @@ if (authHeader && authHeader !== `Bearer ${expectedToken}`) {
 
 let query = supabase
   .from('quotes')
-  .select('product_type, price_per_tonne, profit_margin, hrs_per_tonne_job')
+  .select('product_type, price_per_tonne, profit_margin, hrs_per_tonne_job, created_at')
   .order('created_at', { ascending: false })
   .limit(limitNum);
 
