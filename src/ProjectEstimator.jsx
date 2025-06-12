@@ -322,9 +322,6 @@ useEffect(() => {
 
 
  
-
-
-  
 const selectedSubProducts = Object.entries(subProductInputs)
   .filter(([key, val]) => {
     const hasQty = parseInt(val?.quantity) > 0;
@@ -508,14 +505,16 @@ const handleQuantityChange = (code, value) => {
 };
 
 function buildProductCode(code, inputs) {
-  const pad = (val, len) => String(val || '').padStart(len, '0');
+  // Normalize CT-x to CT
+  const normalizedCode = /^CT-\d+$/.test(code) ? 'CT' : code;
 
+  const pad = (val, len) => String(val || '').padStart(len, '0');
   const length = pad(inputs.length, 4);
   const width = pad(inputs.width, 4);
   const height = pad(inputs.height, 4);
-  const wallThickness = code.startsWith('CS') ? '0000' : pad(inputs.wallThickness, 4);
+  const wallThickness = normalizedCode.startsWith('CS') ? '0000' : pad(inputs.wallThickness, 4);
   const steelGrade = inputs.steelGrade || '';
-  const density = code.startsWith('CS')
+  const density = normalizedCode.startsWith('CS')
     ? inputs.roofSlabDensity || ''
     : inputs.steelDensity || inputs.chamberDensity || '';
 
@@ -524,15 +523,15 @@ function buildProductCode(code, inputs) {
   // ✅ Unified suffix logic based on product type
   let suffix = '';
 
-  if (code === 'CH' && Array.isArray(inputs.chamberUseTags) && inputs.chamberUseTags.length > 0) {
+  if (normalizedCode === 'CH' && Array.isArray(inputs.chamberUseTags) && inputs.chamberUseTags.length > 0) {
     suffix = `_${inputs.chamberUseTags.join('-')}`;
-  } else if (code === 'W' && Array.isArray(inputs.wallUseTags) && inputs.wallUseTags.length > 0) {
+  } else if (normalizedCode === 'W' && Array.isArray(inputs.wallUseTags) && inputs.wallUseTags.length > 0) {
     suffix = `_${inputs.wallUseTags.join('-')}`;
-  } else if (code === 'BS' && Array.isArray(inputs.bespokeUseTags) && inputs.bespokeUseTags.length > 0) {
+  } else if (normalizedCode === 'BS' && Array.isArray(inputs.bespokeUseTags) && inputs.bespokeUseTags.length > 0) {
     suffix = `_${inputs.bespokeUseTags.join('-')}`;
   }
 
-  return `${code} ${length}${width}${height}_${wallThickness}_${steelGrade}_${density} ${spec}${suffix}`;
+  return `${normalizedCode} ${length}${width}${height}_${wallThickness}_${steelGrade}_${density} ${spec}${suffix}`;
 }
 
 
