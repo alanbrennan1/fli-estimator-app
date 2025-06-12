@@ -5,6 +5,9 @@ export default function PasswordGate({ onAccess }) {
   const [error, setError] = useState('');
 
   const handleSubmit = () => {
+console.log('ENV PASSWORD:', process.env.NEXT_PUBLIC_APP_PASSWORD);
+
+
     if (password === process.env.NEXT_PUBLIC_APP_PASSWORD) {
       localStorage.setItem('fli_estimator_access', 'true');
       onAccess();
