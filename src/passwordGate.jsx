@@ -22,8 +22,7 @@ export default function PasswordGate({ onAccess }) {
 
         {/* ✅ FLI Logo */}
         <img
-          src="/fli-logo.png" // Ensure this file exists in /public folder
-          alt="FLI Precast Solutions"
+          src="/fli logo.png" // Ensure this file exists in /public folder
           className="mx-auto mb-4 h-12"
         />
         
