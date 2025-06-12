@@ -1631,19 +1631,19 @@ onClick={() => {
         <div className="flex flex-col">
           <label className="text-xs font-medium mb-1 text-gray-600">Cross Section (W × H)</label>
 
+
 <select
-  key={`ct-cross-section-${selectedProduct === 'CT' ? (subProductInputs['CT']?.crossSection || 'reset') : 'variant'}`}
+  key={`ct-cross-section-${selectedProduct}`}
   value={subProductInputs[selectedProduct]?.crossSection || ''}
   onChange={(e) => {
     const [width, height] = e.target.value.split('x').map(val => parseInt(val));
     const crossSection = e.target.value;
 
-    const key = 'CT';
-    handleSubInputChange(key, 'crossSection', crossSection);
-    handleSubInputChange(key, 'width', width);
-    handleSubInputChange(key, 'height', height);
-    handleSubInputChange(key, 'autoFilled', {
-      ...(subProductInputs[key]?.autoFilled || {}),
+    handleSubInputChange(selectedProduct, 'crossSection', crossSection);
+    handleSubInputChange(selectedProduct, 'width', width);
+    handleSubInputChange(selectedProduct, 'height', height);
+    handleSubInputChange(selectedProduct, 'autoFilled', {
+      ...(subProductInputs[selectedProduct]?.autoFilled || {}),
       width: true,
       height: true
     });
@@ -1663,6 +1663,7 @@ onClick={() => {
   <option value="450x400">0.45m × 0.4m</option>
   <option value="350x300">0.35m × 0.3m</option>
 </select>
+        
        
         </div>
 
@@ -1684,28 +1685,16 @@ onClick={() => {
       (t) => t.Width === widthM && t.Height === heightM && t.Length === length
     );
 
-    const uniqueKey = `CT-${crossSection}-${length}`;
-    setSelectedProduct(uniqueKey);
-
-    handleSubInputChange(uniqueKey, 'productType', 'CT');
-    handleSubInputChange(uniqueKey, 'crossSection', crossSection);
-    handleSubInputChange(uniqueKey, 'lengthOption', e.target.value);
-    handleSubInputChange(uniqueKey, 'length', lengthMm);
-
-    setSubProductInputs((prev) => {
-      const next = { ...prev };
-      next['CT'] = { ...next['CT'], wasCleared: true };
-      return next;
-    });
+    handleSubInputChange(selectedProduct, 'lengthOption', e.target.value);
+    handleSubInputChange(selectedProduct, 'length', lengthMm);
 
     if (match) {
-      handleSubInputChange(uniqueKey, 'width', w);
-      handleSubInputChange(uniqueKey, 'height', h);
-      handleSubInputChange(uniqueKey, 'steelDensity', match['Steel (kg/m³)']);
-      handleSubInputChange(uniqueKey, 'labourHours', match['Labour Hrs/Unit']);
-
-      handleSubInputChange(uniqueKey, 'autoFilled', {
-        ...(subProductInputs[uniqueKey]?.autoFilled || {}),
+      handleSubInputChange(selectedProduct, 'width', w);
+      handleSubInputChange(selectedProduct, 'height', h);
+      handleSubInputChange(selectedProduct, 'steelDensity', match['Steel (kg/m³)']);
+      handleSubInputChange(selectedProduct, 'labourHours', match['Labour Hrs/Unit']);
+      handleSubInputChange(selectedProduct, 'autoFilled', {
+        ...(subProductInputs[selectedProduct]?.autoFilled || {}),
         length: true,
         width: true,
         height: true,
@@ -1724,7 +1713,7 @@ onClick={() => {
           qty: entry.qty,
           category: entry.item.includes('Capstan') || entry.item.includes('RD20') ? 'Capstans and Lifters' : ''
         }));
-        handleSubInputChange(uniqueKey, 'uniqueItems', enrichedItems);
+        handleSubInputChange(selectedProduct, 'uniqueItems', enrichedItems);
       }
     }
   }}
@@ -1735,6 +1724,8 @@ onClick={() => {
   <option value="1.5">1.5m</option>
   <option value="2.5">2.5m</option>
 </select>
+
+ 
 
 
         </div>
