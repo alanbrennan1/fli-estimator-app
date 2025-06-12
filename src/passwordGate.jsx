@@ -4,17 +4,18 @@ export default function PasswordGate({ onAccess }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = () => {
-console.log('ENV PASSWORD:', process.env.NEXT_PUBLIC_APP_PASSWORD);
+const handleSubmit = () => {
+  const expected = process.env.NEXT_PUBLIC_APP_PASSWORD || '⚠️ Not loaded';
+  console.log('ENV PASSWORD:', expected); // ✅ this line helps us confirm the value
 
+  if (password.trim() === process.env.NEXT_PUBLIC_APP_PASSWORD) {
+    localStorage.setItem('fli_estimator_access', 'true');
+    onAccess();
+  } else {
+    setError('Incorrect password');
+  }
+};
 
-    if (password === process.env.NEXT_PUBLIC_APP_PASSWORD) {
-      localStorage.setItem('fli_estimator_access', 'true');
-      onAccess();
-    } else {
-      setError('Incorrect password');
-    }
-  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
