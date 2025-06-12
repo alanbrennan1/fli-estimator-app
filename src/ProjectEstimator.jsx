@@ -1537,15 +1537,26 @@ onClick={() => {
   </span>
         </button>
 
-
-        {/* ✅ Inserted Remove Button */}
-       <button
+//remove product variant tabs
+       
+        <button
   onClick={() => {
     setSubProductInputs(prev => {
       const next = { ...prev };
       delete next[code];
+
+      const baseKey = code.split('-')[0];
+      const otherVariantsExist = Object.keys(next).some(
+        key => key.startsWith(`${baseKey}-`)
+      );
+
+      if (!otherVariantsExist) {
+        delete next[baseKey]; // remove orphaned base key
+      }
+
       return next;
     });
+
     setProductBreakdowns(prev =>
       prev.filter(item => item.name !== code && item.productCode !== code)
     );
@@ -1559,6 +1570,7 @@ onClick={() => {
 >
   ×
 </button>
+
 
 
         
