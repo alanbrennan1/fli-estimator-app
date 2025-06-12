@@ -1537,7 +1537,6 @@ onClick={() => {
   </span>
         </button>
 
-//remove product variant tabs
        
         <button
   onClick={() => {
