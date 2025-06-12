@@ -2769,7 +2769,7 @@ onClick={() => {
     onClick={handleSaveToSupabase}
     className="bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 px-6 rounded shadow text-sm"
   >
-    Save Quote to Supabase
+    Save Quote
   </button>
 </div>
 
