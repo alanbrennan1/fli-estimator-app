@@ -1617,7 +1617,7 @@ onClick={() => {
 
 
 
-  {topLevelProduct === 'Troughs' && selectedProduct?.startsWith('CT') && (
+ {topLevelProduct === 'Troughs' && /^CT-\d+$/.test(selectedProduct) && (
     <div className="border-2 border-gray-300 shadow-md rounded-lg p-4 bg-white">
 
      
