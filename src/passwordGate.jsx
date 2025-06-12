@@ -5,10 +5,10 @@ export default function PasswordGate({ onAccess }) {
   const [error, setError] = useState('');
 
 const handleSubmit = () => {
-  const expected = process.env.NEXT_PUBLIC_APP_PASSWORD || '⚠️ Not loaded';
+  const expected = process.env.VITE_APP_PASSWORD || '⚠️ Not loaded';
   console.log('ENV PASSWORD:', expected); // ✅ this line helps us confirm the value
 
-  if (password.trim() === process.env.NEXT_PUBLIC_APP_PASSWORD) {
+  if (password.trim() === process.env.VITE_APP_PASSWORD) {
     localStorage.setItem('fli_estimator_access', 'true');
     onAccess();
   } else {
