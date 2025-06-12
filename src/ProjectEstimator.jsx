@@ -1728,24 +1728,7 @@ onClick={() => {
  
 
 
-        </div>
-        
-{/* Quantity for selected CT configuration */}
-<div className="flex flex-col">
-  <label className="text-xs font-medium mb-1 text-gray-600">Quantity</label>
-  <input
-    type="number"
-    min="1"
-    className="border p-2 rounded text-xs w-[100px]"
-    placeholder="1" 
-    value={subProductInputs[selectedProduct]?.quantity || ''}
-    onChange={(e) => handleSubInputChange(selectedProduct, 'quantity', parseInt(e.target.value))}
-  />
-</div>
-
-
-
-        
+        </div>       
       </div>
     </div>
   )}
