@@ -1479,26 +1479,29 @@ onClick={() => {
   </button>
 ) : (
   // Special CT logic
-  <button
-     onClick={() => {
-       const existingVariants = Object.keys(subProductInputs).filter(key => key.startsWith('CT-'));
-       const nextIndex = existingVariants.length + 1;
-       const newKey = `CT-${nextIndex}`;
-     
-       setSubProductInputs(prev => ({
-         ...prev,
-         [newKey]: { quantity: 1 }
-       }));
-     
-       setSelectedProduct(newKey);
-     }}
 
-  
-    className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
-    title="Configure CT variants"
-  >
-    🔧 Configure
-  </button>
+<button
+  onClick={() => {
+    const existingVariants = Object.keys(subProductInputs).filter(key => key.startsWith('CT-'));
+    const variantNumbers = existingVariants
+      .map(k => parseInt(k.split('-')[1]))
+      .filter(n => !isNaN(n));
+    const nextIndex = variantNumbers.length > 0 ? Math.max(...variantNumbers) + 1 : 1;
+    const newKey = `CT-${nextIndex}`;
+
+    setSubProductInputs(prev => ({
+      ...prev,
+      [newKey]: { quantity: 1 }
+    }));
+
+    setSelectedProduct(newKey);
+  }}
+  className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-sm"
+  title="Configure CT variant"
+>
+  🔧 Configure
+</button>
+             
 )}
 
       
