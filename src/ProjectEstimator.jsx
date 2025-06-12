@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';  
 import './index.css';
-import { saveQuoteToSupabase } from './saveQuoteToSupabase'; // 👈 INSERT HERE
+import { saveQuoteToSupabase } from './saveQuoteToSupabase';
+import PasswordGate from './passwordGate'; // ✅ same folder
 
 const productOptions = { 
  Troughs: [
@@ -80,7 +81,25 @@ function AccordionSection({ title, children }) {
   );
 }
 
-export default function ProjectEstimator() {
+
+// 🔐 Top-level wrapper with access control
+export default function ProjectEstimatorWrapper() {
+  const [authorized, setAuthorized] = useState(false);
+
+  useEffect(() => {
+    const allowed = localStorage.getItem('fli_estimator_access') === 'true';
+    setAuthorized(allowed);
+  }, []);
+
+  return authorized ? (
+    <ProjectEstimator />
+  ) : (
+    <PasswordGate onAccess={() => setAuthorized(true)} />
+  );
+}
+
+
+function ProjectEstimator() {
 
 useEffect(() => {
   fetch('/additionalItems.json')
