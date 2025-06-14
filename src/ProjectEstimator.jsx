@@ -10,7 +10,7 @@ const productOptions = {
     { name: "Cable Trough 45°", code: "CT45" },
     { name: "Cable Trough Tee", code: "CTT" },
   ],
-  Chambers: [  // ✅ Updated
+  Chambers: [  // ✅ Updatedc
     { name: "Chamber", code: "CH" },
     { name: "Cover Slab", code: "CS" },
     { name: "Risers", code: "RR" },
@@ -2700,7 +2700,6 @@ onClick={() => {
         <td className="border p-2 text-center">
           €{transportGross.toFixed(2)}
         </td>
-        <td className="border p-2 text-center"></td>
 </tr>
 
       <tr className="text-xs">
