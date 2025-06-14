@@ -2717,7 +2717,6 @@ onClick={() => {
          <td className="border p-2 text-center">
            €{designGross.toFixed(2)}
          </td>
-         <td className="border p-2 text-center">€—</td>
      </tr>
 
      <tr className="text-xs">
@@ -2734,7 +2733,6 @@ onClick={() => {
           <td className="border p-2 text-center">
             €{installationGross.toFixed(2)}
           </td>
-          <td className="border p-2 text-center">€—</td>
      </tr>
 
 <tr className="bg-blue-100 text-blue-800 font-semibold text-xs border-t-2 border-blue-300">
