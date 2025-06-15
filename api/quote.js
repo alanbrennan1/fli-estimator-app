@@ -230,17 +230,28 @@ module.exports = function handler(req, res) {
   rawTotal *= 1 + safe(groupCost) / 100;
   rawTotal *= 1 + safe(margin) / 100;
 
-  return res.status(200).json({
-    estimate: parseFloat(rawTotal.toFixed(2)),
-    breakdown: {
-      productBreakdowns,
-      subtotals: {
-        concrete: { cost: parseFloat(subtotals.concrete.cost.toFixed(2)), units: parseFloat(subtotals.concrete.units.toFixed(2)) },
-        steel: { cost: parseFloat(subtotals.steel.cost.toFixed(2)), units: parseFloat(subtotals.steel.units.toFixed(2)) },
-        labour: { cost: parseFloat(subtotals.labour.cost.toFixed(2)), units: parseFloat(subtotals.labour.units.toFixed(2)) },
-        additional: { cost: parseFloat(subtotals.additional.cost.toFixed(2)), units: parseFloat(subtotals.additional.units.toFixed(2)) }
-      },
-      services
-    }
-  });
+return res.status(200).json({
+  estimate: parseFloat(rawTotal.toFixed(2)),
+  breakdown: {
+    productBreakdowns,
+    subtotals: {
+      concrete: { cost: parseFloat(subtotals.concrete.cost.toFixed(2)), units: parseFloat(subtotals.concrete.units.toFixed(2)) },
+      steel: { cost: parseFloat(subtotals.steel.cost.toFixed(2)), units: parseFloat(subtotals.steel.units.toFixed(2)) },
+      labour: { cost: parseFloat(subtotals.labour.cost.toFixed(2)), units: parseFloat(subtotals.labour.units.toFixed(2)) },
+      additional: { cost: parseFloat(subtotals.additional.cost.toFixed(2)), units: parseFloat(subtotals.additional.units.toFixed(2)) }
+    },
+    services
+  },
+
+  // 🆕 Add these top-level service fields
+  total_design_hours: parseFloat(totalDesignHours.toFixed(2)),
+  total_design_price: parseFloat(designCost.toFixed(2)),
+  total_installation_days: parseFloat(installationDays),
+  total_installation_price: parseFloat(installationCost.toFixed(2)),
+  total_transport_loads: parseFloat(transportQuantity),
+  total_transport_price: parseFloat(transportCost.toFixed(2))
+});
+
+
+  
 }
