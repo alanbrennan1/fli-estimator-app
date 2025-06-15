@@ -1146,7 +1146,7 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
       hrs_per_tonne_job: concreteUnits > 0 ? (labourHours / (concreteUnits * 2.6)).toFixed(2) : '0.00',
       client: 'test',
       profit_margin: formData.margin || 0,
-      created_at: new Date().toISOString()
+      created_at: new Date().toISOString(),
 
      // ✅ New service fields
        total_design_hours: totalDesignHours,
@@ -1155,7 +1155,6 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
        total_installation_price: totalInstallationPrice,
        total_transport_loads: totalTransportLoads,
        total_transport_price: totalTransportPrice
-     
     };
 
     console.log('🟠 Quote payload about to save:', quotePayload);
