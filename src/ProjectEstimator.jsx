@@ -1123,6 +1123,8 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
     const steelUnits = breakdown?.subtotals?.steel?.units || 0;
     const labourHours = breakdown?.subtotals?.labour?.units || 0;
 
+  console.log('🔍 breakdown.services:', breakdown?.services);
+   
    const getServiceValue = (label, field) => {
       const service = breakdown?.services?.find(s => s.label === label);
       return service ? service[field] : 0;
