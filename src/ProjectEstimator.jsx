@@ -1123,6 +1123,18 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
     const steelUnits = breakdown?.subtotals?.steel?.units || 0;
     const labourHours = breakdown?.subtotals?.labour?.units || 0;
 
+   const getServiceValue = (label, field) => {
+      const service = breakdown?.services?.find(s => s.label === label);
+      return service ? service[field] : 0;
+    };
+
+    const totalDesignHours = getServiceValue('Design', 'units');
+    const totalDesignPrice = getServiceValue('Design', 'value');
+    const totalInstallationDays = getServiceValue('Installation', 'units');
+    const totalInstallationPrice = getServiceValue('Installation', 'value');
+    const totalTransportLoads = getServiceValue('Transport', 'units');
+    const totalTransportPrice = getServiceValue('Transport', 'value');
+
     const quotePayload = {
       project_name: formData.projectName?.trim() || 'Unnamed Project',
       product_type: productBreakdowns.map(p => p.productCode).join(', '),
@@ -1135,6 +1147,15 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
       client: 'test',
       profit_margin: formData.margin || 0,
       created_at: new Date().toISOString()
+
+     // ✅ New service fields
+       total_design_hours: totalDesignHours,
+       total_design_price: totalDesignPrice,
+       total_installation_days: totalInstallationDays,
+       total_installation_price: totalInstallationPrice,
+       total_transport_loads: totalTransportLoads,
+       total_transport_price: totalTransportPrice
+     
     };
 
     console.log('🟠 Quote payload about to save:', quotePayload);
