@@ -1218,7 +1218,6 @@ setSelectedProduct('CT');  // Auto-return to CT tab
   />
 </div>
   
-   
       {/* Project Name */}
     <div className="flex flex-col">
       <label className="text-xs font-medium mb-1">Project Name</label>
@@ -1365,6 +1364,17 @@ setSelectedProduct('CT');  // Auto-return to CT tab
         name="returnDate"
         type="date"
         value={formData.returnDate || ''}
+        onChange={handleChange}
+        className="border p-2 rounded text-xs"
+      />
+    </div>
+
+         {/* Sales Stage */}
+    <div className="flex flex-col">
+      <label className="text-xs font-medium mb-1">Sales Stage</label>
+      <input
+        name="projectName"
+        value={formData.projectName}
         onChange={handleChange}
         className="border p-2 rounded text-xs"
       />
