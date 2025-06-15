@@ -24,9 +24,11 @@ let query = supabase
   .from('quotes')
   .select(`
   product_type,
+  concrete_tonnage,
+  steel_tonnage,
+  hrs_per_tonne_job,
   price_per_tonne,
   profit_margin,
-  hrs_per_tonne_job,
   total_labour_hours,
   total_design_hours,
   total_design_price,
@@ -34,6 +36,7 @@ let query = supabase
   total_installation_price,
   total_transport_loads,
   total_transport_price,
+  total_price,
   created_at
 `)
   .order('created_at', { ascending: false })
