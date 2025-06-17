@@ -1274,9 +1274,15 @@ const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
   }));
 
   // ✅ Patch Quote Breakdown: BoQ, Job Totals, Services
-  if (quote.breakdown) {
-    setBreakdown(quote.breakdown);
-  }
+ if (quote.product_breakdowns) {
+  setProductBreakdowns(quote.product_breakdowns); // or your actual state setter
+}
+if (quote.sub_product_inputs) {
+  setSubProductInputs(quote.sub_product_inputs);
+}
+if (quote.product_quantities) {
+  setProductQuantities(quote.product_quantities);
+}
 
   // ✅ Rehydrate Quote Controls
   if (quote.total_price) setEstimate(parseFloat(quote.total_price));
