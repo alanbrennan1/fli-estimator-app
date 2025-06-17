@@ -1277,9 +1277,20 @@ const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
  if (quote.product_breakdowns) {
   setProductBreakdowns(quote.product_breakdowns); // or your actual state setter
 }
+
+ 
+// ✅ Patch sub-product inputs for all variants
 if (quote.sub_product_inputs) {
   setSubProductInputs(quote.sub_product_inputs);
+  const variantKeys = Object.keys(quote.sub_product_inputs);
+  
+  if (variantKeys.length > 0) {
+    setSelectedProduct(variantKeys[0]); // default to first product tab
+  }
 }
+
+
+ 
 if (quote.product_quantities) {
   setProductQuantities(quote.product_quantities);
 }
