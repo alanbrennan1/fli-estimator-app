@@ -276,10 +276,17 @@ const manufacturingGroupCost = ((manufacturingNet + manufacturingProfit) * group
 const manufacturingGross = manufacturingNet + manufacturingProfit + manufacturingGroupCost;
 
 
-const totalConcreteTonnes = (breakdown?.subtotals?.concrete?.units || 0) * 2.6;
+useEffect(() => {
+  const totalConcreteTonnes = (breakdown?.subtotals?.concrete?.units || 0) * 2.6;
 
-  ? manufacturingGross / totalConcreteTonnes
-  : 0;
+  if (totalConcreteTonnes > 0) {
+    const newPricePerTonne = manufacturingGross / totalConcreteTonnes;
+    setPricePerTonne(parseFloat(newPricePerTonne.toFixed(2)));
+  } else {
+    setPricePerTonne(0);
+  }
+}, [breakdown, manufacturingGross]);
+
 
  
 
