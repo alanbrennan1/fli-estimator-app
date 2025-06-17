@@ -1368,24 +1368,40 @@ if (quote.product_quantities) {
   if (quote.price_per_tonne) setPricePerTonne(parseFloat(quote.price_per_tonne));
 
   // ✅ Patch services
-  const services = [
-    {
-      label: 'Design',
-      units: quote.total_design_hours || 0,
-      value: quote.total_design_price || 0
-    },
-    {
-      label: 'Transport',
-      units: quote.total_transport_loads || 0,
-      value: quote.total_transport_price || 0
-    },
-    {
-      label: 'Installation',
-      units: quote.total_installation_days || 0,
-      value: quote.total_installation_price || 0
-    }
-  ];
-  setBreakdown(prev => ({ ...prev, services }));
+const services = [
+  {
+    label: 'Design',
+    units: quote.total_design_hours || 0,
+    value: quote.total_design_price || 0,
+    unitLabel: 'hrs',
+    unitPrice:
+      quote.total_design_hours > 0
+        ? quote.total_design_price / quote.total_design_hours
+        : 0
+  },
+  {
+    label: 'Transport',
+    units: quote.total_transport_loads || 0,
+    value: quote.total_transport_price || 0,
+    unitLabel: 'loads',
+    unitPrice:
+      quote.total_transport_loads > 0
+        ? quote.total_transport_price / quote.total_transport_loads
+        : 0
+  },
+  {
+    label: 'Installation',
+    units: quote.total_installation_days || 0,
+    value: quote.total_installation_price || 0,
+    unitLabel: 'days',
+    unitPrice:
+      quote.total_installation_days > 0
+        ? quote.total_installation_price / quote.total_installation_days
+        : 0
+  }
+];
+setBreakdown(prev => ({ ...prev, services }));
+
 
   // ✅ Rehydrate product codes if stored
   if (quote.product_type) {
