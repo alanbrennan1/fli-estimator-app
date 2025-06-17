@@ -277,7 +277,7 @@ const manufacturingGross = manufacturingNet + manufacturingProfit + manufacturin
 
 
 const totalConcreteTonnes = (breakdown?.subtotals?.concrete?.units || 0) * 2.6;
-const pricePerTonne = totalConcreteTonnes > 0
+
   ? manufacturingGross / totalConcreteTonnes
   : 0;
 
