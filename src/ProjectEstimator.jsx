@@ -1201,7 +1201,11 @@ const quotePayload = {
       siteQueriesHours: formData.siteQueriesHours || 0,
       asBuiltsHours: formData.asBuiltsHours || 0
     }
-  },
+    transport: {
+      rate: formData.transportRate || 0,
+      quantity: formData.transportQuantity || 0
+  }
+    },
 
   // ✅ Remainder of persisted fields
   form_data: formData,
@@ -1300,6 +1304,8 @@ const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
    reqProducts: quote.req_products || '',
    oppDescription: quote.opp_description || '',
    address: quote.address || '',
+   transportRate: quote.breakdown?.transport?.rate || 0,
+   transportQuantity: quote.breakdown?.transport?.quantity || 0,
    ...(quote.breakdown?.design || {}) // ← this spreads design hours directly into formData
   }));
 
