@@ -1204,7 +1204,7 @@ const quotePayload = {
     transport: {
       rate: formData.transportRate || 0,
       quantity: formData.transportQuantity || 0
-  }
+  },
    installation: {
       days: formData.installationDays || 0
     }
