@@ -1329,11 +1329,6 @@ const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
   ...quote.form_data
    
   }));
-   // ✅ Wait briefly, then trigger estimate to populate BoQ breakdown
-setTimeout(() => {
-  handleEstimate();
-}, 250);
-
  
   // ✅ Patch Quote Breakdown: BoQ, Job Totals, Services
  if (quote.product_breakdowns) {
@@ -1358,8 +1353,6 @@ if (quote.sub_product_inputs) {
     setTopLevelProduct(base); // Optional: pre-select dropdown
   });
 }
-
-
 
  
 if (quote.product_quantities) {
@@ -1402,6 +1395,11 @@ if (quote.product_quantities) {
 
   // ✅ Trigger accordions to auto-open
   setForceOpenAccordions(true);
+
+   // ✅ Auto-run estimate after loading quote to populate BoQ subtotals
+  setTimeout(() => {
+    handleEstimate();
+  }, 0);
  
   alert('✅ Quote loaded successfully!');
 };
