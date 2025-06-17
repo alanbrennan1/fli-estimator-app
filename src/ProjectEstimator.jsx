@@ -1259,6 +1259,18 @@ const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
     margin: parseFloat(quote.profit_margin || 0),
     wasteMargin: parseFloat(quote.waste_margin || 0),
     groupCost: parseFloat(quote.group_cost || 0),
+   sector: quote.sector || '',
+   accountName: quote.account_name || '',
+   accountContact: quote.account_contact || '',
+   endClient: quote.end_client || '',
+   salesperson: quote.salesperson || '',
+   region: quote.region || '',
+   returnDate: quote.return_date || '',
+   currency: quote.currency || '',
+   probability: quote.probability || '',
+   reqProducts: quote.req_products || '',
+   oppDescription: quote.opp_description || '',
+   address: quote.address || '',
   }));
 
   // ✅ Patch Quote Breakdown: BoQ, Job Totals, Services
