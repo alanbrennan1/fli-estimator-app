@@ -1247,7 +1247,7 @@ const fetchQuoteByOpportunityNumber = (oppNumber) => {
     onLoadQuote={fetchQuoteByOpportunityNumber}
   />
 
-<div className="flex justify-center items-center py-6">
+<div className="flex justify-center items-center py-3">
   <button
     className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded shadow transition"
     onClick={() => setModalOpen(true)}
