@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';  
 import './index.css';
 import { saveQuoteToSupabase } from './saveQuoteToSupabase';
-import PasswordGate from './passwordGate'; // ✅ same folder
+import PasswordGate from './passwordGate'; //
+import OpenQuoteModal from './OpenQuoteModal'; 
+
 
 const productOptions = { 
  Troughs: [
