@@ -1327,15 +1327,14 @@ const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
 
   // Fallback — merge any remaining saved form fields
   ...quote.form_data
-
+   
+  }));
    // ✅ Wait briefly, then trigger estimate to populate BoQ breakdown
 setTimeout(() => {
   handleEstimate();
 }, 250);
 
-   
-  }));
-
+ 
   // ✅ Patch Quote Breakdown: BoQ, Job Totals, Services
  if (quote.product_breakdowns) {
   setProductBreakdowns(quote.product_breakdowns); // or your actual state setter
