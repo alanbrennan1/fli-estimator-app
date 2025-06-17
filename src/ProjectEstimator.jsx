@@ -1138,26 +1138,33 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
     const totalTransportPrice = getServiceValue('Transport', 'value');
 
     const quotePayload = {
-      project_name: formData.projectName?.trim() || 'Unnamed Project',
-      product_type: productBreakdowns.map(p => p.productCode).join(', '),
-      concrete_tonnage: (concreteUnits * 2.6).toFixed(2),
-      steel_tonnage: (steelUnits / 1000).toFixed(2),
-      price_per_tonne: pricePerTonne ? parseFloat(pricePerTonne).toFixed(2) : '0.00',
-      total_price: estimate || 0,
-      total_labour_hours: labourHours.toFixed(2),
-      hrs_per_tonne_job: concreteUnits > 0 ? (labourHours / (concreteUnits * 2.6)).toFixed(2) : '0.00',
-      client: 'test',
-      profit_margin: formData.margin || 0,
-      created_at: new Date().toISOString(),
+  project_name: formData.projectName?.trim() || 'Unnamed Project',
+  product_type: productBreakdowns.map(p => p.productCode).join(', '),
+  concrete_tonnage: (concreteUnits * 2.6).toFixed(2),
+  steel_tonnage: (steelUnits / 1000).toFixed(2),
+  price_per_tonne: pricePerTonne ? parseFloat(pricePerTonne).toFixed(2) : '0.00',
+  total_price: estimate || 0,
+  total_labour_hours: labourHours.toFixed(2),
+  hrs_per_tonne_job: concreteUnits > 0 ? (labourHours / (concreteUnits * 2.6)).toFixed(2) : '0.00',
+  client: 'test',
+  profit_margin: formData.margin || 0,
 
-     // ✅ New service fields
-       total_design_hours: totalDesignHours,
-       total_design_price: totalDesignPrice,
-       total_installation_days: totalInstallationDays,
-       total_installation_price: totalInstallationPrice,
-       total_transport_loads: totalTransportLoads,
-       total_transport_price: totalTransportPrice
-    };
+  total_design_hours: totalDesignHours,
+  total_design_price: totalDesignPrice,
+  total_installation_days: totalInstallationDays,
+  total_installation_price: totalInstallationPrice,
+  total_transport_loads: totalTransportLoads,
+  total_transport_price: totalTransportPrice,
+
+  // 🧠 New — these enable "Open Quote" restoration later
+  form_data: formData,
+  breakdown,
+  product_breakdowns: productBreakdowns,
+  sub_product_inputs: subProductInputs,
+  product_quantities: productQuantities,
+
+  created_at: new Date().toISOString()
+};
 
     console.log('🟠 Quote payload about to save:', quotePayload);
 
