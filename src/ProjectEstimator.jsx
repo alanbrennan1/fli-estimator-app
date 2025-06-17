@@ -1140,6 +1140,7 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
     const totalTransportPrice = getServiceValue('Transport', 'value');
 
     const quotePayload = {
+  opportunity_number: formData.opportunityNumber || '',
   project_name: formData.projectName?.trim() || 'Unnamed Project',
   product_type: productBreakdowns.map(p => p.productCode).join(', '),
   concrete_tonnage: (concreteUnits * 2.6).toFixed(2),
@@ -1150,6 +1151,8 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
   hrs_per_tonne_job: concreteUnits > 0 ? (labourHours / (concreteUnits * 2.6)).toFixed(2) : '0.00',
   client: 'test',
   profit_margin: formData.margin || 0,
+  
+
 
   total_design_hours: totalDesignHours,
   total_design_price: totalDesignPrice,
