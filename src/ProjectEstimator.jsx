@@ -3,6 +3,8 @@ import './index.css';
 import { saveQuoteToSupabase } from './saveQuoteToSupabase';
 import PasswordGate from './passwordGate'; //
 import OpenQuoteModal from './OpenQuoteModal'; 
+import { fetchQuoteByOpportunityNumber } from './quoteHelpers';
+
 
 
 const productOptions = { 
