@@ -1314,7 +1314,7 @@ const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
    transportRate: quote.breakdown?.transport?.rate || 0,
    transportQuantity: quote.breakdown?.transport?.quantity || 0,
    installationDays: quote.installation_days || quote.form_data?.installationDays || 0,
-   ...(quote.breakdown?.design || {}) // ← this spreads design hours directly into formData,
+   ...(quote.breakdown?.design || {}), // ← this spreads design hours directly into formData
    ...loadedQuote.form_data,
       wasteMargin: loadedQuote.waste_margin ?? 5,
       groupCost: loadedQuote.group_cost ?? 2.5,
