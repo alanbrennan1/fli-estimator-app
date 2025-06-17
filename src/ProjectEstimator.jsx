@@ -1315,10 +1315,10 @@ const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
    transportQuantity: quote.breakdown?.transport?.quantity || 0,
    installationDays: quote.installation_days || quote.form_data?.installationDays || 0,
    ...(quote.breakdown?.design || {}), // ← this spreads design hours directly into formData
-   ...loadedQuote.form_data,
-      wasteMargin: loadedQuote.waste_margin ?? 5,
-      groupCost: loadedQuote.group_cost ?? 2.5,
-      margin: loadedQuote.profit_margin ?? 10
+  ...quote.form_data, // ✅ fixed here
+    wasteMargin: quote.waste_margin ?? 5,
+    groupCost: quote.group_cost ?? 2.5,
+    margin: quote.profit_margin ?? 10
   }));
 
   // ✅ Patch Quote Breakdown: BoQ, Job Totals, Services
