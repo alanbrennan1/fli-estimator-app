@@ -1327,6 +1327,12 @@ const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
 
   // Fallback — merge any remaining saved form fields
   ...quote.form_data
+
+   // ✅ Wait briefly, then trigger estimate to populate BoQ breakdown
+setTimeout(() => {
+  handleEstimate();
+}, 250);
+
    
   }));
 
