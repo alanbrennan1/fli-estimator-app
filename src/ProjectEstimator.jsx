@@ -1200,12 +1200,12 @@ const quotePayload = {
       productionCheckingHours: formData.productionCheckingHours || 0,
       siteQueriesHours: formData.siteQueriesHours || 0,
       asBuiltsHours: formData.asBuiltsHours || 0
-    }
+    },
     transport: {
       rate: formData.transportRate || 0,
       quantity: formData.transportQuantity || 0
   }
-    },
+    }
 
   // ✅ Remainder of persisted fields
   form_data: formData,
