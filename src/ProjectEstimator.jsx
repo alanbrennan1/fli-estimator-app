@@ -1395,9 +1395,6 @@ if (quote.product_quantities) {
 
   // ✅ Trigger accordions to auto-open
   setForceOpenAccordions(true);
-
- // ✅ Run Estimate to repopulate subtotals & tables
-handleEstimate();
  
   alert('✅ Quote loaded successfully!');
 };
