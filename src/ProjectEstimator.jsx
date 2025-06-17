@@ -1282,12 +1282,21 @@ const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
 // ✅ Patch sub-product inputs for all variants
 if (quote.sub_product_inputs) {
   setSubProductInputs(quote.sub_product_inputs);
-  const variantKeys = Object.keys(quote.sub_product_inputs);
-  
+
+  // Automatically select the first variant
+  const variantKeys = Object.keys(quote.sub_product_inputs).filter(k => k.includes('-'));
   if (variantKeys.length > 0) {
-    setSelectedProduct(variantKeys[0]); // default to first product tab
+    setSelectedProduct(variantKeys[0]); // e.g. 'W-1'
   }
+
+  // Also mark top-level product as configured
+  const baseKeys = Object.keys(quote.sub_product_inputs).filter(k => !k.includes('-'));
+  baseKeys.forEach(base => {
+    setConfiguredProductTypes(prev => new Set([...prev, base]));
+    setTopLevelProduct(base); // Optional: pre-select dropdown
+  });
 }
+
 
 
  
