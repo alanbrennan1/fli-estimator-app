@@ -1221,7 +1221,15 @@ setSelectedProduct('CT');  // Auto-return to CT tab
 
 }, [subProductInputs['CT']]);
 
-  
+
+const [isModalOpen, setModalOpen] = useState(false);
+
+// Dummy function to be replaced with actual Supabase fetch
+const fetchQuoteByOpportunityNumber = (oppNumber) => {
+  console.log("🔍 Load quote for:", oppNumber);
+};
+
+     
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-white shadow p-4 flex items-center">
@@ -1231,6 +1239,20 @@ setSelectedProduct('CT');  // Auto-return to CT tab
 
       <main className="p-6 max-w-5xl mx-auto space-y-6">
 
+<OpenQuoteModal
+    isOpen={isModalOpen}
+    onClose={() => setModalOpen(false)}
+    onLoadQuote={fetchQuoteByOpportunityNumber}
+  />
+
+  <button
+    className="mb-4 px-4 py-2 bg-blue-600 text-white rounded"
+    onClick={() => setModalOpen(true)}
+  >
+    📂 Open Quote
+  </button>
+
+       
   {/* 📌 Project Info */}
 <AccordionSection title="📌 Project Details">
   <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
