@@ -68,8 +68,9 @@ const wallChecklistOptions = [
 ];
 
 
-function AccordionSection({ title, children }) {
-  const [isOpen, setIsOpen] = useState(false); // collapsed by default
+function AccordionSection({ title, children, defaultOpen = false }) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
   return (
     <div className="border rounded shadow-sm mb-4">
       <button
@@ -83,6 +84,7 @@ function AccordionSection({ title, children }) {
     </div>
   );
 }
+
 
 
 // 🔐 Top-level wrapper with access control
@@ -218,6 +220,7 @@ const getUnitPrice = (itemName) => {
  const [transportQty, setTransportQty] = useState(0);
  const [installationDays, setInstallationDays] = useState(0);
  const [productCodes, setProductCodes] = useState([]);
+ const [forceOpenAccordions, setForceOpenAccordions] = useState(false);
 
 
  const transportService = breakdown?.services?.find(s => s.label === 'Transport');
@@ -1338,6 +1341,9 @@ if (quote.product_quantities) {
   setTransportQty(quote.total_transport_loads || 0);
   setInstallationDays(quote.total_installation_days || 0);
 
+  // ✅ Trigger accordions to auto-open
+  setForceOpenAccordions(true);
+ 
   alert('✅ Quote loaded successfully!');
 };
 
@@ -1370,7 +1376,7 @@ if (quote.product_quantities) {
 
        
   {/* 📌 Project Info */}
-<AccordionSection title="📌 Project Details">
+<AccordionSection title="📌 Project Details" defaultOpen={forceOpenAccordions}>
   <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
     
    {/* 🔢 Opportunity Number */}
@@ -1574,7 +1580,7 @@ if (quote.product_quantities) {
 
 
 
-    <AccordionSection title="🏗️ Manufacturing BoQ">
+    <AccordionSection title="🏗️ Manufacturing BoQ" defaultOpen={forceOpenAccordions}>
       {/* SketchUp Toggle */}
       <label className="inline-flex items-center mb-4 gap-2">
         <input
@@ -2368,7 +2374,7 @@ onClick={() => {
         
 
 
-    <AccordionSection title="🎨 Design">
+    <AccordionSection title="🎨 Design" defaultOpen={forceOpenAccordions}>
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
     {[
       { name: 'proposalHours', label: 'Proposal' },
@@ -2401,7 +2407,7 @@ onClick={() => {
 </AccordionSection>
     
 
-<AccordionSection title="🚚 Transport">
+<AccordionSection title="🚚 Transport" defaultOpen={forceOpenAccordions}>
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div className="flex flex-col">
       <label className="text-xs font-medium mb-1">Transport Rate (€)</label>
@@ -2432,7 +2438,7 @@ onClick={() => {
         
 
 
-<AccordionSection title="🛠 Installation">
+<AccordionSection title="🛠 Installation" defaultOpen={forceOpenAccordions}>
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div className="flex flex-col">
       <label className="text-xs font-medium mb-1">Installation Duration (Days)</label>
