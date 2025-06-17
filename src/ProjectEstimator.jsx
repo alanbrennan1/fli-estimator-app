@@ -1257,7 +1257,8 @@ const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
     projectName: quote.project_name || '',
     client: quote.client || '',
     margin: parseFloat(quote.profit_margin || 0),
-    // Add other form fields as needed
+    wasteMargin: parseFloat(quote.waste_margin || 0),
+    groupCost: parseFloat(quote.group_cost || 0),
   }));
 
   // ✅ Patch Quote Breakdown: BoQ, Job Totals, Services
