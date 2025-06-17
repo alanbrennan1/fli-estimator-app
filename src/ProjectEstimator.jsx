@@ -1327,8 +1327,12 @@ const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
 
   // Fallback — merge any remaining saved form fields
   ...quote.form_data
-   
   }));
+
+ // ✅ Insert this right here:
+if (quote.breakdown) {
+  setBreakdown(quote.breakdown);
+}
  
   // ✅ Patch Quote Breakdown: BoQ, Job Totals, Services
  if (quote.product_breakdowns) {
