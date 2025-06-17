@@ -1174,7 +1174,11 @@ const quotePayload = {
   total_labour_hours: labourHours.toFixed(2),
   hrs_per_tonne_job: concreteUnits > 0 ? (labourHours / (concreteUnits * 2.6)).toFixed(2) : '0.00',
   client: 'test',
-  profit_margin: formData.margin || 0,
+
+   // ✅ Save all quote slider values
+  profit_margin: formData.margin || 10,
+  group_cost: formData.groupCost || 2.5,
+  waste_margin: formData.wasteMargin || 5,
 
   total_design_hours: totalDesignHours,
   total_design_price: totalDesignPrice,
@@ -1311,6 +1315,10 @@ const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
    transportQuantity: quote.breakdown?.transport?.quantity || 0,
    installationDays: quote.installation_days || quote.form_data?.installationDays || 0,
    ...(quote.breakdown?.design || {}) // ← this spreads design hours directly into formData
+   ...loadedQuote.form_data,
+      wasteMargin: loadedQuote.waste_margin ?? 5,
+      groupCost: loadedQuote.group_cost ?? 2.5,
+      margin: loadedQuote.profit_margin ?? 0
   }));
 
   // ✅ Patch Quote Breakdown: BoQ, Job Totals, Services
