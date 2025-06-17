@@ -1162,7 +1162,8 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
     const totalTransportLoads = getServiceValue('Transport', 'units');
     const totalTransportPrice = getServiceValue('Transport', 'value');
 
-    const quotePayload = {
+
+const quotePayload = {
   opportunity_number: formData.opportunityNumber || '',
   project_name: formData.projectName?.trim() || 'Unnamed Project',
   product_type: productBreakdowns.map(p => p.productCode).join(', '),
@@ -1174,8 +1175,6 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
   hrs_per_tonne_job: concreteUnits > 0 ? (labourHours / (concreteUnits * 2.6)).toFixed(2) : '0.00',
   client: 'test',
   profit_margin: formData.margin || 0,
-  
-
 
   total_design_hours: totalDesignHours,
   total_design_price: totalDesignPrice,
@@ -1184,15 +1183,36 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
   total_transport_loads: totalTransportLoads,
   total_transport_price: totalTransportPrice,
 
-  // 🧠 New — these enable "Open Quote" restoration later
+  // ✅ Embed design values inside breakdown
+  breakdown: {
+    ...breakdown,
+    design: {
+      proposalHours: formData.proposalHours || 0,
+      designMeetingsHours: formData.designMeetingsHours || 0,
+      structuralDesignHours: formData.structuralDesignHours || 0,
+      revitModelHours: formData.revitModelHours || 0,
+      approvalCommentsHours: formData.approvalCommentsHours || 0,
+      detailingJointsHours: formData.detailingJointsHours || 0,
+      detailingFloorsHours: formData.detailingFloorsHours || 0,
+      detailingScreedHours: formData.detailingScreedHours || 0,
+      gasHours: formData.gasHours || 0,
+      productionUnitsHours: formData.productionUnitsHours || 0,
+      productionCheckingHours: formData.productionCheckingHours || 0,
+      siteQueriesHours: formData.siteQueriesHours || 0,
+      asBuiltsHours: formData.asBuiltsHours || 0
+    }
+  },
+
+  // ✅ Remainder of persisted fields
   form_data: formData,
-  breakdown,
   product_breakdowns: productBreakdowns,
   sub_product_inputs: subProductInputs,
   product_quantities: productQuantities,
 
   created_at: new Date().toISOString()
 };
+
+   
 
     console.log('🟠 Quote payload about to save:', quotePayload);
 
@@ -1280,6 +1300,7 @@ const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
    reqProducts: quote.req_products || '',
    oppDescription: quote.opp_description || '',
    address: quote.address || '',
+   ...(quote.breakdown?.design || {}) // ← this spreads design hours directly into formData
   }));
 
   // ✅ Patch Quote Breakdown: BoQ, Job Totals, Services
