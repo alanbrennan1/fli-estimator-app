@@ -6,7 +6,6 @@ import OpenQuoteModal from './OpenQuoteModal';
 import { fetchQuoteByOpportunityNumber } from './quoteHelpers';
 
 
-
 const productOptions = { 
  Troughs: [
     { name: "Cable Trough", code: "CT" },
@@ -214,6 +213,12 @@ const getUnitPrice = (itemName) => {
   const [standardTroughData, setStandardTroughData] = useState([]);
   const [shouldResetCT, setShouldResetCT] = useState(false);
   const [showCTPulse, setShowCTPulse] = useState(false);
+
+ const [pricePerTonne, setPricePerTonne] = useState(0);
+ const [transportQty, setTransportQty] = useState(0);
+ const [installationDays, setInstallationDays] = useState(0);
+ const [productCodes, setProductCodes] = useState([]);
+
 
  const transportService = breakdown?.services?.find(s => s.label === 'Transport');
  const transportCost = parseFloat(transportService?.value || 0);
@@ -1228,13 +1233,68 @@ setSelectedProduct('CT');  // Auto-return to CT tab
 
 }, [subProductInputs['CT']]);
 
-
 const [isModalOpen, setModalOpen] = useState(false);
 
-// Dummy function to be replaced with actual Supabase fetch
-const fetchQuoteByOpportunityNumber = (oppNumber) => {
-  console.log("🔍 Load quote for:", oppNumber);
+const handleLoadQuote = async (opportunityNumber) => {
+const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
+
+  if (!quote) {
+    alert('❌ Quote not found.');
+    return;
+  }
+
+  // ✅ Patch Project Details, Quote Controls, and Margin
+  setFormData((prev) => ({
+    ...prev,
+    opportunityNumber: quote.opportunity_number || '',
+    projectName: quote.project_name || '',
+    client: quote.client || '',
+    margin: parseFloat(quote.profit_margin || 0),
+    // Add other form fields as needed
+  }));
+
+  // ✅ Patch Quote Breakdown: BoQ, Job Totals, Services
+  if (quote.breakdown) {
+    setBreakdown(quote.breakdown);
+  }
+
+  // ✅ Rehydrate Quote Controls
+  if (quote.total_price) setEstimate(parseFloat(quote.total_price));
+  if (quote.price_per_tonne) setPricePerTonne(parseFloat(quote.price_per_tonne));
+
+  // ✅ Patch services
+  const services = [
+    {
+      label: 'Design',
+      units: quote.total_design_hours || 0,
+      value: quote.total_design_price || 0
+    },
+    {
+      label: 'Transport',
+      units: quote.total_transport_loads || 0,
+      value: quote.total_transport_price || 0
+    },
+    {
+      label: 'Installation',
+      units: quote.total_installation_days || 0,
+      value: quote.total_installation_price || 0
+    }
+  ];
+  setBreakdown(prev => ({ ...prev, services }));
+
+  // ✅ Rehydrate product codes if stored
+  if (quote.product_type) {
+    const codes = quote.product_type.split(',').map(p => p.trim());
+    setProductCodes(codes); // if you're tracking product codes separately
+  }
+
+  // ✅ (Optional) Patch any transport or installation-specific fields
+  setTransportQty(quote.total_transport_loads || 0);
+  setInstallationDays(quote.total_installation_days || 0);
+
+  alert('✅ Quote loaded successfully!');
 };
+
 
      
   return (
@@ -1247,10 +1307,11 @@ const fetchQuoteByOpportunityNumber = (oppNumber) => {
       <main className="p-6 max-w-5xl mx-auto space-y-6">
 
 <OpenQuoteModal
-    isOpen={isModalOpen}
-    onClose={() => setModalOpen(false)}
-    onLoadQuote={fetchQuoteByOpportunityNumber}
-  />
+  isOpen={isModalOpen}
+  onClose={() => setModalOpen(false)}
+  onLoadQuote={handleLoadQuote}
+/>
+
 
 <div className="flex justify-center items-center py-3">
   <button
