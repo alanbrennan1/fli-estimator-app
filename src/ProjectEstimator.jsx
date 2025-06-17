@@ -1311,14 +1311,23 @@ const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
    reqProducts: quote.req_products || '',
    oppDescription: quote.opp_description || '',
    address: quote.address || '',
-   transportRate: quote.breakdown?.transport?.rate || 0,
-   transportQuantity: quote.breakdown?.transport?.quantity || 0,
-   installationDays: quote.installation_days || quote.form_data?.installationDays || 0,
-   ...(quote.breakdown?.design || {}), // ← this spreads design hours directly into formData
-  ...quote.form_data, // ✅ fixed here
-    wasteMargin: quote.waste_margin ?? 5,
-    groupCost: quote.group_cost ?? 2.5,
-    margin: quote.profit_margin ?? 10
+
+// Quote controls
+  margin: parseFloat(quote.profit_margin ?? quote.form_data?.margin ?? 10),
+  wasteMargin: parseFloat(quote.waste_margin ?? quote.form_data?.wasteMargin ?? 5),
+  groupCost: parseFloat(quote.group_cost ?? quote.form_data?.groupCost ?? 2.5),
+
+  // Transport & Installation
+  transportRate: quote.breakdown?.transport?.rate || 0,
+  transportQuantity: quote.breakdown?.transport?.quantity || 0,
+  installationDays: quote.breakdown?.installation?.days || quote.form_data?.installationDays || 0,
+
+  // Design hours
+  ...(quote.breakdown?.design || {}),
+
+  // Fallback — merge any remaining saved form fields
+  ...quote.form_data
+   
   }));
 
   // ✅ Patch Quote Breakdown: BoQ, Job Totals, Services
