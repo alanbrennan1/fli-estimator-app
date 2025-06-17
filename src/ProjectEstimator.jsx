@@ -1205,6 +1205,9 @@ const quotePayload = {
       rate: formData.transportRate || 0,
       quantity: formData.transportQuantity || 0
   }
+   installation: {
+      days: formData.installationDays || 0
+    }
     },
 
   // ✅ Remainder of persisted fields
@@ -1306,6 +1309,7 @@ const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
    address: quote.address || '',
    transportRate: quote.breakdown?.transport?.rate || 0,
    transportQuantity: quote.breakdown?.transport?.quantity || 0,
+   installationDays: quote.installation_days || quote.form_data?.installationDays || 0,
    ...(quote.breakdown?.design || {}) // ← this spreads design hours directly into formData
   }));
 
