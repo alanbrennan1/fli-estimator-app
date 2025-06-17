@@ -1205,7 +1205,7 @@ const quotePayload = {
       rate: formData.transportRate || 0,
       quantity: formData.transportQuantity || 0
   }
-    }
+    },
 
   // ✅ Remainder of persisted fields
   form_data: formData,
