@@ -1396,10 +1396,8 @@ if (quote.product_quantities) {
   // ✅ Trigger accordions to auto-open
   setForceOpenAccordions(true);
 
-   // ✅ Auto-run estimate after loading quote to populate BoQ subtotals
-  setTimeout(() => {
-    handleEstimate();
-  }, 0);
+ // ✅ Run Estimate to repopulate subtotals & tables
+handleEstimate();
  
   alert('✅ Quote loaded successfully!');
 };
