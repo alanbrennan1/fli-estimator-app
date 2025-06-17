@@ -69,7 +69,12 @@ const wallChecklistOptions = [
 
 
 function AccordionSection({ title, children, defaultOpen = false }) {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
+  const [isOpen, setIsOpen] = useState(defaultOpen); // initialize from prop
+
+  // 🧠 Sync defaultOpen to force re-opening accordions if needed
+  useEffect(() => {
+    if (defaultOpen) setIsOpen(true);
+  }, [defaultOpen]);
 
   return (
     <div className="border rounded shadow-sm mb-4">
@@ -84,6 +89,7 @@ function AccordionSection({ title, children, defaultOpen = false }) {
     </div>
   );
 }
+
 
 
 
