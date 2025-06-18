@@ -7,7 +7,7 @@ const supabase = createClient(
   process.env.SUPABASE_ANON_KEY
 );
 
-// ✅ Utility to check if an Opportunity already exists
+// ✅ Utility to check if an Opportunity already exists in Supabase
 export async function checkOpportunityExists(opportunityId) {
   const { data, error } = await supabase
     .from('quotes')
