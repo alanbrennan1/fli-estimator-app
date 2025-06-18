@@ -1,6 +1,6 @@
-// utils/quoteHelpers.js
 import { supabase } from './supabaseClient';
 
+// 🔍 Fetch a full quote by opportunity number
 export async function fetchQuoteByOpportunityNumber(opportunityNumber) {
   const { data, error } = await supabase
     .from('quotes')
@@ -14,4 +14,20 @@ export async function fetchQuoteByOpportunityNumber(opportunityNumber) {
   }
 
   return data;
+}
+
+// ✅ Check whether a quote already exists in Supabase
+export async function checkOpportunityExists(opportunityId) {
+  const { data, error } = await supabase
+    .from('quotes')
+    .select('opportunity_number')
+    .eq('opportunity_number', opportunityId)
+    .single();
+
+  if (error && error.code !== 'PGRST116') {
+    console.error('❌ Supabase error:', error);
+    throw error;
+  }
+
+  return !!data;
 }
