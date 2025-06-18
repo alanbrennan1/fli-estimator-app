@@ -23,6 +23,7 @@ if (authHeader && authHeader !== `Bearer ${expectedToken}`) {
 let query = supabase
   .from('quotes')
   .select(`
+  opportunity_number,
   product_type,
   concrete_tonnage,
   steel_tonnage,
