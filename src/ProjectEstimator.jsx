@@ -4,7 +4,7 @@ import { saveQuoteToSupabase } from './saveQuoteToSupabase';
 import PasswordGate from './passwordGate'; //
 import OpenQuoteModal from './OpenQuoteModal'; 
 import { fetchQuoteByOpportunityNumber } from './quoteHelpers';
-import { checkOpportunityExists } from '../api/supabaseUtils';
+import { checkOpportunityExists } from './quoteHelpers';
 import { fetchOpportunityById } from '../api/dynamicsAPI';
 
 
