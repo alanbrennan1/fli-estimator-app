@@ -1,6 +1,6 @@
 // /api/supabaseUtils.js
 
-import { supabase } from './supabaseClient'; // adjust path if needed
+import { supabase } from '../supabaseClient'; // adjust path if needed
 
 
 // ✅ Utility to check if an Opportunity already exists in Supabase
