@@ -24,6 +24,9 @@ let query = supabase
   .from('quotes')
   .select(`
   opportunity_number,
+  project_name,
+  client,
+  sector,
   product_type,
   concrete_tonnage,
   steel_tonnage,
