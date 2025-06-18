@@ -1217,6 +1217,7 @@ const quotePayload = {
   total_labour_hours: labourHours.toFixed(2),
   hrs_per_tonne_job: concreteUnits > 0 ? (labourHours / (concreteUnits * 2.6)).toFixed(2) : '0.00',
   client: 'test',
+  sector: formData.sector,
 
    // ✅ Save all quote slider values
   profit_margin: formData.margin || 10,
