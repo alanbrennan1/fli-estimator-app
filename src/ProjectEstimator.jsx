@@ -4,6 +4,10 @@ import { saveQuoteToSupabase } from './saveQuoteToSupabase';
 import PasswordGate from './passwordGate'; //
 import OpenQuoteModal from './OpenQuoteModal'; 
 import { fetchQuoteByOpportunityNumber } from './quoteHelpers';
+import { checkOpportunityExists } from '../api/supabaseUtils';
+import { fetchOpportunityById } from '../api/dynamicsAPI';
+
+
 
 
 const productOptions = { 
@@ -1139,7 +1143,46 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
 
   setPendingImport(null);
   
-}; // 👈 This is the closing of handleEstimate
+}; // 👈 End of handleEstimate
+
+
+ async function handleOpportunitySearch(opportunityId) {
+  try {
+    const exists = await checkOpportunityExists(opportunityId);
+    if (exists) {
+      window.alert("Opportunity exists in Supabase. Use 'Open Quote' modal.");
+      return;
+    }
+
+    const opp = await fetchOpportunityById(opportunityId);
+
+    const mappedData = {
+      opportunityNumber: opp.opportunityid,
+      projectName: opp.ergo_projectname,
+      accountName: opp.accountidname,
+      accountContact: opp.contactidname,
+      endClient: opp.ergo_endclient,
+      salesperson: '', // TBC
+      sector: opp.ergo_sector,
+      closeDate: opp.actualclosedate,
+      currency: opp.tranactioncurrencyid,
+      profitability: opp.ergo_marginpercentage,
+      reqProducts: opp.ergo_productname,
+      region: opp.ergo_sector,
+      returnDate: '', // TBC
+      salesStage: opp.salesstage,
+      oppDescription: '', // TBC
+      address: '', // TBC
+    };
+
+    setFormData(prev => ({ ...prev, ...mappedData }));
+  } catch (err) {
+    console.error('Error during opportunity lookup:', err);
+    alert("Failed to fetch opportunity. Please check the ID and try again.");
+  }
+}
+
+ 
 
  // 👇 Save to Supabase
  const handleSaveToSupabase = async () => {
