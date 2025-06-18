@@ -1,11 +1,7 @@
 // /api/supabaseUtils.js
 
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from './supabaseClient'; // adjust path if needed
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
 
 // ✅ Utility to check if an Opportunity already exists in Supabase
 export async function checkOpportunityExists(opportunityId) {
