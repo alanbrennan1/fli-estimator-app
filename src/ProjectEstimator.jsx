@@ -1501,6 +1501,7 @@ setBreakdown(prev => ({ ...prev, services }));
     name="opportunityNumber"
     value={formData.opportunityNumber || ""}
     onChange={handleChange}
+    onBlur={(e) => handleOpportunitySearch(e.target.value)} 
     className="border p-2 rounded text-xs bg-green-100"
     placeholder="Enter Opportunity Number"
   />
