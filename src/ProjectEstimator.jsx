@@ -1147,12 +1147,16 @@ async function handleOpportunitySearch(projectNumber) {
   setIsLoadingOpportunity(true); // 🔄 Start spinner
 
   try {
+   console.log("🔍 Checking Supabase...");
     const exists = await checkProjectExists(projectNumber);
+   console.log("✅ Exists in Supabase?", exists);
+   
     if (exists) {
       alert("Quote already exists in Supabase. Use 'Open Quote' modal.");
       return;
     }
 
+   console.log("🌐 Fetching from Dynamics...");
     const response = await fetch(`/api/opportunity?projectNumber=${projectNumber.trim()}`);
     if (!response.ok) {
       const err = await response.json();
@@ -1162,6 +1166,7 @@ async function handleOpportunitySearch(projectNumber) {
     }
 
     const opp = await response.json();
+   console.log("📦 Dynamics data:", opp);
     if (!opp) {
       alert(`No Dynamics 365 opportunity found for project number: ${projectNumber}`);
       return;
