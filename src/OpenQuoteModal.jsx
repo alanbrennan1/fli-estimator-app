@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 const OpenQuoteModal = ({ isOpen, onClose, onLoadQuote }) => {
-  const [opportunityNumber, setOpportunityNumber] = useState('');
+  const [projectNumber, setProjectNumber] = useState('');
 
   const handleLoad = () => {
-    onLoadQuote(opportunityNumber.trim());
+    onLoadQuote(projectNumber.trim());
     onClose();
   };
 
@@ -20,8 +20,8 @@ const OpenQuoteModal = ({ isOpen, onClose, onLoadQuote }) => {
         <input
           type="text"
           className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-          value={opportunityNumber}
-          onChange={(e) => setOpportunityNumber(e.target.value)}
+          value={projectNumber}
+          onChange={(e) => setProjectNumber(e.target.value)}
           placeholder="Enter Project Number"
         />
         <div className="mt-4 flex justify-end gap-2">
