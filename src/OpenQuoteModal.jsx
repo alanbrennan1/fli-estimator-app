@@ -15,14 +15,14 @@ const OpenQuoteModal = ({ isOpen, onClose, onLoadQuote }) => {
       <div className="bg-white p-6 rounded-lg shadow-md w-96">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">🔍 Open Quote</h2>
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          Opportunity Number
+          Project Number
         </label>
         <input
           type="text"
           className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
           value={opportunityNumber}
           onChange={(e) => setOpportunityNumber(e.target.value)}
-          placeholder="Enter Opportunity Number"
+          placeholder="Enter Project Number"
         />
         <div className="mt-4 flex justify-end gap-2">
           <button
