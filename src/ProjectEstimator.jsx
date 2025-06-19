@@ -1164,26 +1164,8 @@ async function handleOpportunitySearch(projectNumber) {
       return;
     }
 
-    const mappedData = {
-      projectNumber: opp.ergo_projectnumber || '',
-      projectName: opp.name || '',
-      accountName: opp._parentaccountid_value || '',
-      accountContact: opp._parentcontactid_value || '',
-      endClient: opp._ergo_endclient_value || '',
-      salesperson: opp._ownerid_value || '',
-      sector: opp.ergo_sector || '',
-      closeDate: opp.actualclosedate || opp.estimatedclosedate || '',
-      currency: opp._transactioncurrencyid_value || '',
-      profitability: opp.ergo_marginpercentage || '',
-      reqProducts: opp.ergo_highlevelproductsrequired || '',
-      region: opp.ergo_projectcountry || '',
-      returnDate: opp.ergo_requestedreturndate || '',
-      salesStage: opp.salesstagecode || opp.stepname || '',
-      oppDescription: opp.description || '',
-      address: opp.ergo_projectaddressline1 || '',
-    };
-
-    setFormData(prev => ({ ...prev, ...mappedData }));
+    // ✅ Now just apply the cleaned object directly
+    setFormData(prev => ({ ...prev, ...opp }));
 
   } catch (err) {
     console.error("Error during opportunity lookup:", err);
