@@ -1642,13 +1642,13 @@ setBreakdown(prev => ({ ...prev, services }));
     {/* Return Date */}
     <div className="flex flex-col">
       <label className="text-xs font-medium mb-1">Return Date</label>
-      <input
-        name="returnDate"
-        type="date"
-        value={formData.returnDate || ''}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      />
+    <input
+      name="returnDate"
+      type="date"
+      value={formData.returnDate ? formData.returnDate.slice(0, 10) : ''}
+      onChange={handleChange}
+      className="border p-2 rounded text-xs"
+    />
     </div>
 
     {/* Sales Stage */}
