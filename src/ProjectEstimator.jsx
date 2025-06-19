@@ -167,9 +167,9 @@ const getUnitPrice = (itemName) => {
 
 
   const [formData, setFormData] = useState({
+    projectNumber: '', 
     projectName: '',
     installationDays: '',
-    projectNumber: '',
     client: '',
     sector: '',
     productType: '',
@@ -1217,7 +1217,7 @@ async function handleOpportunitySearch(projectNumber) {
 
 
 const quotePayload = {
-  opportunity_number: formData.opportunityNumber || '',
+  project_number: formData.projectNumber || '',
   project_name: formData.projectName?.trim() || 'Unnamed Project',
   product_type: productBreakdowns.map(p => p.productCode).join(', '),
   concrete_tonnage: (concreteUnits * 2.6).toFixed(2),
@@ -1336,8 +1336,8 @@ setSelectedProduct('CT');  // Auto-return to CT tab
 
 const [isModalOpen, setModalOpen] = useState(false);
 
-const handleLoadQuote = async (opportunityNumber) => {
-const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
+const handleLoadQuote = async (projectNumber) => {
+const quote = await fetchQuoteByProjectNumber(projectNumber);
 
   if (!quote) {
     alert('❌ Quote not found.');
@@ -1347,7 +1347,7 @@ const quote = await fetchQuoteByOpportunityNumber(opportunityNumber);
   // ✅ Patch Project Details, Quote Controls, and Margin
   setFormData((prev) => ({
     ...prev,
-    opportunityNumber: quote.opportunity_number || '',
+    projectNumber: quote.project_number || '',
     projectName: quote.project_name || '',
     client: quote.client || '',
     margin: parseFloat(quote.profit_margin || 0),
@@ -1507,14 +1507,14 @@ setBreakdown(prev => ({ ...prev, services }));
     
    {/* 🔢 Opportunity Number */}
 <div className="flex flex-col">
-<label className="text-xs font-medium mb-1">Opportunity Number</label>
+  <label className="text-xs font-medium mb-1">Project Number</label>
   <input
-    name="opportunityNumber"
-    value={formData.opportunityNumber || ""}
+    name="projectNumber"
+    value={formData.projectNumber || ""}
     onChange={handleChange}
-    onBlur={(e) => handleOpportunitySearch(e.target.value)} 
+    onBlur={(e) => handleOpportunitySearch(e.target.value)}
     className="border p-2 rounded text-xs bg-green-100"
-    placeholder="Enter Opportunity Number"
+    placeholder="Enter Project Number (e.g. 30019)"
   />
 </div>
   
