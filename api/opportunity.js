@@ -86,20 +86,20 @@ export default async function handler(req, res) {
 return res.status(200).json({
   projectNumber: opportunity.ergo_projectnumber || '',
   projectName: opportunity.name || '',
-  accountName: opportunity._parentaccountid_value || '',
-  accountContact: opportunity._parentcontactid_value || '',
+  accountName: accountName || '',
+  accountContact: contactName || '',
   endClient: opportunity._ergo_endclient_value || '',
-  salesperson: opportunity._ownerid_value || '',
+  salesperson: salespersonName || '',
   sector: opportunity.ergo_sector || '',
   closeDate: opportunity.actualclosedate || opportunity.estimatedclosedate || '',
-  currency: opportunity._transactioncurrencyid_value || '',
+  currency: currency || '',
   profitability: opportunity.ergo_marginpercentage || '',
   reqProducts: opportunity.ergo_highlevelproductsrequired || '',
   region: opportunity.ergo_projectcountry || '',
   returnDate: opportunity.ergo_requestedreturndate || '',
   salesStage: opportunity.salesstagecode || '',
   oppDescription: opportunity.description || '',
-  address: opportunity.ergo_projectaddressline1 || '', // ✅ Added
+  address: opportunity.ergo_projectaddressline1 || '',
 });
 
 
