@@ -97,7 +97,7 @@ return res.status(200).json({
   reqProducts: opportunity.ergo_highlevelproductsrequired || '',
   region: opportunity.ergo_projectcountry || '',
   returnDate: opportunity.ergo_requestedreturndate || '',
-  salesStage: opportunity.salesstagecode || opportunity.stepname || '',
+  salesStage: opportunity.salesstagecode || '',
   oppDescription: opportunity.description || '',
   address: opportunity.ergo_projectaddressline1 || '', // ✅ Added
 });
