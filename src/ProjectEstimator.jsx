@@ -3,7 +3,6 @@ import './index.css';
 import { saveQuoteToSupabase } from './saveQuoteToSupabase';
 import PasswordGate from './passwordGate'; //
 import OpenQuoteModal from './OpenQuoteModal'; 
-import { fetchOpportunityByProjectNumber } from '../api/dynamicsAPI';
 import { checkProjectExists, fetchQuoteByProjectNumber } from './quoteHelpers';
 
 
@@ -1533,67 +1532,68 @@ setBreakdown(prev => ({ ...prev, services }));
     {/* Account Name */}
     <div className="flex flex-col">
       <label className="text-xs font-medium mb-1">Account Name</label>
-      <select
+      <input
+        type="text"
         name="accountName"
         value={formData.accountName}
         onChange={handleChange}
         className="border p-2 rounded text-xs"
-      >
-        <option value="">Select Account</option>
-      </select>
+        placeholder="Enter Account Name"
+      />
     </div>
 
     {/* Account Contact */}
     <div className="flex flex-col">
-      <label className="text-xs font-medium mb-1">Account Contact</label>
-      <select
-        name="accountContact"
-        value={formData.accountContact}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      >
-        <option value="">Select Contact</option>
-      </select>
-    </div>
+  <label className="text-xs font-medium mb-1">Account Contact</label>
+  <input
+    type="text"
+    name="accountContact"
+    value={formData.accountContact}
+    onChange={handleChange}
+    className="border p-2 rounded text-xs"
+    placeholder="Enter Account Contact"
+  />
+</div>
 
     {/* End Client */}
     <div className="flex flex-col">
-      <label className="text-xs font-medium mb-1">End Client</label>
-      <select
-        name="endClient"
-        value={formData.endClient}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      >
-        <option value="">Select End Client</option>
-      </select>
-    </div>
+  <label className="text-xs font-medium mb-1">End Client</label>
+  <input
+    type="text"
+    name="endClient"
+    value={formData.endClient}
+    onChange={handleChange}
+    className="border p-2 rounded text-xs"
+    placeholder="Enter End Client"
+  />
+</div>
 
     {/* Salesperson */}
     <div className="flex flex-col">
-      <label className="text-xs font-medium mb-1">Salesperson</label>
-      <select
-        name="salesperson"
-        value={formData.salesperson}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      >
-        <option value="">Select Salesperson</option>
-      </select>
-    </div>
+  <label className="text-xs font-medium mb-1">Salesperson</label>
+  <input
+    type="text"
+    name="salesperson"
+    value={formData.salesperson}
+    onChange={handleChange}
+    className="border p-2 rounded text-xs"
+    placeholder="Enter Salesperson Name"
+  />
+</div>
+
 
     {/* Sector */}
     <div className="flex flex-col">
-      <label className="text-xs font-medium mb-1">Sector</label>
-      <select
-        name="sector"
-        value={formData.sector}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      >
-        <option value="">Select Sector</option>
-      </select>
-    </div>
+  <label className="text-xs font-medium mb-1">Sector</label>
+  <input
+    type="text"
+    name="sector"
+    value={formData.sector}
+    onChange={handleChange}
+    className="border p-2 rounded text-xs"
+    placeholder="Enter Sector"
+  />
+</div>
 
     {/* Close Date */}
     <div className="flex flex-col">
@@ -1609,19 +1609,19 @@ setBreakdown(prev => ({ ...prev, services }));
 
     {/* Currency & Probability */}
     <div className="flex flex-col col-span-1">
-      <label className="text-xs font-medium mb-1">Currency</label>
-      <select
-        name="currency"
-        value={formData.currency}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      >
-        <option value="">Select Currency</option>
-        <option value="£">£</option>
-        <option value="€">€</option>
-      </select>
-    </div>
-    <div className="flex flex-col col-span-1">
+  <label className="text-xs font-medium mb-1">Currency</label>
+  <input
+    type="text"
+    name="currency"
+    value={formData.currency}
+    onChange={handleChange}
+    className="border p-2 rounded text-xs"
+    placeholder="Enter Currency (e.g. £, €)"
+  />
+</div>
+
+   
+   <div className="flex flex-col col-span-1">
       <label className="text-xs font-medium mb-1">Probability (%)</label>
       <input
         name="probability"
@@ -1634,29 +1634,29 @@ setBreakdown(prev => ({ ...prev, services }));
 
     {/* Req. Products */}
     <div className="flex flex-col">
-      <label className="text-xs font-medium mb-1">Req. Products</label>
-      <select
-        name="requiredProducts"
-        value={formData.requiredProducts}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      >
-        <option value="">Select Product</option>
-      </select>
-    </div>
+  <label className="text-xs font-medium mb-1">Req. Products</label>
+  <input
+    type="text"
+    name="requiredProducts"
+    value={formData.requiredProducts}
+    onChange={handleChange}
+    className="border p-2 rounded text-xs"
+    placeholder="Enter Required Products"
+  />
+</div>
 
     {/* Region */}
     <div className="flex flex-col">
-      <label className="text-xs font-medium mb-1">Region</label>
-      <select
-        name="region"
-        value={formData.region}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      >
-        <option value="">Select Region</option>
-      </select>
-    </div>
+  <label className="text-xs font-medium mb-1">Region</label>
+  <input
+    type="text"
+    name="region"
+    value={formData.region}
+    onChange={handleChange}
+    className="border p-2 rounded text-xs"
+    placeholder="Enter Region"
+  />
+</div>
 
     {/* Return Date */}
     <div className="flex flex-col">
