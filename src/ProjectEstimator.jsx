@@ -1145,26 +1145,30 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
 
 async function handleOpportunitySearch(projectNumber) {
   try {
-    // Step 1: Check if opportunity already exists in Supabase
-    const exists = await checkProjectExists(projectNumber);
+    const exists = await checkProjectExists(projectNumber); // Supabase check
     if (exists) {
-      window.alert("Opportunity exists in Supabase. Use 'Open Quote' modal.");
+      window.alert("Quote already exists in Supabase. Use 'Open Quote' modal.");
       return;
     }
 
-    // Step 2: Fetch opportunity from Dynamics by project number
-    const opp = await fetchOpportunityByProjectNumber(projectNumber);
+    const response = await fetch(`/api/opportunity?projectNumber=${projectNumber.trim()}`);
+    if (!response.ok) {
+      const err = await response.json();
+      console.error("❌ Backend API error:", err);
+      alert("Failed to fetch project from Dynamics. Please check the project number.");
+      return;
+    }
 
+    const opp = await response.json();
     if (!opp) {
       alert(`No Dynamics 365 opportunity found for project number: ${projectNumber}`);
       return;
     }
 
-    // Step 3: Map Dynamics fields to your form structure
     const mappedData = {
-      projectNumber: opp.ergo_projectnumber || '',         // e.g. "30019 | Molesworth"
-      projectName: opp.name || '',                         // e.g. "Molesworth"
-      accountName: opp._parentaccountid_value || '',       // GUID; needs resolving for readable name
+      projectNumber: opp.ergo_projectnumber || '',
+      projectName: opp.name || '',
+      accountName: opp._parentaccountid_value || '',
       accountContact: opp._parentcontactid_value || '',
       endClient: opp._ergo_endclient_value || '',
       salesperson: opp._ownerid_value || '',
@@ -1173,7 +1177,7 @@ async function handleOpportunitySearch(projectNumber) {
       currency: opp._transactioncurrencyid_value || '',
       profitability: opp.ergo_marginpercentage || '',
       reqProducts: opp.ergo_highlevelproductsrequired || '',
-      region: opp.ergo_projectcountry || '',               // fallback could be ergo_country
+      region: opp.ergo_projectcountry || '',
       returnDate: opp.ergo_requestedreturndate || '',
       salesStage: opp.salesstagecode || opp.stepname || '',
       oppDescription: opp.description || '',
@@ -1181,9 +1185,10 @@ async function handleOpportunitySearch(projectNumber) {
     };
 
     setFormData(prev => ({ ...prev, ...mappedData }));
+
   } catch (err) {
-    console.error('Error during opportunity lookup:', err);
-    alert("Failed to fetch opportunity. Please check the project number and try again.");
+    console.error("Error during opportunity lookup:", err);
+    alert("An unexpected error occurred while fetching the project.");
   }
 }
 
