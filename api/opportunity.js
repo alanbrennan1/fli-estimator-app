@@ -70,8 +70,8 @@ export default async function handler(req, res) {
       ? await fetchName('accounts', opportunity._parentaccountid_value)
       : null;
 
-    const contactName = opportunity._contactid_value
-      ? await fetchName('contacts', opportunity._contactid_value, 'fullname')
+    const contactName = opportunity._parentcontactid_value
+      ? await fetchName('contacts', opportunity._parentcontactid_value, 'fullname')
       : null;
 
     const salespersonName = opportunity._ownerid_value
