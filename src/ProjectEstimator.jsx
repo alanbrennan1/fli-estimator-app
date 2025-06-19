@@ -227,6 +227,7 @@ const getUnitPrice = (itemName) => {
  const [installationDays, setInstallationDays] = useState(0);
  const [productCodes, setProductCodes] = useState([]);
  const [forceOpenAccordions, setForceOpenAccordions] = useState(false);
+ const [isLoadingOpportunity, setIsLoadingOpportunity] = useState(false);
 
 
  const transportService = breakdown?.services?.find(s => s.label === 'Transport');
@@ -1143,10 +1144,12 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
 
 
 async function handleOpportunitySearch(projectNumber) {
+  setIsLoadingOpportunity(true); // 🔄 Start spinner
+
   try {
-    const exists = await checkProjectExists(projectNumber); // Supabase check
+    const exists = await checkProjectExists(projectNumber);
     if (exists) {
-      window.alert("Quote already exists in Supabase. Use 'Open Quote' modal.");
+      alert("Quote already exists in Supabase. Use 'Open Quote' modal.");
       return;
     }
 
@@ -1164,14 +1167,15 @@ async function handleOpportunitySearch(projectNumber) {
       return;
     }
 
-    // ✅ Now just apply the cleaned object directly
     setFormData(prev => ({ ...prev, ...opp }));
-
   } catch (err) {
     console.error("Error during opportunity lookup:", err);
     alert("An unexpected error occurred while fetching the project.");
+  } finally {
+    setIsLoadingOpportunity(false); // ✅ End spinner
   }
 }
+
 
 
  
@@ -1487,18 +1491,21 @@ setBreakdown(prev => ({ ...prev, services }));
 <AccordionSection title="📌 Project Details" defaultOpen={forceOpenAccordions}>
   <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
     
-    {/* 🔢 Project Number */}
-    <div className="flex flex-col">
-      <label className="text-xs font-medium mb-1">Project Number</label>
-      <input
-        name="projectNumber"
-        value={formData.projectNumber || ""}
-        onChange={handleChange}
-        onBlur={(e) => handleOpportunitySearch(e.target.value)}
-        className="border p-2 rounded text-xs bg-green-100"
-        placeholder="Enter Project Number (e.g. 30019)"
-      />
-    </div>
+<div className="flex flex-col relative">
+  <label className="text-xs font-medium mb-1">Project Number</label>
+  <input
+    name="projectNumber"
+    value={formData.projectNumber || ""}
+    onChange={handleChange}
+    onBlur={(e) => handleOpportunitySearch(e.target.value)}
+    className="border p-2 rounded text-xs bg-green-100"
+    placeholder="Enter Project Number (e.g. 30019)"
+  />
+  {isLoadingOpportunity && (
+    <span className="text-[10px] text-gray-500 mt-1">🔄 Fetching from Dynamics...</span>
+  )}
+</div>
+
 
     {/* Project Name */}
     <div className="flex flex-col">
