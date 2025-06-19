@@ -1208,7 +1208,7 @@ async function handleOpportunitySearch(projectNumber) {
 
 
 const quotePayload = {
-  project_number: formData.projectNumber || '',
+  project_number: formData.projectNumber.split('|')[0].trim() || '',
   project_name: formData.projectName?.trim() || 'Unnamed Project',
   product_type: productBreakdowns.map(p => p.productCode).join(', '),
   concrete_tonnage: (concreteUnits * 2.6).toFixed(2),
