@@ -33,8 +33,10 @@ export async function getAccessToken() {
 export async function fetchOpportunityByProjectNumber(projectNumber) {
   const token = await getAccessToken();
 
-  const encodedNumber = encodeURIComponent(projectNumber.trim());
-  const url = `${DYNAMICS_API_BASE}/opportunities?$filter=startswith(ergo_projectnumber, '${encodedNumber}')`;
+  const cleanNumber = projectNumber.trim();
+  const url = `${DYNAMICS_API_BASE}/opportunities?$filter=startswith(ergo_projectnumber, '${cleanNumber}')`;
+
+  console.log('🔗 Fetching Dynamics opportunity with URL:', url);
 
   const response = await fetch(url, {
     headers: {
@@ -46,9 +48,13 @@ export async function fetchOpportunityByProjectNumber(projectNumber) {
   });
 
   if (!response.ok) {
+    const errorText = await response.text();
+    console.error('❌ Dynamics API error:', errorText);
     throw new Error(`Project number lookup failed: ${response.statusText}`);
   }
 
   const data = await response.json();
-  return data.value[0] || null; // return first matching result or null
+  console.log('✅ Dynamics response:', data);
+  return data.value[0] || null;
 }
+
