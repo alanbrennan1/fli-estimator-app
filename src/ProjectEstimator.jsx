@@ -1146,7 +1146,7 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
 async function handleOpportunitySearch(projectNumber) {
   try {
     // Step 1: Check if opportunity already exists in Supabase
-    cconst exists = await checkProjectExists(projectNumber);
+    const exists = await checkProjectExists(projectNumber);
     if (exists) {
       window.alert("Opportunity exists in Supabase. Use 'Open Quote' modal.");
       return;
