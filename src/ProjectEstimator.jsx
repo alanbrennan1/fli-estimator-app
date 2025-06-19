@@ -1546,8 +1546,7 @@ setBreakdown(prev => ({ ...prev, services }));
         value={formData.endClient}
         onChange={handleChange}
         className="border p-2 rounded text-xs"
-        placeholder="Enter End Client"
-      />
+       />
     </div>
 
     {/* Salesperson */}
@@ -1622,8 +1621,7 @@ setBreakdown(prev => ({ ...prev, services }));
         value={formData.reqProducts}
         onChange={handleChange}
         className="border p-2 rounded text-xs"
-        placeholder="Enter Required Products"
-      />
+       />
     </div>
 
     {/* Region */}
@@ -1635,8 +1633,7 @@ setBreakdown(prev => ({ ...prev, services }));
         value={formData.region}
         onChange={handleChange}
         className="border p-2 rounded text-xs"
-        placeholder="Enter Region"
-      />
+        />
     </div>
 
     {/* Return Date */}
