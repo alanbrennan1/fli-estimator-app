@@ -32,7 +32,7 @@ export default async function handler(req, res) {
     const { access_token } = await tokenRes.json();
 
     // Step 2: Fetch opportunity from Dynamics
-    const url = `${DYNAMICS_API_BASE}/opportunities?$filter=startswith(ergo_projectnumber, '${projectNumber.trim()}')`;
+    const url = `${DYNAMICS_API_BASE}/opportunities?$filter=startswith(ergo_projectnumber, '${projectNumber.trim()}')&$expand=parentaccountid($select=name)`;
 
     const oppRes = await fetch(url, {
       headers: {
