@@ -88,7 +88,7 @@ export default async function handler(req, res) {
       projectName: opportunity.name,
       description: opportunity.description,
       address: opportunity.ergo_projectaddressline1 || '',
-      closeDate: opportunity.actualclosedate || '',
+      closeDate: opportunity.estimatedclosedate || '',
       returnDate: opportunity.ergo_requestedreturndate || '',
       accountName,
       contactName,
