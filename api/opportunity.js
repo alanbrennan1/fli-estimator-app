@@ -83,20 +83,28 @@ export default async function handler(req, res) {
       : null;
 
     // Step 4: Return cleaned payload
-    return res.status(200).json({
-      projectNumber: opportunity.ergo_projectnumber,
-      projectName: opportunity.name,
-      description: opportunity.description,
-      address: opportunity.ergo_projectaddressline1 || '',
-      closeDate: opportunity.estimatedclosedate || '',
-      returnDate: opportunity.ergo_requestedreturndate || '',
-      accountName,
-      contactName,
-      salespersonName,
-      currency,
-      // 👇 leaving raw sector code as-is for now
-      sector: opportunity.ergo_sector,
-    });
+return res.status(200).json({
+  projectNumber: opportunity.ergo_projectnumber || '',
+  projectName: opportunity.name || '',
+  accountName: opportunity._parentaccountid_value || '',
+  accountContact: opportunity._parentcontactid_value || '',
+  endClient: opportunity._ergo_endclient_value || '',
+  salesperson: opportunity._ownerid_value || '',
+  sector: opportunity.ergo_sector || '',
+  closeDate: opportunity.actualclosedate || opportunity.estimatedclosedate || '',
+  currency: opportunity._transactioncurrencyid_value || '',
+  profitability: opportunity.ergo_marginpercentage || '',
+  reqProducts: opportunity.ergo_highlevelproductsrequired || '',
+  region: opportunity.ergo_projectcountry || '',
+  returnDate: opportunity.ergo_requestedreturndate || '',
+  salesStage: opportunity.salesstagecode || opportunity.stepname || '',
+  oppDescription: opportunity.description || '',
+  address: opportunity.ergo_projectaddressline1 || '', // ✅ Added
+});
+
+
+
+    
   } catch (err) {
     console.error('❌ Unexpected error in /api/opportunity:', err);
     return res.status(500).json({ error: err.message });
