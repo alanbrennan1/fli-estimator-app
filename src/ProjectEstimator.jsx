@@ -1595,7 +1595,7 @@ setBreakdown(prev => ({ ...prev, services }));
   <input
     type="text"
     name="currency"
-    value={formData.currency}
+    value={formData._transactioncurrencyid_value}
     onChange={handleChange}
     className="border p-2 rounded text-xs"
     placeholder="Enter Currency (e.g. £, €)"
@@ -1620,7 +1620,7 @@ setBreakdown(prev => ({ ...prev, services }));
   <input
     type="text"
     name="requiredProducts"
-    value={formData.requiredProducts}
+    value={formData.ergo_highlevelproductsrequired}
     onChange={handleChange}
     className="border p-2 rounded text-xs"
     placeholder="Enter Required Products"
@@ -1633,7 +1633,7 @@ setBreakdown(prev => ({ ...prev, services }));
   <input
     type="text"
     name="region"
-    value={formData.region}
+    value={formData.ergo_country}
     onChange={handleChange}
     className="border p-2 rounded text-xs"
     placeholder="Enter Region"
@@ -1646,7 +1646,7 @@ setBreakdown(prev => ({ ...prev, services }));
       <input
         name="returnDate"
         type="date"
-        value={formData.returnDate || ''}
+        value={formData.ergo_requestedreturndate || ''}
         onChange={handleChange}
         className="border p-2 rounded text-xs"
       />
@@ -1656,8 +1656,8 @@ setBreakdown(prev => ({ ...prev, services }));
     <div className="flex flex-col">
       <label className="text-xs font-medium mb-1">Sales Stage</label>
       <input
-        name="projectName"
-        value={formData.projectName}
+        name="Sales Stage"
+        value={formData.salesStage}
         onChange={handleChange}
         className="border p-2 rounded text-xs"
       />
@@ -1668,7 +1668,7 @@ setBreakdown(prev => ({ ...prev, services }));
       <label className="text-xs font-medium mb-1">Opp. Description</label>
       <textarea
         name="opportunityDescription"
-        value={formData.opportunityDescription}
+        value={formData.description}
         onChange={handleChange}
         className="border p-2 rounded text-xs"
         rows={3}
