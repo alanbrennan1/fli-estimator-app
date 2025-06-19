@@ -5,7 +5,7 @@ import PasswordGate from './passwordGate'; //
 import OpenQuoteModal from './OpenQuoteModal'; 
 import { fetchQuoteByOpportunityNumber } from './quoteHelpers';
 import { checkOpportunityExists } from './quoteHelpers';
-import { fetchOpportunityByProjectNumber } from './api/dynamicsAPI';
+import { fetchOpportunityByProjectNumber } from '../api/dynamicsAPI';
 
 
 
