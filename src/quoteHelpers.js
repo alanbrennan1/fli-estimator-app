@@ -1,11 +1,11 @@
 import { supabase } from './supabaseClient';
 
-// 🔍 Fetch a full quote by opportunity number
-export async function fetchQuoteByOpportunityNumber(opportunityNumber) {
+// 🔍 Fetch a full quote by project number
+export async function fetchQuoteByProjectNumber(projectNumber) {
   const { data, error } = await supabase
     .from('quotes')
     .select('*')
-    .eq('opportunity_number', opportunityNumber)
+    .eq('project_number', projectNumber)
     .single();
 
   if (error) {
@@ -17,11 +17,11 @@ export async function fetchQuoteByOpportunityNumber(opportunityNumber) {
 }
 
 // ✅ Check whether a quote already exists in Supabase
-export async function checkOpportunityExists(opportunityId) {
+export async function checkProjectExists(projectNumber) {
   const { data, error } = await supabase
     .from('quotes')
-    .select('opportunity_number')
-    .eq('opportunity_number', opportunityId)
+    .select('project_number')
+    .eq('project_number', projectNumber)
     .single();
 
   if (error && error.code !== 'PGRST116') {
