@@ -5,7 +5,8 @@ import PasswordGate from './passwordGate'; //
 import OpenQuoteModal from './OpenQuoteModal'; 
 import { fetchQuoteByOpportunityNumber } from './quoteHelpers';
 import { checkOpportunityExists } from './quoteHelpers';
-import { fetchOpportunityById } from '../api/dynamicsAPI';
+import { fetchOpportunityByProjectNumber } from './api/dynamicsAPI';
+
 
 
 
@@ -1146,41 +1147,50 @@ console.log("✅ computedBreakdowns", computedBreakdowns);
 }; // 👈 End of handleEstimate
 
 
- async function handleOpportunitySearch(opportunityId) {
+async function handleOpportunitySearch(projectNumber) {
   try {
-    const exists = await checkOpportunityExists(opportunityId);
+    // Step 1: Check if opportunity already exists in Supabase
+    const exists = await checkOpportunityExists(projectNumber); // assumes this checks by project number
     if (exists) {
       window.alert("Opportunity exists in Supabase. Use 'Open Quote' modal.");
       return;
     }
 
-    const opp = await fetchOpportunityById(opportunityId);
+    // Step 2: Fetch opportunity from Dynamics by project number
+    const opp = await fetchOpportunityByProjectNumber(projectNumber);
 
+    if (!opp) {
+      alert(`No Dynamics 365 opportunity found for project number: ${projectNumber}`);
+      return;
+    }
+
+    // Step 3: Map Dynamics fields to your form structure
     const mappedData = {
-      opportunityNumber: opp.opportunityid,
-      projectName: opp.ergo_projectname,
-      accountName: opp.accountidname,
-      accountContact: opp.contactidname,
-      endClient: opp.ergo_endclient,
-      salesperson: '', // TBC
-      sector: opp.ergo_sector,
-      closeDate: opp.actualclosedate,
-      currency: opp.tranactioncurrencyid,
-      profitability: opp.ergo_marginpercentage,
-      reqProducts: opp.ergo_productname,
-      region: opp.ergo_sector,
-      returnDate: '', // TBC
-      salesStage: opp.salesstage,
-      oppDescription: '', // TBC
-      address: '', // TBC
+      projectNumber: opp.ergo_projectnumber || '',         // e.g. "30019 | Molesworth"
+      projectName: opp.name || '',                         // e.g. "Molesworth"
+      accountName: opp._parentaccountid_value || '',       // GUID; needs resolving for readable name
+      accountContact: opp._parentcontactid_value || '',
+      endClient: opp._ergo_endclient_value || '',
+      salesperson: opp._ownerid_value || '',
+      sector: opp.ergo_sector || '',
+      closeDate: opp.actualclosedate || opp.estimatedclosedate || '',
+      currency: opp._transactioncurrencyid_value || '',
+      profitability: opp.ergo_marginpercentage || '',
+      reqProducts: opp.ergo_highlevelproductsrequired || '',
+      region: opp.ergo_projectcountry || '',               // fallback could be ergo_country
+      returnDate: opp.ergo_requestedreturndate || '',
+      salesStage: opp.salesstagecode || opp.stepname || '',
+      oppDescription: opp.description || '',
+      address: opp.ergo_projectaddressline1 || '',
     };
 
     setFormData(prev => ({ ...prev, ...mappedData }));
   } catch (err) {
     console.error('Error during opportunity lookup:', err);
-    alert("Failed to fetch opportunity. Please check the ID and try again.");
+    alert("Failed to fetch opportunity. Please check the project number and try again.");
   }
 }
+
 
  
 
