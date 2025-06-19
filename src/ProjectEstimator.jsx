@@ -1487,20 +1487,20 @@ setBreakdown(prev => ({ ...prev, services }));
 <AccordionSection title="📌 Project Details" defaultOpen={forceOpenAccordions}>
   <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
     
-   {/* 🔢 Opportunity Number */}
-<div className="flex flex-col">
-  <label className="text-xs font-medium mb-1">Project Number</label>
-  <input
-    name="projectNumber"
-    value={formData.projectNumber || ""}
-    onChange={handleChange}
-    onBlur={(e) => handleOpportunitySearch(e.target.value)}
-    className="border p-2 rounded text-xs bg-green-100"
-    placeholder="Enter Project Number (e.g. 30019)"
-  />
-</div>
-  
-      {/* Project Name */}
+    {/* 🔢 Project Number */}
+    <div className="flex flex-col">
+      <label className="text-xs font-medium mb-1">Project Number</label>
+      <input
+        name="projectNumber"
+        value={formData.projectNumber || ""}
+        onChange={handleChange}
+        onBlur={(e) => handleOpportunitySearch(e.target.value)}
+        className="border p-2 rounded text-xs bg-green-100"
+        placeholder="Enter Project Number (e.g. 30019)"
+      />
+    </div>
+
+    {/* Project Name */}
     <div className="flex flex-col">
       <label className="text-xs font-medium mb-1">Project Name</label>
       <input
@@ -1526,56 +1526,55 @@ setBreakdown(prev => ({ ...prev, services }));
 
     {/* Account Contact */}
     <div className="flex flex-col">
-  <label className="text-xs font-medium mb-1">Account Contact</label>
-  <input
-    type="text"
-    name="accountContact"
-    value={formData.accountContact}
-    onChange={handleChange}
-    className="border p-2 rounded text-xs"
-    placeholder="Enter Account Contact"
-  />
-</div>
+      <label className="text-xs font-medium mb-1">Account Contact</label>
+      <input
+        type="text"
+        name="accountContact"
+        value={formData.accountContact}
+        onChange={handleChange}
+        className="border p-2 rounded text-xs"
+        placeholder="Enter Account Contact"
+      />
+    </div>
 
     {/* End Client */}
     <div className="flex flex-col">
-  <label className="text-xs font-medium mb-1">End Client</label>
-  <input
-    type="text"
-    name="endClient"
-    value={formData.endClient}
-    onChange={handleChange}
-    className="border p-2 rounded text-xs"
-    placeholder="Enter End Client"
-  />
-</div>
+      <label className="text-xs font-medium mb-1">End Client</label>
+      <input
+        type="text"
+        name="endClient"
+        value={formData.endClient}
+        onChange={handleChange}
+        className="border p-2 rounded text-xs"
+        placeholder="Enter End Client"
+      />
+    </div>
 
     {/* Salesperson */}
     <div className="flex flex-col">
-  <label className="text-xs font-medium mb-1">Salesperson</label>
-  <input
-    type="text"
-    name="salesperson"
-    value={formData.salesperson}
-    onChange={handleChange}
-    className="border p-2 rounded text-xs"
-    placeholder="Enter Salesperson Name"
-  />
-</div>
-
+      <label className="text-xs font-medium mb-1">Salesperson</label>
+      <input
+        type="text"
+        name="salesperson"
+        value={formData.salesperson}
+        onChange={handleChange}
+        className="border p-2 rounded text-xs"
+        placeholder="Enter Salesperson Name"
+      />
+    </div>
 
     {/* Sector */}
     <div className="flex flex-col">
-  <label className="text-xs font-medium mb-1">Sector</label>
-  <input
-    type="text"
-    name="sector"
-    value={formData.sector}
-    onChange={handleChange}
-    className="border p-2 rounded text-xs"
-    placeholder="Enter Sector"
-  />
-</div>
+      <label className="text-xs font-medium mb-1">Sector</label>
+      <input
+        type="text"
+        name="sector"
+        value={formData.sector}
+        onChange={handleChange}
+        className="border p-2 rounded text-xs"
+        placeholder="Enter Sector"
+      />
+    </div>
 
     {/* Close Date */}
     <div className="flex flex-col">
@@ -1589,21 +1588,21 @@ setBreakdown(prev => ({ ...prev, services }));
       />
     </div>
 
-    {/* Currency & Probability */}
-    <div className="flex flex-col col-span-1">
-  <label className="text-xs font-medium mb-1">Currency</label>
-  <input
-    type="text"
-    name="currency"
-    value={formData._transactioncurrencyid_value}
-    onChange={handleChange}
-    className="border p-2 rounded text-xs"
-    placeholder="Enter Currency (e.g. £, €)"
-  />
-</div>
+    {/* Currency */}
+    <div className="flex flex-col">
+      <label className="text-xs font-medium mb-1">Currency</label>
+      <input
+        type="text"
+        name="currency"
+        value={formData.currency}
+        onChange={handleChange}
+        className="border p-2 rounded text-xs"
+        placeholder="Enter Currency (e.g. £, €)"
+      />
+    </div>
 
-   
-   <div className="flex flex-col col-span-1">
+    {/* Probability */}
+    <div className="flex flex-col">
       <label className="text-xs font-medium mb-1">Probability (%)</label>
       <input
         name="probability"
@@ -1614,31 +1613,31 @@ setBreakdown(prev => ({ ...prev, services }));
       />
     </div>
 
-    {/* Req. Products */}
+    {/* Required Products */}
     <div className="flex flex-col">
-  <label className="text-xs font-medium mb-1">Req. Products</label>
-  <input
-    type="text"
-    name="requiredProducts"
-    value={formData.ergo_highlevelproductsrequired}
-    onChange={handleChange}
-    className="border p-2 rounded text-xs"
-    placeholder="Enter Required Products"
-  />
-</div>
+      <label className="text-xs font-medium mb-1">Req. Products</label>
+      <input
+        type="text"
+        name="reqProducts"
+        value={formData.reqProducts}
+        onChange={handleChange}
+        className="border p-2 rounded text-xs"
+        placeholder="Enter Required Products"
+      />
+    </div>
 
     {/* Region */}
     <div className="flex flex-col">
-  <label className="text-xs font-medium mb-1">Region</label>
-  <input
-    type="text"
-    name="region"
-    value={formData.ergo_country}
-    onChange={handleChange}
-    className="border p-2 rounded text-xs"
-    placeholder="Enter Region"
-  />
-</div>
+      <label className="text-xs font-medium mb-1">Region</label>
+      <input
+        type="text"
+        name="region"
+        value={formData.region}
+        onChange={handleChange}
+        className="border p-2 rounded text-xs"
+        placeholder="Enter Region"
+      />
+    </div>
 
     {/* Return Date */}
     <div className="flex flex-col">
@@ -1646,29 +1645,29 @@ setBreakdown(prev => ({ ...prev, services }));
       <input
         name="returnDate"
         type="date"
-        value={formData.ergo_requestedreturndate || ''}
+        value={formData.returnDate || ''}
         onChange={handleChange}
         className="border p-2 rounded text-xs"
       />
     </div>
 
-         {/* Sales Stage */}
+    {/* Sales Stage */}
     <div className="flex flex-col">
       <label className="text-xs font-medium mb-1">Sales Stage</label>
       <input
-        name="Sales Stage"
+        name="salesStage"
         value={formData.salesStage}
         onChange={handleChange}
         className="border p-2 rounded text-xs"
       />
     </div>
 
-    {/* Opp. Description */}
+    {/* Opportunity Description */}
     <div className="flex flex-col md:col-span-4">
       <label className="text-xs font-medium mb-1">Opp. Description</label>
       <textarea
-        name="opportunityDescription"
-        value={formData.description}
+        name="oppDescription"
+        value={formData.oppDescription}
         onChange={handleChange}
         className="border p-2 rounded text-xs"
         rows={3}
@@ -1687,6 +1686,7 @@ setBreakdown(prev => ({ ...prev, services }));
     </div>
   </div>
 </AccordionSection>
+
 
 
 
