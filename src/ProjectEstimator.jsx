@@ -3,12 +3,8 @@ import './index.css';
 import { saveQuoteToSupabase } from './saveQuoteToSupabase';
 import PasswordGate from './passwordGate'; //
 import OpenQuoteModal from './OpenQuoteModal'; 
-import { fetchQuoteByOpportunityNumber } from './quoteHelpers';
-import { checkOpportunityExists } from './quoteHelpers';
 import { fetchOpportunityByProjectNumber } from '../api/dynamicsAPI';
-
-
-
+import { checkProjectExists, fetchQuoteByProjectNumber } from './quoteHelpers';
 
 
 const productOptions = { 
