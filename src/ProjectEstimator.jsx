@@ -1705,7 +1705,7 @@ setBreakdown(prev => ({ ...prev, services }));
       value={formData.projectCity || ''}
       onChange={handleChange}
       className="border p-2 rounded text-xs"
-      placeholder="Enter Project City"
+    
     />
   </div>
 
@@ -1718,7 +1718,7 @@ setBreakdown(prev => ({ ...prev, services }));
       value={formData.projectState || ''}
       onChange={handleChange}
       className="border p-2 rounded text-xs"
-      placeholder="Enter Project State"
+   
     />
   </div>
 </div>
@@ -1734,7 +1734,7 @@ setBreakdown(prev => ({ ...prev, services }));
       value={formData.projectPostcode || ''}
       onChange={handleChange}
       className="border p-2 rounded text-xs"
-      placeholder="Enter Postcode"
+    
     />
   </div>
 
@@ -1747,7 +1747,7 @@ setBreakdown(prev => ({ ...prev, services }));
       value={formData.projectCountry || ''}
       onChange={handleChange}
       className="border p-2 rounded text-xs"
-      placeholder="Enter Country"
+     
     />
   </div>
 
@@ -1760,12 +1760,10 @@ setBreakdown(prev => ({ ...prev, services }));
       value={formData.countryCode || ''}
       onChange={handleChange}
       className="border p-2 rounded text-xs"
-      placeholder="Enter Country Code"
+      
     />
   </div>
 </div>
-
-
    
   </div>
 </AccordionSection>
