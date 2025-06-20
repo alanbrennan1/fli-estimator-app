@@ -44,9 +44,7 @@ const sectorMap = {
   100000025: "Pricing Review"
 };
 
-const salesStageLabel = salesStageMap[opportunity.statuscode] || '';
-
-  
+ 
   const productTypeMap = {
   100000000: 'Baffle Walls',
   100000039: 'Bespoke',
