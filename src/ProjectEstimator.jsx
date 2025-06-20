@@ -1693,6 +1693,74 @@ setBreakdown(prev => ({ ...prev, services }));
         className="border p-2 rounded text-xs"
       />
     </div>
+
+{/* Project City */}
+<div className="flex flex-col">
+  <label className="text-xs font-medium mb-1">Project City</label>
+  <input
+    type="text"
+    name="projectCity"
+    value={formData.projectCity || ''}
+    onChange={handleChange}
+    className="border p-2 rounded text-xs"
+    placeholder="Enter Project City"
+  />
+</div>
+
+{/* Project State */}
+<div className="flex flex-col">
+  <label className="text-xs font-medium mb-1">Project State</label>
+  <input
+    type="text"
+    name="projectState"
+    value={formData.projectState || ''}
+    onChange={handleChange}
+    className="border p-2 rounded text-xs"
+    placeholder="Enter Project State"
+  />
+</div>
+
+{/* Project Postcode */}
+<div className="flex flex-col">
+  <label className="text-xs font-medium mb-1">Project Postcode</label>
+  <input
+    type="text"
+    name="projectPostcode"
+    value={formData.projectPostcode || ''}
+    onChange={handleChange}
+    className="border p-2 rounded text-xs"
+    placeholder="Enter Postcode"
+  />
+</div>
+
+{/* Project Country */}
+<div className="flex flex-col">
+  <label className="text-xs font-medium mb-1">Project Country</label>
+  <input
+    type="text"
+    name="projectCountry"
+    value={formData.projectCountry || ''}
+    onChange={handleChange}
+    className="border p-2 rounded text-xs"
+    placeholder="Enter Country"
+  />
+</div>
+
+{/* Country Code */}
+<div className="flex flex-col">
+  <label className="text-xs font-medium mb-1">Country Code</label>
+  <input
+    type="text"
+    name="countryCode"
+    value={formData.countryCode || ''}
+    onChange={handleChange}
+    className="border p-2 rounded text-xs"
+    placeholder="Enter Country Code"
+  />
+</div>
+
+
+   
   </div>
 </AccordionSection>
 
