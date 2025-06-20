@@ -166,6 +166,11 @@ return res.status(200).json({
   salesStage: salesStageMap[opportunity.statuscode] || '',
   oppDescription: opportunity.description || '',
   address: opportunity.ergo_projectaddressline1 || '',
+  projectCity: opportunity.ergo_projectcity || '',
+  projectState: opportunity.ergo_projectstate || '',
+  projectPostcode: opportunity.ergo_projectpostcode || '',
+  projectCountry: opportunity.ergo_projectcountry || '',
+  countryCode: opportunity.ergo_countrycode || ''
 });
 
 
