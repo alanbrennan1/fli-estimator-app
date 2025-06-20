@@ -1232,6 +1232,9 @@ const quotePayload = {
   total_transport_loads: totalTransportLoads,
   total_transport_price: totalTransportPrice,
 
+  project_city: formData.projectCity || '',
+  project_country: formData.projectCountry || '',
+
   // ✅ Embed design values inside breakdown
   breakdown: {
     ...breakdown,
