@@ -1683,80 +1683,86 @@ setBreakdown(prev => ({ ...prev, services }));
       />
     </div>
 
-    {/* Address */}
-    <div className="flex flex-col md:col-span-4">
-      <label className="text-xs font-medium mb-1">Address</label>
-      <input
-        name="address"
-        value={formData.address}
-        onChange={handleChange}
-        className="border p-2 rounded text-xs"
-      />
-    </div>
+    {/* Row 1: Address, Project City, Project State */}
+<div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:col-span-4">
+  {/* Address */}
+  <div className="flex flex-col">
+    <label className="text-xs font-medium mb-1">Address</label>
+    <input
+      name="address"
+      value={formData.address}
+      onChange={handleChange}
+      className="border p-2 rounded text-xs"
+    />
+  </div>
 
-{/* Project City */}
-<div className="flex flex-col">
-  <label className="text-xs font-medium mb-1">Project City</label>
-  <input
-    type="text"
-    name="projectCity"
-    value={formData.projectCity || ''}
-    onChange={handleChange}
-    className="border p-2 rounded text-xs"
-    placeholder="Enter Project City"
-  />
+  {/* Project City */}
+  <div className="flex flex-col">
+    <label className="text-xs font-medium mb-1">Project City</label>
+    <input
+      type="text"
+      name="projectCity"
+      value={formData.projectCity || ''}
+      onChange={handleChange}
+      className="border p-2 rounded text-xs"
+      placeholder="Enter Project City"
+    />
+  </div>
+
+  {/* Project State */}
+  <div className="flex flex-col">
+    <label className="text-xs font-medium mb-1">Project State</label>
+    <input
+      type="text"
+      name="projectState"
+      value={formData.projectState || ''}
+      onChange={handleChange}
+      className="border p-2 rounded text-xs"
+      placeholder="Enter Project State"
+    />
+  </div>
 </div>
 
-{/* Project State */}
-<div className="flex flex-col">
-  <label className="text-xs font-medium mb-1">Project State</label>
-  <input
-    type="text"
-    name="projectState"
-    value={formData.projectState || ''}
-    onChange={handleChange}
-    className="border p-2 rounded text-xs"
-    placeholder="Enter Project State"
-  />
-</div>
+{/* Row 2: Postcode, Country, Country Code */}
+<div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:col-span-4">
+  {/* Project Postcode */}
+  <div className="flex flex-col">
+    <label className="text-xs font-medium mb-1">Project Postcode</label>
+    <input
+      type="text"
+      name="projectPostcode"
+      value={formData.projectPostcode || ''}
+      onChange={handleChange}
+      className="border p-2 rounded text-xs"
+      placeholder="Enter Postcode"
+    />
+  </div>
 
-{/* Project Postcode */}
-<div className="flex flex-col">
-  <label className="text-xs font-medium mb-1">Project Postcode</label>
-  <input
-    type="text"
-    name="projectPostcode"
-    value={formData.projectPostcode || ''}
-    onChange={handleChange}
-    className="border p-2 rounded text-xs"
-    placeholder="Enter Postcode"
-  />
-</div>
+  {/* Project Country */}
+  <div className="flex flex-col">
+    <label className="text-xs font-medium mb-1">Project Country</label>
+    <input
+      type="text"
+      name="projectCountry"
+      value={formData.projectCountry || ''}
+      onChange={handleChange}
+      className="border p-2 rounded text-xs"
+      placeholder="Enter Country"
+    />
+  </div>
 
-{/* Project Country */}
-<div className="flex flex-col">
-  <label className="text-xs font-medium mb-1">Project Country</label>
-  <input
-    type="text"
-    name="projectCountry"
-    value={formData.projectCountry || ''}
-    onChange={handleChange}
-    className="border p-2 rounded text-xs"
-    placeholder="Enter Country"
-  />
-</div>
-
-{/* Country Code */}
-<div className="flex flex-col">
-  <label className="text-xs font-medium mb-1">Country Code</label>
-  <input
-    type="text"
-    name="countryCode"
-    value={formData.countryCode || ''}
-    onChange={handleChange}
-    className="border p-2 rounded text-xs"
-    placeholder="Enter Country Code"
-  />
+  {/* Country Code */}
+  <div className="flex flex-col">
+    <label className="text-xs font-medium mb-1">Country Code</label>
+    <input
+      type="text"
+      name="countryCode"
+      value={formData.countryCode || ''}
+      onChange={handleChange}
+      className="border p-2 rounded text-xs"
+      placeholder="Enter Country Code"
+    />
+  </div>
 </div>
 
 
