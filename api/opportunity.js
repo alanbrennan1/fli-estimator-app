@@ -18,6 +18,12 @@ export default async function handler(req, res) {
     'OData-Version': '4.0',
   };
 
+  const countryCodeMap = {
+  100000000: 'IRE',
+  100000001: 'UK',
+  100000002: 'EU',
+};
+
 const sectorMap = {
   100000000: 'Water',
   100000001: 'Industrial',
@@ -170,7 +176,7 @@ return res.status(200).json({
   projectState: opportunity.ergo_projectstate || '',
   projectPostcode: opportunity.ergo_projectpostcode || '',
   projectCountry: opportunity.ergo_projectcountry || '',
-  countryCode: opportunity.ergo_countrycode || ''
+  countryCode: countryCodeMap[opportunity.ergo_countrycode] || ''
 });
 
 
