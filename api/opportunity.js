@@ -28,6 +28,24 @@ const sectorMap = {
   100000006: 'Bespoke',
 };
 
+  const salesStageMap = {
+  1: "Estimation",
+  2: "Site Suspended",
+  100000001: "Tender & Quotation",
+  100000002: "Negotiation/Close",
+  100000003: "Decision Due",
+  100000004: "Design Order",
+  100000005: "Awaiting Approval",
+  100000006: "Approval Granted",
+  100000007: "Production Order",
+  100000022: "Information Required",
+  100000023: "Design",
+  100000024: "Engineering Input",
+  100000025: "Pricing Review"
+};
+
+const salesStageLabel = salesStageMap[opportunity.statuscode] || '';
+
   
   const productTypeMap = {
   100000000: 'Baffle Walls',
@@ -141,7 +159,7 @@ return res.status(200).json({
   reqProducts: productTypeMap[opportunity.ergo_highlevelproductsrequired] || '',
   region: opportunity.ergo_projectcountry || '',
   returnDate: opportunity.ergo_requestedreturndate || '',
-  salesStage: opportunity.salesstagecode || '',
+  salesStage: salesStageMap[opportunity.statuscode] || '',
   oppDescription: opportunity.description || '',
   address: opportunity.ergo_projectaddressline1 || '',
 });
