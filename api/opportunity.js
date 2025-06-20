@@ -142,13 +142,19 @@ const sectorMap = {
       ? await fetchName('transactioncurrencies', opportunity._transactioncurrencyid_value, 'currencyname')
       : null;
 
+    const endClientName = opportunity._ergo_endclient_value
+      ? await fetchName('accounts', opportunity._ergo_endclient_value)
+      : null;
+
+    
+
     // Step 4: Return cleaned payload
 return res.status(200).json({
   projectNumber: opportunity.ergo_projectnumber || '',
   projectName: opportunity.name || '',
   accountName: accountName || '',
   accountContact: contactName || '',
-  endClient: opportunity._ergo_endclient_value || '',
+  endClient: endClientName || '',
   salesperson: salespersonName || '',
   sector: sectorMap[opportunity.ergo_sector] || '',
   closeDate: opportunity.actualclosedate || opportunity.estimatedclosedate || '',
