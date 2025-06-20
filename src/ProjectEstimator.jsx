@@ -1234,6 +1234,7 @@ const quotePayload = {
 
   project_city: formData.projectCity || '',
   project_country: formData.projectCountry || '',
+  sales_stage: formData.salesStage || '',
 
   // ✅ Embed design values inside breakdown
   breakdown: {
