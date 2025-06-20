@@ -18,6 +18,39 @@ export default async function handler(req, res) {
     'OData-Version': '4.0',
   };
 
+  const productTypeMap = {
+  100000000: 'Baffle Walls',
+  100000039: 'Bespoke',
+  100000001: 'Bespoke Culverts',
+  100000004: 'Bespoke Precast Plinths',
+  100000005: 'Blast Walls',
+  100000006: 'Bund',
+  100000007: 'Cable Troughs',
+  100000040: 'Chamber',
+  100000008: 'Risers',
+  100000010: 'Circular Settlement Tanks (Launder)',
+  100000011: 'Communication Vaults',
+  100000012: 'Spillways',
+  100000013: 'Contact Tanks',
+  100000014: 'Cover Slabs',
+  100000019: 'Foundation Bases',
+  100000041: 'ICF',
+  100000025: 'LV Chambers',
+  100000027: 'MV Chambers',
+  100000038: 'Open Top Rectangular Tank',
+  100000028: 'Precast Concrete Equipment Pads',
+  100000029: 'Retaining Walls',
+  100000030: 'Security Barriers',
+  100000031: 'Service Reservoirs',
+  100000033: 'Slot Drains',
+  100000042: 'Storage Tank',
+  100000034: 'Stormcast Attenuation Tank',
+  100000035: 'Textured Decorative Walls',
+  100000043: 'Water Ireland',
+};
+
+  
+
   try {
     // Step 1: Access token
     const tokenRes = await fetch(`https://login.microsoftonline.com/${TENANT_ID}/oauth2/v2.0/token`, {
@@ -94,7 +127,7 @@ return res.status(200).json({
   closeDate: opportunity.actualclosedate || opportunity.estimatedclosedate || '',
   currency: currency || '',
   profitability: opportunity.ergo_marginpercentage || '',
-  reqProducts: opportunity.ergo_highlevelproductsrequired || '',
+  reqProducts: productTypeMap[opportunity.ergo_highlevelproductsrequired] || '',
   region: opportunity.ergo_projectcountry || '',
   returnDate: opportunity.ergo_requestedreturndate || '',
   salesStage: opportunity.salesstagecode || '',
