@@ -137,7 +137,7 @@ return res.status(200).json({
   sector: sectorMap[opportunity.ergo_sector] || '',
   closeDate: opportunity.actualclosedate || opportunity.estimatedclosedate || '',
   currency: currency || '',
-  profitability: opportunity.ergo_marginpercentage || '',
+  probability: opportunity.closeprobability || '',
   reqProducts: productTypeMap[opportunity.ergo_highlevelproductsrequired] || '',
   region: opportunity.ergo_projectcountry || '',
   returnDate: opportunity.ergo_requestedreturndate || '',
