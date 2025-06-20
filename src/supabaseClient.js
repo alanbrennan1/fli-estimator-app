@@ -10,7 +10,3 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
     },
   },
 });
-
-// 🛠 Debug: verify client was created successfully
-console.log("🛠 Supabase client initialized with headers:", supabase);
-
