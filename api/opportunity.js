@@ -18,6 +18,17 @@ export default async function handler(req, res) {
     'OData-Version': '4.0',
   };
 
+const sectorMap = {
+  100000000: 'Water',
+  100000001: 'Industrial',
+  100000002: 'Transportation',
+  100000003: 'Comms',
+  100000004: 'Energy',
+  100000005: 'Residential',
+  100000006: 'Bespoke',
+};
+
+  
   const productTypeMap = {
   100000000: 'Baffle Walls',
   100000039: 'Bespoke',
@@ -123,7 +134,7 @@ return res.status(200).json({
   accountContact: contactName || '',
   endClient: opportunity._ergo_endclient_value || '',
   salesperson: salespersonName || '',
-  sector: opportunity.ergo_sector || '',
+  sector: sectorMap[opportunity.ergo_sector] || '',
   closeDate: opportunity.actualclosedate || opportunity.estimatedclosedate || '',
   currency: currency || '',
   profitability: opportunity.ergo_marginpercentage || '',
