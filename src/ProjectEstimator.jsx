@@ -2341,6 +2341,65 @@ onClick={() => {
       </div>
     )}
 
+
+
+   
+{topLevelProduct === 'Walls' && selectedProduct?.startsWith('W') && (
+  <div className="mt-6">
+    <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
+      Wall Options
+    </h4>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* Stability Toes (free-form) */}
+      <div className="flex flex-col">
+        <label className="text-xs font-medium mb-1">Stability Toes</label>
+        <input
+          type="text"
+          value={subProductInputs[selectedProduct]?.stabilityToes || ''}
+          onChange={(e) => handleSubInputChange(selectedProduct, 'stabilityToes', e.target.value)}
+          className="border p-2 rounded text-xs"
+          placeholder="e.g. Reinforced L-toe"
+        />
+      </div>
+
+      {/* MKK Selection (Yes/No dropdown) */}
+      <div className="flex flex-col">
+        <label className="text-xs font-medium mb-1">MKK Selection</label>
+        <select
+          value={subProductInputs[selectedProduct]?.mkkSelection || ''}
+          onChange={(e) => handleSubInputChange(selectedProduct, 'mkkSelection', e.target.value)}
+          className="border p-2 rounded text-xs bg-white"
+        >
+          <option value="">Select</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+
+      {/* Finish Type */}
+      <div className="flex flex-col">
+        <label className="text-xs font-medium mb-1">Finish Type</label>
+        <select
+          value={subProductInputs[selectedProduct]?.wallFinishType || ''}
+          onChange={(e) => handleSubInputChange(selectedProduct, 'wallFinishType', e.target.value)}
+          className="border p-2 rounded text-xs bg-white"
+        >
+          <option value="">Select Finish Type</option>
+          <option value="FLI-F1 PWC - Potable Water Contact">FLI-F1 PWC - Potable Water Contact</option>
+          <option value="FLI-F1 NWC - Non-potable Water Contact">FLI-F1 NWC - Non-potable Water Contact</option>
+          <option value="FLI-F2 P - Plain">FLI-F2 P - Plain</option>
+          <option value="FLI-F2 O - Ordinary">FLI-F2 O - Ordinary</option>
+          <option value="FLI-F3 R - Rough">FLI-F3 R - Rough</option>
+          <option value="FLI-F3 S - Scabbled">FLI-F3 S - Scabbled</option>
+        </select>
+      </div>
+    </div>
+  </div>
+)}
+
+
+
+   
    
     {selectedProduct?.startsWith('BS') && (
       <div className="mt-6">
