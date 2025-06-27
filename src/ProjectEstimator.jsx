@@ -528,13 +528,12 @@ const handleQuantityChange = (code, value) => {
 
 const handleSubInputChange = (productName, field, value) => {
   setSubProductInputs(prev => {
-    // Start with a copy of the current product's inputs
     const updatedInputs = {
       ...prev[productName],
       [field]: value
     };
 
-    // ✅ Auto-calculate toe volume if the updated field is height
+    // ✅ Auto-calculate toe volume AND MKK Cone if height changes
     if (field === 'height') {
       const h = parseInt(value);
       let toeVol = '';
@@ -546,40 +545,54 @@ const handleSubInputChange = (productName, field, value) => {
       else if (h > 7000 && h <= 9000) toeVol = 0.1755;
 
       updatedInputs.stabilityToeVolume = toeVol;
+
+      // 👇 Auto-update MKK Cone if MKK is already selected
+      const selection = updatedInputs.mkkSelection;
+      if (selection === 'Yes' && h > 0) {
+        const coneQty = Math.ceil(h / 750) * 2;
+        let updatedItems = updatedInputs.uniqueItems || [];
+        const mkkIndex = updatedItems.findIndex(
+          (entry) => entry.category === 'Fixings' && entry.item === 'MKK Cone'
+        );
+        const mkkEntry = {
+          category: 'Fixings',
+          item: 'MKK Cone',
+          qty: coneQty,
+          autoFilled: true
+        };
+        if (mkkIndex >= 0) {
+          updatedItems[mkkIndex] = mkkEntry;
+        } else {
+          updatedItems.push(mkkEntry);
+        }
+        updatedInputs.uniqueItems = updatedItems;
+      }
     }
 
-// ⬇️ Auto-calculate MKK Cone qty if MKK Selection changes
+    // ✅ Auto-add/remove MKK Cone if MKK Selection changes
     if (field === 'mkkSelection') {
       const selection = value;
       const height = safe(updatedInputs.height);
-      let coneQty = '';
-
-      if (selection === 'Yes' && height > 0) {
-        const coneCount = Math.ceil(height / 750) * 2; // assuming mm
-        coneQty = coneCount;
-      }
-
       let updatedItems = updatedInputs.uniqueItems || [];
-
       const mkkIndex = updatedItems.findIndex(
         (entry) => entry.category === 'Fixings' && entry.item === 'MKK Cone'
       );
 
-     const mkkEntry = {
-       category: 'Fixings',
-       item: 'MKK Cone',
-       qty: coneQty,
-       autoFilled: true // 👈 This enables blue background styling
-     };
-     
-      if (selection === 'Yes') {
+      if (selection === 'Yes' && height > 0) {
+        const coneQty = Math.ceil(height / 750) * 2;
+        const mkkEntry = {
+          category: 'Fixings',
+          item: 'MKK Cone',
+          qty: coneQty,
+          autoFilled: true
+        };
         if (mkkIndex >= 0) {
           updatedItems[mkkIndex] = mkkEntry;
         } else {
           updatedItems.push(mkkEntry);
         }
       } else {
-        // Remove MKK Cone if selection is turned off
+        // Remove MKK Cone
         updatedItems = updatedItems.filter(
           (entry) => !(entry.category === 'Fixings' && entry.item === 'MKK Cone')
         );
@@ -588,9 +601,6 @@ const handleSubInputChange = (productName, field, value) => {
       updatedInputs.uniqueItems = updatedItems;
     }
 
-   
-
-    // ✅ Return the updated state
     return {
       ...prev,
       [productName]: updatedInputs
