@@ -853,6 +853,77 @@ return; // ✅ prevents falling into fallback logic
    return;
       } 
 
+
+// ▶️ Wall logic
+else if (/^W(-\d+)?$/.test(productName.trim())) {
+  const height = safe(inputs.height);       // mm
+  const length = safe(inputs.length);       // mm
+  const wallThickness = safe(inputs.wallThickness); // mm
+  const quantity = safe(inputs.quantity || 1);
+
+  // 🧮 Concrete volume: wall core volume in mm³
+  const coreVolumeMm3 = height * length * wallThickness;
+
+  // 🧮 Stability toe volume (m³) based on height range
+  let stabilityToeVolumePerUnitM3 = 0;
+  if (height > 0 && height <= 2000) stabilityToeVolumePerUnitM3 = 0.126;
+  else if (height <= 3500) stabilityToeVolumePerUnitM3 = 0.063;
+  else if (height <= 5000) stabilityToeVolumePerUnitM3 = 0.0975;
+  else if (height <= 7000) stabilityToeVolumePerUnitM3 = 0.1365;
+  else if (height <= 9000) stabilityToeVolumePerUnitM3 = 0.1755;
+
+  // 🧮 Total concrete volume in m³
+  const coreVolumeM3 = (coreVolumeMm3 / 1_000_000_000) * quantity;
+  const toeVolumeM3 = stabilityToeVolumePerUnitM3 * quantity;
+  concreteVolumeM3 = coreVolumeM3 + toeVolumeM3;
+  concreteCost = concreteVolumeM3 * 137.21;
+
+  // 🧮 Steel
+  let steelDensity = safe(inputs.steelDensity);
+  if (!steelDensity || steelDensity <= 0) steelDensity = 120;
+  steelKg = concreteVolumeM3 * steelDensity;
+  steelCost = steelKg * 0.86;
+
+  // 🧮 Labour
+  const labourPerUnit = safe(inputs.labourHours);
+  labourHrs = labourPerUnit * quantity;
+  labourCost = labourHrs * 70.11;
+
+  // 🧮 Totals
+  concreteSubtotal += concreteCost;
+  concreteUnitTotal += concreteVolumeM3;
+  steelSubtotal += steelCost;
+  steelUnitTotal += steelKg;
+  labourSubtotal += labourCost;
+  labourUnitTotal += labourHrs;
+
+  const baseCode = productName.split('-')[0];
+  const productCode = buildProductCode(baseCode, { ...inputs });
+
+  sourceBreakdowns.push({
+    name: productName,
+    productCode,
+    quantity,
+    concrete: {
+      volume: concreteVolumeM3.toFixed(2),
+      cost: parseFloat(concreteCost.toFixed(2)),
+      toeVol: toeVolumeM3.toFixed(2)
+    },
+    steel: {
+      kg: steelKg.toFixed(2),
+      cost: parseFloat(steelCost.toFixed(2))
+    },
+    labour: {
+      hours: labourHrs.toFixed(2),
+      cost: parseFloat(labourCost.toFixed(2))
+    },
+    uniqueItems: inputs.uniqueItems || []
+  });
+
+  return;
+}
+
+       
               
        // Cover Slab logic
   else if (/^CS(-\d+)?$/.test(productName)) {
