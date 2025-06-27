@@ -858,11 +858,11 @@ return; // ✅ prevents falling into fallback logic
 else if (/^W(-\d+)?$/.test(productName.trim())) {
   const height = safe(inputs.height);       // mm
   const length = safe(inputs.length);       // mm
-  const wallThickness = safe(inputs.wallThickness); // mm
+  const breadth = safe(inputs.width); // ✅ use width as thickness for Walls
   const quantity = safe(inputs.quantity || 1);
 
   // 🧮 Concrete volume: wall core volume in mm³
-  const coreVolumeMm3 = height * length * wallThickness;
+  const coreVolumeMm3 = height * length * breadth;
 
   // 🧮 Stability toe volume (m³) based on height range
   let stabilityToeVolumePerUnitM3 = 0;
