@@ -2484,16 +2484,25 @@ onClick={() => {
       </div>
 
 <div className="flex flex-col">
-    <label className="text-xs font-medium mb-1">Auto Toe Volume (m³)</label>
-    <input
-      type="number"
-      readOnly
-      disabled
-      className="border p-2 rounded text-xs bg-gray-100 text-gray-600 cursor-not-allowed"
-      value={subProductInputs[selectedProduct]?.stabilityToeVolume || ''}
-      placeholder="Auto from height"
-    />
-  </div>
+  <label className="text-xs font-medium mb-1 flex items-center gap-1">
+    Auto Toe Volume (m³)
+    <span
+      title="Calculated based on wall height"
+      className="text-blue-500 cursor-help text-xs"
+    >
+      ⓘ
+    </span>
+  </label>
+  <input
+    type="number"
+    readOnly
+    disabled
+    className="border p-2 rounded text-xs bg-blue-50 text-blue-800 font-semibold cursor-not-allowed"
+    value={subProductInputs[selectedProduct]?.stabilityToeVolume || ''}
+    placeholder="Auto from height"
+  />
+</div>
+
      
     </div>
   </div>
