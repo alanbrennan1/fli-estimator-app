@@ -565,6 +565,13 @@ const handleSubInputChange = (productName, field, value) => {
         (entry) => entry.category === 'Fixings' && entry.item === 'MKK Cone'
       );
 
+     const mkkEntry = {
+  category: 'Fixings',
+  item: 'MKK Cone',
+  qty: coneQty,
+  autoFilled: true // 👈 This enables blue background styling
+};
+     
       if (selection === 'Yes') {
         const mkkEntry = { category: 'Fixings', item: 'MKK Cone', qty: coneQty };
 
@@ -2676,7 +2683,12 @@ onClick={() => {
           {(additionalItemsData && Object.keys(additionalItemsData).length > 0) ? (
             <>
               {(subProductInputs[selectedProduct]?.uniqueItems || [{}]).map((entry, idx) => (
-                <div key={idx} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3 p-3 bg-white rounded-lg shadow-sm">
+                <div
+                key={idx}
+                className={`grid grid-cols-1 md:grid-cols-3 gap-4 mb-3 p-3 rounded-lg shadow-sm ${
+                  entry.autoFilled ? 'bg-blue-50' : 'bg-white'
+                }`}
+              >
                   {/* Category Selector */}
                   <div className="flex flex-col">
                     <label className="text-xs font-medium mb-1 text-gray-600">Category</label>
