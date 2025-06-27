@@ -2694,16 +2694,18 @@ onClick={() => {
                   <div className="flex flex-col">
                     <label className="text-xs font-medium mb-1 text-gray-600">Category</label>
                     <select
-                      className="border rounded p-2 text-xs bg-blue-50"
+                     className={`border rounded p-2 text-xs ${
+                entry.autoFilled ? 'bg-blue-50 text-blue-800 font-semibold' : 'bg-white'
+              }`}
                       value={entry.category || ''}
-                      onChange={(e) => {
-                        const newCategory = e.target.value;
-                        const defaultItem = additionalItemsData[newCategory]?.[0]?.item || '';
-                        const updated = [...(subProductInputs[selectedProduct]?.uniqueItems || [])];
-                        updated[idx] = { category: newCategory, item: defaultItem, qty: 0 };
-                        handleSubInputChange(selectedProduct, 'uniqueItems', updated);
-                      }}
-                    >
+              onChange={(e) => {
+                const newCategory = e.target.value;
+                const defaultItem = additionalItemsData[newCategory]?.[0]?.item || '';
+                const updated = [...(subProductInputs[selectedProduct]?.uniqueItems || [])];
+                updated[idx] = { category: newCategory, item: defaultItem, qty: 0, autoFilled: false };
+                handleSubInputChange(selectedProduct, 'uniqueItems', updated);
+              }}
+            >
                       <option value="">Select Category</option>
                       {Object.keys(additionalItemsData).map(cat => (
                         <option key={cat} value={cat}>{cat}</option>
@@ -2715,15 +2717,17 @@ onClick={() => {
                   <div className="flex flex-col">
                     <label className="text-xs font-medium mb-1 text-gray-600">Item</label>
                     <select
-                      className="border rounded p-2 text-xs"
-                      value={entry.item || ''}
-                      onChange={(e) => {
-                        const updated = [...(subProductInputs[selectedProduct]?.uniqueItems || [])];
-                        updated[idx] = { ...updated[idx], item: e.target.value };
-                        handleSubInputChange(selectedProduct, 'uniqueItems', updated);
-                      }}
-                      disabled={!entry.category}
-                    >
+                     className={`border rounded p-2 text-xs ${
+                       entry.autoFilled ? 'bg-blue-50 text-blue-800 font-semibold' : ''
+                     }`}
+                     value={entry.item || ''}
+                     onChange={(e) => {
+                       const updated = [...(subProductInputs[selectedProduct]?.uniqueItems || [])];
+                       updated[idx] = { ...updated[idx], item: e.target.value, autoFilled: false };
+                       handleSubInputChange(selectedProduct, 'uniqueItems', updated);
+                     }}
+                     disabled={!entry.category}
+                   >  
                       <option value="">Select Item</option>
                       {(additionalItemsData[entry.category] || []).map(i => (
                         <option key={i.item} value={i.item}>{i.item}</option>
@@ -2734,26 +2738,32 @@ onClick={() => {
                   {/* Quantity Input */}
                   <div className="flex flex-col">
                             <label className="text-xs font-medium mb-1 text-gray-600">
-  Quantity
-  <span
-    title="Quantities per unit"
-    className="ml-1 cursor-help text-blue-500"
-  >
-    ⓘ
-  </span> 
-</label>
+                      Quantity
+                      <span
+                        title="Quantities per unit"
+                        className="ml-1 cursor-help text-blue-500"
+                      >
+                        ⓘ
+                      </span> 
+                    </label>
 
-                            <input
-                      type="number"
-                      min="0"
-                      value={entry.qty || ''}
-                      onChange={(e) => {
-                        const updated = [...(subProductInputs[selectedProduct]?.uniqueItems || [])];
-                        updated[idx] = { ...updated[idx], qty: parseFloat(e.target.value) || 0 };
-                        handleSubInputChange(selectedProduct, 'uniqueItems', updated);
-                      }}
-                      className="border rounded p-2 text-xs"
-                      placeholder="e.g. 2"
+                   <input
+                     type="number"
+                     min="0"
+                     value={entry.qty || ''}
+                     onChange={(e) => {
+                       const updated = [...(subProductInputs[selectedProduct]?.uniqueItems || [])];
+                       updated[idx] = {
+                         ...updated[idx],
+                         qty: parseFloat(e.target.value) || 0,
+                         autoFilled: false
+                       };
+                       handleSubInputChange(selectedProduct, 'uniqueItems', updated);
+                     }}
+                     className={`border rounded p-2 text-xs ${
+                       entry.autoFilled ? 'bg-blue-50 text-blue-800 font-semibold' : ''
+                     }`}
+                     placeholder="e.g. 2"
                     />
                   </div>
                 </div>
