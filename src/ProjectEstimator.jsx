@@ -2438,18 +2438,27 @@ onClick={() => {
     <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
       Wall Options
     </h4>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {/* Stability Toes (free-form) */}
-      <div className="flex flex-col">
-        <label className="text-xs font-medium mb-1">Stability Toes</label>
-        <input
-          type="text"
-          value={subProductInputs[selectedProduct]?.stabilityToes || ''}
-          onChange={(e) => handleSubInputChange(selectedProduct, 'stabilityToes', e.target.value)}
-          className="border p-2 rounded text-xs"
-          placeholder="e.g. Dependent on wall height"
-        />
-      </div>
+
+   <div className="flex flex-col">
+  <label className="text-xs font-medium mb-1 flex items-center gap-1">
+    Stability Toe Volume (m³)
+    <span
+      title="Calculated based on wall height"
+      className="text-blue-500 cursor-help text-xs"
+    >
+      ⓘ
+    </span>
+  </label>
+  <input
+    type="number"
+    readOnly
+    disabled
+    className="border p-2 rounded text-xs bg-blue-50 text-blue-800 font-semibold cursor-not-allowed"
+    value={subProductInputs[selectedProduct]?.stabilityToeVolume || ''}
+    placeholder="Auto from height"
+  />
+</div>
+
 
       {/* MKK Selection (Yes/No dropdown) */}
       <div className="flex flex-col">
@@ -2482,28 +2491,7 @@ onClick={() => {
           <option value="FLI-F3 S - Scabbled">FLI-F3 S - Scabbled</option>
         </select>
       </div>
-
-<div className="flex flex-col">
-  <label className="text-xs font-medium mb-1 flex items-center gap-1">
-    Auto Toe Volume (m³)
-    <span
-      title="Calculated based on wall height"
-      className="text-blue-500 cursor-help text-xs"
-    >
-      ⓘ
-    </span>
-  </label>
-  <input
-    type="number"
-    readOnly
-    disabled
-    className="border p-2 rounded text-xs bg-blue-50 text-blue-800 font-semibold cursor-not-allowed"
-    value={subProductInputs[selectedProduct]?.stabilityToeVolume || ''}
-    placeholder="Auto from height"
-  />
-</div>
-
-     
+   
     </div>
   </div>
 )}
