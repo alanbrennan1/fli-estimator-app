@@ -548,6 +548,43 @@ const handleSubInputChange = (productName, field, value) => {
       updatedInputs.stabilityToeVolume = toeVol;
     }
 
+// ⬇️ Auto-calculate MKK Cone qty if MKK Selection changes
+    if (field === 'mkkSelection') {
+      const selection = value;
+      const height = safe(updatedInputs.height);
+      let coneQty = '';
+
+      if (selection === 'Yes' && height > 0) {
+        const coneCount = Math.ceil(height / 750) * 2; // assuming mm
+        coneQty = coneCount;
+      }
+
+      let updatedItems = updatedInputs.uniqueItems || [];
+
+      const mkkIndex = updatedItems.findIndex(
+        (entry) => entry.category === 'Fixings' && entry.item === 'MKK Cone'
+      );
+
+      if (selection === 'Yes') {
+        const mkkEntry = { category: 'Fixings', item: 'MKK Cone', qty: coneQty };
+
+        if (mkkIndex >= 0) {
+          updatedItems[mkkIndex] = mkkEntry;
+        } else {
+          updatedItems.push(mkkEntry);
+        }
+      } else {
+        // Remove MKK Cone if selection is turned off
+        updatedItems = updatedItems.filter(
+          (entry) => !(entry.category === 'Fixings' && entry.item === 'MKK Cone')
+        );
+      }
+
+      updatedInputs.uniqueItems = updatedItems;
+    }
+
+   
+
     // ✅ Return the updated state
     return {
       ...prev,
