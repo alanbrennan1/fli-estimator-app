@@ -3,7 +3,7 @@ import './index.css';
 import { saveQuoteToSupabase } from './saveQuoteToSupabase';
 import PasswordGate from './passwordGate'; //
 import OpenQuoteModal from './OpenQuoteModal'; 
-import { checkProjectExists, fetchQuoteByProjectNumber } from './quoteHelpers';
+import { checkProjectExists, fetchQuoteByProjectNumber } from './quoteHelpers'; 
 
 
 const productOptions = { 
