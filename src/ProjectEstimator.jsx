@@ -2358,7 +2358,7 @@ onClick={() => {
           value={subProductInputs[selectedProduct]?.stabilityToes || ''}
           onChange={(e) => handleSubInputChange(selectedProduct, 'stabilityToes', e.target.value)}
           className="border p-2 rounded text-xs"
-          placeholder="e.g. Reinforced L-toe"
+          placeholder="e.g. Dependent on wall height"
         />
       </div>
 
@@ -2434,9 +2434,6 @@ onClick={() => {
 
    {topLevelProduct === 'Walls' && selectedProduct?.startsWith('W') && (
   <div className="mt-6">
-    <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
-      Wall Options
-    </h4>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div className="flex flex-col md:col-span-3">
         <label className="text-xs font-medium mb-1">Wall Types</label>
