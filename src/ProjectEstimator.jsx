@@ -526,15 +526,33 @@ const handleQuantityChange = (code, value) => {
 };
 
 
-  const handleSubInputChange = (productName, field, value) => {
-  setSubProductInputs(prev => ({
-    ...prev,
-    [productName]: {
+const handleSubInputChange = (productName, field, value) => {
+  setSubProductInputs(prev => {
+    const updated = {
       ...prev[productName],
       [field]: value
+    };
+
+    // Auto-calculate stability toe volume if height is updated
+    if (field === 'height') {
+      const h = parseInt(value);
+      let toeVol = 0;
+      if (h > 0 && h <= 2000) toeVol = 0.126;
+      else if (h <= 3500) toeVol = 0.063;
+      else if (h <= 5000) toeVol = 0.0975;
+      else if (h <= 7000) toeVol = 0.1365;
+      else if (h <= 9000) toeVol = 0.1755;
+
+      updated.stabilityToeVolume = toeVol;
     }
-  }));
+
+    return {
+      ...prev,
+      [productName]: updated
+    };
+  });
 };
+
 
   const handleAdditionalItemChange = (productName, itemName, value) => {
   setSubProductInputs(prev => ({
