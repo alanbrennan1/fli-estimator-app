@@ -2482,6 +2482,19 @@ onClick={() => {
           <option value="FLI-F3 S - Scabbled">FLI-F3 S - Scabbled</option>
         </select>
       </div>
+
+<div className="flex flex-col">
+    <label className="text-xs font-medium mb-1">Auto Toe Volume (m³)</label>
+    <input
+      type="number"
+      readOnly
+      disabled
+      className="border p-2 rounded text-xs bg-gray-100 text-gray-600 cursor-not-allowed"
+      value={subProductInputs[selectedProduct]?.stabilityToeVolume || ''}
+      placeholder="Auto from height"
+    />
+  </div>
+     
     </div>
   </div>
 )}
