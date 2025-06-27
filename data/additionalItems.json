@@ -4,9 +4,17 @@
       "Item": "Capstan 1.3A85",
       "Material Cost": 10.00
     },
-    {
+        {
       "Item": "Capstan 7.5A85",
       "Material Cost": 20.00
+    },
+    {
+      "Item": "Capstan 7.5tn",
+      "Material Cost": 100.00
+    },
+    {
+      "Item": "Capstan 10tn",
+      "Material Cost": 200.00
     },
     {
       "Item": "Halfen DEHA 5T X 95mm A4 SS",
