@@ -528,32 +528,34 @@ const handleQuantityChange = (code, value) => {
 
 const handleSubInputChange = (productName, field, value) => {
   setSubProductInputs(prev => {
-    const updated = {
+    // Start with a copy of the current product's inputs
+    const updatedInputs = {
       ...prev[productName],
       [field]: value
     };
 
-    // Auto-calculate stability toe volume if height is updated
-  if (field === 'height') {
-    const h = parseInt(value);
-    let toeVol = '';
-  
-    if (h > 0 && h <= 2000) toeVol = 0.126;
-    else if (h > 2000 && h <= 3500) toeVol = 0.063;
-    else if (h > 3500 && h <= 5000) toeVol = 0.0975;
-    else if (h > 5000 && h <= 7000) toeVol = 0.1365;
-    else if (h > 7000 && h <= 9000) toeVol = 0.1755;
-  
-    updatedInputs.stabilityToeVolume = toeVol;
-  }
-  
+    // ✅ Auto-calculate toe volume if the updated field is height
+    if (field === 'height') {
+      const h = parseInt(value);
+      let toeVol = '';
 
+      if (h > 0 && h <= 2000) toeVol = 0.126;
+      else if (h > 2000 && h <= 3500) toeVol = 0.063;
+      else if (h > 3500 && h <= 5000) toeVol = 0.0975;
+      else if (h > 5000 && h <= 7000) toeVol = 0.1365;
+      else if (h > 7000 && h <= 9000) toeVol = 0.1755;
+
+      updatedInputs.stabilityToeVolume = toeVol;
+    }
+
+    // ✅ Return the updated state
     return {
       ...prev,
-      [productName]: updated
+      [productName]: updatedInputs
     };
   });
 };
+
 
 
   const handleAdditionalItemChange = (productName, itemName, value) => {
