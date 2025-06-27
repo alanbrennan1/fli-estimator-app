@@ -2432,40 +2432,42 @@ onClick={() => {
 
 
 
-   
-{topLevelProduct === 'Walls' && selectedProduct?.startsWith('W') && (
+   {topLevelProduct === 'Walls' && selectedProduct?.startsWith('W') && (
   <div className="mt-6">
     <h4 className="text-xs font-bold uppercase text-teal-800 mb-4 tracking-wider border-b pb-2">
       Wall Options
     </h4>
 
-   <div className="flex flex-col">
-  <label className="text-xs font-medium mb-1 flex items-center gap-1">
-    Stability Toe Volume (m³)
-    <span
-      title="Calculated based on wall height"
-      className="text-blue-500 cursor-help text-xs"
-    >
-      ⓘ
-    </span>
-  </label>
-  <input
-    type="number"
-    readOnly
-    disabled
-    className="border p-2 rounded text-xs bg-blue-50 text-blue-800 font-semibold cursor-not-allowed"
-    value={subProductInputs[selectedProduct]?.stabilityToeVolume || ''}
-    placeholder="Auto from height"
-  />
-</div>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* Stability Toe Volume (read-only, auto-filled) */}
+      <div className="flex flex-col">
+        <label className="text-xs font-medium mb-1 flex items-center gap-1">
+          Stability Toe Volume (m³)
+          <span
+            title="Calculated based on wall height"
+            className="text-blue-500 cursor-help text-xs"
+          >
+            ⓘ
+          </span>
+        </label>
+        <input
+          type="number"
+          readOnly
+          disabled
+          className="border p-2 rounded text-xs bg-blue-50 text-blue-800 font-semibold cursor-not-allowed"
+          value={subProductInputs[selectedProduct]?.stabilityToeVolume || ''}
+          placeholder="Auto from height"
+        />
+      </div>
 
-
-      {/* MKK Selection (Yes/No dropdown) */}
+      {/* MKK Selection */}
       <div className="flex flex-col">
         <label className="text-xs font-medium mb-1">MKK Selection</label>
         <select
           value={subProductInputs[selectedProduct]?.mkkSelection || ''}
-          onChange={(e) => handleSubInputChange(selectedProduct, 'mkkSelection', e.target.value)}
+          onChange={(e) =>
+            handleSubInputChange(selectedProduct, 'mkkSelection', e.target.value)
+          }
           className="border p-2 rounded text-xs bg-white"
         >
           <option value="">Select</option>
@@ -2479,22 +2481,28 @@ onClick={() => {
         <label className="text-xs font-medium mb-1">Finish Type</label>
         <select
           value={subProductInputs[selectedProduct]?.wallFinishType || ''}
-          onChange={(e) => handleSubInputChange(selectedProduct, 'wallFinishType', e.target.value)}
+          onChange={(e) =>
+            handleSubInputChange(selectedProduct, 'wallFinishType', e.target.value)
+          }
           className="border p-2 rounded text-xs bg-white"
         >
           <option value="">Select Finish Type</option>
-          <option value="FLI-F1 PWC - Potable Water Contact">FLI-F1 PWC - Potable Water Contact</option>
-          <option value="FLI-F1 NWC - Non-potable Water Contact">FLI-F1 NWC - Non-potable Water Contact</option>
+          <option value="FLI-F1 PWC - Potable Water Contact">
+            FLI-F1 PWC - Potable Water Contact
+          </option>
+          <option value="FLI-F1 NWC - Non-potable Water Contact">
+            FLI-F1 NWC - Non-potable Water Contact
+          </option>
           <option value="FLI-F2 P - Plain">FLI-F2 P - Plain</option>
           <option value="FLI-F2 O - Ordinary">FLI-F2 O - Ordinary</option>
           <option value="FLI-F3 R - Rough">FLI-F3 R - Rough</option>
           <option value="FLI-F3 S - Scabbled">FLI-F3 S - Scabbled</option>
         </select>
       </div>
-   
     </div>
   </div>
 )}
+
 
 
 
