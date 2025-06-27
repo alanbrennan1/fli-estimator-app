@@ -566,11 +566,11 @@ const handleSubInputChange = (productName, field, value) => {
       );
 
      const mkkEntry = {
-  category: 'Fixings',
-  item: 'MKK Cone',
-  qty: coneQty,
-  autoFilled: true // 👈 This enables blue background styling
-};
+       category: 'Fixings',
+       item: 'MKK Cone',
+       qty: coneQty,
+       autoFilled: true // 👈 This enables blue background styling
+     };
      
       if (selection === 'Yes') {
         if (mkkIndex >= 0) {
