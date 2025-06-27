@@ -573,8 +573,6 @@ const handleSubInputChange = (productName, field, value) => {
 };
      
       if (selection === 'Yes') {
-        const mkkEntry = { category: 'Fixings', item: 'MKK Cone', qty: coneQty };
-
         if (mkkIndex >= 0) {
           updatedItems[mkkIndex] = mkkEntry;
         } else {
