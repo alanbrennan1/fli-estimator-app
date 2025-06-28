@@ -228,6 +228,8 @@ const getUnitPrice = (itemName) => {
  const [productCodes, setProductCodes] = useState([]);
  const [forceOpenAccordions, setForceOpenAccordions] = useState(false);
  const [isLoadingOpportunity, setIsLoadingOpportunity] = useState(false);
+ const [showTransportModal, setShowTransportModal] = useState(false);
+ const [concreteTonnageAlert, setConcreteTonnageAlert] = useState(null);
 
 
  const transportService = breakdown?.services?.find(s => s.label === 'Transport');
@@ -616,6 +618,13 @@ if (
     const volumeM3 = (length * width * height) / 1_000_000_000;
     const concreteTonnes = volumeM3 * 2.6;
 
+   // 🚨 Trigger transport inefficiency modal if wall >13.5 tonnes
+if (concreteTonnes > 13.5 && productName.startsWith('W')) {
+  setConcreteTonnageAlert(concreteTonnes.toFixed(2));
+  setShowTransportModal(true);
+}
+
+   
     let capstanEntry = null;
 
     if (concreteTonnes > 0 && concreteTonnes <= 15) {
@@ -3481,9 +3490,29 @@ onClick={() => {
   </button>
 </div>
 
-
-        
 </main>
+
+{/* Insert modal HERE */}
+    {showTransportModal && (
+      <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
+        <div className="bg-white rounded-lg shadow-lg p-6 w-96 text-center border border-yellow-400">
+          <h2 className="text-lg font-semibold text-yellow-800 mb-2">
+            ⚠️ Possible Transport Inefficiency
+          </h2>
+          <p className="text-sm text-gray-700">
+            This wall unit weighs <strong>{concreteTonnageAlert} Tn</strong>.
+            <br />Please review for transport suitability.
+          </p>
+          <button
+            onClick={() => setShowTransportModal(false)}
+            className="mt-4 px-4 py-2 bg-yellow-500 text-white text-sm rounded hover:bg-yellow-600"
+          >
+            Dismiss
+          </button>
+        </div>
+      </div>
+    )}
+     
     </div>
   );
 }
