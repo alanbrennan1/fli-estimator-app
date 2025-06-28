@@ -603,7 +603,8 @@ const handleSubInputChange = (productName, field, value) => {
 
 
        // ✅ Auto-add Capstans for Walls based on concrete tonnage
-   if (
+   // ✅ Auto-insert Capstans for Walls based on concrete tonnage (per unit)
+if (
   ['length', 'width', 'height'].includes(field) &&
   productName.startsWith('W')
 ) {
@@ -614,20 +615,20 @@ const handleSubInputChange = (productName, field, value) => {
   if (length && width && height) {
     const volumeM3 = (length * width * height) / 1_000_000_000;
     const concreteTonnes = volumeM3 * 2.6;
-    updatedInputs.autoConcreteTonnes = concreteTonnes.toFixed(2); // Optional display only
 
     let capstanEntry = null;
+
     if (concreteTonnes > 0 && concreteTonnes <= 15) {
       capstanEntry = {
-        category: 'Fixings',
-        item: '7.5tn Capstan',
+        category: 'Capstans and Lifters',
+        item: 'Capstan 7.5tn',
         qty: 4,
         autoFilled: true
       };
     } else if (concreteTonnes > 15 && concreteTonnes <= 30) {
       capstanEntry = {
-        category: 'Fixings',
-        item: '10tn Capstan',
+        category: 'Capstans and Lifters',
+        item: 'Capstan 10tn',
         qty: 4,
         autoFilled: true
       };
@@ -635,10 +636,10 @@ const handleSubInputChange = (productName, field, value) => {
 
     let updatedItems = updatedInputs.uniqueItems || [];
 
-    // Remove existing capstans
-    updatedItems = updatedItems.filter(entry =>
-      !(entry.category === 'Fixings' &&
-        (entry.item === '7.5tn Capstan' || entry.item === '10tn Capstan'))
+    // Remove existing Capstan rows first
+    updatedItems = updatedItems.filter(
+      entry => !(entry.category === 'Capstans and Lifters' &&
+                (entry.item === 'Capstan 7.5tn' || entry.item === 'Capstan 10tn'))
     );
 
     if (capstanEntry) {
