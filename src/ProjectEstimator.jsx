@@ -2388,7 +2388,7 @@ onClick={() => {
         <select
           value={subProductInputs[selectedProduct]?.surfaceFinish || ''}
           onChange={(e) => handleSubInputChange(selectedProduct, 'surfaceFinish', e.target.value)}
-          className="border p-2 rounded text-xs bg-white"
+          className="border p-2 rounded text-xs bg-white" 
         >
           <option value="">Select Finish</option>
           <option value="F1">F1 (Basic)</option>
