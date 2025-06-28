@@ -603,52 +603,52 @@ const handleSubInputChange = (productName, field, value) => {
 
 
        // ✅ Auto-add Capstans for Walls based on concrete tonnage
-    if (
-      ['length', 'width', 'height', 'quantity'].includes(field) &&
-      productName.startsWith('W') // Only apply to Walls
-    ) {
-      const length = safe(field === 'length' ? value : updatedInputs.length);
-      const width = safe(field === 'width' ? value : updatedInputs.width);
-      const height = safe(field === 'height' ? value : updatedInputs.height);
-      const quantity = safe(field === 'quantity' ? value : updatedInputs.quantity || 1);
+   if (
+  ['length', 'width', 'height'].includes(field) &&
+  productName.startsWith('W')
+) {
+  const length = safe(field === 'length' ? value : updatedInputs.length);
+  const width = safe(field === 'width' ? value : updatedInputs.width);
+  const height = safe(field === 'height' ? value : updatedInputs.height);
 
-      if (length && width && height && quantity) {
-        const volumeM3 = (length * width * height * quantity) / 1_000_000_000;
-        const concreteTonnes = volumeM3 * 2.6;
-        updatedInputs.autoConcreteTonnes = concreteTonnes.toFixed(2); // Optional if you're displaying it
+  if (length && width && height) {
+    const volumeM3 = (length * width * height) / 1_000_000_000;
+    const concreteTonnes = volumeM3 * 2.6;
+    updatedInputs.autoConcreteTonnes = concreteTonnes.toFixed(2); // Optional display only
 
-        let capstanEntry = null;
-        if (concreteTonnes > 0 && concreteTonnes <= 15) {
-          capstanEntry = {
-            category: 'Fixings',
-            item: '7.5tn Capstan',
-            qty: 4,
-            autoFilled: true
-          };
-        } else if (concreteTonnes > 15 && concreteTonnes <= 30) {
-          capstanEntry = {
-            category: 'Fixings',
-            item: '10tn Capstan',
-            qty: 4,
-            autoFilled: true
-          };
-        }
-
-        let updatedItems = updatedInputs.uniqueItems || [];
-
-        // Remove any existing capstan
-        updatedItems = updatedItems.filter(entry =>
-          !(entry.category === 'Fixings' &&
-            (entry.item === '7.5tn Capstan' || entry.item === '10tn Capstan'))
-        );
-
-        if (capstanEntry) {
-          updatedItems.push(capstanEntry);
-        }
-
-        updatedInputs.uniqueItems = updatedItems;
-      }
+    let capstanEntry = null;
+    if (concreteTonnes > 0 && concreteTonnes <= 15) {
+      capstanEntry = {
+        category: 'Fixings',
+        item: '7.5tn Capstan',
+        qty: 4,
+        autoFilled: true
+      };
+    } else if (concreteTonnes > 15 && concreteTonnes <= 30) {
+      capstanEntry = {
+        category: 'Fixings',
+        item: '10tn Capstan',
+        qty: 4,
+        autoFilled: true
+      };
     }
+
+    let updatedItems = updatedInputs.uniqueItems || [];
+
+    // Remove existing capstans
+    updatedItems = updatedItems.filter(entry =>
+      !(entry.category === 'Fixings' &&
+        (entry.item === '7.5tn Capstan' || entry.item === '10tn Capstan'))
+    );
+
+    if (capstanEntry) {
+      updatedItems.push(capstanEntry);
+    }
+
+    updatedInputs.uniqueItems = updatedItems;
+  }
+}
+
 
 
     return {
