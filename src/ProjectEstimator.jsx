@@ -651,6 +651,53 @@ if (
 }
 
 
+   // ✅ Auto-insert RDxx Wavy Tails based on Lifter Capacity (Walls only)
+if (
+  ['length', 'width', 'height'].includes(field) &&
+  productName.startsWith('W')
+) {
+  const length = safe(field === 'length' ? value : updatedInputs.length);
+  const width = safe(field === 'width' ? value : updatedInputs.width);
+  const height = safe(field === 'height' ? value : updatedInputs.height);
+
+  if (length && width && height) {
+    const volumeM3 = (length * width * height) / 1_000_000_000;
+    const concreteTonnes = volumeM3 * 2.6;
+
+    // Lifter Capacity Formula
+    const lifterCapacity = (concreteTonnes * 1.16 * 1.3) / 2;
+
+    let wavyItem = null;
+
+    if (lifterCapacity > 0 && lifterCapacity <= 1.2) wavyItem = 'RD16 Wavy';
+    else if (lifterCapacity <= 2) wavyItem = 'RD20 Wavy';
+    else if (lifterCapacity <= 2.5) wavyItem = 'RD24 Wavy';
+    else if (lifterCapacity <= 4) wavyItem = 'RD30 Wavy';
+    else if (lifterCapacity <= 6.3) wavyItem = 'RD36 Wavy';
+    else if (lifterCapacity <= 8) wavyItem = 'RD42 Wavy';
+    else if (lifterCapacity <= 12.5) wavyItem = 'RD52 Wavy';
+
+    let updatedItems = updatedInputs.uniqueItems || [];
+
+    // Remove any previous RDxx Wavy entries
+    updatedItems = updatedItems.filter(
+      entry => !(entry.category === 'Capstans and Lifters' && entry.item?.includes('Wavy'))
+    );
+
+    if (wavyItem) {
+      updatedItems.push({
+        category: 'Capstans and Lifters',
+        item: wavyItem,
+        qty: 2,
+        autoFilled: true
+      });
+    }
+
+    updatedInputs.uniqueItems = updatedItems;
+  }
+}
+
+
 
     return {
       ...prev,
